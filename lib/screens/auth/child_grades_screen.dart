@@ -1,0 +1,95 @@
+import 'package:flutter/material.dart';
+import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../theme/spacing.dart';
+import '../../widgets/primary_button.dart';
+
+class ChildGradesScreen extends StatefulWidget {
+  const ChildGradesScreen({super.key});
+
+  @override
+  State<ChildGradesScreen> createState() => _ChildGradesScreenState();
+}
+
+class _ChildGradesScreenState extends State<ChildGradesScreen> {
+  int? _selected;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios),
+          onPressed: () => Navigator.pop(context),
+        ),
+        title: Text('Select Grade', style: AppTextStyles.h3),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
+          child: Column(
+            children: [
+              const SizedBox(height: AppSpacing.xl),
+              Text('What grade are you in?', style: AppTextStyles.h2),
+              const SizedBox(height: AppSpacing.xxl),
+              Expanded(
+                child: GridView.builder(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 3,
+                    crossAxisSpacing: 12,
+                    mainAxisSpacing: 12,
+                    childAspectRatio: 1.5,
+                  ),
+                  itemCount: 12,
+                  itemBuilder: (_, i) {
+                    final grade = i + 1;
+                    final active = _selected == grade;
+                    return GestureDetector(
+                      onTap: () => setState(() => _selected = grade),
+                      child: AnimatedContainer(
+                        duration: const Duration(milliseconds: 200),
+                        decoration: BoxDecoration(
+                          color: active ? AppColors.primary : AppColors.surface,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: active
+                                ? AppColors.primary
+                                : AppColors.cardBorder,
+                          ),
+                        ),
+                        alignment: Alignment.center,
+                        child: Text(
+                          'Grade $grade',
+                          style: AppTextStyles.body.copyWith(
+                            color: active
+                                ? AppColors.white
+                                : AppColors.textPrimary,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: AppSpacing.lg),
+              Opacity(
+                opacity: _selected != null ? 1.0 : 0.4,
+                child: PrimaryButton(
+                  label: 'Done',
+                  onTap: () {
+                    if (_selected != null) {
+                      Navigator.pushReplacementNamed(context, '/home');
+                    }
+                  },
+                ),
+              ),
+              const SizedBox(height: AppSpacing.xl),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

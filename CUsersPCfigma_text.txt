@@ -1,0 +1,76 @@
+TEXT CONTENT:
+ - 09:47
+ - Puzzle Challenge
+ - Drag \u0026 Drop Numbers!
+ - How to Play
+ - Drag number to solve puzzles!
+ - Puzzles
+ - 8 fun math puzzles
+ - Lives
+ - 3 hearts (3 mistakes allowed)
+ - Earn up to 300 points!
+ - +10 bonus per streak!
+ - Start Puzzle!
+ - 0
+ - Puzzle 1 of 10
+ - 09:47
+ - Complete: ___ + 3 = 8
+ - ?
+ - Choose a number:
+ - 5
+ - 7
+ - 4
+ - 6
+ - Drag the number!
+ - Drop it in the box to complete the puzzle 🧩
+ - 0
+ - Puzzle 1 of 10
+ - 09:47
+ - Complete: ___ + 3 = 8
+ - 5
+ - Choose a number:
+ - 5
+ - 7
+ - 4
+ - 6
+ - Drag the number!
+ - Drop it in the box to complete the puzzle 🧩
+ - Perfect! 🎉
+ - You solved it! Amazing work!
+ - 0
+ - Puzzle 2 of 10
+ - 09:47
+ - Complete: ___ x 2 = 12
+ - ?
+ - Choose a number:
+ - 4
+ - 5
+ - 6
+ - 7
+ - Drag the number!
+ - Drop it in the box to complete the puzzle 🧩
+ - 0
+ - Puzzle 2 of 10
+ - 09:47
+ - Complete: ___ x 2 = 12
+ - 6
+ - Choose a number:
+ - 4
+ - 5
+ - 6
+ - 7
+ - Drag the number!
+ - Drop it in the box to complete the puzzle 🧩
+ - Perfect! 🎉
+ - You solved it! Amazing work!
+ - 09:47
+ - Perfect!
+ - You're an amazing🌟
+ - Total Points
+ - 195
+ - Questions Solved
+ - 10/10
+ - Best Streak
+ - 10 🔥
+ - Collect Rewards!
+ - Play Again

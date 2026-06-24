@@ -1,0 +1,58 @@
+import 'package:flutter/material.dart';
+import '../theme/colors.dart';
+import '../theme/text_styles.dart';
+
+class RewardCard extends StatelessWidget {
+  final String title;
+  final String icon;
+  final int points;
+  final VoidCallback? onTap;
+
+  const RewardCard({
+    super.key,
+    required this.title,
+    required this.icon,
+    required this.points,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: AppColors.cardBorder),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(icon, style: const TextStyle(fontSize: 36)),
+            const SizedBox(height: 8),
+            Text(title,
+                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                textAlign: TextAlign.center),
+            const SizedBox(height: 4),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Text(
+                '$points pts',
+                style: AppTextStyles.bodySmall.copyWith(
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

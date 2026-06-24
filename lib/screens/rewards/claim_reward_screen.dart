@@ -1,0 +1,334 @@
+import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../theme/colors.dart';
+
+class ClaimRewardScreen extends StatelessWidget {
+  const ClaimRewardScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: Column(
+          children: [
+            // Header
+            Padding(
+              padding: const EdgeInsets.fromLTRB(8, 12, 20, 8),
+              child: Row(
+                children: [
+                  GestureDetector(
+                    onTap: () => Navigator.pop(context),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Icon(Icons.arrow_back,
+                          color: AppColors.textPrimary, size: 22),
+                    ),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: Text(
+                        'Claim Reward',
+                        style: GoogleFonts.poppins(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 38),
+                ],
+              ),
+            ),
+
+            Expanded(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Fox image
+                    Center(
+                      child: Image.asset(
+                        'assets/images/fox_sunglasses.png',
+                        width: 140,
+                        height: 140,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, _, _) => const Icon(
+                          Icons.pets_rounded,
+                          color: AppColors.primary,
+                          size: 100,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // Title
+                    Text(
+                      'Get 10% Off on School Supplies',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
+                        height: 1.3,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Partner row
+                    Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: const Color(0xFF4A4A4A),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.store_rounded,
+                              color: Colors.white, size: 20),
+                        ),
+                        const SizedBox(width: 10),
+                        Text(
+                          'LearnHub Bookstore',
+                          style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 16),
+
+                    // Description
+                    Text(
+                      "You've unlocked a special reward! 🎉\nUse this coupon to get 10% off on books, stationery, and school essentials. Perfect for your next study upgrade!",
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        color: AppColors.textSecondary,
+                        height: 1.55,
+                      ),
+                    ),
+                    const SizedBox(height: 14),
+
+                    // Validity
+                    RichText(
+                      text: TextSpan(
+                        children: [
+                          TextSpan(
+                            text: 'Valid until: ',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                          TextSpan(
+                            text: '30 June 2026',
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+
+                    // How to use
+                    Text(
+                      'How to Use',
+                      style: GoogleFonts.poppins(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    ...[
+                      'Visit the store with your parent',
+                      'Show this coupon at checkout',
+                      'Enjoy your discount!',
+                    ].map((step) => Padding(
+                          padding: const EdgeInsets.only(bottom: 8),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: 6,
+                                height: 6,
+                                margin: const EdgeInsets.only(top: 7, right: 10),
+                                decoration: const BoxDecoration(
+                                  color: AppColors.textSecondary,
+                                  shape: BoxShape.circle,
+                                ),
+                              ),
+                              Expanded(
+                                child: Text(
+                                  step,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 14,
+                                    color: AppColors.textSecondary,
+                                    height: 1.4,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )),
+                    const SizedBox(height: 24),
+
+                    // Coupon ticket
+                    _CouponTicket(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+// ─── Coupon ticket ────────────────────────────────────────────────────────────
+
+class _CouponTicket extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(16),
+      child: SizedBox(
+        height: 110,
+        child: Row(
+          children: [
+            // Left orange half
+            Expanded(
+              flex: 2,
+              child: Container(
+                color: AppColors.primary,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '20%',
+                      style: GoogleFonts.poppins(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
+                      ),
+                    ),
+                    Text(
+                      'Discount',
+                      style: GoogleFonts.poppins(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+
+            // Notch divider
+            CustomPaint(
+              size: const Size(16, 110),
+              painter: _NotchPainter(),
+            ),
+
+            // Right cream half
+            Expanded(
+              flex: 3,
+              child: Container(
+                color: const Color(0xFFFAEDD5),
+                padding: const EdgeInsets.fromLTRB(12, 0, 16, 0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Code:',
+                      style: GoogleFonts.poppins(
+                        fontSize: 13,
+                        color: AppColors.textSecondary,
+                      ),
+                    ),
+                    Text(
+                      'NMIMES20',
+                      style: GoogleFonts.poppins(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    GestureDetector(
+                      onTap: () => ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Reward claimed!'),
+                          duration: Duration(seconds: 2),
+                        ),
+                      ),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 16, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        child: Text(
+                          'Claim Discount',
+                          style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NotchPainter extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()..color = AppColors.background;
+    final orange = Paint()..color = AppColors.primary;
+    final cream = Paint()..color = const Color(0xFFFAEDD5);
+
+    canvas.drawRect(Rect.fromLTWH(0, 0, size.width / 2, size.height), orange);
+    canvas.drawRect(
+        Rect.fromLTWH(size.width / 2, 0, size.width / 2, size.height), cream);
+
+    // Top notch
+    canvas.drawCircle(Offset(size.width / 2, 0), size.width * 0.7, paint);
+    // Bottom notch
+    canvas.drawCircle(
+        Offset(size.width / 2, size.height), size.width * 0.7, paint);
+
+    // Dashed line
+    final dashPaint = Paint()
+      ..color = AppColors.background
+      ..strokeWidth = 1.5;
+    double y = size.width;
+    while (y < size.height - size.width) {
+      canvas.drawLine(
+          Offset(size.width / 2, y), Offset(size.width / 2, y + 5), dashPaint);
+      y += 9;
+    }
+  }
+
+  @override
+  bool shouldRepaint(_) => false;
+}
