@@ -1,5 +1,31 @@
 {
   "@@locale": "en",
   "appTitle": "Nmimes",
-  "@appTitle": { "description": "App title" }
+  "@appTitle": { "description": "App title" },
+
+  "splash_tagline": "Math, made Simple...",
+
+  "onboarding_title_snapIt": "Snap it.\nGet it.",
+  "onboarding_badge_snapIt": "No typing. No stress.",
+  "onboarding_body_snapIt": "Photograph your homework or lesson and\nNmimes reads it in seconds.",
+  "onboarding_title_understand": "Understand,\nDon't just copy",
+  "onboarding_badge_understand": "Built to make it click",
+  "onboarding_body_understand": "Clear visual explanations that teach you\nthe why, not just the answer.",
+  "onboarding_title_play": "Play your way\nto Mastery",
+  "onboarding_badge_play": "Math, but actually fun",
+  "onboarding_body_play": "Duel friends, join study rooms, and\nteach it back to lock it in.",
+  "onboarding_title_rewards": "Win Real\nRewards",
+  "onboarding_badge_rewards": "Effort that pays off",
+  "onboarding_body_rewards": "Hit your goals and unlock real\nrewards.",
+  "onboarding_button_next": "Next",
+  "onboarding_button_start": "Let's Start",
+  "onboarding_button_back": "Back",
+
+  "chooseRole_title": "Who are you?",
+  "chooseRole_subtitle": "Choose your role to get started",
+  "chooseRole_role_student": "Student",
+  "chooseRole_role_parent": "Parent",
+  "chooseRole_role_student_sub": "I am a student",
+  "chooseRole_role_parent_sub": "I have a child",
+  "chooseRole_button_continue": "Continue"
 }

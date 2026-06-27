@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ChooseRoleScreen extends StatefulWidget {
   const ChooseRoleScreen({super.key});
@@ -63,8 +64,8 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Choose Role',
-                        style: GoogleFonts.poppins(
+                        context.l10n.chooseRole_title,
+                        style: AppTextStyles.font(context,
                           fontSize: 26,
                           fontWeight: FontWeight.w800,
                           color: AppColors.textPrimary,
@@ -72,8 +73,8 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                       ),
                       const SizedBox(height: 6),
                       Text(
-                        'Joining us as:',
-                        style: GoogleFonts.poppins(
+                        context.l10n.chooseRole_subtitle,
+                        style: AppTextStyles.font(context,
                           fontSize: 14,
                           color: AppColors.textSecondary,
                         ),
@@ -85,7 +86,8 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                         children: [
                           Expanded(
                             child: _RoleCard(
-                              label: 'Child',
+                              label: context.l10n.chooseRole_role_student,
+                              subLabel: context.l10n.chooseRole_role_student_sub,
                               image: 'assets/images/char_child.png',
                               selected: _selected == 'child',
                               onTap: () => setState(() => _selected = 'child'),
@@ -94,7 +96,8 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                           const SizedBox(width: 16),
                           Expanded(
                             child: _RoleCard(
-                              label: 'Parent',
+                              label: context.l10n.chooseRole_role_parent,
+                              subLabel: context.l10n.chooseRole_role_parent_sub,
                               image: 'assets/images/char_parent.png',
                               selected: _selected == 'parent',
                               onTap: () => setState(() => _selected = 'parent'),
@@ -121,8 +124,8 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                             ),
                           ),
                           child: Text(
-                            'Continue',
-                            style: GoogleFonts.poppins(
+                            context.l10n.chooseRole_button_continue,
+                            style: AppTextStyles.font(context,
                               fontSize: 16,
                               fontWeight: FontWeight.w700,
                               color: AppColors.white,
@@ -159,12 +162,14 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
 
 class _RoleCard extends StatelessWidget {
   final String label;
+  final String subLabel;
   final String image;
   final bool selected;
   final VoidCallback onTap;
 
   const _RoleCard({
     required this.label,
+    required this.subLabel,
     required this.image,
     required this.selected,
     required this.onTap,
@@ -201,7 +206,7 @@ class _RoleCard extends StatelessWidget {
             const SizedBox(height: 10),
             Text(
               label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
@@ -209,8 +214,8 @@ class _RoleCard extends StatelessWidget {
             ),
             const SizedBox(height: 4),
             Text(
-              label == 'Child' ? 'I am a student' : 'I have a child',
-              style: GoogleFonts.poppins(
+              subLabel,
+              style: AppTextStyles.font(context,
                 fontSize: 11,
                 color: AppColors.textSecondary,
               ),

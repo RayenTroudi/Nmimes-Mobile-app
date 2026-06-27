@@ -1,4 +1,30 @@
 {
   "@@locale": "fr",
-  "appTitle": "Nmimes"
+  "appTitle": "Nmimes",
+
+  "splash_tagline": "Les maths, simplifiées...",
+
+  "onboarding_title_snapIt": "Prends en photo.\nComprends.",
+  "onboarding_badge_snapIt": "Sans taper. Sans stress.",
+  "onboarding_body_snapIt": "Photographiez vos devoirs ou votre cours et\nNmimes les déchiffre en secondes.",
+  "onboarding_title_understand": "Comprendre,\npas juste copier",
+  "onboarding_badge_understand": "Conçu pour que ça clique",
+  "onboarding_body_understand": "Des explications visuelles claires qui enseignent\nle pourquoi, pas juste la réponse.",
+  "onboarding_title_play": "Joue à ta façon\njusqu'à la maîtrise",
+  "onboarding_badge_play": "Les maths, vraiment fun",
+  "onboarding_body_play": "Défie des amis, rejoins des salles d'étude et\nenseigne-le pour le retenir.",
+  "onboarding_title_rewards": "Gagne de vraies\nrécompenses",
+  "onboarding_badge_rewards": "Des efforts qui paient",
+  "onboarding_body_rewards": "Atteins tes objectifs et débloque de vraies\nrécompenses.",
+  "onboarding_button_next": "Suivant",
+  "onboarding_button_start": "C'est parti",
+  "onboarding_button_back": "Retour",
+
+  "chooseRole_title": "Qui êtes-vous ?",
+  "chooseRole_subtitle": "Choisissez votre rôle pour commencer",
+  "chooseRole_role_student": "Élève",
+  "chooseRole_role_parent": "Parent",
+  "chooseRole_role_student_sub": "Je suis un élève",
+  "chooseRole_role_parent_sub": "J'ai un enfant",
+  "chooseRole_button_continue": "Continuer"
 }

@@ -1,31 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
-const _pages = [
+List<_OnboardingData> _buildPages(BuildContext context) => [
   _OnboardingData(
     image: 'assets/images/onboarding_snap.png',
-    title: 'Snap it.\nGet it.',
-    badge: 'No typing. No stress.',
-    body: 'Photograph your homework or lesson and\nNmimes reads it in seconds.',
+    title: context.l10n.onboarding_title_snapIt,
+    badge: context.l10n.onboarding_badge_snapIt,
+    body: context.l10n.onboarding_body_snapIt,
   ),
   _OnboardingData(
     image: 'assets/images/onboarding_understand.png',
-    title: 'Understand,\nDon\'t just copy',
-    badge: 'Built to make it click',
-    body: 'Clear visual explanations that teach you\nthe why, not just the answer.',
+    title: context.l10n.onboarding_title_understand,
+    badge: context.l10n.onboarding_badge_understand,
+    body: context.l10n.onboarding_body_understand,
   ),
   _OnboardingData(
     image: 'assets/images/onboarding_play.png',
-    title: 'Play your way\nto Mastery',
-    badge: 'Math, but actually fun',
-    body: 'Duel friends, join study rooms, and\nteach it back to lock it in.',
+    title: context.l10n.onboarding_title_play,
+    badge: context.l10n.onboarding_badge_play,
+    body: context.l10n.onboarding_body_play,
   ),
   _OnboardingData(
     image: 'assets/images/onboarding_rewards.png',
-    title: 'Win Real\nRewards',
-    badge: 'Effort that pays off',
-    body: 'Hit your goals and unlock real\nrewards.',
+    title: context.l10n.onboarding_title_rewards,
+    badge: context.l10n.onboarding_badge_rewards,
+    body: context.l10n.onboarding_body_rewards,
   ),
 ];
 
@@ -53,8 +54,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   final _controller = PageController();
   int _current = 0;
 
-  void _next() {
-    if (_current < _pages.length - 1) {
+  void _next(List<_OnboardingData> pages) {
+    if (_current < pages.length - 1) {
       _controller.nextPage(
         duration: const Duration(milliseconds: 300),
         curve: Curves.easeInOut,
@@ -81,19 +82,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final pages = _buildPages(context);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: PageView.builder(
         controller: _controller,
         onPageChanged: (i) => setState(() => _current = i),
-        itemCount: _pages.length,
+        itemCount: pages.length,
         itemBuilder: (_, i) => _OnboardingPage(
-          data: _pages[i],
+          data: pages[i],
           current: _current,
-          total: _pages.length,
-          onNext: _next,
+          total: pages.length,
+          onNext: () => _next(pages),
           onBack: _back,
-          isLast: _current == _pages.length - 1,
+          isLast: _current == pages.length - 1,
         ),
       ),
     );
@@ -154,7 +156,7 @@ class _OnboardingPage extends StatelessWidget {
                   Text(
                     data.title,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.font(context,
                       fontSize: 26,
                       fontWeight: FontWeight.w800,
                       color: AppColors.textPrimary,
@@ -171,7 +173,7 @@ class _OnboardingPage extends StatelessWidget {
                     ),
                     child: Text(
                       data.badge,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(context,
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: AppColors.white,
@@ -183,7 +185,7 @@ class _OnboardingPage extends StatelessWidget {
                   Text(
                     data.body,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.font(context,
                       fontSize: 14,
                       fontWeight: FontWeight.w400,
                       color: AppColors.textSecondary,
@@ -226,8 +228,8 @@ class _OnboardingPage extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        isLast ? "Let's Start" : 'Next',
-                        style: GoogleFonts.poppins(
+                        isLast ? context.l10n.onboarding_button_start : context.l10n.onboarding_button_next,
+                        style: AppTextStyles.font(context,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                         ),
@@ -250,8 +252,8 @@ class _OnboardingPage extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Back',
-                          style: GoogleFonts.poppins(
+                          context.l10n.onboarding_button_back,
+                          style: AppTextStyles.font(context,
                             fontSize: 15,
                             fontWeight: FontWeight.w600,
                           ),

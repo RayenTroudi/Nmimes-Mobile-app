@@ -1,4 +1,30 @@
 {
   "@@locale": "ar",
-  "appTitle": "Nmimes"
+  "appTitle": "Nmimes",
+
+  "splash_tagline": "الرياضيات، بكل بساطة...",
+
+  "onboarding_title_snapIt": "التقط.\nافهم.",
+  "onboarding_badge_snapIt": "بدون كتابة. بدون ضغط.",
+  "onboarding_body_snapIt": "صوّر واجبك أو درسك و\nسيقرأه Nmimes في ثوانٍ.",
+  "onboarding_title_understand": "افهم،\nلا تنسخ فقط",
+  "onboarding_badge_understand": "مصمم ليُرسّخ الفهم",
+  "onboarding_body_understand": "شروحات بصرية واضحة تعلّمك\nالسبب، لا مجرد الإجابة.",
+  "onboarding_title_play": "العب بطريقتك\nحتى الإتقان",
+  "onboarding_badge_play": "الرياضيات، بشكل ممتع فعلاً",
+  "onboarding_body_play": "تحدَّ أصدقاءك، انضم لغرف الدراسة،\nوعلّم ما تعلمته لترسّخه.",
+  "onboarding_title_rewards": "اكسب جوائز\nحقيقية",
+  "onboarding_badge_rewards": "مجهودك له ثمن",
+  "onboarding_body_rewards": "حقق أهدافك وافتح مكافآت\nحقيقية.",
+  "onboarding_button_next": "التالي",
+  "onboarding_button_start": "هيا نبدأ",
+  "onboarding_button_back": "رجوع",
+
+  "chooseRole_title": "من أنت؟",
+  "chooseRole_subtitle": "اختر دورك للبدء",
+  "chooseRole_role_student": "طالب",
+  "chooseRole_role_parent": "ولي أمر",
+  "chooseRole_role_student_sub": "أنا طالب",
+  "chooseRole_role_parent_sub": "لدي طفل",
+  "chooseRole_button_continue": "متابعة"
 }

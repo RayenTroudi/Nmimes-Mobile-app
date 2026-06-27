@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 // Character entry config
 class _CharConfig {
@@ -126,22 +127,22 @@ class _SplashScreenState extends State<SplashScreen>
       ctrl.forward();
     }
 
-    // Phase 4: logo drops in after scatter completes
-    await Future.delayed(const Duration(milliseconds: 300));
+    // Phase 4: wait for scatter to fully complete, then show logo
+    await Future.delayed(const Duration(milliseconds: 400));
     if (!mounted) return;
     setState(() => _showLogo = true);
     _logoCtrl.forward();
 
-    await Future.delayed(const Duration(milliseconds: 200));
+    await Future.delayed(const Duration(milliseconds: 300));
     if (!mounted) return;
     _nameFadeCtrl.forward();
 
-    await Future.delayed(const Duration(milliseconds: 100));
+    await Future.delayed(const Duration(milliseconds: 150));
     if (!mounted) return;
     _taglineFadeCtrl.forward();
 
-    // Phase 5: navigate
-    await Future.delayed(const Duration(milliseconds: 700));
+    // Phase 5: hold logo, then navigate
+    await Future.delayed(const Duration(milliseconds: 900));
     if (!mounted) return;
     Navigator.pushReplacementNamed(context, '/onboarding');
   }
@@ -204,24 +205,20 @@ class _SplashScreenState extends State<SplashScreen>
           const SizedBox(height: 16),
           FadeTransition(
             opacity: _nameFadeCtrl,
-            child: Text(
-              'Nmimes',
-              style: GoogleFonts.poppins(
-                fontSize: 28,
-                fontWeight: FontWeight.w800,
-                color: AppColors.primary,
+            child: Builder(
+              builder: (ctx) => Text(
+                'Nmimes',
+                style: AppTextStyles.font(ctx, fontSize: 28, fontWeight: FontWeight.w800, color: AppColors.primary),
               ),
             ),
           ),
           const SizedBox(height: 6),
           FadeTransition(
             opacity: _taglineFadeCtrl,
-            child: Text(
-              'Math, made Simple...',
-              style: GoogleFonts.poppins(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: AppColors.textHint,
+            child: Builder(
+              builder: (ctx) => Text(
+                ctx.l10n.splash_tagline,
+                style: AppTextStyles.font(ctx, fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.textHint),
               ),
             ),
           ),
