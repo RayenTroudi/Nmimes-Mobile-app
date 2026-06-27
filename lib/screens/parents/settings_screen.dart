@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../widgets/language_picker_sheet.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -66,6 +67,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       value: _notifications,
                       onChanged: (v) => setState(() => _notifications = v),
                     ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Language
+                  _SettingsRow(
+                    label: 'Language',
+                    onTap: () => showLanguagePicker(context),
                   ),
                   const SizedBox(height: 16),
 
