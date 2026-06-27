@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ChildSignInScreen extends StatefulWidget {
   const ChildSignInScreen({super.key});
@@ -40,6 +41,7 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
 
     return Scaffold(
       backgroundColor: AppColors.primary,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -73,82 +75,91 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
                         topRight: Radius.circular(32),
                       ),
                     ),
-                    padding: const EdgeInsets.fromLTRB(24, 72, 24, 32),
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          'SIGN IN',
-                          style: GoogleFonts.poppins(
-                            fontSize: 26,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        const SizedBox(height: 6),
-                        Text(
-                          'Please enter your username',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            color: AppColors.textSecondary,
-                          ),
-                        ),
-                        const SizedBox(height: 32),
+                        Expanded(
+                          child: SingleChildScrollView(
+                            padding: const EdgeInsets.fromLTRB(24, 72, 24, 24),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  context.l10n.childSignIn_title,
+                                  style: AppTextStyles.font(context,
+                                    fontSize: 26,
+                                    fontWeight: FontWeight.w800,
+                                    color: AppColors.textPrimary,
+                                  ),
+                                ),
+                                const SizedBox(height: 6),
+                                Text(
+                                  context.l10n.childSignIn_subtitle,
+                                  style: AppTextStyles.font(context,
+                                    fontSize: 14,
+                                    color: AppColors.textSecondary,
+                                  ),
+                                ),
+                                const SizedBox(height: 32),
 
-                        // Username field
-                        Container(
-                          height: 58,
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(36),
-                            border: Border.all(
-                                color: const Color(0xFFA8A8A8)),
-                          ),
-                          child: TextField(
-                            controller: _ctrl,
-                            focusNode: _focus,
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: AppColors.textPrimary),
-                            decoration: InputDecoration(
-                              hintText: 'Enter your username',
-                              hintStyle: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  color: const Color(0xFFA8A8A8)),
-                              border: InputBorder.none,
-                              contentPadding:
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 18),
+                                // Username field
+                                Container(
+                                  height: 58,
+                                  decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    borderRadius: BorderRadius.circular(36),
+                                    border: Border.all(
+                                        color: const Color(0xFFA8A8A8)),
+                                  ),
+                                  child: TextField(
+                                    controller: _ctrl,
+                                    focusNode: _focus,
+                                    style: AppTextStyles.font(context,
+                                        fontSize: 14,
+                                        color: AppColors.textPrimary),
+                                    decoration: InputDecoration(
+                                      hintText: context.l10n.childSignIn_hint_username,
+                                      hintStyle: AppTextStyles.font(context,
+                                          fontSize: 14,
+                                          color: const Color(0xFFA8A8A8)),
+                                      border: InputBorder.none,
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              horizontal: 20, vertical: 18),
+                                    ),
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
                         ),
 
-                        const Spacer(),
-
-                        // Continue button
-                        SizedBox(
-                          width: double.infinity,
-                          height: 58,
-                          child: ElevatedButton(
-                            onPressed: _ctrl.text.trim().isNotEmpty
-                                ? _continue
-                                : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
-                              disabledBackgroundColor:
-                                  AppColors.primary.withValues(alpha: 0.35),
-                              foregroundColor: AppColors.white,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
+                        // Continue button — pinned above keyboard
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
+                          child: SizedBox(
+                            width: double.infinity,
+                            height: 58,
+                            child: ElevatedButton(
+                              onPressed: _ctrl.text.trim().isNotEmpty
+                                  ? _continue
+                                  : null,
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                disabledBackgroundColor:
+                                    AppColors.primary.withValues(alpha: 0.35),
+                                foregroundColor: AppColors.white,
+                                elevation: 0,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(50),
+                                ),
                               ),
-                            ),
-                            child: Text(
-                              'Continue',
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.white,
+                              child: Text(
+                                context.l10n.childSignIn_button_continue,
+                                style: AppTextStyles.font(context,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.white,
+                                ),
                               ),
                             ),
                           ),

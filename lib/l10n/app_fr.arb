@@ -26,5 +26,27 @@
   "chooseRole_role_parent": "Parent",
   "chooseRole_role_student_sub": "Je suis un élève",
   "chooseRole_role_parent_sub": "J'ai un enfant",
-  "chooseRole_button_continue": "Continuer"
+  "chooseRole_button_continue": "Continuer",
+
+  "childSignIn_title": "CONNEXION",
+  "childSignIn_subtitle": "Veuillez entrer votre nom d'utilisateur",
+  "childSignIn_hint_username": "Entrez votre nom d'utilisateur",
+  "childSignIn_button_continue": "Continuer",
+
+  "childAccessCode_title": "CONNEXION",
+  "childAccessCode_subtitle": "Veuillez entrer votre code d'accès à 4 chiffres",
+
+  "childSuccess_title": "Youpiii !!!",
+  "childSuccess_body": "Vous vous êtes connecté avec succès à votre compte.",
+  "childSuccess_button_continue": "Continuer",
+
+  "childGrades_appBarTitle": "Choisir la classe",
+  "childGrades_title": "Dans quelle classe êtes-vous ?",
+  "childGrades_gradeLabel": "Classe {grade}",
+  "@childGrades_gradeLabel": {
+    "placeholders": {
+      "grade": { "type": "int" }
+    }
+  },
+  "childGrades_button_done": "Terminer"
 }

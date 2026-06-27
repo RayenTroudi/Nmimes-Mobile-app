@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ChildAccessCodeScreen extends StatefulWidget {
   const ChildAccessCodeScreen({super.key});
@@ -80,8 +81,8 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'SIGN IN',
-                          style: GoogleFonts.poppins(
+                          context.l10n.childAccessCode_title,
+                          style: AppTextStyles.font(context,
                             fontSize: 26,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
@@ -89,8 +90,8 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          'Please enter your 4-digit access code',
-                          style: GoogleFonts.poppins(
+                          context.l10n.childAccessCode_subtitle,
+                          style: AppTextStyles.font(context,
                             fontSize: 14,
                             color: AppColors.textSecondary,
                           ),
@@ -113,7 +114,10 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                                   counterText: '',
                                   border: InputBorder.none,
                                 ),
-                                onChanged: (_) => setState(() {}),
+                                onChanged: (v) {
+                  setState(() {});
+                  if (v.length == 4) _submit();
+                },
                               ),
                             ),
                           ),
@@ -159,33 +163,6 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                         ),
 
                         const Spacer(),
-
-                        // Sign In button
-                        SizedBox(
-                          width: double.infinity,
-                          height: 58,
-                          child: ElevatedButton(
-                            onPressed: _pin.length == 4 ? _submit : null,
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.primary,
-                              disabledBackgroundColor:
-                                  AppColors.primary.withValues(alpha: 0.35),
-                              foregroundColor: AppColors.white,
-                              elevation: 0,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                              ),
-                            ),
-                            child: Text(
-                              'Sign In',
-                              style: GoogleFonts.poppins(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.white,
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),

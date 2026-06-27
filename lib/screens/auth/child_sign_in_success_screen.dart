@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ChildSignInSuccessScreen extends StatefulWidget {
   const ChildSignInSuccessScreen({super.key});
@@ -60,8 +61,8 @@ class _ChildSignInSuccessScreenState extends State<ChildSignInSuccessScreen>
                   ),
                   const SizedBox(height: 32),
                   Text(
-                    'Yippee!!!',
-                    style: GoogleFonts.poppins(
+                    context.l10n.childSuccess_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 32,
                       fontWeight: FontWeight.w800,
                       color: AppColors.primary,
@@ -69,9 +70,9 @@ class _ChildSignInSuccessScreenState extends State<ChildSignInSuccessScreen>
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'You have successfully login you\naccount.',
+                    context.l10n.childSuccess_body,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.font(context,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
                       color: AppColors.textPrimary,
@@ -95,8 +96,8 @@ class _ChildSignInSuccessScreenState extends State<ChildSignInSuccessScreen>
                           ),
                         ),
                         child: Text(
-                          'Continue',
-                          style: GoogleFonts.poppins(
+                          context.l10n.childSuccess_button_continue,
+                          style: AppTextStyles.font(context,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),

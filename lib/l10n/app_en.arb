@@ -27,5 +27,27 @@
   "chooseRole_role_parent": "Parent",
   "chooseRole_role_student_sub": "I am a student",
   "chooseRole_role_parent_sub": "I have a child",
-  "chooseRole_button_continue": "Continue"
+  "chooseRole_button_continue": "Continue",
+
+  "childSignIn_title": "SIGN IN",
+  "childSignIn_subtitle": "Please enter your username",
+  "childSignIn_hint_username": "Enter your username",
+  "childSignIn_button_continue": "Continue",
+
+  "childAccessCode_title": "SIGN IN",
+  "childAccessCode_subtitle": "Please enter your 4-digit access code",
+
+  "childSuccess_title": "Yippee!!!",
+  "childSuccess_body": "You have successfully login your account.",
+  "childSuccess_button_continue": "Continue",
+
+  "childGrades_appBarTitle": "Select Grade",
+  "childGrades_title": "What grade are you in?",
+  "childGrades_gradeLabel": "Grade {grade}",
+  "@childGrades_gradeLabel": {
+    "placeholders": {
+      "grade": { "type": "int" }
+    }
+  },
+  "childGrades_button_done": "Done"
 }

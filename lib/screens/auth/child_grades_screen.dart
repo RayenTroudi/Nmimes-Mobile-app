@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../theme/spacing.dart';
@@ -23,7 +24,7 @@ class _ChildGradesScreenState extends State<ChildGradesScreen> {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Select Grade', style: AppTextStyles.h3),
+        title: Text(context.l10n.childGrades_appBarTitle, style: AppTextStyles.h3),
       ),
       body: SafeArea(
         child: Padding(
@@ -31,7 +32,7 @@ class _ChildGradesScreenState extends State<ChildGradesScreen> {
           child: Column(
             children: [
               const SizedBox(height: AppSpacing.xl),
-              Text('What grade are you in?', style: AppTextStyles.h2),
+              Text(context.l10n.childGrades_title, style: AppTextStyles.h2),
               const SizedBox(height: AppSpacing.xxl),
               Expanded(
                 child: GridView.builder(
@@ -60,7 +61,7 @@ class _ChildGradesScreenState extends State<ChildGradesScreen> {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          'Grade $grade',
+                          context.l10n.childGrades_gradeLabel(grade),
                           style: AppTextStyles.body.copyWith(
                             color: active
                                 ? AppColors.white
@@ -77,7 +78,7 @@ class _ChildGradesScreenState extends State<ChildGradesScreen> {
               Opacity(
                 opacity: _selected != null ? 1.0 : 0.4,
                 child: PrimaryButton(
-                  label: 'Done',
+                  label: context.l10n.childGrades_button_done,
                   onTap: () {
                     if (_selected != null) {
                       Navigator.pushReplacementNamed(context, '/home');

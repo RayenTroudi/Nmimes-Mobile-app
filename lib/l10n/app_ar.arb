@@ -26,5 +26,27 @@
   "chooseRole_role_parent": "ولي أمر",
   "chooseRole_role_student_sub": "أنا طالب",
   "chooseRole_role_parent_sub": "لدي طفل",
-  "chooseRole_button_continue": "متابعة"
+  "chooseRole_button_continue": "متابعة",
+
+  "childSignIn_title": "تسجيل الدخول",
+  "childSignIn_subtitle": "أدخل اسم المستخدم الخاص بك",
+  "childSignIn_hint_username": "اسم المستخدم",
+  "childSignIn_button_continue": "متابعة",
+
+  "childAccessCode_title": "تسجيل الدخول",
+  "childAccessCode_subtitle": "أدخل رمز الدخول المكوّن من 4 أرقام",
+
+  "childSuccess_title": "يييه!!!",
+  "childSuccess_body": "لقد سجّلت الدخول إلى حسابك بنجاح.",
+  "childSuccess_button_continue": "متابعة",
+
+  "childGrades_appBarTitle": "اختر الصف",
+  "childGrades_title": "في أي صف أنت؟",
+  "childGrades_gradeLabel": "الصف {grade}",
+  "@childGrades_gradeLabel": {
+    "placeholders": {
+      "grade": { "type": "int" }
+    }
+  },
+  "childGrades_button_done": "تم"
 }
