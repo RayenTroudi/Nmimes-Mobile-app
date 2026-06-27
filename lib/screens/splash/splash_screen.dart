@@ -97,7 +97,7 @@ class _SplashScreenState extends State<SplashScreen>
       _chars.length,
       (_) => AnimationController(vsync: this, duration: const Duration(milliseconds: 250)),
     );
-    _logoCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
+    _logoCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
     _nameFadeCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
     _taglineFadeCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
 
@@ -194,13 +194,13 @@ class _SplashScreenState extends State<SplashScreen>
 
   Widget _buildLogo() {
     return SlideTransition(
-      position: Tween<Offset>(begin: const Offset(0, -1), end: Offset.zero).animate(
-        CurvedAnimation(parent: _logoCtrl, curve: Curves.bounceOut),
+      position: Tween<Offset>(begin: const Offset(0, -3), end: Offset.zero).animate(
+        CurvedAnimation(parent: _logoCtrl, curve: const ElasticOutCurve(0.6)),
       ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Image.asset('assets/images/nmimes_logo.png', width: 100, height: 100, fit: BoxFit.contain),
+          Image.asset('assets/images/nmimes_logo.png', width: 160, height: 160, fit: BoxFit.contain),
           const SizedBox(height: 16),
           FadeTransition(
             opacity: _nameFadeCtrl,
