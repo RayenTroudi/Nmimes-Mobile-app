@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
-import '../../theme/text_styles.dart';
-import '../../theme/spacing.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -12,84 +11,177 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen> {
   bool _notifications = true;
-  bool _sound = true;
-  bool _vibration = false;
-  bool _parentalControls = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.pop(context),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.arrow_back_ios,
+                          color: AppColors.textPrimary, size: 22),
+                    ),
+                  ),
+                  Text(
+                    'Settings',
+                    style: GoogleFonts.poppins(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                children: [
+                  // Subscription
+                  _SettingsRow(
+                    label: 'Subscription',
+                    onTap: () => Navigator.pushNamed(context, '/subscription'),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Notifications (with toggle)
+                  _SettingsRow(
+                    label: 'Notifications',
+                    trailing: _Toggle(
+                      value: _notifications,
+                      onChanged: (v) => setState(() => _notifications = v),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Terms & Conditions
+                  _SettingsRow(
+                    label: 'Terms & Conditions',
+                    onTap: () => Navigator.pushNamed(context, '/terms'),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Privacy Policy
+                  _SettingsRow(
+                    label: 'Privacy Policy',
+                    onTap: () => Navigator.pushNamed(context, '/privacy'),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // Log Out
+                  _SettingsRow(
+                    label: 'Log Out',
+                    labelColor: const Color(0xFFE62929),
+                    backgroundColor: const Color(0xFFFBD7C8),
+                    borderColor: const Color(0xFFE62929),
+                    onTap: () => Navigator.pushNamed(context, '/parent-logout'),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-        title: Text('Settings', style: AppTextStyles.h3),
-      ),
-      body: ListView(
-        children: [
-          _SectionHeader('Notifications'),
-          _ToggleTile('Push Notifications', _notifications,
-              (v) => setState(() => _notifications = v)),
-          _ToggleTile('Sound Effects', _sound,
-              (v) => setState(() => _sound = v)),
-          _ToggleTile('Vibration', _vibration,
-              (v) => setState(() => _vibration = v)),
-          _SectionHeader('Parental Controls'),
-          _ToggleTile('Parental Controls', _parentalControls,
-              (v) => setState(() => _parentalControls = v)),
-          _SectionHeader('Account'),
-          ListTile(
-            title: Text('Change Password', style: AppTextStyles.body),
-            trailing: const Icon(Icons.chevron_right, color: AppColors.textHint),
-            onTap: () {},
-          ),
-          ListTile(
-            title: Text('Privacy Policy', style: AppTextStyles.body),
-            trailing: const Icon(Icons.chevron_right, color: AppColors.textHint),
-            onTap: () {},
-          ),
-          ListTile(
-            title: Text('Terms of Service', style: AppTextStyles.body),
-            trailing: const Icon(Icons.chevron_right, color: AppColors.textHint),
-            onTap: () {},
-          ),
-        ],
       ),
     );
   }
 }
 
-class _SectionHeader extends StatelessWidget {
-  final String title;
-  const _SectionHeader(this.title);
+class _SettingsRow extends StatelessWidget {
+  final String label;
+  final Color labelColor;
+  final Color backgroundColor;
+  final Color borderColor;
+  final Widget? trailing;
+  final VoidCallback? onTap;
+
+  const _SettingsRow({
+    required this.label,
+    this.labelColor = AppColors.textPrimary,
+    this.backgroundColor = AppColors.white,
+    this.borderColor = const Color(0xFFE0E0E0),
+    this.trailing,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(
-          AppSpacing.lg, AppSpacing.xl, AppSpacing.lg, AppSpacing.sm),
-      child: Text(title, style: AppTextStyles.bodySmall),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: 60,
+        padding: const EdgeInsets.symmetric(horizontal: 20),
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: borderColor),
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                label,
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w600,
+                  color: labelColor,
+                ),
+              ),
+            ),
+            if (trailing case final t?) t,
+          ],
+        ),
+      ),
     );
   }
 }
 
-class _ToggleTile extends StatelessWidget {
-  final String label;
+class _Toggle extends StatelessWidget {
   final bool value;
   final ValueChanged<bool> onChanged;
 
-  const _ToggleTile(this.label, this.value, this.onChanged);
+  const _Toggle({required this.value, required this.onChanged});
 
   @override
   Widget build(BuildContext context) {
-    return SwitchListTile(
-      title: Text(label, style: AppTextStyles.body),
-      value: value,
-      activeThumbColor: AppColors.primary,
-      activeTrackColor: AppColors.primary.withValues(alpha: 0.5),
-      onChanged: onChanged,
+    return GestureDetector(
+      onTap: () => onChanged(!value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        width: 46,
+        height: 28,
+        decoration: BoxDecoration(
+          color: value ? AppColors.primary : const Color(0xFFDEDEDE),
+          borderRadius: BorderRadius.circular(50),
+        ),
+        padding: const EdgeInsets.all(2),
+        child: AnimatedAlign(
+          duration: const Duration(milliseconds: 200),
+          alignment: value ? Alignment.centerRight : Alignment.centerLeft,
+          child: Container(
+            width: 22,
+            height: 22,
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

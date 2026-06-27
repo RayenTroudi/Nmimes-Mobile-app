@@ -5,9 +5,13 @@ import 'screens/splash/splash_screen.dart';
 import 'screens/onboarding/onboarding_screen.dart';
 import 'screens/onboarding/choose_role_screen.dart';
 import 'screens/auth/child_sign_in_screen.dart';
+import 'screens/auth/child_access_code_screen.dart';
 import 'screens/auth/child_sign_in_success_screen.dart';
 import 'screens/auth/child_grades_screen.dart';
 import 'screens/auth/parent_sign_in_screen.dart';
+import 'screens/auth/parent_access_code_screen.dart';
+import 'screens/auth/parent_forgot_access_code_screen.dart';
+import 'screens/auth/parent_reset_access_code_screen.dart';
 import 'screens/auth/parent_sign_up_screen.dart';
 import 'screens/auth/account_created_screen.dart';
 import 'screens/auth/parent_otp_screen.dart';
@@ -58,9 +62,12 @@ import 'screens/challenges/algebra_completed_screen.dart';
 import 'screens/parents/parents_view_screen.dart';
 import 'screens/parents/subscription_screen.dart';
 import 'screens/parents/payment_screen.dart';
+import 'screens/parents/payment_success_screen.dart';
 import 'screens/parents/edit_child_profile_screen.dart';
 import 'screens/parents/children_screen.dart';
 import 'screens/parents/settings_screen.dart';
+import 'screens/parents/terms_screen.dart';
+import 'screens/parents/privacy_screen.dart';
 import 'screens/parents/log_out_screen.dart';
 import 'screens/profile/profile_screen.dart';
 import 'screens/profile/help_screen.dart';
@@ -86,12 +93,17 @@ class NmimesApp extends StatelessWidget {
         '/onboarding':      (_) => const OnboardingScreen(),
         '/choose-role':     (_) => const ChooseRoleScreen(),
         '/child-sign-in':   (_) => const ChildSignInScreen(),
+        '/child-access-code': (_) => const ChildAccessCodeScreen(),
         '/child-success':   (_) => const ChildSignInSuccessScreen(),
         '/child-grades':    (_) => const ChildGradesScreen(),
         '/parent-sign-in':  (_) => const ParentSignInScreen(),
+        '/parent-access-code': (_) => const ParentAccessCodeScreen(),
+        '/parent-forgot-access-code': (_) => const ParentForgotAccessCodeScreen(),
+        '/parent-reset-access-code': (_) => const ParentResetAccessCodeScreen(),
         '/parent-sign-up':  (_) => const ParentSignUpScreen(),
         '/parent-otp':      (_) => const ParentOtpScreen(),
-        '/account-created': (_) => const AccountCreatedScreen(),
+        '/account-created':    (_) => const AccountCreatedScreen(),
+        '/profile-setup-done': (_) => const AccountCreatedScreen(),
         '/parent-setup':    (_) => const ParentProfileSetupScreen(),
         '/parent-grades':   (_) => const ParentGradesScreen(),
         '/parent-success':  (_) => const ParentSignInSuccessScreen(), // defined in account_created_screen.dart
@@ -140,9 +152,12 @@ class NmimesApp extends StatelessWidget {
         '/parents-view':    (_) => const ParentsViewScreen(),
         '/subscription':    (_) => const SubscriptionScreen(),
         '/payment':         (_) => const PaymentScreen(),
+        '/payment-success': (_) => const PaymentSuccessScreen(),
         '/edit-child':      (_) => const EditChildProfileScreen(),
         '/children':        (_) => const ChildrenScreen(),
         '/settings':        (_) => const SettingsScreen(),
+        '/terms':           (_) => const TermsScreen(),
+        '/privacy':         (_) => const PrivacyScreen(),
         '/parent-logout':   (_) => const LogOutScreen(),
         '/profile':         (_) => const ProfileScreen(),
         '/help':            (_) => const HelpScreen(),

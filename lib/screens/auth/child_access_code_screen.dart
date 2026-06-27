@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
 
-class ChildSignInScreen extends StatefulWidget {
-  const ChildSignInScreen({super.key});
+class ChildAccessCodeScreen extends StatefulWidget {
+  const ChildAccessCodeScreen({super.key});
 
   @override
-  State<ChildSignInScreen> createState() => _ChildSignInScreenState();
+  State<ChildAccessCodeScreen> createState() => _ChildAccessCodeScreenState();
 }
 
-class _ChildSignInScreenState extends State<ChildSignInScreen> {
+class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
   final _ctrl = TextEditingController();
   final _focus = FocusNode();
 
@@ -28,9 +28,11 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
     super.dispose();
   }
 
-  void _continue() {
-    if (_ctrl.text.trim().isNotEmpty) {
-      Navigator.pushNamed(context, '/child-access-code');
+  String get _pin => _ctrl.text;
+
+  void _submit() {
+    if (_pin.length == 4) {
+      Navigator.pushNamed(context, '/child-success');
     }
   }
 
@@ -63,7 +65,7 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
               // Cream card
               Expanded(
                 child: GestureDetector(
-                  onTap: () => FocusScope.of(context).unfocus(),
+                  onTap: () => _focus.requestFocus(),
                   child: Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(
@@ -87,52 +89,83 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          'Please enter your username',
+                          'Please enter your 4-digit access code',
                           style: GoogleFonts.poppins(
                             fontSize: 14,
                             color: AppColors.textSecondary,
                           ),
                         ),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 40),
 
-                        // Username field
-                        Container(
-                          height: 58,
-                          decoration: BoxDecoration(
-                            color: AppColors.white,
-                            borderRadius: BorderRadius.circular(36),
-                            border: Border.all(
-                                color: const Color(0xFFA8A8A8)),
-                          ),
-                          child: TextField(
-                            controller: _ctrl,
-                            focusNode: _focus,
-                            style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: AppColors.textPrimary),
-                            decoration: InputDecoration(
-                              hintText: 'Enter your username',
-                              hintStyle: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  color: const Color(0xFFA8A8A8)),
-                              border: InputBorder.none,
-                              contentPadding:
-                                  const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 18),
+                        // Hidden text field
+                        Opacity(
+                          opacity: 0,
+                          child: SizedBox(
+                            height: 0,
+                            child: OverflowBox(
+                              maxHeight: 0,
+                              child: TextField(
+                                controller: _ctrl,
+                                focusNode: _focus,
+                                maxLength: 4,
+                                keyboardType: TextInputType.number,
+                                decoration: const InputDecoration(
+                                  counterText: '',
+                                  border: InputBorder.none,
+                                ),
+                                onChanged: (_) => setState(() {}),
+                              ),
                             ),
                           ),
                         ),
 
+                        // 4 PIN circles
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: List.generate(4, (i) {
+                            final filled = i < _pin.length;
+                            final isActive = i == _pin.length;
+                            return GestureDetector(
+                              onTap: () => _focus.requestFocus(),
+                              child: Container(
+                                margin: EdgeInsets.only(right: i < 3 ? 16 : 0),
+                                width: 60,
+                                height: 60,
+                                decoration: BoxDecoration(
+                                  color: AppColors.white,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: isActive
+                                        ? AppColors.primary
+                                        : AppColors.cardBorder,
+                                    width: isActive ? 2 : 1,
+                                  ),
+                                ),
+                                child: Center(
+                                  child: filled
+                                      ? Container(
+                                          width: 18,
+                                          height: 18,
+                                          decoration: const BoxDecoration(
+                                            color: AppColors.textPrimary,
+                                            shape: BoxShape.circle,
+                                          ),
+                                        )
+                                      : null,
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+
                         const Spacer(),
 
-                        // Continue button
+                        // Sign In button
                         SizedBox(
                           width: double.infinity,
                           height: 58,
                           child: ElevatedButton(
-                            onPressed: _ctrl.text.trim().isNotEmpty
-                                ? _continue
-                                : null,
+                            onPressed: _pin.length == 4 ? _submit : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
                               disabledBackgroundColor:
@@ -144,7 +177,7 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
                               ),
                             ),
                             child: Text(
-                              'Continue',
+                              'Sign In',
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,

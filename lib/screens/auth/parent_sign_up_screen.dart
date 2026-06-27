@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
-import '../../widgets/country_picker.dart';
 
 class ParentSignUpScreen extends StatefulWidget {
   const ParentSignUpScreen({super.key});
@@ -11,25 +10,45 @@ class ParentSignUpScreen extends StatefulWidget {
 }
 
 class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
+  final _firstNameCtrl = TextEditingController();
+  final _lastNameCtrl = TextEditingController();
   final _emailCtrl = TextEditingController();
-  final _phoneCtrl = TextEditingController();
+  final _pinCtrl = TextEditingController();
+  final _confirmPinCtrl = TextEditingController();
+  final _pinFocus = FocusNode();
+  final _confirmPinFocus = FocusNode();
 
-  Country _selectedCountry = kCountries.first;
+  bool get _pinMismatch =>
+      _confirmPinCtrl.text.isNotEmpty &&
+      _pinCtrl.text != _confirmPinCtrl.text;
 
   bool get _canSubmit =>
-      _emailCtrl.text.trim().isNotEmpty || _phoneCtrl.text.trim().isNotEmpty;
+      _firstNameCtrl.text.trim().isNotEmpty &&
+      _lastNameCtrl.text.trim().isNotEmpty &&
+      _emailCtrl.text.trim().isNotEmpty &&
+      _pinCtrl.text.length == 4 &&
+      _confirmPinCtrl.text.length == 4 &&
+      _pinCtrl.text == _confirmPinCtrl.text;
 
   @override
   void initState() {
     super.initState();
+    _firstNameCtrl.addListener(() => setState(() {}));
+    _lastNameCtrl.addListener(() => setState(() {}));
     _emailCtrl.addListener(() => setState(() {}));
-    _phoneCtrl.addListener(() => setState(() {}));
+    _pinCtrl.addListener(() => setState(() {}));
+    _confirmPinCtrl.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
+    _firstNameCtrl.dispose();
+    _lastNameCtrl.dispose();
     _emailCtrl.dispose();
-    _phoneCtrl.dispose();
+    _pinCtrl.dispose();
+    _confirmPinCtrl.dispose();
+    _pinFocus.dispose();
+    _confirmPinFocus.dispose();
     super.dispose();
   }
 
@@ -85,16 +104,31 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                         ),
                         const SizedBox(height: 24),
 
-                        // Email section
-                        Text(
-                          'Continue with Email Address',
-                          style: GoogleFonts.poppins(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w500,
-                            color: AppColors.textPrimary,
-                          ),
+                        // First name & Last name row
+                        Row(
+                          children: [
+                            Expanded(
+                              child: _AuthTextField(
+                                controller: _firstNameCtrl,
+                                hint: 'First name',
+                                prefixIcon: Icons.person_outline,
+                                onChanged: () => setState(() {}),
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: _AuthTextField(
+                                controller: _lastNameCtrl,
+                                hint: 'Last name',
+                                prefixIcon: Icons.person_outline,
+                                onChanged: () => setState(() {}),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 14),
+
+                        // Email
                         _AuthTextField(
                           controller: _emailCtrl,
                           hint: 'Enter email',
@@ -102,51 +136,64 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                           keyboardType: TextInputType.emailAddress,
                           onChanged: () => setState(() {}),
                         ),
+                        const SizedBox(height: 14),
 
-                        // "or" divider
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          child: Center(
-                            child: Text(
-                              'or',
-                              style: GoogleFonts.poppins(
-                                fontSize: 14,
-                                color: AppColors.primary,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-
-                        // Phone section
+                        // Access Code
                         Text(
-                          'Continue with Phone Number',
+                          'Access Code',
                           style: GoogleFonts.poppins(
                             fontSize: 14,
-                            fontWeight: FontWeight.w500,
+                            fontWeight: FontWeight.w600,
                             color: AppColors.textPrimary,
                           ),
                         ),
-                        const SizedBox(height: 10),
-                        Row(
-                          children: [
-                            CountryPickerButton(
-                              selected: _selectedCountry,
-                              onChanged: (c) =>
-                                  setState(() => _selectedCountry = c),
-                            ),
-                            const SizedBox(width: 8),
-                            Expanded(
-                              child: _AuthTextField(
-                                controller: _phoneCtrl,
-                                hint: 'Enter phone number',
-                                prefixIcon: Icons.phone_outlined,
-                                keyboardType: TextInputType.phone,
-                                onChanged: () => setState(() {}),
-                              ),
-                            ),
-                          ],
+                        const SizedBox(height: 4),
+                        Text(
+                          'Create a 4 digit access code',
+                          style: GoogleFonts.poppins(
+                              fontSize: 12, color: AppColors.textSecondary),
                         ),
+                        const SizedBox(height: 10),
+                        _PinRow(
+                          controller: _pinCtrl,
+                          focusNode: _pinFocus,
+                          onChanged: () => setState(() {}),
+                        ),
+                        const SizedBox(height: 20),
+
+                        // Verify Access Code
+                        Text(
+                          'Verify Access Code',
+                          style: GoogleFonts.poppins(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          'Re-enter your 4 digit access code',
+                          style: GoogleFonts.poppins(
+                              fontSize: 12, color: AppColors.textSecondary),
+                        ),
+                        const SizedBox(height: 10),
+                        _PinRow(
+                          controller: _confirmPinCtrl,
+                          focusNode: _confirmPinFocus,
+                          onChanged: () => setState(() {}),
+                        ),
+                        if (_confirmPinCtrl.text.isNotEmpty &&
+                            _pinCtrl.text != _confirmPinCtrl.text) ...[
+                          const SizedBox(height: 6),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 4),
+                            child: Text(
+                              'Access codes do not match',
+                              style: GoogleFonts.poppins(
+                                  fontSize: 12, color: Colors.red),
+                            ),
+                          ),
+                        ],
                         const SizedBox(height: 24),
 
                         // Sign Up button
@@ -178,9 +225,9 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                             ),
                           ),
                         ),
-                        const SizedBox(height: 160),
+                        const SizedBox(height: 40),
 
-                        // Don't have an account? Sign In
+                        // Already have an account? Sign In
                         Center(
                           child: GestureDetector(
                             onTap: () => Navigator.pushNamed(
@@ -189,7 +236,7 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: "Don't have an account? ",
+                                    text: 'Already have an account? ',
                                     style: GoogleFonts.poppins(
                                       fontSize: 13,
                                       color: AppColors.textPrimary,
@@ -217,7 +264,7 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
             ],
           ),
 
-          // Fox mascot overlapping the card seam
+          // Mascot overlapping the card seam
           Positioned(
             top: screenHeight * 0.28 - 110,
             left: 0,
@@ -274,6 +321,86 @@ class _AuthTextField extends StatelessWidget {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         ),
+      ),
+    );
+  }
+}
+
+class _PinRow extends StatelessWidget {
+  final TextEditingController controller;
+  final FocusNode focusNode;
+  final VoidCallback? onChanged;
+
+  const _PinRow({
+    required this.controller,
+    required this.focusNode,
+    this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final pin = controller.text;
+    return GestureDetector(
+      onTap: () => focusNode.requestFocus(),
+      child: Column(
+        children: [
+          // Hidden input
+          Opacity(
+            opacity: 0,
+            child: SizedBox(
+              height: 0,
+              child: OverflowBox(
+                maxHeight: 0,
+                child: TextField(
+                  controller: controller,
+                  focusNode: focusNode,
+                  maxLength: 4,
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                    counterText: '',
+                    border: InputBorder.none,
+                  ),
+                  onChanged: (_) => onChanged?.call(),
+                ),
+              ),
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(4, (i) {
+              final filled = i < pin.length;
+              final isActive = i == pin.length;
+              return GestureDetector(
+                onTap: () => focusNode.requestFocus(),
+                child: Container(
+                  margin: EdgeInsets.only(right: i < 3 ? 16 : 0),
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    color: AppColors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: isActive ? AppColors.primary : AppColors.cardBorder,
+                      width: isActive ? 2 : 1,
+                    ),
+                  ),
+                  child: Center(
+                    child: filled
+                        ? Text(
+                            pin[i],
+                            style: GoogleFonts.poppins(
+                              fontSize: 22,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textPrimary,
+                            ),
+                          )
+                        : null,
+                  ),
+                ),
+              );
+            }),
+          ),
+        ],
       ),
     );
   }

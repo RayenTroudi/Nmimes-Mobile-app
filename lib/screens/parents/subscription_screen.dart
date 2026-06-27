@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
-import '../../theme/text_styles.dart';
-import '../../theme/spacing.dart';
-import '../../widgets/primary_button.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -12,107 +10,328 @@ class SubscriptionScreen extends StatefulWidget {
 }
 
 class _SubscriptionScreenState extends State<SubscriptionScreen> {
-  int _selected = 1;
+  // 0 = My Plan, 1 = Select Plan
+  int _tab = 0;
+  // false = Monthly, true = Yearly
+  bool _yearly = false;
 
-  static const _plans = [
-    _Plan('Basic', 'Free', ['5 snaps/month', '10 challenges', 'Basic AI chat']),
-    _Plan('Pro', '\$4.99/mo', ['Unlimited snaps', 'All challenges', 'Full AI chat', 'Rewards']),
-    _Plan('Family', '\$9.99/mo', ['Up to 3 children', 'All Pro features', 'Parent dashboard']),
+  static const _features = [
+    'Unlimited Snap & Send',
+    'Unlimited AI Chat',
+    'Unlimited Challenges',
+    'Unlimited Rewards',
+    'Teach Back to AI',
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text('Subscription', style: AppTextStyles.h3),
-      ),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-          child: Column(
-            children: [
-              const SizedBox(height: AppSpacing.xl),
-              Text('Choose a Plan', style: AppTextStyles.h2),
-              const SizedBox(height: AppSpacing.xxl),
-              Expanded(
-                child: ListView.separated(
-                  itemCount: _plans.length,
-                  separatorBuilder: (_, i) => const SizedBox(height: 12),
-                  itemBuilder: (_, i) {
-                    final active = _selected == i;
-                    return GestureDetector(
-                      onTap: () => setState(() => _selected = i),
-                      child: AnimatedContainer(
-                        duration: const Duration(milliseconds: 200),
-                        padding: const EdgeInsets.all(AppSpacing.lg),
-                        decoration: BoxDecoration(
-                          color: active
-                              ? AppColors.primary.withValues(alpha: 0.06)
-                              : AppColors.surface,
-                          borderRadius: BorderRadius.circular(16),
-                          border: Border.all(
-                            color: active ? AppColors.primary : AppColors.cardBorder,
-                            width: active ? 2 : 1,
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: [
-                                Text(_plans[i].name,
-                                    style: AppTextStyles.h3.copyWith(
-                                        color: active ? AppColors.primary : null)),
-                                const Spacer(),
-                                Text(_plans[i].price,
-                                    style: AppTextStyles.h3.copyWith(
-                                        color: active ? AppColors.primary : AppColors.textSecondary)),
-                              ],
-                            ),
-                            const SizedBox(height: AppSpacing.sm),
-                            ..._plans[i].features.map((f) => Padding(
-                                  padding: const EdgeInsets.only(top: 4),
-                                  child: Row(
-                                    children: [
-                                      Icon(Icons.check_circle_outline,
-                                          size: 16,
-                                          color: active ? AppColors.primary : AppColors.textSecondary),
-                                      const SizedBox(width: 6),
-                                      Text(f, style: AppTextStyles.bodySmall),
-                                    ],
-                                  ),
-                                )),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: GestureDetector(
+                      onTap: () => Navigator.pop(context),
+                      child: const Icon(Icons.arrow_back_ios,
+                          color: AppColors.textPrimary, size: 22),
+                    ),
+                  ),
+                  Text(
+                    'Subscription',
+                    style: GoogleFonts.poppins(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 12),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Text(
+                _tab == 0 ? 'My Plan' : 'Select Plan',
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.textPrimary,
                 ),
               ),
-              const SizedBox(height: AppSpacing.lg),
-              PrimaryButton(
-                label: _plans[_selected].price == 'Free'
-                    ? 'Continue with Free'
-                    : 'Subscribe — ${_plans[_selected].price}',
-                onTap: () => Navigator.pushNamed(context, '/payment'),
+            ),
+
+            const SizedBox(height: 16),
+
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: _tab == 0 ? _buildMyPlan() : _buildSelectPlan(),
+            ),
+
+            const Spacer(),
+
+            // Bottom button
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+              child: SizedBox(
+                width: double.infinity,
+                height: 70,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_tab == 0) {
+                      setState(() => _tab = 1);
+                    } else {
+                      Navigator.pushNamed(context, '/payment');
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: AppColors.white,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                      side: const BorderSide(color: AppColors.white, width: 2),
+                    ),
+                  ),
+                  child: Text(
+                    _tab == 0 ? 'Update Subscription' : 'Select Plan',
+                    style: GoogleFonts.poppins(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
               ),
-              const SizedBox(height: AppSpacing.xl),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // ── My Plan ──────────────────────────────────────────────────────────────
+  Widget _buildMyPlan() {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.07),
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.primary),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Center(
+            child: _PriceDisplay(
+                amount: '39.99', color: AppColors.textPrimary),
+          ),
+          const SizedBox(height: 20),
+          ..._features.map((f) => _FeatureRow(
+                label: f,
+                checkColor: AppColors.textPrimary,
+                textColor: AppColors.textPrimary,
+              )),
+          const SizedBox(height: 16),
+          Text(
+            'Valid till: 24 Feb 2026',
+            style: GoogleFonts.poppins(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: AppColors.textPrimary,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // ── Select Plan ──────────────────────────────────────────────────────────
+  Widget _buildSelectPlan() {
+    // Monthly → full orange card; Yearly → white card with orange accents
+    final isMonthly = !_yearly;
+    final cardBg = isMonthly ? AppColors.primary : AppColors.white;
+    final priceColor = isMonthly ? AppColors.white : AppColors.primary;
+    final checkColor = isMonthly ? AppColors.white : AppColors.primary;
+    final textColor = isMonthly ? AppColors.white : AppColors.textPrimary;
+    final price = _yearly ? '449.99' : '39.99';
+
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: cardBg,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: AppColors.primary),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Toggle pills
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              _PlanPill(
+                label: 'Monthly',
+                selected: !_yearly,
+                isOnOrange: isMonthly,
+                onTap: () => setState(() => _yearly = false),
+              ),
+              const SizedBox(width: 12),
+              _PlanPill(
+                label: 'Yearly',
+                selected: _yearly,
+                isOnOrange: isMonthly,
+                onTap: () => setState(() => _yearly = true),
+              ),
             ],
           ),
-        ),
+          const SizedBox(height: 16),
+
+          // Price
+          Center(child: _PriceDisplay(amount: price, color: priceColor)),
+          const SizedBox(height: 20),
+
+          // Features
+          ..._features.map((f) => _FeatureRow(
+                label: f,
+                checkColor: checkColor,
+                textColor: textColor,
+              )),
+        ],
       ),
     );
   }
 }
 
-class _Plan {
-  final String name;
-  final String price;
-  final List<String> features;
-  const _Plan(this.name, this.price, this.features);
+// ── Shared widgets ────────────────────────────────────────────────────────────
+
+class _PriceDisplay extends StatelessWidget {
+  final String amount;
+  final Color color;
+
+  const _PriceDisplay({required this.amount, required this.color});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: Text(
+            '\$',
+            style: TextStyle(
+              fontSize: 22,
+              fontWeight: FontWeight.w400,
+              color: color,
+            ),
+          ),
+        ),
+        Text(
+          amount,
+          style: TextStyle(
+            fontSize: 52,
+            fontWeight: FontWeight.w700,
+            color: color,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _FeatureRow extends StatelessWidget {
+  final String label;
+  final Color checkColor;
+  final Color textColor;
+
+  const _FeatureRow({
+    required this.label,
+    required this.checkColor,
+    required this.textColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 14),
+      child: Row(
+        children: [
+          Icon(Icons.check, color: checkColor, size: 16),
+          const SizedBox(width: 12),
+          Text(
+            label,
+            style: GoogleFonts.poppins(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: textColor,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _PlanPill extends StatelessWidget {
+  final String label;
+  final bool selected;
+  final bool isOnOrange;
+  final VoidCallback onTap;
+
+  const _PlanPill({
+    required this.label,
+    required this.selected,
+    required this.isOnOrange,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    // On orange card: selected pill is white-tinted; on white card: selected pill is orange-tinted
+    final bg = selected
+        ? (isOnOrange
+            ? AppColors.white.withValues(alpha: 0.25)
+            : AppColors.primary.withValues(alpha: 0.12))
+        : Colors.transparent;
+    final borderColor = isOnOrange
+        ? AppColors.white.withValues(alpha: selected ? 0.7 : 0.35)
+        : AppColors.primary.withValues(alpha: selected ? 1.0 : 0.35);
+    final textColor =
+        isOnOrange ? AppColors.white : AppColors.primary;
+
+    return GestureDetector(
+      onTap: onTap,
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 180),
+        padding:
+            const EdgeInsets.symmetric(horizontal: 28, vertical: 13),
+        decoration: BoxDecoration(
+          color: bg,
+          borderRadius: BorderRadius.circular(50),
+          border: Border.all(color: borderColor),
+        ),
+        child: Text(
+          label,
+          style: GoogleFonts.poppins(
+            fontSize: 12,
+            fontWeight: FontWeight.w600,
+            color: textColor,
+          ),
+        ),
+      ),
+    );
+  }
 }

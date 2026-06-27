@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
-import '../../theme/text_styles.dart';
-import '../../theme/spacing.dart';
-import '../../widgets/avatar_widget.dart';
 
 class ParentsViewScreen extends StatelessWidget {
   const ParentsViewScreen({super.key});
@@ -10,64 +8,465 @@ class ParentsViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+      backgroundColor: AppColors.primary,
+      body: Stack(
+        children: [
+          Column(
             children: [
-              _Header(),
-              _ProgressCard(),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: AppSpacing.lg, vertical: AppSpacing.md),
-                child: Text('Manage', style: AppTextStyles.h3),
+              // Orange top bar
+              SafeArea(
+                bottom: false,
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+                  child: Row(
+                    children: [
+                      // Mascot avatar circle
+                      Container(
+                        width: 40,
+                        height: 40,
+                        decoration: const BoxDecoration(
+                          color: Color(0xFFFFFDFC),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(4),
+                          child: Image.asset(
+                            'assets/images/foxWithSunGlass.png',
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ),
+                      const Spacer(),
+                      // Language toggle
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.16),
+                          borderRadius: BorderRadius.circular(45),
+                        ),
+                        child: Row(
+                          children: [
+                            const SizedBox(width: 4),
+                            Text(
+                              'ENG',
+                              style: GoogleFonts.poppins(
+                                fontSize: 12,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.white,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            const Icon(Icons.keyboard_arrow_down,
+                                color: AppColors.white, size: 14),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(width: 8),
+                      // Settings icon
+                      GestureDetector(
+                        onTap: () =>
+                            Navigator.pushNamed(context, '/settings'),
+                        child: Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.16),
+                            shape: BoxShape.circle,
+                          ),
+                          child: const Icon(Icons.settings_outlined,
+                              color: AppColors.white, size: 20),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              _NavTile(Icons.people_outline, 'Children',
-                  () => Navigator.pushNamed(context, '/children')),
-              _NavTile(Icons.card_membership_outlined, 'Subscription',
-                  () => Navigator.pushNamed(context, '/subscription')),
-              _NavTile(Icons.settings_outlined, 'Settings',
-                  () => Navigator.pushNamed(context, '/settings')),
-              _NavTile(Icons.help_outline, 'Help & Support',
-                  () => Navigator.pushNamed(context, '/help')),
-              const Divider(
-                  indent: AppSpacing.lg,
-                  endIndent: AppSpacing.lg,
-                  color: AppColors.cardBorder),
-              _NavTile(
-                Icons.logout,
-                'Log Out',
-                () => Navigator.pushNamed(context, '/parent-logout'),
-                color: Colors.red,
+
+              const SizedBox(height: 12),
+
+              // Cream scrollable content card
+              Expanded(
+                child: Container(
+                  decoration: const BoxDecoration(
+                    color: Color(0xFFFFF7E8),
+                    borderRadius: BorderRadius.vertical(
+                        top: Radius.circular(30)),
+                  ),
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Child selector card
+                        Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFF4E4C3),
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: AppColors.primary),
+                          ),
+                          child: Row(
+                            children: [
+                              // Avatar
+                              Container(
+                                width: 46,
+                                height: 46,
+                                decoration: const BoxDecoration(
+                                  color: AppColors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: ClipOval(
+                                  child: Image.asset(
+                                    'assets/images/nmimes_celebrate.png',
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(width: 12),
+                              Text(
+                                'John',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(width: 8),
+                              // Edit button
+                              GestureDetector(
+                                onTap: () => Navigator.pushNamed(
+                                    context, '/edit-child'),
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 6),
+                                  decoration: BoxDecoration(
+                                    color: AppColors.white,
+                                    borderRadius:
+                                        BorderRadius.circular(25),
+                                  ),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      const Icon(Icons.edit_outlined,
+                                          color: AppColors.primary,
+                                          size: 14),
+                                      const SizedBox(width: 4),
+                                      Text(
+                                        'Edit',
+                                        style: GoogleFonts.poppins(
+                                          fontSize: 10,
+                                          color: AppColors.primary,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                              const Spacer(),
+                              // Chevron
+                              const Icon(Icons.keyboard_arrow_down,
+                                  color: Color(0xFF5A6677)),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // John's Progress title
+                        Text(
+                          "John's Progress",
+                          style: GoogleFonts.poppins(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.textPrimary,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Weekly Summary card (orange)
+                        _InfoCard(
+                          color: const Color(0xFFF79C09),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 48,
+                                    height: 48,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white
+                                          .withValues(alpha: 0.3),
+                                      borderRadius:
+                                          BorderRadius.circular(13),
+                                    ),
+                                    child: const Icon(
+                                        Icons.bar_chart_rounded,
+                                        color: AppColors.white,
+                                        size: 26),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  Text(
+                                    'Weekly Summary',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              _BulletItem(
+                                  'Great progress this week!',
+                                  AppColors.white),
+                              _BulletItem(
+                                  'Completed 15 challenges',
+                                  AppColors.white),
+                              _BulletItem(
+                                  'Practiced 4 days in a row',
+                                  AppColors.white),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Learning Progress chart card (yellow)
+                        _InfoCard(
+                          color: const Color(0xFFFEF5C4),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Learning Progress',
+                                style: GoogleFonts.poppins(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                ),
+                              ),
+                              const SizedBox(height: 16),
+                              _SimpleLineChart(),
+                              const SizedBox(height: 12),
+                              _BulletItem(
+                                  '78% Accuracy This Week',
+                                  AppColors.textPrimary),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Strength card (green)
+                        _InfoCard(
+                          color: const Color(0xFFBDEEC6),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white
+                                          .withValues(alpha: 0.3),
+                                      borderRadius:
+                                          BorderRadius.circular(7),
+                                    ),
+                                    child: const Icon(Icons.check_circle,
+                                        color: Color(0xFF35A468),
+                                        size: 18),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Strength',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              _BulletItem('Strong in multiplication',
+                                  AppColors.textPrimary),
+                              _BulletItem('Quick at solving equations',
+                                  AppColors.textPrimary),
+                              _BulletItem(
+                                  'Good understanding of algebra basics',
+                                  AppColors.textPrimary),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Needs More Practice card (pale yellow)
+                        _InfoCard(
+                          color: const Color(0xFFFDEBBE),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white
+                                          .withValues(alpha: 0.3),
+                                      borderRadius:
+                                          BorderRadius.circular(7),
+                                    ),
+                                    child: const Icon(Icons.warning_amber,
+                                        color: Color(0xFFECB213),
+                                        size: 18),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Needs More Practice',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              _BulletItem('Needs more practice in fractions',
+                                  AppColors.textPrimary),
+                              _BulletItem('Struggles with word problems',
+                                  AppColors.textPrimary),
+                              _BulletItem(
+                                  'Take more time in division questions',
+                                  AppColors.textPrimary),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Progress card (cyan)
+                        _InfoCard(
+                          color: const Color(0xFFC1F3F2),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white
+                                          .withValues(alpha: 0.3),
+                                      borderRadius:
+                                          BorderRadius.circular(7),
+                                    ),
+                                    child: const Icon(Icons.trending_up,
+                                        color: Color(0xFF1DBFD4),
+                                        size: 18),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Progress',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.textPrimary,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              _BulletItem(
+                                  'Consistency improved +2 days this week',
+                                  AppColors.textPrimary),
+                              _BulletItem(
+                                  'Practiced 35 mins more than last week',
+                                  AppColors.textPrimary),
+                              _BulletItem(
+                                  'Accuracy improved from 62% to 74%',
+                                  AppColors.textPrimary),
+                            ],
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+
+                        // Suggested Action card (orange)
+                        _InfoCard(
+                          color: AppColors.primary,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 30,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                      color: Colors.white
+                                          .withValues(alpha: 0.3),
+                                      borderRadius:
+                                          BorderRadius.circular(7),
+                                    ),
+                                    child: const Icon(Icons.lightbulb_outline,
+                                        color: AppColors.white, size: 18),
+                                  ),
+                                  const SizedBox(width: 10),
+                                  Text(
+                                    'Suggested Action',
+                                    style: GoogleFonts.poppins(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              const SizedBox(height: 16),
+                              _BulletItem('Practice fractions this week',
+                                  AppColors.white),
+                              _BulletItem(
+                                  'Try 2 more challenges to improve consistency',
+                                  AppColors.white),
+                              _BulletItem(
+                                  'Review last lesson before next homework',
+                                  AppColors.white),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ),
-              const SizedBox(height: AppSpacing.xl),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
 
-class _Header extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(AppSpacing.lg),
-      child: Row(
-        children: [
-          const AvatarWidget(initials: 'P', radius: 28),
-          const SizedBox(width: AppSpacing.md),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text("Parent Dashboard", style: AppTextStyles.h2),
-                Text('Welcome back!',
-                    style: AppTextStyles.bodySmall
-                        .copyWith(color: AppColors.textSecondary)),
-              ],
+          // Add child FAB
+          Positioned(
+            right: 20,
+            bottom: 32,
+            child: GestureDetector(
+              onTap: () => Navigator.pushNamed(context, '/parent-setup'),
+              child: Container(
+                width: 60,
+                height: 60,
+                decoration: const BoxDecoration(
+                  color: AppColors.white,
+                  shape: BoxShape.circle,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x33000000),
+                      blurRadius: 12,
+                      offset: Offset(0, 4),
+                    ),
+                  ],
+                ),
+                child: const Icon(Icons.add,
+                    color: AppColors.primary, size: 28),
+              ),
             ),
           ),
         ],
@@ -76,29 +475,52 @@ class _Header extends StatelessWidget {
   }
 }
 
-class _ProgressCard extends StatelessWidget {
+class _InfoCard extends StatelessWidget {
+  final Color color;
+  final Widget child;
+
+  const _InfoCard({required this.color, required this.child});
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
-      padding: const EdgeInsets.all(AppSpacing.lg),
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        color: AppColors.primary,
+        color: color,
         borderRadius: BorderRadius.circular(16),
       ),
-      child: Column(
+      child: child,
+    );
+  }
+}
+
+class _BulletItem extends StatelessWidget {
+  final String text;
+  final Color color;
+
+  const _BulletItem(this.text, this.color);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Child's Progress",
-              style: AppTextStyles.h3.copyWith(color: AppColors.white)),
-          const SizedBox(height: AppSpacing.md),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              _Stat('320', 'Points', AppColors.white),
-              _Stat('12', 'Challenges', AppColors.white),
-              _Stat('5', 'Day Streak', AppColors.white),
-            ],
+          Padding(
+            padding: const EdgeInsets.only(top: 4),
+            child: Icon(Icons.check, size: 16, color: color),
+          ),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              text,
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                color: color,
+              ),
+            ),
           ),
         ],
       ),
@@ -106,43 +528,235 @@ class _ProgressCard extends StatelessWidget {
   }
 }
 
-class _Stat extends StatelessWidget {
-  final String value;
-  final String label;
-  final Color color;
-
-  const _Stat(this.value, this.label, this.color);
+class _SimpleLineChart extends StatelessWidget {
+  const _SimpleLineChart();
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(value,
-            style: AppTextStyles.h2.copyWith(color: color)),
-        Text(label,
-            style: AppTextStyles.bodySmall
-                .copyWith(color: color.withValues(alpha: 0.8))),
-      ],
+    // Data points as fractions (0.0–1.0)
+    const points = [0.56, 0.76, 0.78];
+    const dataLabels = ['56%', '76%', '78%'];
+    const weeks = ['Week 1', 'Week 2', 'Week 3'];
+    const yLabels = ['100%', '80%', '60%', '40%', '20%', '0%'];
+
+    // Layout constants matching Figma
+    const yAxisW = 48.0;
+    const chartH = 200.0;
+    const legendH = 28.0;
+    const xAxisH = 24.0;
+    const totalHeight = chartH + xAxisH + legendH + 8;
+
+    return SizedBox(
+      height: totalHeight,
+      width: double.infinity,
+      child: CustomPaint(
+        painter: _LineChartPainter(
+          points: points,
+          dataLabels: dataLabels,
+          yLabels: yLabels,
+          weeks: weeks,
+          yAxisW: yAxisW,
+          chartH: chartH,
+          xAxisH: xAxisH,
+          legendH: legendH,
+        ),
+        child: const SizedBox.expand(),
+      ),
     );
   }
 }
 
-class _NavTile extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback onTap;
-  final Color color;
+class _LineChartPainter extends CustomPainter {
+  final List<double> points;
+  final List<String> dataLabels;
+  final List<String> yLabels;
+  final List<String> weeks;
+  final double yAxisW;
+  final double chartH;
+  final double xAxisH;
+  final double legendH;
 
-  const _NavTile(this.icon, this.label, this.onTap,
-      {this.color = AppColors.textPrimary});
+  const _LineChartPainter({
+    required this.points,
+    required this.dataLabels,
+    required this.yLabels,
+    required this.weeks,
+    required this.yAxisW,
+    required this.chartH,
+    required this.xAxisH,
+    required this.legendH,
+  });
+
+  void _drawText(
+    Canvas canvas,
+    String text,
+    Offset offset, {
+    double fontSize = 11,
+    Color color = const Color(0xB3000000),
+    TextAlign align = TextAlign.left,
+    double maxWidth = 60,
+  }) {
+    final tp = TextPainter(
+      text: TextSpan(
+          text: text,
+          style: TextStyle(
+              fontSize: fontSize,
+              color: color,
+              fontFamily: 'Inter',
+              height: 1.2)),
+      textDirection: TextDirection.ltr,
+      textAlign: align,
+    )..layout(maxWidth: maxWidth);
+    double dx = offset.dx;
+    if (align == TextAlign.center) dx -= tp.width / 2;
+    if (align == TextAlign.right) dx -= tp.width;
+    tp.paint(canvas, Offset(dx, offset.dy));
+  }
 
   @override
-  Widget build(BuildContext context) {
-    return ListTile(
-      leading: Icon(icon, color: color),
-      title: Text(label, style: AppTextStyles.body.copyWith(color: color)),
-      trailing: Icon(Icons.chevron_right, color: AppColors.textHint),
-      onTap: onTap,
-    );
+  void paint(Canvas canvas, Size size) {
+    final linePaint = Paint()
+      ..color = AppColors.primary
+      ..strokeWidth = 2
+      ..style = PaintingStyle.stroke;
+    final areaPaint = Paint()
+      ..color = AppColors.primary.withValues(alpha: 0.12)
+      ..style = PaintingStyle.fill;
+
+    // Dotted grid paint
+    final dotGridPaint = Paint()
+      ..color = const Color(0x55000000)
+      ..strokeWidth = 1
+      ..style = PaintingStyle.stroke
+      ..strokeCap = StrokeCap.round;
+    const dashLen = 4.0;
+    const gapLen = 4.0;
+
+    void drawDottedLine(Offset start, Offset end) {
+      final dx = end.dx - start.dx;
+      final dy = end.dy - start.dy;
+      final dist = (end - start).distance;
+      final steps = (dist / (dashLen + gapLen)).floor();
+      for (int s = 0; s < steps; s++) {
+        final t0 = s * (dashLen + gapLen) / dist;
+        final t1 = (s * (dashLen + gapLen) + dashLen) / dist;
+        canvas.drawLine(
+          Offset(start.dx + dx * t0, start.dy + dy * t0),
+          Offset(start.dx + dx * t1.clamp(0.0, 1.0),
+              start.dy + dy * t1.clamp(0.0, 1.0)),
+          dotGridPaint,
+        );
+      }
+    }
+
+    final chartW = size.width - yAxisW;
+    // inner horizontal padding so dots don't sit on the grid edges
+    const plotPad = 24.0;
+    final plotW = chartW - plotPad * 2;
+
+    // ── Y-axis labels & horizontal dotted grid lines ──
+    for (int i = 0; i < yLabels.length; i++) {
+      final y = (chartH / (yLabels.length - 1)) * i;
+      drawDottedLine(Offset(yAxisW, y), Offset(yAxisW + chartW, y));
+      // label left-aligned inside the y-axis column
+      _drawText(canvas, yLabels[i], Offset(0, y - 7),
+          align: TextAlign.left, maxWidth: yAxisW - 4);
+    }
+
+    // ── Compute data point coordinates (with inner padding) ──
+    final xStep = plotW / (points.length - 1);
+    final coords = List.generate(points.length, (i) {
+      return Offset(yAxisW + plotPad + i * xStep, chartH * (1 - points[i]));
+    });
+
+    // ── Vertical dotted grid lines (one per data point) ──
+    for (final c in coords) {
+      drawDottedLine(Offset(c.dx, 0), Offset(c.dx, chartH));
+    }
+
+    // Build a smooth cubic-bezier path through the data points
+    Path smoothPath(List<Offset> pts) {
+      final path = Path()..moveTo(pts[0].dx, pts[0].dy);
+      for (int i = 0; i < pts.length - 1; i++) {
+        final cp1x = pts[i].dx + (pts[i + 1].dx - pts[i].dx) * 0.5;
+        final cp1y = pts[i].dy;
+        final cp2x = pts[i].dx + (pts[i + 1].dx - pts[i].dx) * 0.5;
+        final cp2y = pts[i + 1].dy;
+        path.cubicTo(cp1x, cp1y, cp2x, cp2y, pts[i + 1].dx, pts[i + 1].dy);
+      }
+      return path;
+    }
+
+    // ── Filled area under the curve ──
+    final smoothLine = smoothPath(coords);
+    final areaPath = Path.from(smoothLine)
+      ..lineTo(coords.last.dx, chartH)
+      ..lineTo(coords.first.dx, chartH)
+      ..close();
+    canvas.drawPath(areaPath, areaPaint);
+
+    // ── Curved line ──
+    canvas.drawPath(smoothLine, linePaint);
+
+    // ── Dots + data labels ──
+    for (int i = 0; i < coords.length; i++) {
+      final c = coords[i];
+      // orange shadow
+      canvas.drawCircle(
+          c,
+          9,
+          Paint()
+            ..color = AppColors.primary.withValues(alpha: 0.35)
+            ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6));
+      // ripple
+      canvas.drawCircle(
+          c, 8, Paint()..color = AppColors.primary.withValues(alpha: 0.18));
+      // fill
+      canvas.drawCircle(c, 5, Paint()..color = AppColors.primary);
+      // white border
+      canvas.drawCircle(
+          c,
+          5,
+          Paint()
+            ..color = Colors.white
+            ..style = PaintingStyle.stroke
+            ..strokeWidth = 2);
+      // data label above dot
+      _drawText(canvas, dataLabels[i], Offset(c.dx, c.dy - 22),
+          align: TextAlign.center, maxWidth: 40);
+    }
+
+    // ── X-axis week labels (aligned under each dot) ──
+    final xLabelY = chartH + 6;
+    for (int i = 0; i < weeks.length; i++) {
+      _drawText(canvas, weeks[i], Offset(coords[i].dx, xLabelY),
+          align: TextAlign.center, maxWidth: 60);
+    }
+
+    // ── Legend ──
+    final legendY = chartH + xAxisH + 8;
+    final legendCenterX = size.width / 2;
+    const lineHalfW = 12.0;
+    // legend line
+    canvas.drawLine(
+        Offset(legendCenterX - lineHalfW, legendY + 8),
+        Offset(legendCenterX + lineHalfW, legendY + 8),
+        linePaint);
+    // legend dot
+    canvas.drawCircle(
+        Offset(legendCenterX, legendY + 8), 4, Paint()..color = AppColors.primary);
+    canvas.drawCircle(
+        Offset(legendCenterX, legendY + 8),
+        4,
+        Paint()
+          ..color = Colors.white
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.5);
+    // legend label
+    _drawText(canvas, 'April',
+        Offset(legendCenterX + lineHalfW + 4, legendY + 2));
   }
+
+  @override
+  bool shouldRepaint(covariant CustomPainter old) => false;
 }

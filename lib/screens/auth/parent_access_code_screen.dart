@@ -1,67 +1,37 @@
-import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
 
-class ParentOtpScreen extends StatefulWidget {
-  const ParentOtpScreen({super.key});
+class ParentAccessCodeScreen extends StatefulWidget {
+  const ParentAccessCodeScreen({super.key});
 
   @override
-  State<ParentOtpScreen> createState() => _ParentOtpScreenState();
+  State<ParentAccessCodeScreen> createState() => _ParentAccessCodeScreenState();
 }
 
-class _ParentOtpScreenState extends State<ParentOtpScreen> {
-  final _controller = TextEditingController();
-  final _focusNode = FocusNode();
-
-  int _secondsLeft = 49;
-  Timer? _timer;
+class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
+  final _pinCtrl = TextEditingController();
+  final _pinFocus = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() => setState(() {}));
+    _pinCtrl.addListener(() => setState(() {}));
     WidgetsBinding.instance
-        .addPostFrameCallback((_) => _focusNode.requestFocus());
-    _startTimer();
-  }
-
-  void _startTimer() {
-    _timer = Timer.periodic(const Duration(seconds: 1), (t) {
-      if (_secondsLeft == 0) {
-        t.cancel();
-      } else {
-        setState(() => _secondsLeft--);
-      }
-    });
-  }
-
-  void _resend() {
-    if (_secondsLeft > 0) return;
-    setState(() => _secondsLeft = 49);
-    _startTimer();
+        .addPostFrameCallback((_) => _pinFocus.requestFocus());
   }
 
   @override
   void dispose() {
-    _timer?.cancel();
-    _controller.dispose();
-    _focusNode.dispose();
+    _pinCtrl.dispose();
+    _pinFocus.dispose();
     super.dispose();
   }
-
-  String get _pin => _controller.text;
-
-  bool get _isSignIn =>
-      (ModalRoute.of(context)?.settings.arguments as String?) ==
-      '/parent-success';
 
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
-    final canResend = _secondsLeft == 0;
-    final mm = (_secondsLeft ~/ 60).toString().padLeft(2, '0');
-    final ss = (_secondsLeft % 60).toString().padLeft(2, '0');
+    final pin = _pinCtrl.text;
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -70,7 +40,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
         children: [
           Column(
             children: [
-              // Orange header
+              // Orange header area
               SizedBox(
                 height: screenHeight * 0.28,
                 child: SafeArea(
@@ -85,10 +55,10 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                 ),
               ),
 
-              // Cream card
+              // Cream card body
               Expanded(
                 child: GestureDetector(
-                  onTap: () => _focusNode.requestFocus(),
+                  onTap: () => _pinFocus.requestFocus(),
                   child: Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(
@@ -103,26 +73,24 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _isSignIn ? 'SIGN IN' : 'SIGN UP',
+                          'SIGN IN',
                           style: GoogleFonts.poppins(
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
                           ),
                         ),
-                        const SizedBox(height: 24),
-
+                        const SizedBox(height: 8),
                         Text(
-                          'Enter OTP',
+                          'Enter your 4 digit access code',
                           style: GoogleFonts.poppins(
                             fontSize: 14,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
+                            color: AppColors.textSecondary,
                           ),
                         ),
-                        const SizedBox(height: 12),
+                        const SizedBox(height: 32),
 
-                        // Hidden text input
+                        // Hidden input
                         Opacity(
                           opacity: 0,
                           child: SizedBox(
@@ -130,8 +98,8 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                             child: OverflowBox(
                               maxHeight: 0,
                               child: TextField(
-                                controller: _controller,
-                                focusNode: _focusNode,
+                                controller: _pinCtrl,
+                                focusNode: _pinFocus,
                                 maxLength: 4,
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
@@ -144,14 +112,14 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                           ),
                         ),
 
-                        // 4 OTP circles
+                        // PIN circles
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: List.generate(4, (i) {
-                            final filled = i < _pin.length;
-                            final isActive = i == _pin.length;
+                            final filled = i < pin.length;
+                            final isActive = i == pin.length;
                             return GestureDetector(
-                              onTap: () => _focusNode.requestFocus(),
+                              onTap: () => _pinFocus.requestFocus(),
                               child: Container(
                                 margin: EdgeInsets.only(right: i < 3 ? 16 : 0),
                                 width: 60,
@@ -169,7 +137,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                                 child: Center(
                                   child: filled
                                       ? Text(
-                                          _pin[i],
+                                          pin[i],
                                           style: GoogleFonts.poppins(
                                             fontSize: 22,
                                             fontWeight: FontWeight.w700,
@@ -182,39 +150,22 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                             );
                           }),
                         ),
-                        const SizedBox(height: 20),
 
-                        // Resend timer
+                        const SizedBox(height: 16),
+
+                        // Forgot access code
                         Center(
                           child: GestureDetector(
-                            onTap: canResend ? _resend : null,
-                            child: RichText(
-                              text: TextSpan(
-                                children: [
-                                  TextSpan(
-                                    text: canResend
-                                        ? 'Resend OTP'
-                                        : 'Resend in ',
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 14,
-                                      color: canResend
-                                          ? AppColors.primary
-                                          : AppColors.textSecondary,
-                                      fontWeight: canResend
-                                          ? FontWeight.w600
-                                          : FontWeight.w400,
-                                    ),
-                                  ),
-                                  if (!canResend)
-                                    TextSpan(
-                                      text: '$mm:$ss',
-                                      style: GoogleFonts.poppins(
-                                        fontSize: 14,
-                                        color: AppColors.primary,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                ],
+                            onTap: () => Navigator.pushNamed(
+                                context, '/parent-forgot-access-code'),
+                            child: Text(
+                              'Forgot access code?',
+                              style: GoogleFonts.poppins(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.primary,
+                                decoration: TextDecoration.underline,
+                                decorationColor: AppColors.primary,
                               ),
                             ),
                           ),
@@ -222,18 +173,14 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
 
                         const Spacer(),
 
-                        // Submit button
+                        // Sign In button
                         SizedBox(
                           width: double.infinity,
                           height: 60,
                           child: ElevatedButton(
-                            onPressed: _pin.length == 4
-                                ? () {
-                                    final next = ModalRoute.of(context)
-                                            ?.settings.arguments as String? ??
-                                        '/account-created';
-                                    Navigator.pushNamed(context, next);
-                                  }
+                            onPressed: pin.length == 4
+                                ? () => Navigator.pushReplacementNamed(
+                                    context, '/parents-view')
                                 : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
@@ -248,7 +195,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                               ),
                             ),
                             child: Text(
-                              _isSignIn ? 'Sign In' : 'Sign Up',
+                              'Sign In',
                               style: GoogleFonts.poppins(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,

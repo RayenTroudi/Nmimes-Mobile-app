@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -14,6 +15,7 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl;
   late final Animation<double> _fadeIn;
+  Timer? _autoNav;
 
   @override
   void initState() {
@@ -23,10 +25,18 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
       duration: const Duration(milliseconds: 600),
     )..forward();
     _fadeIn = CurvedAnimation(parent: _ctrl, curve: Curves.easeOut);
+
+    _autoNav = Timer(const Duration(seconds: 3), _navigate);
+  }
+
+  void _navigate() {
+    if (!mounted) return;
+    Navigator.pushReplacementNamed(context, '/parents-view');
   }
 
   @override
   void dispose() {
+    _autoNav?.cancel();
     _ctrl.dispose();
     super.dispose();
   }
@@ -46,8 +56,12 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
                 child: Column(
                   children: [
                     const SizedBox(height: 60),
-                    // Cool fox with sunglasses illustration
-                    const _CoolFox(size: 200),
+                    Image.asset(
+                      'assets/images/yippyee.png',
+                      width: 220,
+                      height: 220,
+                      fit: BoxFit.contain,
+                    ),
                     const Spacer(),
                     Text(
                       'Yippee!!!',
@@ -73,8 +87,10 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
                       width: double.infinity,
                       height: 56,
                       child: ElevatedButton(
-                        onPressed: () =>
-                            Navigator.pushReplacementNamed(context, '/parent-setup'),
+                        onPressed: () {
+                          _autoNav?.cancel();
+                          _navigate();
+                        },
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.primary,
                           foregroundColor: AppColors.white,
