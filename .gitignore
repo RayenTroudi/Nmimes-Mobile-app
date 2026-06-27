@@ -46,3 +46,6 @@ app.*.map.json
 
 # Local environment secrets
 .env
+
+# L10n generated files
+lib/l10n/generated/
