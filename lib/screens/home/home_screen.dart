@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
 import '../../widgets/fox_mascot.dart';
+import '../../widgets/language_picker_sheet.dart';
+import '../../providers/locale_provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -151,32 +153,45 @@ class _HomeHeader extends StatelessWidget {
                   ),
 
                   // Language pill
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 10, vertical: 5),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.2),
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text('🇬🇧',
-                            style: TextStyle(fontSize: 14)),
-                        const SizedBox(width: 4),
-                        Text(
-                          'ENG',
-                          style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.white,
+                  ValueListenableBuilder<Locale>(
+                    valueListenable: LocaleProvider.of(context),
+                    builder: (context, locale, _) {
+                      final (flag, label) = switch (locale.languageCode) {
+                        'fr' => ('🇫🇷', 'FR'),
+                        'ar' => ('🇸🇦', 'عر'),
+                        _ =>  ('🇬🇧', 'ENG'),
+                      };
+                      return GestureDetector(
+                        onTap: () => showLanguagePicker(context),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 5),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(flag,
+                                  style: const TextStyle(fontSize: 14)),
+                              const SizedBox(width: 4),
+                              Text(
+                                label,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.white,
+                                ),
+                              ),
+                              const SizedBox(width: 2),
+                              const Icon(Icons.keyboard_arrow_down,
+                                  color: AppColors.white, size: 14),
+                            ],
                           ),
                         ),
-                        const SizedBox(width: 2),
-                        const Icon(Icons.keyboard_arrow_down,
-                            color: AppColors.white, size: 14),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   const SizedBox(width: 10),
 
