@@ -209,7 +209,7 @@ class _SplashScreenState extends State<SplashScreen>
               style: GoogleFonts.poppins(
                 fontSize: 28,
                 fontWeight: FontWeight.w800,
-                color: AppColors.textPrimary,
+                color: AppColors.primary,
               ),
             ),
           ),
@@ -221,7 +221,7 @@ class _SplashScreenState extends State<SplashScreen>
               style: GoogleFonts.poppins(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
-                color: AppColors.textSecondary,
+                color: AppColors.textHint,
               ),
             ),
           ),
