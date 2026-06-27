@@ -80,7 +80,8 @@ class _SplashScreenState extends State<SplashScreen>
 
   // Logo + text
   late final AnimationController _logoCtrl;
-  late final AnimationController _textCtrl;
+  late final AnimationController _nameFadeCtrl;
+  late final AnimationController _taglineFadeCtrl;
 
   bool _showLogo = false;
 
@@ -97,15 +98,17 @@ class _SplashScreenState extends State<SplashScreen>
       (_) => AnimationController(vsync: this, duration: const Duration(milliseconds: 250)),
     );
     _logoCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 400));
-    _textCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+    _nameFadeCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
+    _taglineFadeCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
 
     _runSequence();
   }
 
   Future<void> _runSequence() async {
-    // Phase 1: characters slide in, staggered 400ms apart
+    // Phase 1: characters slide in, staggered based on entryDelay config
     for (int i = 0; i < _chars.length; i++) {
-      await Future.delayed(Duration(milliseconds: i == 0 ? 0 : 400));
+      final delay = i == 0 ? 0 : (_chars[i].entryDelay - _chars[i - 1].entryDelay);
+      await Future.delayed(Duration(milliseconds: delay));
       if (!mounted) return;
       _entryCtrl[i].forward();
     }
@@ -127,7 +130,11 @@ class _SplashScreenState extends State<SplashScreen>
 
     await Future.delayed(const Duration(milliseconds: 200));
     if (!mounted) return;
-    _textCtrl.forward();
+    _nameFadeCtrl.forward();
+
+    await Future.delayed(const Duration(milliseconds: 100));
+    if (!mounted) return;
+    _taglineFadeCtrl.forward();
 
     // Phase 5: navigate
     await Future.delayed(const Duration(milliseconds: 700));
@@ -144,7 +151,8 @@ class _SplashScreenState extends State<SplashScreen>
       c.dispose();
     }
     _logoCtrl.dispose();
-    _textCtrl.dispose();
+    _nameFadeCtrl.dispose();
+    _taglineFadeCtrl.dispose();
     super.dispose();
   }
 
@@ -191,28 +199,26 @@ class _SplashScreenState extends State<SplashScreen>
           Image.asset('assets/images/nmimes_logo.png', width: 100, height: 100, fit: BoxFit.contain),
           const SizedBox(height: 16),
           FadeTransition(
-            opacity: _textCtrl,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Nmimes',
-                  style: GoogleFonts.poppins(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  'Math, made Simple...',
-                  style: GoogleFonts.poppins(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w500,
-                    color: AppColors.textSecondary,
-                  ),
-                ),
-              ],
+            opacity: _nameFadeCtrl,
+            child: Text(
+              'Nmimes',
+              style: GoogleFonts.poppins(
+                fontSize: 28,
+                fontWeight: FontWeight.w800,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          const SizedBox(height: 6),
+          FadeTransition(
+            opacity: _taglineFadeCtrl,
+            child: Text(
+              'Math, made Simple...',
+              style: GoogleFonts.poppins(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: AppColors.textSecondary,
+              ),
             ),
           ),
         ],
