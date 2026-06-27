@@ -128,5 +128,20 @@
   "accountCreated_button": "Continue",
   "accountCreated_signInTitle": "Yippee!!!",
   "accountCreated_signInBody": "You have successfully login you\naccount.",
-  "accountCreated_signInButton": "Continue"
+  "accountCreated_signInButton": "Continue",
+
+  "home_greeting": "Hi, {name}",
+  "@home_greeting": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "home_label_yourPoints": "Your Points",
+  "home_button_rewards": "Rewards",
+  "home_card_snapHomework_title": "Snap a Homework",
+  "home_card_snapHomework_subtitle": "Practice & solve!",
+  "home_card_snapLesson_title": "Snap a Lesson",
+  "home_card_snapLesson_subtitle": "Understand first!",
+  "home_label_studyRooms": "Study Rooms",
+  "home_row_peerLearning_title": "Peer Learning",
+  "home_row_peerLearning_subtitle": "Team up and solve together",
+  "home_row_savedFormulas_title": "Saved Formulas"
 }

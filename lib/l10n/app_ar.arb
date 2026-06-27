@@ -127,5 +127,20 @@
   "accountCreated_button": "متابعة",
   "accountCreated_signInTitle": "يييه!!!",
   "accountCreated_signInBody": "لقد سجّلت الدخول إلى حسابك بنجاح.",
-  "accountCreated_signInButton": "متابعة"
+  "accountCreated_signInButton": "متابعة",
+
+  "home_greeting": "مرحباً، {name}",
+  "@home_greeting": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "home_label_yourPoints": "نقاطك",
+  "home_button_rewards": "المكافآت",
+  "home_card_snapHomework_title": "التقط واجباً",
+  "home_card_snapHomework_subtitle": "تدرَّب وحلَّ!",
+  "home_card_snapLesson_title": "التقط درساً",
+  "home_card_snapLesson_subtitle": "افهم أولاً!",
+  "home_label_studyRooms": "غرف الدراسة",
+  "home_row_peerLearning_title": "التعلم المشترك",
+  "home_row_peerLearning_subtitle": "تعاون وحل معاً",
+  "home_row_savedFormulas_title": "الصيغ المحفوظة"
 }

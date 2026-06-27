@@ -127,5 +127,20 @@
   "accountCreated_button": "Continuer",
   "accountCreated_signInTitle": "Youpiii !!!",
   "accountCreated_signInBody": "Vous vous êtes connecté avec succès\nà votre compte.",
-  "accountCreated_signInButton": "Continuer"
+  "accountCreated_signInButton": "Continuer",
+
+  "home_greeting": "Salut, {name}",
+  "@home_greeting": {
+    "placeholders": { "name": { "type": "String" } }
+  },
+  "home_label_yourPoints": "Vos points",
+  "home_button_rewards": "Récompenses",
+  "home_card_snapHomework_title": "Photographier un devoir",
+  "home_card_snapHomework_subtitle": "Pratiquez et résolvez !",
+  "home_card_snapLesson_title": "Photographier une leçon",
+  "home_card_snapLesson_subtitle": "Comprenez d'abord !",
+  "home_label_studyRooms": "Salles d'étude",
+  "home_row_peerLearning_title": "Apprentissage entre pairs",
+  "home_row_peerLearning_subtitle": "Faites équipe et résolvez ensemble",
+  "home_row_savedFormulas_title": "Formules sauvegardées"
 }
