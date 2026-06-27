@@ -110,7 +110,11 @@ class _SplashScreenState extends State<SplashScreen>
       final delay = i == 0 ? 0 : (_chars[i].entryDelay - _chars[i - 1].entryDelay);
       await Future.delayed(Duration(milliseconds: delay));
       if (!mounted) return;
-      _entryCtrl[i].forward();
+      if (i == _chars.length - 1) {
+        await _entryCtrl[i].forward();  // wait for last entry to finish before hold
+      } else {
+        _entryCtrl[i].forward();
+      }
     }
 
     // Phase 2: group photo hold (wait for last entry to finish + 300ms hold)
