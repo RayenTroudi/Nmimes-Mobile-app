@@ -142,5 +142,29 @@
   "home_label_studyRooms": "Salles d'étude",
   "home_row_peerLearning_title": "Apprentissage entre pairs",
   "home_row_peerLearning_subtitle": "Faites équipe et résolvez ensemble",
-  "home_row_savedFormulas_title": "Formules sauvegardées"
+  "home_row_savedFormulas_title": "Formules sauvegardées",
+
+  "profile_title": "Profil",
+  "profile_button_help": "Aide",
+  "profile_button_logOut": "Déconnexion",
+
+  "help_appBarTitle": "Nmimes",
+  "help_dateSeparator": "Aujourd'hui",
+  "help_inputHint": "Écrivez ici...",
+
+  "avatar_title": "Avatar",
+  "avatar_selectLabel": "Choisir un avatar",
+
+  "logOut_title": "Déconnexion",
+  "logOut_body": "Voulez-vous vous déconnecter ?",
+  "logOut_button_no": "Non",
+  "logOut_button_yes": "Oui",
+
+  "pointsCard_label": "Points gagnés",
+  "pointsCard_unit": "Points",
+
+  "nav_home": "Accueil",
+  "nav_nmimes": "Nmimes",
+  "nav_challenge": "Défi",
+  "nav_profile": "Profil"
 }

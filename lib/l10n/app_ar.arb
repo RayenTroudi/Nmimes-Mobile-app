@@ -142,5 +142,29 @@
   "home_label_studyRooms": "غرف الدراسة",
   "home_row_peerLearning_title": "التعلم المشترك",
   "home_row_peerLearning_subtitle": "تعاون وحل معاً",
-  "home_row_savedFormulas_title": "الصيغ المحفوظة"
+  "home_row_savedFormulas_title": "الصيغ المحفوظة",
+
+  "profile_title": "الملف الشخصي",
+  "profile_button_help": "المساعدة",
+  "profile_button_logOut": "تسجيل الخروج",
+
+  "help_appBarTitle": "Nmimes",
+  "help_dateSeparator": "اليوم",
+  "help_inputHint": "اكتب هنا...",
+
+  "avatar_title": "الصورة الرمزية",
+  "avatar_selectLabel": "اختر صورة رمزية",
+
+  "logOut_title": "تسجيل الخروج",
+  "logOut_body": "هل تريد تسجيل الخروج من التطبيق؟",
+  "logOut_button_no": "لا",
+  "logOut_button_yes": "نعم",
+
+  "pointsCard_label": "النقاط المكتسبة",
+  "pointsCard_unit": "نقاط",
+
+  "nav_home": "الرئيسية",
+  "nav_nmimes": "Nmimes",
+  "nav_challenge": "تحدٍّ",
+  "nav_profile": "الملف الشخصي"
 }

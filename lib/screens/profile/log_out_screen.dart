@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class LogOutScreen extends StatelessWidget {
   const LogOutScreen({super.key});
@@ -21,8 +22,8 @@ class LogOutScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Log Out',
-                style: GoogleFonts.poppins(
+                context.l10n.logOut_title,
+                style: AppTextStyles.font(context,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF2E2E2E),
@@ -30,8 +31,8 @@ class LogOutScreen extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                'Do you want to log out the app?',
-                style: GoogleFonts.poppins(
+                context.l10n.logOut_body,
+                style: AppTextStyles.font(context,
                   fontSize: 16,
                   color: const Color(0xFF2E2E2E),
                 ),
@@ -54,8 +55,8 @@ class LogOutScreen extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            'No',
-                            style: GoogleFonts.poppins(
+                            context.l10n.logOut_button_no,
+                            style: AppTextStyles.font(context,
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
                               color: AppColors.primary,
@@ -79,8 +80,8 @@ class LogOutScreen extends StatelessWidget {
                         ),
                         child: Center(
                           child: Text(
-                            'Yes',
-                            style: GoogleFonts.poppins(
+                            context.l10n.logOut_button_yes,
+                            style: AppTextStyles.font(context,
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,

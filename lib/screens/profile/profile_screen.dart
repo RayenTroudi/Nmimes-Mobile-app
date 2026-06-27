@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 import 'points_card.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -23,8 +24,8 @@ class ProfileScreen extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.fromLTRB(20, 14, 20, 0),
               child: Text(
-                'Profile',
-                style: GoogleFonts.poppins(
+                context.l10n.profile_title,
+                style: AppTextStyles.font(context,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
@@ -58,7 +59,7 @@ class ProfileScreen extends StatelessWidget {
                           // "John" name sits just below the avatar
                           Text(
                             'John',
-                            style: GoogleFonts.poppins(
+                            style: AppTextStyles.font(context,
                               fontSize: 28,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF2E2E2E),
@@ -86,8 +87,8 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Help',
-                                style: GoogleFonts.poppins(
+                                context.l10n.profile_button_help,
+                                style: AppTextStyles.font(context,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: const Color(0xFF2E2E2E),
@@ -113,8 +114,8 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               alignment: Alignment.centerLeft,
                               child: Text(
-                                'Log Out',
-                                style: GoogleFonts.poppins(
+                                context.l10n.profile_button_logOut,
+                                style: AppTextStyles.font(context,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: const Color(0xFFE62929),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
+import '../../theme/text_styles.dart';
 import 'points_card.dart';
 
 class AvatarScreen extends StatefulWidget {
@@ -52,8 +53,8 @@ class _AvatarScreenState extends State<AvatarScreen> {
                     ),
                   ),
                   Text(
-                    'Avatar',
-                    style: GoogleFonts.poppins(
+                    context.l10n.avatar_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF2E2E2E),
@@ -74,8 +75,8 @@ class _AvatarScreenState extends State<AvatarScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                'Select Avatar',
-                style: GoogleFonts.poppins(
+                context.l10n.avatar_selectLabel,
+                style: AppTextStyles.font(context,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF2E2E2E),

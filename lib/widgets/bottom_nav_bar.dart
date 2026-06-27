@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../l10n/l10n_extension.dart';
 import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -12,7 +13,6 @@ class BottomNavBar extends StatelessWidget {
     required this.onTap,
   });
 
-  static const _labels = ['Home', 'Nmimes', 'Challenge', 'Profile'];
   static const _icons = [
     Icons.home_rounded,
     Icons.auto_awesome_rounded,
@@ -22,6 +22,13 @@ class BottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final labels = [
+      context.l10n.nav_home,
+      context.l10n.nav_nmimes,
+      context.l10n.nav_challenge,
+      context.l10n.nav_profile,
+    ];
+
     return Container(
       height: 83,
       decoration: BoxDecoration(
@@ -65,8 +72,8 @@ class BottomNavBar extends StatelessWidget {
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    _labels[i],
-                    style: GoogleFonts.poppins(
+                    labels[i],
+                    style: AppTextStyles.font(context,
                       fontSize: 10,
                       color: active ? AppColors.navActive : AppColors.navInactive,
                       fontWeight: FontWeight.w600,

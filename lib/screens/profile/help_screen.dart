@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class HelpScreen extends StatefulWidget {
   const HelpScreen({super.key});
@@ -105,8 +106,8 @@ class _HelpScreenState extends State<HelpScreen> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Nmimes',
-                    style: GoogleFonts.poppins(
+                    context.l10n.help_appBarTitle,
+                    style: AppTextStyles.font(context,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF2E2E2E),
@@ -123,8 +124,8 @@ class _HelpScreenState extends State<HelpScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 8),
               child: Text(
-                'Today',
-                style: GoogleFonts.poppins(
+                context.l10n.help_dateSeparator,
+                style: AppTextStyles.font(context,
                   fontSize: 14,
                   color: const Color(0xFF5A6677),
                 ),
@@ -157,12 +158,12 @@ class _HelpScreenState extends State<HelpScreen> {
                   Expanded(
                     child: TextField(
                       controller: _controller,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(context,
                           fontSize: 14,
                           color: const Color(0xFF2E2E2E)),
                       decoration: InputDecoration(
-                        hintText: 'Type here...',
-                        hintStyle: GoogleFonts.poppins(
+                        hintText: context.l10n.help_inputHint,
+                        hintStyle: AppTextStyles.font(context,
                             fontSize: 14,
                             color: const Color(0xFFA8A8A8)),
                         border: InputBorder.none,
@@ -247,7 +248,7 @@ class _BubbleRow extends StatelessWidget {
               children: [
                 Text(
                   msg.text,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 14,
                     color: msg.isUser
                         ? Colors.white
@@ -263,7 +264,7 @@ class _BubbleRow extends StatelessWidget {
                     children: [
                       Text(
                         msg.time,
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.font(context,
                           fontSize: 11,
                           fontWeight: FontWeight.w500,
                           color: msg.isUser

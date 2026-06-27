@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ProfilePointsCard extends StatelessWidget {
   const ProfilePointsCard({super.key});
@@ -28,8 +29,8 @@ class ProfilePointsCard extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Text(
-            'Earned Points',
-            style: GoogleFonts.poppins(
+            context.l10n.pointsCard_label,
+            style: AppTextStyles.font(context,
               fontSize: 18,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -42,15 +43,15 @@ class ProfilePointsCard extends StatelessWidget {
             children: [
               Text(
                 '150',
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
                 ),
               ),
               Text(
-                'Points',
-                style: GoogleFonts.poppins(
+                context.l10n.pointsCard_unit,
+                style: AppTextStyles.font(context,
                   fontSize: 12,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFFFFEDD4),

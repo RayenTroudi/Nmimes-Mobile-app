@@ -143,5 +143,29 @@
   "home_label_studyRooms": "Study Rooms",
   "home_row_peerLearning_title": "Peer Learning",
   "home_row_peerLearning_subtitle": "Team up and solve together",
-  "home_row_savedFormulas_title": "Saved Formulas"
+  "home_row_savedFormulas_title": "Saved Formulas",
+
+  "profile_title": "Profile",
+  "profile_button_help": "Help",
+  "profile_button_logOut": "Log Out",
+
+  "help_appBarTitle": "Nmimes",
+  "help_dateSeparator": "Today",
+  "help_inputHint": "Type here...",
+
+  "avatar_title": "Avatar",
+  "avatar_selectLabel": "Select Avatar",
+
+  "logOut_title": "Log Out",
+  "logOut_body": "Do you want to log out the app?",
+  "logOut_button_no": "No",
+  "logOut_button_yes": "Yes",
+
+  "pointsCard_label": "Earned Points",
+  "pointsCard_unit": "Points",
+
+  "nav_home": "Home",
+  "nav_nmimes": "Nmimes",
+  "nav_challenge": "Challenge",
+  "nav_profile": "Profile"
 }
