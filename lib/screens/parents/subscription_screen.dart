@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 class SubscriptionScreen extends StatefulWidget {
   const SubscriptionScreen({super.key});
@@ -15,16 +16,17 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   // false = Monthly, true = Yearly
   bool _yearly = false;
 
-  static const _features = [
-    'Unlimited Snap & Send',
-    'Unlimited AI Chat',
-    'Unlimited Challenges',
-    'Unlimited Rewards',
-    'Teach Back to AI',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final features = [
+      l10n.subscription_feature_snapSend,
+      l10n.subscription_feature_aiChat,
+      l10n.subscription_feature_challenges,
+      l10n.subscription_feature_rewards,
+      l10n.subscription_feature_teachBack,
+    ];
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -46,8 +48,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     ),
                   ),
                   Text(
-                    'Subscription',
-                    style: GoogleFonts.poppins(
+                    l10n.subscription_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -62,8 +64,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
               child: Text(
-                _tab == 0 ? 'My Plan' : 'Select Plan',
-                style: GoogleFonts.poppins(
+                _tab == 0 ? l10n.subscription_tab_myPlan : l10n.subscription_tab_selectPlan,
+                style: AppTextStyles.font(context,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textPrimary,
@@ -75,7 +77,9 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: _tab == 0 ? _buildMyPlan() : _buildSelectPlan(),
+              child: _tab == 0
+                  ? _buildMyPlan(context, l10n, features)
+                  : _buildSelectPlan(context, l10n, features),
             ),
 
             const Spacer(),
@@ -104,10 +108,13 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     ),
                   ),
                   child: Text(
-                    _tab == 0 ? 'Update Subscription' : 'Select Plan',
-                    style: GoogleFonts.poppins(
+                    _tab == 0
+                        ? l10n.subscription_button_updatePlan
+                        : l10n.subscription_button_selectPlan,
+                    style: AppTextStyles.font(context,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
+                      color: AppColors.white,
                     ),
                   ),
                 ),
@@ -120,7 +127,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   }
 
   // ── My Plan ──────────────────────────────────────────────────────────────
-  Widget _buildMyPlan() {
+  Widget _buildMyPlan(BuildContext context, dynamic l10n, List<String> features) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -137,15 +144,15 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                 amount: '39.99', color: AppColors.textPrimary),
           ),
           const SizedBox(height: 20),
-          ..._features.map((f) => _FeatureRow(
+          ...features.map((f) => _FeatureRow(
                 label: f,
                 checkColor: AppColors.textPrimary,
                 textColor: AppColors.textPrimary,
               )),
           const SizedBox(height: 16),
           Text(
-            'Valid till: 24 Feb 2026',
-            style: GoogleFonts.poppins(
+            l10n.subscription_validTill,
+            style: AppTextStyles.font(context,
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: AppColors.textPrimary,
@@ -157,7 +164,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
   }
 
   // ── Select Plan ──────────────────────────────────────────────────────────
-  Widget _buildSelectPlan() {
+  Widget _buildSelectPlan(BuildContext context, dynamic l10n, List<String> features) {
     // Monthly → full orange card; Yearly → white card with orange accents
     final isMonthly = !_yearly;
     final cardBg = isMonthly ? AppColors.primary : AppColors.white;
@@ -182,14 +189,14 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               _PlanPill(
-                label: 'Monthly',
+                label: l10n.subscription_pill_monthly,
                 selected: !_yearly,
                 isOnOrange: isMonthly,
                 onTap: () => setState(() => _yearly = false),
               ),
               const SizedBox(width: 12),
               _PlanPill(
-                label: 'Yearly',
+                label: l10n.subscription_pill_yearly,
                 selected: _yearly,
                 isOnOrange: isMonthly,
                 onTap: () => setState(() => _yearly = true),
@@ -203,7 +210,7 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
           const SizedBox(height: 20),
 
           // Features
-          ..._features.map((f) => _FeatureRow(
+          ...features.map((f) => _FeatureRow(
                 label: f,
                 checkColor: checkColor,
                 textColor: textColor,
@@ -273,7 +280,7 @@ class _FeatureRow extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 14,
               fontWeight: FontWeight.w600,
               color: textColor,
@@ -325,7 +332,7 @@ class _PlanPill extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 12,
             fontWeight: FontWeight.w600,
             color: textColor,

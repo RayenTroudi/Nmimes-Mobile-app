@@ -3,6 +3,7 @@ import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/avatar_widget.dart';
+import '../../l10n/l10n_extension.dart';
 
 class ChildrenScreen extends StatelessWidget {
   const ChildrenScreen({super.key});
@@ -14,6 +15,7 @@ class ChildrenScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -21,7 +23,7 @@ class ChildrenScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Children', style: AppTextStyles.h3),
+        title: Text(l10n.children_title, style: AppTextStyles.h3),
         actions: [
           IconButton(
             icon: const Icon(Icons.add, color: AppColors.primary),

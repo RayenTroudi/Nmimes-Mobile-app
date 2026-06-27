@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 import '../../widgets/language_picker_sheet.dart';
+import '../../l10n/l10n_extension.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -15,6 +16,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -36,8 +38,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     ),
                   ),
                   Text(
-                    'Settings',
-                    style: GoogleFonts.poppins(
+                    l10n.settings_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -55,14 +57,14 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 children: [
                   // Subscription
                   _SettingsRow(
-                    label: 'Subscription',
+                    label: l10n.settings_label_subscription,
                     onTap: () => Navigator.pushNamed(context, '/subscription'),
                   ),
                   const SizedBox(height: 16),
 
                   // Notifications (with toggle)
                   _SettingsRow(
-                    label: 'Notifications',
+                    label: l10n.settings_label_notifications,
                     trailing: _Toggle(
                       value: _notifications,
                       onChanged: (v) => setState(() => _notifications = v),
@@ -72,28 +74,28 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
                   // Language
                   _SettingsRow(
-                    label: 'Language',
+                    label: l10n.settings_label_language,
                     onTap: () => showLanguagePicker(context),
                   ),
                   const SizedBox(height: 16),
 
                   // Terms & Conditions
                   _SettingsRow(
-                    label: 'Terms & Conditions',
+                    label: l10n.settings_label_terms,
                     onTap: () => Navigator.pushNamed(context, '/terms'),
                   ),
                   const SizedBox(height: 16),
 
                   // Privacy Policy
                   _SettingsRow(
-                    label: 'Privacy Policy',
+                    label: l10n.settings_label_privacy,
                     onTap: () => Navigator.pushNamed(context, '/privacy'),
                   ),
                   const SizedBox(height: 16),
 
                   // Log Out
                   _SettingsRow(
-                    label: 'Log Out',
+                    label: l10n.settings_label_logOut,
                     labelColor: const Color(0xFFE62929),
                     backgroundColor: const Color(0xFFFBD7C8),
                     borderColor: const Color(0xFFE62929),
@@ -143,14 +145,14 @@ class _SettingsRow extends StatelessWidget {
             Expanded(
               child: Text(
                 label,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                   fontSize: 16,
                   fontWeight: FontWeight.w600,
                   color: labelColor,
                 ),
               ),
             ),
-            if (trailing case final t?) t,
+            ?trailing,
           ],
         ),
       ),

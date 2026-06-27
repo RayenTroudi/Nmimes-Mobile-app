@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 class PaymentSuccessScreen extends StatefulWidget {
   const PaymentSuccessScreen({super.key});
@@ -41,6 +42,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
@@ -77,8 +79,8 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
 
                   // "Payment Successful"
                   Text(
-                    'Payment Successful',
-                    style: GoogleFonts.poppins(
+                    l10n.paymentSuccess_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 28,
                       fontWeight: FontWeight.w700,
                       color: AppColors.primary,
@@ -91,9 +93,9 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 40),
                     child: Text(
-                      "You've successfully paid for your subscription.",
+                      l10n.paymentSuccess_subtitle,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(context,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppColors.textPrimary,
@@ -127,10 +129,11 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Continue',
-                              style: GoogleFonts.poppins(
+                              l10n.paymentSuccess_button_continue,
+                              style: AppTextStyles.font(context,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700,
+                                color: AppColors.white,
                               ),
                             ),
                             const SizedBox(width: 10),

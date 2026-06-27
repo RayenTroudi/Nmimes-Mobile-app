@@ -4,12 +4,14 @@ import '../../theme/text_styles.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/primary_button.dart';
 import '../../widgets/secondary_button.dart';
+import '../../l10n/l10n_extension.dart';
 
 class LogOutScreen extends StatelessWidget {
   const LogOutScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: Colors.black.withValues(alpha: 0.3),
       body: Center(
@@ -25,22 +27,30 @@ class LogOutScreen extends StatelessWidget {
             children: [
               const Icon(Icons.logout, size: 56, color: Colors.red),
               const SizedBox(height: AppSpacing.lg),
-              Text('Log Out?', style: AppTextStyles.h2),
+              Text(l10n.parentLogOut_title,
+                  style: AppTextStyles.font(context,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                  )),
               const SizedBox(height: AppSpacing.sm),
               Text(
-                'Are you sure you want to log out of your parent account?',
-                style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+                l10n.parentLogOut_body,
+                style: AppTextStyles.font(context,
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpacing.xxl),
               PrimaryButton(
-                label: 'Yes, Log Out',
+                label: l10n.parentLogOut_button_yes,
                 onTap: () => Navigator.pushNamedAndRemoveUntil(
                     context, '/', (r) => false),
               ),
               const SizedBox(height: AppSpacing.md),
               SecondaryButton(
-                label: 'Cancel',
+                label: l10n.parentLogOut_button_cancel,
                 onTap: () => Navigator.pop(context),
               ),
             ],

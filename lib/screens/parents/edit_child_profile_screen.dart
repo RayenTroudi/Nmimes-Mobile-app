@@ -4,12 +4,14 @@ import '../../theme/text_styles.dart';
 import '../../theme/spacing.dart';
 import '../../widgets/primary_button.dart';
 import '../../widgets/app_text_field.dart';
+import '../../l10n/l10n_extension.dart';
 
 class EditChildProfileScreen extends StatelessWidget {
   const EditChildProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -17,7 +19,7 @@ class EditChildProfileScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text('Edit Child Profile', style: AppTextStyles.h3),
+        title: Text(l10n.editChild_title, style: AppTextStyles.h3),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -63,12 +65,12 @@ class EditChildProfileScreen extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: AppSpacing.xxl),
-              const AppTextField(hint: "Child's name"),
+              AppTextField(hint: l10n.editChild_hint_name),
               const SizedBox(height: AppSpacing.md),
-              const AppTextField(hint: 'PIN (4 digits)', obscure: true),
+              AppTextField(hint: l10n.editChild_hint_pin, obscure: true),
               const SizedBox(height: AppSpacing.xxxl),
               PrimaryButton(
-                label: 'Save Changes',
+                label: l10n.editChild_button_save,
                 onTap: () => Navigator.pop(context),
               ),
             ],

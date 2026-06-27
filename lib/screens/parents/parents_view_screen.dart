@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 class ParentsViewScreen extends StatelessWidget {
   const ParentsViewScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.primary,
       body: Stack(
@@ -49,8 +51,8 @@ class ParentsViewScreen extends StatelessWidget {
                           children: [
                             const SizedBox(width: 4),
                             Text(
-                              'ENG',
-                              style: GoogleFonts.poppins(
+                              l10n.parentsView_label_eng,
+                              style: AppTextStyles.font(context,
                                 fontSize: 12,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.white,
@@ -125,8 +127,8 @@ class ParentsViewScreen extends StatelessWidget {
                               ),
                               const SizedBox(width: 12),
                               Text(
-                                'John',
-                                style: GoogleFonts.poppins(
+                                l10n.parentsView_childName,
+                                style: AppTextStyles.font(context,
                                   fontSize: 22,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.textPrimary,
@@ -153,8 +155,8 @@ class ParentsViewScreen extends StatelessWidget {
                                           size: 14),
                                       const SizedBox(width: 4),
                                       Text(
-                                        'Edit',
-                                        style: GoogleFonts.poppins(
+                                        l10n.parentsView_button_edit,
+                                        style: AppTextStyles.font(context,
                                           fontSize: 10,
                                           color: AppColors.primary,
                                         ),
@@ -172,10 +174,10 @@ class ParentsViewScreen extends StatelessWidget {
                         ),
                         const SizedBox(height: 16),
 
-                        // John's Progress title
+                        // Progress title
                         Text(
-                          "John's Progress",
-                          style: GoogleFonts.poppins(
+                          l10n.parentsView_title_progress(l10n.parentsView_childName),
+                          style: AppTextStyles.font(context,
                             fontSize: 28,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary,
@@ -207,8 +209,8 @@ class ParentsViewScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 12),
                                   Text(
-                                    'Weekly Summary',
-                                    style: GoogleFonts.poppins(
+                                    l10n.parentsView_card_weeklySummary,
+                                    style: AppTextStyles.font(context,
                                       fontSize: 20,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.white,
@@ -218,13 +220,13 @@ class ParentsViewScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 16),
                               _BulletItem(
-                                  'Great progress this week!',
+                                  l10n.parentsView_bullet_greatProgress,
                                   AppColors.white),
                               _BulletItem(
-                                  'Completed 15 challenges',
+                                  l10n.parentsView_bullet_completed15,
                                   AppColors.white),
                               _BulletItem(
-                                  'Practiced 4 days in a row',
+                                  l10n.parentsView_bullet_practiced4days,
                                   AppColors.white),
                             ],
                           ),
@@ -238,18 +240,18 @@ class ParentsViewScreen extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Learning Progress',
-                                style: GoogleFonts.poppins(
+                                l10n.parentsView_card_learningProgress,
+                                style: AppTextStyles.font(context,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.textPrimary,
                                 ),
                               ),
                               const SizedBox(height: 16),
-                              _SimpleLineChart(),
+                              _SimpleLineChart(legendLabel: l10n.parentsView_chart_legendLabel),
                               const SizedBox(height: 12),
                               _BulletItem(
-                                  '78% Accuracy This Week',
+                                  l10n.parentsView_bullet_accuracy78,
                                   AppColors.textPrimary),
                             ],
                           ),
@@ -279,8 +281,8 @@ class ParentsViewScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 10),
                                   Text(
-                                    'Strength',
-                                    style: GoogleFonts.poppins(
+                                    l10n.parentsView_card_strength,
+                                    style: AppTextStyles.font(context,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.textPrimary,
@@ -289,12 +291,12 @@ class ParentsViewScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              _BulletItem('Strong in multiplication',
+                              _BulletItem(l10n.parentsView_bullet_strongMultiplication,
                                   AppColors.textPrimary),
-                              _BulletItem('Quick at solving equations',
+                              _BulletItem(l10n.parentsView_bullet_quickEquations,
                                   AppColors.textPrimary),
                               _BulletItem(
-                                  'Good understanding of algebra basics',
+                                  l10n.parentsView_bullet_algebraBasics,
                                   AppColors.textPrimary),
                             ],
                           ),
@@ -324,8 +326,8 @@ class ParentsViewScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 10),
                                   Text(
-                                    'Needs More Practice',
-                                    style: GoogleFonts.poppins(
+                                    l10n.parentsView_card_needsMorePractice,
+                                    style: AppTextStyles.font(context,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.textPrimary,
@@ -334,12 +336,12 @@ class ParentsViewScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              _BulletItem('Needs more practice in fractions',
+                              _BulletItem(l10n.parentsView_bullet_fractions,
                                   AppColors.textPrimary),
-                              _BulletItem('Struggles with word problems',
+                              _BulletItem(l10n.parentsView_bullet_wordProblems,
                                   AppColors.textPrimary),
                               _BulletItem(
-                                  'Take more time in division questions',
+                                  l10n.parentsView_bullet_division,
                                   AppColors.textPrimary),
                             ],
                           ),
@@ -369,8 +371,8 @@ class ParentsViewScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 10),
                                   Text(
-                                    'Progress',
-                                    style: GoogleFonts.poppins(
+                                    l10n.parentsView_card_progress,
+                                    style: AppTextStyles.font(context,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.textPrimary,
@@ -380,13 +382,13 @@ class ParentsViewScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 16),
                               _BulletItem(
-                                  'Consistency improved +2 days this week',
+                                  l10n.parentsView_bullet_consistency,
                                   AppColors.textPrimary),
                               _BulletItem(
-                                  'Practiced 35 mins more than last week',
+                                  l10n.parentsView_bullet_practiced35mins,
                                   AppColors.textPrimary),
                               _BulletItem(
-                                  'Accuracy improved from 62% to 74%',
+                                  l10n.parentsView_bullet_accuracy62to74,
                                   AppColors.textPrimary),
                             ],
                           ),
@@ -415,8 +417,8 @@ class ParentsViewScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(width: 10),
                                   Text(
-                                    'Suggested Action',
-                                    style: GoogleFonts.poppins(
+                                    l10n.parentsView_card_suggestedAction,
+                                    style: AppTextStyles.font(context,
                                       fontSize: 18,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.white,
@@ -425,13 +427,13 @@ class ParentsViewScreen extends StatelessWidget {
                                 ],
                               ),
                               const SizedBox(height: 16),
-                              _BulletItem('Practice fractions this week',
+                              _BulletItem(l10n.parentsView_bullet_practiceFractions,
                                   AppColors.white),
                               _BulletItem(
-                                  'Try 2 more challenges to improve consistency',
+                                  l10n.parentsView_bullet_try2challenges,
                                   AppColors.white),
                               _BulletItem(
-                                  'Review last lesson before next homework',
+                                  l10n.parentsView_bullet_reviewLesson,
                                   AppColors.white),
                             ],
                           ),
@@ -516,7 +518,7 @@ class _BulletItem extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: 14,
                 color: color,
               ),
@@ -529,7 +531,8 @@ class _BulletItem extends StatelessWidget {
 }
 
 class _SimpleLineChart extends StatelessWidget {
-  const _SimpleLineChart();
+  final String legendLabel;
+  const _SimpleLineChart({required this.legendLabel});
 
   @override
   Widget build(BuildContext context) {
@@ -559,6 +562,7 @@ class _SimpleLineChart extends StatelessWidget {
           chartH: chartH,
           xAxisH: xAxisH,
           legendH: legendH,
+          legendLabel: legendLabel,
         ),
         child: const SizedBox.expand(),
       ),
@@ -575,6 +579,7 @@ class _LineChartPainter extends CustomPainter {
   final double chartH;
   final double xAxisH;
   final double legendH;
+  final String legendLabel;
 
   const _LineChartPainter({
     required this.points,
@@ -585,6 +590,7 @@ class _LineChartPainter extends CustomPainter {
     required this.chartH,
     required this.xAxisH,
     required this.legendH,
+    required this.legendLabel,
   });
 
   void _drawText(
@@ -753,7 +759,7 @@ class _LineChartPainter extends CustomPainter {
           ..style = PaintingStyle.stroke
           ..strokeWidth = 1.5);
     // legend label
-    _drawText(canvas, 'April',
+    _drawText(canvas, legendLabel,
         Offset(legendCenterX + lineHalfW + 4, legendY + 2));
   }
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 class PaymentScreen extends StatefulWidget {
   const PaymentScreen({super.key});
@@ -68,6 +69,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -90,8 +92,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     ),
                   ),
                   Text(
-                    'Payment',
-                    style: GoogleFonts.poppins(
+                    l10n.payment_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -110,8 +112,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Please enter the info',
-                        style: GoogleFonts.poppins(
+                        l10n.payment_subtitle,
+                        style: AppTextStyles.font(context,
                           fontSize: 14,
                           color: AppColors.textPrimary,
                         ),
@@ -119,20 +121,20 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       const SizedBox(height: 28),
 
                       // Card Holder Name
-                      _FieldLabel('Card Holder Name'),
+                      _FieldLabel(l10n.payment_label_cardHolderName),
                       const SizedBox(height: 8),
                       _PayField(
                         controller: _nameCtrl,
-                        hint: 'Enter card holder name',
+                        hint: l10n.payment_hint_cardHolderName,
                       ),
                       const SizedBox(height: 20),
 
                       // Card Number
-                      _FieldLabel('Card Number'),
+                      _FieldLabel(l10n.payment_label_cardNumber),
                       const SizedBox(height: 8),
                       _PayField(
                         controller: _cardCtrl,
-                        hint: 'Enter card number',
+                        hint: l10n.payment_hint_cardNumber,
                         keyboardType: TextInputType.number,
                         maxLength: 19,
                       ),
@@ -145,11 +147,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _FieldLabel('Expiry Date'),
+                                _FieldLabel(l10n.payment_label_expiryDate),
                                 const SizedBox(height: 8),
                                 _PayField(
                                   controller: _expiryCtrl,
-                                  hint: 'Enter expiry date',
+                                  hint: l10n.payment_hint_expiryDate,
                                   keyboardType: TextInputType.number,
                                   maxLength: 5,
                                 ),
@@ -161,11 +163,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _FieldLabel('CVV'),
+                                _FieldLabel(l10n.payment_label_cvv),
                                 const SizedBox(height: 8),
                                 _PayField(
                                   controller: _cvvCtrl,
-                                  hint: 'Enter cvv',
+                                  hint: l10n.payment_hint_cvv,
                                   keyboardType: TextInputType.number,
                                   obscureText: true,
                                   maxLength: 3,
@@ -179,8 +181,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                       // ── Billing Address ──────────────────────────────
                       Text(
-                        'Billing Address',
-                        style: GoogleFonts.poppins(
+                        l10n.payment_label_billingAddress,
+                        style: AppTextStyles.font(context,
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
@@ -189,38 +191,38 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       const SizedBox(height: 16),
 
                       // Full Name
-                      _FieldLabel('Full Name'),
+                      _FieldLabel(l10n.payment_label_fullName),
                       const SizedBox(height: 8),
                       _PayField(
                         controller: _billingNameCtrl,
-                        hint: 'Enter full name',
+                        hint: l10n.payment_hint_fullName,
                       ),
                       const SizedBox(height: 20),
 
                       // Country or Region
-                      _FieldLabel('Country or Region'),
+                      _FieldLabel(l10n.payment_label_country),
                       const SizedBox(height: 8),
                       _PayField(
                         controller: _countryCtrl,
-                        hint: 'Enter country or region',
+                        hint: l10n.payment_hint_country,
                       ),
                       const SizedBox(height: 20),
 
                       // Address line 1
-                      _FieldLabel('Address Line 1'),
+                      _FieldLabel(l10n.payment_label_address1),
                       const SizedBox(height: 8),
                       _PayField(
                         controller: _address1Ctrl,
-                        hint: 'Enter address line 1',
+                        hint: l10n.payment_hint_address1,
                       ),
                       const SizedBox(height: 20),
 
                       // Address line 2
-                      _FieldLabel('Address Line 2'),
+                      _FieldLabel(l10n.payment_label_address2),
                       const SizedBox(height: 8),
                       _PayField(
                         controller: _address2Ctrl,
-                        hint: 'Enter address line 2 (optional)',
+                        hint: l10n.payment_hint_address2,
                       ),
                       const SizedBox(height: 20),
 
@@ -231,11 +233,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _FieldLabel('Postal Code'),
+                                _FieldLabel(l10n.payment_label_postalCode),
                                 const SizedBox(height: 8),
                                 _PayField(
                                   controller: _postalCtrl,
-                                  hint: 'Postal code',
+                                  hint: l10n.payment_hint_postalCode,
                                   keyboardType: TextInputType.number,
                                 ),
                               ],
@@ -246,11 +248,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                _FieldLabel('City'),
+                                _FieldLabel(l10n.payment_label_city),
                                 const SizedBox(height: 8),
                                 _PayField(
                                   controller: _cityCtrl,
-                                  hint: 'City',
+                                  hint: l10n.payment_hint_city,
                                 ),
                               ],
                             ),
@@ -293,10 +295,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           ),
                         )
                       : Text(
-                          'Pay Now',
-                          style: GoogleFonts.poppins(
+                          l10n.payment_button_payNow,
+                          style: AppTextStyles.font(context,
                             fontSize: 18,
                             fontWeight: FontWeight.w700,
+                            color: AppColors.white,
                           ),
                         ),
                 ),
@@ -317,7 +320,7 @@ class _FieldLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.poppins(
+      style: AppTextStyles.font(context,
         fontSize: 14,
         fontWeight: FontWeight.w600,
         color: AppColors.textPrimary,
@@ -380,10 +383,10 @@ class _PayFieldState extends State<_PayField> {
         keyboardType: widget.keyboardType,
         obscureText: widget.obscureText,
         maxLength: widget.maxLength,
-        style: GoogleFonts.poppins(fontSize: 14, color: AppColors.textPrimary),
+        style: AppTextStyles.font(context, fontSize: 14, color: AppColors.textPrimary),
         decoration: InputDecoration(
           hintText: widget.hint,
-          hintStyle: GoogleFonts.poppins(
+          hintStyle: AppTextStyles.font(context,
               fontSize: 14, color: const Color(0xFFA8A8A8)),
           border: InputBorder.none,
           counterText: '',
