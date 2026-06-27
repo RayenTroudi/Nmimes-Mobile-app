@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ParentAccessCodeScreen extends StatefulWidget {
   const ParentAccessCodeScreen({super.key});
@@ -32,6 +33,7 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final pin = _pinCtrl.text;
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -73,8 +75,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'SIGN IN',
-                          style: GoogleFonts.poppins(
+                          l10n.parentAccessCode_title,
+                          style: AppTextStyles.font(context,
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
@@ -82,8 +84,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'Enter your 4 digit access code',
-                          style: GoogleFonts.poppins(
+                          l10n.parentAccessCode_subtitle,
+                          style: AppTextStyles.font(context,
                             fontSize: 14,
                             color: AppColors.textSecondary,
                           ),
@@ -121,7 +123,7 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                             return GestureDetector(
                               onTap: () => _pinFocus.requestFocus(),
                               child: Container(
-                                margin: EdgeInsets.only(right: i < 3 ? 16 : 0),
+                                margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(
@@ -138,7 +140,7 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                                   child: filled
                                       ? Text(
                                           pin[i],
-                                          style: GoogleFonts.poppins(
+                                          style: AppTextStyles.font(context,
                                             fontSize: 22,
                                             fontWeight: FontWeight.w700,
                                             color: AppColors.textPrimary,
@@ -159,11 +161,12 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                             onTap: () => Navigator.pushNamed(
                                 context, '/parent-forgot-access-code'),
                             child: Text(
-                              'Forgot access code?',
-                              style: GoogleFonts.poppins(
+                              l10n.parentAccessCode_forgotLink,
+                              style: AppTextStyles.font(context,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.primary,
+                              ).copyWith(
                                 decoration: TextDecoration.underline,
                                 decorationColor: AppColors.primary,
                               ),
@@ -195,8 +198,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                               ),
                             ),
                             child: Text(
-                              'Sign In',
-                              style: GoogleFonts.poppins(
+                              l10n.parentAccessCode_button,
+                              style: AppTextStyles.font(context,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.white,

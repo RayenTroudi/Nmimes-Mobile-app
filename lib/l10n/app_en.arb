@@ -49,5 +49,84 @@
       "grade": { "type": "int" }
     }
   },
-  "childGrades_button_done": "Done"
+  "childGrades_button_done": "Done",
+
+  "parentSignIn_title": "SIGN IN",
+  "parentSignIn_hint_email": "Enter email",
+  "parentSignIn_button_continue": "Continue",
+  "parentSignIn_link_noAccount": "Don't have an account? ",
+  "parentSignIn_link_signUp": "Sign Up",
+
+  "parentSignUp_title": "SIGN UP",
+  "parentSignUp_hint_firstName": "First name",
+  "parentSignUp_hint_lastName": "Last name",
+  "parentSignUp_hint_email": "Enter email",
+  "parentSignUp_label_accessCode": "Access Code",
+  "parentSignUp_hint_accessCode": "Create a 4 digit access code",
+  "parentSignUp_label_verifyCode": "Verify Access Code",
+  "parentSignUp_hint_verifyCode": "Re-enter your 4 digit access code",
+  "parentSignUp_error_mismatch": "Access codes do not match",
+  "parentSignUp_button": "Sign Up",
+  "parentSignUp_link_haveAccount": "Already have an account? ",
+  "parentSignUp_link_signIn": "Sign In",
+
+  "parentAccessCode_title": "SIGN IN",
+  "parentAccessCode_subtitle": "Enter your 4 digit access code",
+  "parentAccessCode_forgotLink": "Forgot access code?",
+  "parentAccessCode_button": "Sign In",
+
+  "parentForgotCode_title": "Enter OTP",
+  "parentForgotCode_subtitle": "We sent a verification code to your email",
+  "parentForgotCode_resendOtp": "Resend OTP",
+  "parentForgotCode_button": "Verify",
+
+  "parentResetCode_title": "Reset Access Code",
+  "parentResetCode_subtitle": "Choose a new 4 digit access code",
+  "parentResetCode_label_newCode": "New Access Code",
+  "parentResetCode_label_verifyCode": "Verify Access Code",
+  "parentResetCode_error_mismatch": "Access codes do not match",
+  "parentResetCode_button": "Confirm",
+
+  "parentOtp_labelSignIn": "SIGN IN",
+  "parentOtp_labelSignUp": "SIGN UP",
+  "parentOtp_enterOtp": "Enter OTP",
+  "parentOtp_resendOtp": "Resend OTP",
+  "parentOtp_resendIn": "Resend in ",
+  "parentOtp_buttonSignIn": "Sign In",
+  "parentOtp_buttonSignUp": "Sign Up",
+
+  "parentSetup_title": "Child Profile Setup",
+  "parentSetup_subtitle": "Please complete your first child's profile.",
+  "parentSetup_label_fullName": "Full Name",
+  "parentSetup_hint_fullName": "Enter full name",
+  "parentSetup_label_username": "Username",
+  "parentSetup_hint_username": "Enter username",
+  "parentSetup_label_grade": "Grade",
+  "parentSetup_hint_grade": "Select grade",
+  "parentSetup_label_interest": "What do your child want to get better at?",
+  "parentSetup_hint_interest": "Select interest",
+  "parentSetup_label_accessCode": "Access Code",
+  "parentSetup_hint_accessCode": "Please add 4 digit access code for your child",
+  "parentSetup_button": "Submit",
+  "parentSetup_dialog_title": "Add Another Child?",
+  "parentSetup_dialog_body": "Would you like to set up a profile for another child?",
+  "parentSetup_dialog_no": "No",
+  "parentSetup_dialog_yes": "Yes",
+
+  "parentGrades_appBarTitle": "Child's Grade",
+  "parentGrades_title": "What grade is your child in?",
+  "parentGrades_gradeLabel": "Grade {grade}",
+  "@parentGrades_gradeLabel": {
+    "placeholders": {
+      "grade": { "type": "int" }
+    }
+  },
+  "parentGrades_button_done": "Done",
+
+  "accountCreated_title": "Yippee!!!",
+  "accountCreated_body": "You have successfully sign up your\naccount. Now you can proceed by\nsetting up your profile.",
+  "accountCreated_button": "Continue",
+  "accountCreated_signInTitle": "Yippee!!!",
+  "accountCreated_signInBody": "You have successfully login you\naccount.",
+  "accountCreated_signInButton": "Continue"
 }

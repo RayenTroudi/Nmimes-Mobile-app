@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../theme/spacing.dart';
@@ -16,6 +17,8 @@ class _ParentGradesScreenState extends State<ParentGradesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -23,7 +26,7 @@ class _ParentGradesScreenState extends State<ParentGradesScreen> {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text("Child's Grade", style: AppTextStyles.h3),
+        title: Text(l10n.parentGrades_appBarTitle, style: AppTextStyles.h3),
       ),
       body: SafeArea(
         child: Padding(
@@ -31,7 +34,7 @@ class _ParentGradesScreenState extends State<ParentGradesScreen> {
           child: Column(
             children: [
               const SizedBox(height: AppSpacing.xl),
-              Text("What grade is your child in?", style: AppTextStyles.h2),
+              Text(l10n.parentGrades_title, style: AppTextStyles.h2),
               const SizedBox(height: AppSpacing.xxl),
               Expanded(
                 child: GridView.builder(
@@ -60,7 +63,7 @@ class _ParentGradesScreenState extends State<ParentGradesScreen> {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          'Grade $grade',
+                          l10n.parentGrades_gradeLabel(grade),
                           style: AppTextStyles.body.copyWith(
                             color: active
                                 ? AppColors.white
@@ -77,7 +80,7 @@ class _ParentGradesScreenState extends State<ParentGradesScreen> {
               Opacity(
                 opacity: _selected != null ? 1.0 : 0.4,
                 child: PrimaryButton(
-                  label: 'Done',
+                  label: l10n.parentGrades_button_done,
                   onTap: () {
                     if (_selected != null) {
                       Navigator.pushReplacementNamed(context, '/parents-view');

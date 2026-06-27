@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ParentSignInScreen extends StatefulWidget {
   const ParentSignInScreen({super.key});
@@ -29,6 +30,7 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -71,8 +73,8 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'SIGN IN',
-                            style: GoogleFonts.poppins(
+                            l10n.parentSignIn_title,
+                            style: AppTextStyles.font(context,
                               fontSize: 28,
                               fontWeight: FontWeight.w800,
                               color: AppColors.textPrimary,
@@ -91,11 +93,11 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
                               controller: _emailCtrl,
                               keyboardType: TextInputType.emailAddress,
                               onChanged: (_) => setState(() {}),
-                              style: GoogleFonts.poppins(
+                              style: AppTextStyles.font(context,
                                   fontSize: 14, color: AppColors.textPrimary),
                               decoration: InputDecoration(
-                                hintText: 'Enter email',
-                                hintStyle: GoogleFonts.poppins(
+                                hintText: l10n.parentSignIn_hint_email,
+                                hintStyle: AppTextStyles.font(context,
                                     fontSize: 14, color: AppColors.textHint),
                                 prefixIcon: const Icon(Icons.email_outlined,
                                     color: AppColors.textHint, size: 20),
@@ -129,8 +131,8 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
                                 ),
                               ),
                               child: Text(
-                                'Continue',
-                                style: GoogleFonts.poppins(
+                                l10n.parentSignIn_button_continue,
+                                style: AppTextStyles.font(context,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                 ),
@@ -148,16 +150,16 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
                                 text: TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: "Don't have an account? ",
-                                      style: GoogleFonts.poppins(
+                                      text: l10n.parentSignIn_link_noAccount,
+                                      style: AppTextStyles.font(context,
                                         fontSize: 13,
                                         color: AppColors.textPrimary,
                                         fontWeight: FontWeight.w500,
                                       ),
                                     ),
                                     TextSpan(
-                                      text: 'Sign Up',
-                                      style: GoogleFonts.poppins(
+                                      text: l10n.parentSignIn_link_signUp,
+                                      style: AppTextStyles.font(context,
                                         fontSize: 13,
                                         color: AppColors.primary,
                                         fontWeight: FontWeight.w700,

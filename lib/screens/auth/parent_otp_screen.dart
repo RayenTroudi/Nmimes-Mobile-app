@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ParentOtpScreen extends StatefulWidget {
   const ParentOtpScreen({super.key});
@@ -62,6 +63,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
     final canResend = _secondsLeft == 0;
     final mm = (_secondsLeft ~/ 60).toString().padLeft(2, '0');
     final ss = (_secondsLeft % 60).toString().padLeft(2, '0');
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -103,8 +105,8 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          _isSignIn ? 'SIGN IN' : 'SIGN UP',
-                          style: GoogleFonts.poppins(
+                          _isSignIn ? l10n.parentOtp_labelSignIn : l10n.parentOtp_labelSignUp,
+                          style: AppTextStyles.font(context,
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
@@ -113,8 +115,8 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                         const SizedBox(height: 24),
 
                         Text(
-                          'Enter OTP',
-                          style: GoogleFonts.poppins(
+                          l10n.parentOtp_enterOtp,
+                          style: AppTextStyles.font(context,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColors.textPrimary,
@@ -153,7 +155,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                             return GestureDetector(
                               onTap: () => _focusNode.requestFocus(),
                               child: Container(
-                                margin: EdgeInsets.only(right: i < 3 ? 16 : 0),
+                                margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(
@@ -170,7 +172,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                                   child: filled
                                       ? Text(
                                           _pin[i],
-                                          style: GoogleFonts.poppins(
+                                          style: AppTextStyles.font(context,
                                             fontSize: 22,
                                             fontWeight: FontWeight.w700,
                                             color: AppColors.textPrimary,
@@ -193,9 +195,9 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                                 children: [
                                   TextSpan(
                                     text: canResend
-                                        ? 'Resend OTP'
-                                        : 'Resend in ',
-                                    style: GoogleFonts.poppins(
+                                        ? l10n.parentOtp_resendOtp
+                                        : l10n.parentOtp_resendIn,
+                                    style: AppTextStyles.font(context,
                                       fontSize: 14,
                                       color: canResend
                                           ? AppColors.primary
@@ -208,7 +210,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                                   if (!canResend)
                                     TextSpan(
                                       text: '$mm:$ss',
-                                      style: GoogleFonts.poppins(
+                                      style: AppTextStyles.font(context,
                                         fontSize: 14,
                                         color: AppColors.primary,
                                         fontWeight: FontWeight.w600,
@@ -248,8 +250,8 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                               ),
                             ),
                             child: Text(
-                              _isSignIn ? 'Sign In' : 'Sign Up',
-                              style: GoogleFonts.poppins(
+                              _isSignIn ? l10n.parentOtp_buttonSignIn : l10n.parentOtp_buttonSignUp,
+                              style: AppTextStyles.font(context,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.white,

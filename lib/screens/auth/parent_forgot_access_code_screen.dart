@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ParentForgotAccessCodeScreen extends StatefulWidget {
   const ParentForgotAccessCodeScreen({super.key});
@@ -47,8 +48,8 @@ class _ParentForgotAccessCodeScreenState
     _startTimer();
   }
 
-  String get _timerLabel {
-    if (_secondsLeft == 0) return 'Resend OTP';
+  String _timerLabel(BuildContext context) {
+    if (_secondsLeft == 0) return context.l10n.parentForgotCode_resendOtp;
     final m = (_secondsLeft ~/ 60).toString().padLeft(2, '0');
     final s = (_secondsLeft % 60).toString().padLeft(2, '0');
     return '$m:$s';
@@ -66,6 +67,7 @@ class _ParentForgotAccessCodeScreenState
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
     final otp = _otpCtrl.text;
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -105,8 +107,8 @@ class _ParentForgotAccessCodeScreenState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Enter OTP',
-                          style: GoogleFonts.poppins(
+                          l10n.parentForgotCode_title,
+                          style: AppTextStyles.font(context,
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
@@ -114,8 +116,8 @@ class _ParentForgotAccessCodeScreenState
                         ),
                         const SizedBox(height: 8),
                         Text(
-                          'We sent a verification code to your email',
-                          style: GoogleFonts.poppins(
+                          l10n.parentForgotCode_subtitle,
+                          style: AppTextStyles.font(context,
                             fontSize: 14,
                             color: AppColors.textSecondary,
                           ),
@@ -153,7 +155,7 @@ class _ParentForgotAccessCodeScreenState
                             return GestureDetector(
                               onTap: () => _otpFocus.requestFocus(),
                               child: Container(
-                                margin: EdgeInsets.only(right: i < 3 ? 16 : 0),
+                                margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(
@@ -170,7 +172,7 @@ class _ParentForgotAccessCodeScreenState
                                   child: filled
                                       ? Text(
                                           otp[i],
-                                          style: GoogleFonts.poppins(
+                                          style: AppTextStyles.font(context,
                                             fontSize: 22,
                                             fontWeight: FontWeight.w700,
                                             color: AppColors.textPrimary,
@@ -189,13 +191,14 @@ class _ParentForgotAccessCodeScreenState
                           child: GestureDetector(
                             onTap: _canResend ? _resend : null,
                             child: Text(
-                              _timerLabel,
-                              style: GoogleFonts.poppins(
+                              _timerLabel(context),
+                              style: AppTextStyles.font(context,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w600,
                                 color: _canResend
                                     ? AppColors.primary
                                     : AppColors.textSecondary,
+                              ).copyWith(
                                 decoration: _canResend
                                     ? TextDecoration.underline
                                     : TextDecoration.none,
@@ -229,8 +232,8 @@ class _ParentForgotAccessCodeScreenState
                               ),
                             ),
                             child: Text(
-                              'Verify',
-                              style: GoogleFonts.poppins(
+                              l10n.parentForgotCode_button,
+                              style: AppTextStyles.font(context,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.white,

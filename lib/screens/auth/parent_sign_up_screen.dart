@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ParentSignUpScreen extends StatefulWidget {
   const ParentSignUpScreen({super.key});
@@ -17,10 +18,6 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
   final _confirmPinCtrl = TextEditingController();
   final _pinFocus = FocusNode();
   final _confirmPinFocus = FocusNode();
-
-  bool get _pinMismatch =>
-      _confirmPinCtrl.text.isNotEmpty &&
-      _pinCtrl.text != _confirmPinCtrl.text;
 
   bool get _canSubmit =>
       _firstNameCtrl.text.trim().isNotEmpty &&
@@ -55,6 +52,7 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -95,8 +93,8 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'SIGN UP',
-                          style: GoogleFonts.poppins(
+                          l10n.parentSignUp_title,
+                          style: AppTextStyles.font(context,
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
@@ -110,7 +108,7 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                             Expanded(
                               child: _AuthTextField(
                                 controller: _firstNameCtrl,
-                                hint: 'First name',
+                                hint: l10n.parentSignUp_hint_firstName,
                                 prefixIcon: Icons.person_outline,
                                 onChanged: () => setState(() {}),
                               ),
@@ -119,7 +117,7 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                             Expanded(
                               child: _AuthTextField(
                                 controller: _lastNameCtrl,
-                                hint: 'Last name',
+                                hint: l10n.parentSignUp_hint_lastName,
                                 prefixIcon: Icons.person_outline,
                                 onChanged: () => setState(() {}),
                               ),
@@ -131,7 +129,7 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                         // Email
                         _AuthTextField(
                           controller: _emailCtrl,
-                          hint: 'Enter email',
+                          hint: l10n.parentSignUp_hint_email,
                           prefixIcon: Icons.email_outlined,
                           keyboardType: TextInputType.emailAddress,
                           onChanged: () => setState(() {}),
@@ -140,8 +138,8 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
 
                         // Access Code
                         Text(
-                          'Access Code',
-                          style: GoogleFonts.poppins(
+                          l10n.parentSignUp_label_accessCode,
+                          style: AppTextStyles.font(context,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColors.textPrimary,
@@ -149,8 +147,8 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Create a 4 digit access code',
-                          style: GoogleFonts.poppins(
+                          l10n.parentSignUp_hint_accessCode,
+                          style: AppTextStyles.font(context,
                               fontSize: 12, color: AppColors.textSecondary),
                         ),
                         const SizedBox(height: 10),
@@ -163,8 +161,8 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
 
                         // Verify Access Code
                         Text(
-                          'Verify Access Code',
-                          style: GoogleFonts.poppins(
+                          l10n.parentSignUp_label_verifyCode,
+                          style: AppTextStyles.font(context,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColors.textPrimary,
@@ -172,8 +170,8 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                         ),
                         const SizedBox(height: 4),
                         Text(
-                          'Re-enter your 4 digit access code',
-                          style: GoogleFonts.poppins(
+                          l10n.parentSignUp_hint_verifyCode,
+                          style: AppTextStyles.font(context,
                               fontSize: 12, color: AppColors.textSecondary),
                         ),
                         const SizedBox(height: 10),
@@ -186,10 +184,10 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                             _pinCtrl.text != _confirmPinCtrl.text) ...[
                           const SizedBox(height: 6),
                           Padding(
-                            padding: const EdgeInsets.only(left: 4),
+                            padding: const EdgeInsetsDirectional.only(start: 4),
                             child: Text(
-                              'Access codes do not match',
-                              style: GoogleFonts.poppins(
+                              l10n.parentSignUp_error_mismatch,
+                              style: AppTextStyles.font(context,
                                   fontSize: 12, color: Colors.red),
                             ),
                           ),
@@ -217,8 +215,8 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                               ),
                             ),
                             child: Text(
-                              'Sign Up',
-                              style: GoogleFonts.poppins(
+                              l10n.parentSignUp_button,
+                              style: AppTextStyles.font(context,
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
                               ),
@@ -236,16 +234,16 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                               text: TextSpan(
                                 children: [
                                   TextSpan(
-                                    text: 'Already have an account? ',
-                                    style: GoogleFonts.poppins(
+                                    text: l10n.parentSignUp_link_haveAccount,
+                                    style: AppTextStyles.font(context,
                                       fontSize: 13,
                                       color: AppColors.textPrimary,
                                       fontWeight: FontWeight.w500,
                                     ),
                                   ),
                                   TextSpan(
-                                    text: 'Sign In',
-                                    style: GoogleFonts.poppins(
+                                    text: l10n.parentSignUp_link_signIn,
+                                    style: AppTextStyles.font(context,
                                       fontSize: 13,
                                       color: AppColors.primary,
                                       fontWeight: FontWeight.w700,
@@ -311,11 +309,11 @@ class _AuthTextField extends StatelessWidget {
         controller: controller,
         keyboardType: keyboardType,
         onChanged: (_) => onChanged?.call(),
-        style: GoogleFonts.poppins(fontSize: 14, color: AppColors.textPrimary),
+        style: AppTextStyles.font(context, fontSize: 14, color: AppColors.textPrimary),
         decoration: InputDecoration(
           hintText: hint,
           hintStyle:
-              GoogleFonts.poppins(fontSize: 14, color: AppColors.textHint),
+              AppTextStyles.font(context, fontSize: 14, color: AppColors.textHint),
           prefixIcon: Icon(prefixIcon, color: AppColors.textHint, size: 20),
           border: InputBorder.none,
           contentPadding:
@@ -373,7 +371,7 @@ class _PinRow extends StatelessWidget {
               return GestureDetector(
                 onTap: () => focusNode.requestFocus(),
                 child: Container(
-                  margin: EdgeInsets.only(right: i < 3 ? 16 : 0),
+                  margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
@@ -388,7 +386,7 @@ class _PinRow extends StatelessWidget {
                     child: filled
                         ? Text(
                             pin[i],
-                            style: GoogleFonts.poppins(
+                            style: AppTextStyles.font(context,
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                               color: AppColors.textPrimary,

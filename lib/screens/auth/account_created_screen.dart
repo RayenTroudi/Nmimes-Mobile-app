@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class AccountCreatedScreen extends StatefulWidget {
   const AccountCreatedScreen({super.key});
@@ -43,6 +44,8 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
@@ -64,8 +67,8 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
                     ),
                     const Spacer(),
                     Text(
-                      'Yippee!!!',
-                      style: GoogleFonts.poppins(
+                      l10n.accountCreated_title,
+                      style: AppTextStyles.font(context,
                         fontSize: 32,
                         fontWeight: FontWeight.w800,
                         color: AppColors.primary,
@@ -73,9 +76,9 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'You have successfully sign up your\naccount. Now you can proceed by\nsetting up your profile.',
+                      l10n.accountCreated_body,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(context,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: AppColors.textPrimary,
@@ -100,8 +103,8 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
                           ),
                         ),
                         child: Text(
-                          'Continue',
-                          style: GoogleFonts.poppins(
+                          l10n.accountCreated_button,
+                          style: AppTextStyles.font(context,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),
@@ -152,6 +155,8 @@ class _ParentSignInSuccessScreenState
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
@@ -168,8 +173,8 @@ class _ParentSignInSuccessScreenState
                     const _CoolFox(size: 200),
                     const Spacer(),
                     Text(
-                      'Yippee!!!',
-                      style: GoogleFonts.poppins(
+                      l10n.accountCreated_signInTitle,
+                      style: AppTextStyles.font(context,
                         fontSize: 32,
                         fontWeight: FontWeight.w800,
                         color: AppColors.primary,
@@ -177,9 +182,9 @@ class _ParentSignInSuccessScreenState
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'You have successfully login you\naccount.',
+                      l10n.accountCreated_signInBody,
                       textAlign: TextAlign.center,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(context,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: AppColors.textPrimary,
@@ -202,8 +207,8 @@ class _ParentSignInSuccessScreenState
                           ),
                         ),
                         child: Text(
-                          'Continue',
-                          style: GoogleFonts.poppins(
+                          l10n.accountCreated_signInButton,
+                          style: AppTextStyles.font(context,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                           ),

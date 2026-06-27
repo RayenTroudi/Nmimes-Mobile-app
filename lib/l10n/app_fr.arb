@@ -48,5 +48,84 @@
       "grade": { "type": "int" }
     }
   },
-  "childGrades_button_done": "Terminer"
+  "childGrades_button_done": "Terminer",
+
+  "parentSignIn_title": "CONNEXION",
+  "parentSignIn_hint_email": "Entrez votre e-mail",
+  "parentSignIn_button_continue": "Continuer",
+  "parentSignIn_link_noAccount": "Pas encore de compte ? ",
+  "parentSignIn_link_signUp": "S'inscrire",
+
+  "parentSignUp_title": "INSCRIPTION",
+  "parentSignUp_hint_firstName": "Prénom",
+  "parentSignUp_hint_lastName": "Nom",
+  "parentSignUp_hint_email": "Entrez votre e-mail",
+  "parentSignUp_label_accessCode": "Code d'accès",
+  "parentSignUp_hint_accessCode": "Créez un code d'accès à 4 chiffres",
+  "parentSignUp_label_verifyCode": "Vérifier le code d'accès",
+  "parentSignUp_hint_verifyCode": "Ressaisissez votre code d'accès à 4 chiffres",
+  "parentSignUp_error_mismatch": "Les codes d'accès ne correspondent pas",
+  "parentSignUp_button": "S'inscrire",
+  "parentSignUp_link_haveAccount": "Vous avez déjà un compte ? ",
+  "parentSignUp_link_signIn": "Se connecter",
+
+  "parentAccessCode_title": "CONNEXION",
+  "parentAccessCode_subtitle": "Entrez votre code d'accès à 4 chiffres",
+  "parentAccessCode_forgotLink": "Code d'accès oublié ?",
+  "parentAccessCode_button": "Se connecter",
+
+  "parentForgotCode_title": "Entrer l'OTP",
+  "parentForgotCode_subtitle": "Nous avons envoyé un code de vérification à votre e-mail",
+  "parentForgotCode_resendOtp": "Renvoyer l'OTP",
+  "parentForgotCode_button": "Vérifier",
+
+  "parentResetCode_title": "Réinitialiser le code d'accès",
+  "parentResetCode_subtitle": "Choisissez un nouveau code d'accès à 4 chiffres",
+  "parentResetCode_label_newCode": "Nouveau code d'accès",
+  "parentResetCode_label_verifyCode": "Vérifier le code d'accès",
+  "parentResetCode_error_mismatch": "Les codes d'accès ne correspondent pas",
+  "parentResetCode_button": "Confirmer",
+
+  "parentOtp_labelSignIn": "CONNEXION",
+  "parentOtp_labelSignUp": "INSCRIPTION",
+  "parentOtp_enterOtp": "Entrer l'OTP",
+  "parentOtp_resendOtp": "Renvoyer l'OTP",
+  "parentOtp_resendIn": "Renvoyer dans ",
+  "parentOtp_buttonSignIn": "Se connecter",
+  "parentOtp_buttonSignUp": "S'inscrire",
+
+  "parentSetup_title": "Configuration du profil enfant",
+  "parentSetup_subtitle": "Veuillez compléter le profil de votre premier enfant.",
+  "parentSetup_label_fullName": "Nom complet",
+  "parentSetup_hint_fullName": "Entrez le nom complet",
+  "parentSetup_label_username": "Nom d'utilisateur",
+  "parentSetup_hint_username": "Entrez le nom d'utilisateur",
+  "parentSetup_label_grade": "Classe",
+  "parentSetup_hint_grade": "Sélectionner la classe",
+  "parentSetup_label_interest": "Dans quoi votre enfant veut-il progresser ?",
+  "parentSetup_hint_interest": "Sélectionner un intérêt",
+  "parentSetup_label_accessCode": "Code d'accès",
+  "parentSetup_hint_accessCode": "Ajoutez un code d'accès à 4 chiffres pour votre enfant",
+  "parentSetup_button": "Soumettre",
+  "parentSetup_dialog_title": "Ajouter un autre enfant ?",
+  "parentSetup_dialog_body": "Souhaitez-vous créer un profil pour un autre enfant ?",
+  "parentSetup_dialog_no": "Non",
+  "parentSetup_dialog_yes": "Oui",
+
+  "parentGrades_appBarTitle": "Classe de l'enfant",
+  "parentGrades_title": "Dans quelle classe est votre enfant ?",
+  "parentGrades_gradeLabel": "Classe {grade}",
+  "@parentGrades_gradeLabel": {
+    "placeholders": {
+      "grade": { "type": "int" }
+    }
+  },
+  "parentGrades_button_done": "Terminer",
+
+  "accountCreated_title": "Youpiii !!!",
+  "accountCreated_body": "Vous vous êtes inscrit avec succès.\nVous pouvez maintenant configurer votre profil.",
+  "accountCreated_button": "Continuer",
+  "accountCreated_signInTitle": "Youpiii !!!",
+  "accountCreated_signInBody": "Vous vous êtes connecté avec succès\nà votre compte.",
+  "accountCreated_signInButton": "Continuer"
 }

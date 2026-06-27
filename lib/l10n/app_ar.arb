@@ -48,5 +48,84 @@
       "grade": { "type": "int" }
     }
   },
-  "childGrades_button_done": "تم"
+  "childGrades_button_done": "تم",
+
+  "parentSignIn_title": "تسجيل الدخول",
+  "parentSignIn_hint_email": "أدخل بريدك الإلكتروني",
+  "parentSignIn_button_continue": "متابعة",
+  "parentSignIn_link_noAccount": "ليس لديك حساب؟ ",
+  "parentSignIn_link_signUp": "إنشاء حساب",
+
+  "parentSignUp_title": "إنشاء حساب",
+  "parentSignUp_hint_firstName": "الاسم الأول",
+  "parentSignUp_hint_lastName": "اسم العائلة",
+  "parentSignUp_hint_email": "أدخل بريدك الإلكتروني",
+  "parentSignUp_label_accessCode": "رمز الدخول",
+  "parentSignUp_hint_accessCode": "أنشئ رمز دخول مكوّن من 4 أرقام",
+  "parentSignUp_label_verifyCode": "تأكيد رمز الدخول",
+  "parentSignUp_hint_verifyCode": "أعد إدخال رمز الدخول المكوّن من 4 أرقام",
+  "parentSignUp_error_mismatch": "رمزا الدخول غير متطابقين",
+  "parentSignUp_button": "إنشاء حساب",
+  "parentSignUp_link_haveAccount": "لديك حساب بالفعل؟ ",
+  "parentSignUp_link_signIn": "تسجيل الدخول",
+
+  "parentAccessCode_title": "تسجيل الدخول",
+  "parentAccessCode_subtitle": "أدخل رمز الدخول المكوّن من 4 أرقام",
+  "parentAccessCode_forgotLink": "نسيت رمز الدخول؟",
+  "parentAccessCode_button": "تسجيل الدخول",
+
+  "parentForgotCode_title": "أدخل رمز OTP",
+  "parentForgotCode_subtitle": "أرسلنا رمز التحقق إلى بريدك الإلكتروني",
+  "parentForgotCode_resendOtp": "إعادة إرسال OTP",
+  "parentForgotCode_button": "تحقق",
+
+  "parentResetCode_title": "إعادة تعيين رمز الدخول",
+  "parentResetCode_subtitle": "اختر رمز دخول جديداً مكوّناً من 4 أرقام",
+  "parentResetCode_label_newCode": "رمز الدخول الجديد",
+  "parentResetCode_label_verifyCode": "تأكيد رمز الدخول",
+  "parentResetCode_error_mismatch": "رمزا الدخول غير متطابقين",
+  "parentResetCode_button": "تأكيد",
+
+  "parentOtp_labelSignIn": "تسجيل الدخول",
+  "parentOtp_labelSignUp": "إنشاء حساب",
+  "parentOtp_enterOtp": "أدخل رمز OTP",
+  "parentOtp_resendOtp": "إعادة إرسال OTP",
+  "parentOtp_resendIn": "إعادة إرسال خلال ",
+  "parentOtp_buttonSignIn": "تسجيل الدخول",
+  "parentOtp_buttonSignUp": "إنشاء حساب",
+
+  "parentSetup_title": "إعداد ملف الطفل",
+  "parentSetup_subtitle": "يرجى استكمال ملف طفلك الأول.",
+  "parentSetup_label_fullName": "الاسم الكامل",
+  "parentSetup_hint_fullName": "أدخل الاسم الكامل",
+  "parentSetup_label_username": "اسم المستخدم",
+  "parentSetup_hint_username": "أدخل اسم المستخدم",
+  "parentSetup_label_grade": "الصف",
+  "parentSetup_hint_grade": "اختر الصف",
+  "parentSetup_label_interest": "ما الذي يريد طفلك تحسينه؟",
+  "parentSetup_hint_interest": "اختر اهتماماً",
+  "parentSetup_label_accessCode": "رمز الدخول",
+  "parentSetup_hint_accessCode": "أضف رمز دخول مكوّناً من 4 أرقام لطفلك",
+  "parentSetup_button": "إرسال",
+  "parentSetup_dialog_title": "إضافة طفل آخر؟",
+  "parentSetup_dialog_body": "هل تريد إعداد ملف لطفل آخر؟",
+  "parentSetup_dialog_no": "لا",
+  "parentSetup_dialog_yes": "نعم",
+
+  "parentGrades_appBarTitle": "صف الطفل",
+  "parentGrades_title": "في أي صف طفلك؟",
+  "parentGrades_gradeLabel": "الصف {grade}",
+  "@parentGrades_gradeLabel": {
+    "placeholders": {
+      "grade": { "type": "int" }
+    }
+  },
+  "parentGrades_button_done": "تم",
+
+  "accountCreated_title": "يييه!!!",
+  "accountCreated_body": "لقد أنشأت حسابك بنجاح.\nيمكنك الآن المتابعة لإعداد ملفك الشخصي.",
+  "accountCreated_button": "متابعة",
+  "accountCreated_signInTitle": "يييه!!!",
+  "accountCreated_signInBody": "لقد سجّلت الدخول إلى حسابك بنجاح.",
+  "accountCreated_signInButton": "متابعة"
 }

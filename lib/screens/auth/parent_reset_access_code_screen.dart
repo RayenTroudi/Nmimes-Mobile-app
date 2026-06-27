@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ParentResetAccessCodeScreen extends StatefulWidget {
   const ParentResetAccessCodeScreen({super.key});
@@ -47,6 +48,7 @@ class _ParentResetAccessCodeScreenState
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -87,8 +89,8 @@ class _ParentResetAccessCodeScreenState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Reset Access Code',
-                            style: GoogleFonts.poppins(
+                            l10n.parentResetCode_title,
+                            style: AppTextStyles.font(context,
                               fontSize: 26,
                               fontWeight: FontWeight.w800,
                               color: AppColors.textPrimary,
@@ -96,8 +98,8 @@ class _ParentResetAccessCodeScreenState
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'Choose a new 4 digit access code',
-                            style: GoogleFonts.poppins(
+                            l10n.parentResetCode_subtitle,
+                            style: AppTextStyles.font(context,
                               fontSize: 14,
                               color: AppColors.textSecondary,
                             ),
@@ -106,8 +108,8 @@ class _ParentResetAccessCodeScreenState
 
                           // New access code
                           Text(
-                            'New Access Code',
-                            style: GoogleFonts.poppins(
+                            l10n.parentResetCode_label_newCode,
+                            style: AppTextStyles.font(context,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
@@ -123,8 +125,8 @@ class _ParentResetAccessCodeScreenState
 
                           // Verify access code
                           Text(
-                            'Verify Access Code',
-                            style: GoogleFonts.poppins(
+                            l10n.parentResetCode_label_verifyCode,
+                            style: AppTextStyles.font(context,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
@@ -141,8 +143,8 @@ class _ParentResetAccessCodeScreenState
                             const SizedBox(height: 10),
                             Center(
                               child: Text(
-                                'Access codes do not match',
-                                style: GoogleFonts.poppins(
+                                l10n.parentResetCode_error_mismatch,
+                                style: AppTextStyles.font(context,
                                     fontSize: 12, color: Colors.red),
                               ),
                             ),
@@ -178,8 +180,8 @@ class _ParentResetAccessCodeScreenState
                                 ),
                               ),
                               child: Text(
-                                'Confirm',
-                                style: GoogleFonts.poppins(
+                                l10n.parentResetCode_button,
+                                style: AppTextStyles.font(context,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.white,
@@ -262,7 +264,7 @@ class _PinRow extends StatelessWidget {
               return GestureDetector(
                 onTap: () => focusNode.requestFocus(),
                 child: Container(
-                  margin: EdgeInsets.only(right: i < 3 ? 16 : 0),
+                  margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
@@ -278,7 +280,7 @@ class _PinRow extends StatelessWidget {
                     child: filled
                         ? Text(
                             pin[i],
-                            style: GoogleFonts.poppins(
+                            style: AppTextStyles.font(context,
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                               color: AppColors.textPrimary,

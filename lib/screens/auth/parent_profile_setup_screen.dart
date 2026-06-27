@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ParentProfileSetupScreen extends StatefulWidget {
   const ParentProfileSetupScreen({super.key});
@@ -36,6 +37,7 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
       _pinCtrl.text.length == 4;
 
   void _onSubmit() {
+    final l10n = context.l10n;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -43,18 +45,18 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
         backgroundColor: AppColors.background,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
         title: Text(
-          'Add Another Child?',
+          l10n.parentSetup_dialog_title,
           textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: AppColors.textPrimary,
           ),
         ),
         content: Text(
-          'Would you like to set up a profile for another child?',
+          l10n.parentSetup_dialog_body,
           textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 14,
             color: AppColors.textSecondary,
           ),
@@ -76,8 +78,8 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   child: Text(
-                    'No',
-                    style: GoogleFonts.poppins(
+                    l10n.parentSetup_dialog_no,
+                    style: AppTextStyles.font(context,
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                       color: AppColors.primary,
@@ -108,8 +110,8 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   child: Text(
-                    'Yes',
-                    style: GoogleFonts.poppins(
+                    l10n.parentSetup_dialog_yes,
+                    style: AppTextStyles.font(context,
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                     ),
@@ -143,6 +145,7 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
   @override
   Widget build(BuildContext context) {
     final pin = _pinCtrl.text;
+    final l10n = context.l10n;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -166,8 +169,8 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                 // Title
                 Center(
                   child: Text(
-                    'Child Profile Setup',
-                    style: GoogleFonts.poppins(
+                    l10n.parentSetup_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -176,8 +179,8 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                 ),
                 const SizedBox(height: 8),
                 Text(
-                  "Please complete your first child's profile.",
-                  style: GoogleFonts.poppins(
+                  l10n.parentSetup_subtitle,
+                  style: AppTextStyles.font(context,
                     fontSize: 16,
                     color: AppColors.textPrimary,
                   ),
@@ -185,32 +188,32 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                 const SizedBox(height: 28),
 
                 // Full Name
-                _FieldLabel('Full Name'),
+                _FieldLabel(l10n.parentSetup_label_fullName),
                 const SizedBox(height: 8),
                 _RoundedTextField(
                   controller: _nameCtrl,
-                  hint: 'Enter full name',
+                  hint: l10n.parentSetup_hint_fullName,
                   prefixIcon: Icons.person_outline,
                   onChanged: () => setState(() {}),
                 ),
                 const SizedBox(height: 16),
 
                 // Username
-                _FieldLabel('Username'),
+                _FieldLabel(l10n.parentSetup_label_username),
                 const SizedBox(height: 8),
                 _RoundedTextField(
                   controller: _usernameCtrl,
-                  hint: 'Enter username',
+                  hint: l10n.parentSetup_hint_username,
                   prefixIcon: Icons.alternate_email,
                   onChanged: () => setState(() {}),
                 ),
                 const SizedBox(height: 16),
 
                 // Grade
-                _FieldLabel('Grade'),
+                _FieldLabel(l10n.parentSetup_label_grade),
                 const SizedBox(height: 8),
                 _DropdownField(
-                  hint: 'Select grade',
+                  hint: l10n.parentSetup_hint_grade,
                   prefixIcon: Icons.bookmark_border,
                   value: _selectedGrade,
                   items: _grades,
@@ -219,10 +222,10 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                 const SizedBox(height: 16),
 
                 // Interest
-                _FieldLabel('What do your child want to get better at?'),
+                _FieldLabel(l10n.parentSetup_label_interest),
                 const SizedBox(height: 8),
                 _DropdownField(
-                  hint: 'Select interest',
+                  hint: l10n.parentSetup_hint_interest,
                   prefixIcon: Icons.lightbulb_outline,
                   value: _selectedInterest,
                   items: _interests,
@@ -231,11 +234,11 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                 const SizedBox(height: 20),
 
                 // Access Code
-                _FieldLabel('Access Code'),
+                _FieldLabel(l10n.parentSetup_label_accessCode),
                 const SizedBox(height: 4),
                 Text(
-                  'Please add 4 digit access code for your child',
-                  style: GoogleFonts.poppins(
+                  l10n.parentSetup_hint_accessCode,
+                  style: AppTextStyles.font(context,
                       fontSize: 12, color: AppColors.textSecondary),
                 ),
                 const SizedBox(height: 12),
@@ -271,7 +274,7 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                     return GestureDetector(
                       onTap: () => _pinFocus.requestFocus(),
                       child: Container(
-                        margin: const EdgeInsets.only(right: 14),
+                        margin: const EdgeInsetsDirectional.only(end: 14),
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(
@@ -288,7 +291,7 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                           child: filled
                               ? Text(
                                   pin[i],
-                                  style: GoogleFonts.poppins(
+                                  style: AppTextStyles.font(context,
                                     fontSize: 22,
                                     fontWeight: FontWeight.w700,
                                     color: AppColors.textPrimary,
@@ -321,8 +324,8 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                       ),
                     ),
                     child: Text(
-                      'Submit',
-                      style: GoogleFonts.poppins(
+                      l10n.parentSetup_button,
+                      style: AppTextStyles.font(context,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                       ),
@@ -346,7 +349,7 @@ class _FieldLabel extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
-      style: GoogleFonts.poppins(
+      style: AppTextStyles.font(context,
         fontSize: 14,
         fontWeight: FontWeight.w600,
         color: AppColors.textPrimary,
@@ -380,11 +383,11 @@ class _RoundedTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         onChanged: (_) => onChanged?.call(),
-        style: GoogleFonts.poppins(fontSize: 14, color: AppColors.textPrimary),
+        style: AppTextStyles.font(context, fontSize: 14, color: AppColors.textPrimary),
         decoration: InputDecoration(
           hintText: hint,
           hintStyle:
-              GoogleFonts.poppins(fontSize: 14, color: AppColors.textHint),
+              AppTextStyles.font(context, fontSize: 14, color: AppColors.textHint),
           prefixIcon:
               Icon(prefixIcon, color: AppColors.textHint, size: 20),
           border: InputBorder.none,
@@ -456,7 +459,7 @@ class _DropdownField extends StatelessWidget {
                     ),
                     child: Text(
                       item,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(context,
                         fontSize: 14,
                         fontWeight: value == item
                             ? FontWeight.w600
@@ -493,7 +496,7 @@ class _DropdownField extends StatelessWidget {
             Expanded(
               child: Text(
                 value ?? hint,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                   fontSize: 14,
                   color: value != null
                       ? AppColors.textPrimary
