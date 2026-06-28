@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class DoesThisMakeSenseScreen extends StatelessWidget {
   const DoesThisMakeSenseScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: Colors.black.withValues(alpha: 0.3),
       body: Stack(
@@ -26,8 +28,8 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                             color: AppColors.textPrimary, size: 24),
                         const SizedBox(width: 12),
                         Text(
-                          'Snap a Homework',
-                          style: GoogleFonts.poppins(
+                          l.snap_dtms_snapHomework,
+                          style: AppTextStyles.font(context,
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary,
@@ -48,8 +50,8 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                       child: Column(
                         children: [
                           Text(
-                            'Solve for x:',
-                            style: GoogleFonts.poppins(
+                            l.snap_solveFor,
+                            style: AppTextStyles.font(context,
                               fontSize: 18,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
@@ -58,7 +60,7 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text(
                             '2x + 5 = 15',
-                            style: GoogleFonts.poppins(
+                            style: AppTextStyles.font(context,
                               fontSize: 28,
                               fontWeight: FontWeight.w800,
                               color: AppColors.primary,
@@ -93,8 +95,8 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       Text(
-                        'Does this make sense?',
-                        style: GoogleFonts.poppins(
+                        l.snap_dtms_doesMakeSense,
+                        style: AppTextStyles.font(context,
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
@@ -105,7 +107,7 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                         children: [
                           Expanded(
                             child: _SenseButton(
-                              label: 'Not Yet',
+                              label: l.snap_dtms_notYet,
                               filled: false,
                               onTap: () => Navigator.pushReplacementNamed(
                                   context, '/snap-send'),
@@ -114,7 +116,7 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                           const SizedBox(width: 12),
                           Expanded(
                             child: _SenseButton(
-                              label: 'Yes',
+                              label: l.snap_dtms_yes,
                               filled: true,
                               onTap: () => Navigator.pushNamed(
                                   context, '/snap-success'),
@@ -134,8 +136,8 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Quick check',
-                        style: GoogleFonts.poppins(
+                        l.snap_dtms_quickCheck,
+                        style: AppTextStyles.font(context,
                           fontSize: 13,
                           color: AppColors.textSecondary,
                         ),
@@ -143,7 +145,7 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         'Put x = 5 back into the equation:',
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.font(context,
                           fontSize: 13,
                           color: AppColors.textSecondary,
                         ),
@@ -151,7 +153,7 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       Text(
                         '2(5) + 5 = 10 + 5 = 15 ✓',
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.font(context,
                           fontSize: 13,
                           color: AppColors.primary,
                         ),
@@ -176,7 +178,7 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _SenseButton(
-                      label: 'Back',
+                      label: l.snap_dtms_back,
                       filled: false,
                       onTap: () => Navigator.pop(context),
                     ),
@@ -185,7 +187,7 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                   Expanded(
                     flex: 2,
                     child: _SenseButton(
-                      label: 'Done',
+                      label: l.snap_dtms_done,
                       filled: true,
                       onTap: () => Navigator.pushNamedAndRemoveUntil(
                           context, '/home', (r) => false),
@@ -238,7 +240,7 @@ class _SenseButton extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: filled ? Colors.white : AppColors.primary,

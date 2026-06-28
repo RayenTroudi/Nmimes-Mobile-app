@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 // ─── Entry: Fox intro screen ──────────────────────────────────────────────────
 
@@ -9,6 +10,7 @@ class SnapHwSendScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -39,7 +41,7 @@ class SnapHwSendScreen extends StatelessWidget {
                         top: -40,
                         right: -100,
                         child: _ThoughtBubble(
-                            text: "Let's Solve this\ntogether Step-by-Step"),
+                            text: l.snap_hw_send_thoughtBubble),
                       ),
                     ],
                   ),
@@ -48,7 +50,7 @@ class SnapHwSendScreen extends StatelessWidget {
               ),
             ),
             _BottomButton(
-              label: "Let's Solve",
+              label: l.snap_button_letsSolve,
               enabled: true,
               onTap: () => Navigator.push(
                 context,
@@ -73,7 +75,6 @@ class _Step1Screen extends StatefulWidget {
 
 class _Step1ScreenState extends State<_Step1Screen> {
   String? _selected;
-  // correct answer
   static const _correct = 'x';
   static const _options = ['x', '5', '2', '15'];
 
@@ -86,6 +87,7 @@ class _Step1ScreenState extends State<_Step1Screen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -100,11 +102,11 @@ class _Step1ScreenState extends State<_Step1Screen> {
                   children: [
                     _ProblemCard(),
                     const SizedBox(height: 24),
-                    _StepLabel(step: 'Step 1:'),
+                    _StepLabel(step: l.snap_hw_step1_label),
                     const SizedBox(height: 12),
                     Text(
-                      'What are we looking for?',
-                      style: GoogleFonts.poppins(
+                      l.snap_hw_step1_question,
+                      style: AppTextStyles.font(context,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -137,10 +139,10 @@ class _Step1ScreenState extends State<_Step1Screen> {
                     const SizedBox(height: 20),
                     if (_feedback == _FeedbackState.correct)
                       _FeedbackCard.correct(
-                          message: "You're Right! 🎉\nWe want to isolate 'x'."),
+                          message: l.snap_hw_step1_correct),
                     if (_feedback == _FeedbackState.wrong)
                       _FeedbackCard.wrong(
-                          message: "Hint: 'x' is the unknown.\nTry again.",
+                          message: l.snap_hw_step1_wrong,
                           onTryAgain: () => setState(() => _selected = null)),
                     const SizedBox(height: 24),
                   ],
@@ -148,7 +150,7 @@ class _Step1ScreenState extends State<_Step1Screen> {
               ),
             ),
             _BottomButton(
-              label: 'Next Step',
+              label: l.snap_button_nextStep,
               enabled: _feedback == _FeedbackState.correct,
               onTap: () => Navigator.push(
                 context,
@@ -173,23 +175,26 @@ class _Step2Screen extends StatefulWidget {
 
 class _Step2ScreenState extends State<_Step2Screen> {
   String? _selected;
-  static const _correct = 'Subtract 5 from both sides';
-  static const _options = [
-    'Subtract 5 from both sides',
-    'Divide both sides by 2',
-    'Add 5 to both sides',
-    'Multiply both sides by 2',
-  ];
+  // index of correct answer among options (index 0 = "Subtract 5 from both sides")
+  static const _correctIndex = 0;
 
-  _FeedbackState get _feedback {
+  _FeedbackState _feedbackFor(List<String> options) {
     if (_selected == null) return _FeedbackState.none;
-    return _selected == _correct
+    return _selected == options[_correctIndex]
         ? _FeedbackState.correct
         : _FeedbackState.wrong;
   }
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
+    final options = [
+      l.snap_hw_step2_option1,
+      l.snap_hw_step2_option2,
+      l.snap_hw_step2_option3,
+      l.snap_hw_step2_option4,
+    ];
+    final feedback = _feedbackFor(options);
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -204,42 +209,44 @@ class _Step2ScreenState extends State<_Step2Screen> {
                   children: [
                     _ProblemCard(),
                     const SizedBox(height: 24),
-                    _StepLabel(step: 'Step 2:'),
+                    _StepLabel(step: l.snap_hw_step2_label),
                     const SizedBox(height: 12),
                     Text(
-                      'What operation cancels the +5?',
-                      style: GoogleFonts.poppins(
+                      l.snap_hw_step2_question,
+                      style: AppTextStyles.font(context,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
                       ),
                     ),
                     const SizedBox(height: 16),
-                    ..._options.map((o) => Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
-                          child: _ListOption(
-                            label: o,
-                            state: _selected == null
-                                ? _TileState.idle
-                                : _selected == o
-                                    ? (o == _correct
-                                        ? _TileState.correct
-                                        : _TileState.wrong)
-                                    : _TileState.idle,
-                            onTap: _selected == null
-                                ? () => setState(() => _selected = o)
-                                : null,
-                          ),
-                        )),
+                    ...options.asMap().entries.map((entry) {
+                      final idx = entry.key;
+                      final o = entry.value;
+                      return Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: _ListOption(
+                          label: o,
+                          state: _selected == null
+                              ? _TileState.idle
+                              : _selected == o
+                                  ? (idx == _correctIndex
+                                      ? _TileState.correct
+                                      : _TileState.wrong)
+                                  : _TileState.idle,
+                          onTap: _selected == null
+                              ? () => setState(() => _selected = o)
+                              : null,
+                        ),
+                      );
+                    }),
                     const SizedBox(height: 8),
-                    if (_feedback == _FeedbackState.correct)
+                    if (feedback == _FeedbackState.correct)
                       _FeedbackCard.correct(
-                          message:
-                              "You're Amazing! 🎉\n2x+5−5 = 15−5\nso, 2x = 10"),
-                    if (_feedback == _FeedbackState.wrong)
+                          message: l.snap_hw_step2_correct_msg),
+                    if (feedback == _FeedbackState.wrong)
                       _FeedbackCard.wrong(
-                          message:
-                              "Hint: 'x' is the unknown.\nTry again.",
+                          message: l.snap_hw_step2_wrong,
                           onTryAgain: () => setState(() => _selected = null)),
                     const SizedBox(height: 24),
                   ],
@@ -247,8 +254,8 @@ class _Step2ScreenState extends State<_Step2Screen> {
               ),
             ),
             _BottomButton(
-              label: 'Next Step',
-              enabled: _feedback == _FeedbackState.correct,
+              label: l.snap_button_nextStep,
+              enabled: feedback == _FeedbackState.correct,
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(builder: (_) => const _Step3Screen()),
@@ -293,6 +300,7 @@ class _Step3ScreenState extends State<_Step3Screen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -307,11 +315,11 @@ class _Step3ScreenState extends State<_Step3Screen> {
                   children: [
                     _ProblemCard(),
                     const SizedBox(height: 24),
-                    _StepLabel(step: 'Step 3:'),
+                    _StepLabel(step: l.snap_hw_step3_label),
                     const SizedBox(height: 12),
                     Text(
-                      'Compute x yourself',
-                      style: GoogleFonts.poppins(
+                      l.snap_hw_step3_question,
+                      style: AppTextStyles.font(context,
                         fontSize: 18,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -319,8 +327,8 @@ class _Step3ScreenState extends State<_Step3Screen> {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      '2x = 10  →  x = ?',
-                      style: GoogleFonts.poppins(
+                      l.snap_hw_step3_hint,
+                      style: AppTextStyles.font(context,
                         fontSize: 15,
                         color: AppColors.textSecondary,
                       ),
@@ -330,8 +338,8 @@ class _Step3ScreenState extends State<_Step3Screen> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          'x = ',
-                          style: GoogleFonts.poppins(
+                          l.snap_hw_step3_x_prefix,
+                          style: AppTextStyles.font(context,
                             fontSize: 20,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary,
@@ -356,7 +364,7 @@ class _Step3ScreenState extends State<_Step3Screen> {
                             controller: _controller,
                             keyboardType: TextInputType.number,
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
+                            style: AppTextStyles.font(context,
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: AppColors.textPrimary,
@@ -378,11 +386,10 @@ class _Step3ScreenState extends State<_Step3Screen> {
                     ),
                     const SizedBox(height: 24),
                     if (_feedback == _FeedbackState.correct)
-                      _FeedbackCard.correct(message: 'Perfect! You Solved It'),
+                      _FeedbackCard.correct(message: l.snap_hw_step3_correct),
                     if (_feedback == _FeedbackState.wrong)
                       _FeedbackCard.wrong(
-                          message:
-                              'If 2 times something equals 10,\nwhat do we divide by?',
+                          message: l.snap_hw_step3_wrong,
                           onTryAgain: () {
                             _controller.clear();
                             setState(() => _feedback = _FeedbackState.none);
@@ -394,13 +401,13 @@ class _Step3ScreenState extends State<_Step3Screen> {
             ),
             if (_feedback == _FeedbackState.none)
               _BottomButton(
-                label: 'Check',
+                label: l.snap_button_check,
                 enabled: true,
                 onTap: _check,
               )
             else
               _BottomButton(
-                label: 'Next Step',
+                label: l.snap_button_nextStep,
                 enabled: _feedback == _FeedbackState.correct,
                 onTap: () => Navigator.push(
                   context,
@@ -422,6 +429,7 @@ class _CompleteSolutionScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -436,35 +444,35 @@ class _CompleteSolutionScreen extends StatelessWidget {
                   children: [
                     _ProblemCard(),
                     const SizedBox(height: 24),
-                    _StepLabel(step: "Let's have complete solution"),
+                    _StepLabel(step: l.snap_hw_completeSolution_label),
                     const SizedBox(height: 16),
                     _SolutionStepCard(
-                      stepLabel: 'Step 1:',
+                      stepLabel: l.snap_hw_cs_step1_label,
                       title: null,
-                      lines: const ['We need to isolate x'],
+                      lines: [l.snap_hw_cs_step1_line1],
                     ),
                     const SizedBox(height: 12),
                     _SolutionStepCard(
-                      stepLabel: 'Step 2:',
-                      title: 'Subtract 5 from both sides',
-                      lines: const [
-                        'We have:',
+                      stepLabel: l.snap_hw_cs_step2_label,
+                      title: l.snap_hw_step2_option1,
+                      lines: [
+                        l.snap_hw_cs_step2_line1,
                         '2x + 5 = 15',
-                        'Take away 5 from both sides:',
+                        l.snap_hw_cs_step2_line3,
                         '2x + 5 - 5 = 15 - 5',
                         '2x = 10',
                       ],
                     ),
                     const SizedBox(height: 12),
                     _SolutionStepCard(
-                      stepLabel: 'Step 3:',
-                      title: 'Divide both sides by 2',
-                      lines: const [
-                        'Now:',
+                      stepLabel: l.snap_hw_cs_step3_label,
+                      title: l.snap_hw_step2_option2,
+                      lines: [
+                        l.snap_hw_cs_step3_line1,
                         '2x = 10',
-                        'That means:',
-                        '2 times x = 10',
-                        'So divide 10 into 2 equal parts:',
+                        l.snap_hw_cs_step3_line3,
+                        l.snap_hw_cs_step3_line4,
+                        l.snap_hw_cs_step3_line5,
                         'x = 5',
                       ],
                     ),
@@ -475,7 +483,7 @@ class _CompleteSolutionScreen extends StatelessWidget {
               ),
             ),
             _BottomButton(
-              label: 'Done',
+              label: l.snap_button_done,
               enabled: true,
               onTap: () =>
                   Navigator.pushNamedAndRemoveUntil(
@@ -496,6 +504,7 @@ class _TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       child: Row(
@@ -507,8 +516,8 @@ class _TopBar extends StatelessWidget {
           ),
           const SizedBox(width: 12),
           Text(
-            'Snap a Homework',
-            style: GoogleFonts.poppins(
+            l.snap_title_homework,
+            style: AppTextStyles.font(context,
               fontSize: 20,
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
@@ -523,6 +532,7 @@ class _TopBar extends StatelessWidget {
 class _ProblemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
@@ -539,8 +549,8 @@ class _ProblemCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Solve for x:',
-            style: GoogleFonts.poppins(
+            l.snap_solveFor,
+            style: AppTextStyles.font(context,
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: AppColors.textPrimary,
@@ -549,7 +559,7 @@ class _ProblemCard extends StatelessWidget {
           const SizedBox(height: 4),
           Text(
             '2x + 5 = 15',
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 28,
               fontWeight: FontWeight.w800,
               color: AppColors.primary,
@@ -583,7 +593,7 @@ class _StepLabel extends StatelessWidget {
         const SizedBox(width: 8),
         Text(
           step,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 15,
             fontWeight: FontWeight.w600,
             color: AppColors.textSecondary,
@@ -637,7 +647,7 @@ class _TileOption extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 22,
               fontWeight: FontWeight.w700,
               color: text,
@@ -685,7 +695,7 @@ class _ListOption extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: AppColors.textPrimary,
@@ -730,6 +740,7 @@ class _FeedbackCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -755,7 +766,7 @@ class _FeedbackCard extends StatelessWidget {
               Expanded(
                 child: Text(
                   message.split('\n').first,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 15,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -768,7 +779,7 @@ class _FeedbackCard extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               message.split('\n').skip(1).join('\n'),
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: 13,
                 color: Colors.white.withValues(alpha: 0.9),
                 fontWeight: FontWeight.w600,
@@ -778,8 +789,8 @@ class _FeedbackCard extends StatelessWidget {
           if (onTryAgain != null) ...[
             const SizedBox(height: 10),
             Text(
-              'Try again.',
-              style: GoogleFonts.poppins(
+              l.snap_hw_tryAgain,
+              style: AppTextStyles.font(context,
                 fontSize: 13,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,
@@ -814,7 +825,7 @@ class _SolutionStepCard extends StatelessWidget {
         children: [
           Text(
             stepLabel,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 14,
               fontWeight: FontWeight.w700,
               color: AppColors.primary,
@@ -824,7 +835,7 @@ class _SolutionStepCard extends StatelessWidget {
             const SizedBox(height: 4),
             Text(
               title!,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: AppColors.textPrimary,
@@ -832,16 +843,16 @@ class _SolutionStepCard extends StatelessWidget {
             ),
           ],
           const SizedBox(height: 8),
-          ...lines.map((l) {
-            final isBold = l.startsWith('2x') ||
-                l.startsWith('x =') ||
-                l.startsWith('x+') ||
-                l == 'x = 5';
+          ...lines.map((line) {
+            final isBold = line.startsWith('2x') ||
+                line.startsWith('x =') ||
+                line.startsWith('x+') ||
+                line == 'x = 5';
             return Padding(
               padding: const EdgeInsets.only(bottom: 3),
               child: Text(
-                l,
-                style: GoogleFonts.poppins(
+                line,
+                style: AppTextStyles.font(context,
                   fontSize: 14,
                   fontWeight:
                       isBold ? FontWeight.w700 : FontWeight.w400,
@@ -859,6 +870,7 @@ class _SolutionStepCard extends StatelessWidget {
 class _FinalAnswerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -874,8 +886,8 @@ class _FinalAnswerCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Final Answer',
-                  style: GoogleFonts.poppins(
+                  l.snap_hw_finalAnswer,
+                  style: AppTextStyles.font(context,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: AppColors.primary,
@@ -884,7 +896,7 @@ class _FinalAnswerCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   'x = 5',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textPrimary,
@@ -923,7 +935,7 @@ class _ThoughtBubble extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 12,
             color: AppColors.textPrimary,
             height: 1.4,
@@ -1003,7 +1015,7 @@ class _BottomButton extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,

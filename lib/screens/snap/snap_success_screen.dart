@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 import 'snap_widgets.dart';
 
 class SnapSuccessScreen extends StatefulWidget {
@@ -18,6 +19,7 @@ class _SnapSuccessScreenState extends State<SnapSuccessScreen> {
   }
 
   void _showExplainPrompt() {
+    final l = context.l10n;
     showDialog(
       context: context,
       barrierDismissible: false,
@@ -37,9 +39,9 @@ class _SnapSuccessScreenState extends State<SnapSuccessScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    'Want to try explain it back?',
+                    l.snap_success_explainBack,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.font(context,
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -50,14 +52,14 @@ class _SnapSuccessScreenState extends State<SnapSuccessScreen> {
                     children: [
                       Expanded(
                         child: _DialogOutlineButton(
-                          label: 'No',
+                          label: l.snap_success_no,
                           onTap: () => Navigator.of(ctx).pop(),
                         ),
                       ),
                       const SizedBox(width: 12),
                       Expanded(
                         child: _DialogOrangeButton(
-                          label: 'Yes',
+                          label: l.snap_success_yes,
                           onTap: () {
                             Navigator.of(ctx).pop();
                             Navigator.pushNamed(context, '/snap-explain');
@@ -77,6 +79,7 @@ class _SnapSuccessScreenState extends State<SnapSuccessScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -111,8 +114,8 @@ class _SnapSuccessScreenState extends State<SnapSuccessScreen> {
                       const Text('🎉', style: TextStyle(fontSize: 22)),
                       const SizedBox(width: 6),
                       Text(
-                        'Great job!',
-                        style: GoogleFonts.poppins(
+                        l.snap_success_greatJob,
+                        style: AppTextStyles.font(context,
                           fontSize: 26,
                           fontWeight: FontWeight.w800,
                           color: AppColors.primary,
@@ -122,9 +125,9 @@ class _SnapSuccessScreenState extends State<SnapSuccessScreen> {
                   ),
                   const SizedBox(height: 12),
                   Text(
-                    'You solved it step by step!\nWant to try a quick test?',
+                    l.snap_success_solvedStepByStep,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.font(context,
                       fontSize: 15,
                       color: AppColors.textPrimary,
                       height: 1.5,
@@ -145,8 +148,8 @@ class _SnapSuccessScreenState extends State<SnapSuccessScreen> {
                         const Text('🏆', style: TextStyle(fontSize: 16)),
                         const SizedBox(width: 8),
                         Text(
-                          'Earned 50 points',
-                          style: GoogleFonts.poppins(
+                          l.snap_success_earned50,
+                          style: AppTextStyles.font(context,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: AppColors.textPrimary,
@@ -161,7 +164,7 @@ class _SnapSuccessScreenState extends State<SnapSuccessScreen> {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 0, 20, 28),
               child: SnapActionButton(
-                label: 'Continue',
+                label: l.snap_button_continue,
                 filled: true,
                 icon: Icons.arrow_forward_rounded,
                 onTap: () => Navigator.pushNamedAndRemoveUntil(
@@ -244,7 +247,7 @@ class _DialogOrangeButton extends StatelessWidget {
         ),
         child: Center(
           child: Text(label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   color: Colors.white)),
@@ -271,7 +274,7 @@ class _DialogOutlineButton extends StatelessWidget {
         ),
         child: Center(
           child: Text(label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                   fontSize: 15,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primary)),

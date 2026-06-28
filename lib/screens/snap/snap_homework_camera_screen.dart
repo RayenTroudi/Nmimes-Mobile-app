@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 import 'snap_widgets.dart';
 
 class SnapHomeworkCameraScreen extends StatefulWidget {
@@ -16,6 +17,7 @@ class _SnapHomeworkCameraScreenState extends State<SnapHomeworkCameraScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -35,8 +37,8 @@ class _SnapHomeworkCameraScreenState extends State<SnapHomeworkCameraScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      'Snap a Homework',
-                      style: GoogleFonts.poppins(
+                      l.snap_title_homework,
+                      style: AppTextStyles.font(context,
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -74,7 +76,7 @@ class _SnapHomeworkCameraScreenState extends State<SnapHomeworkCameraScreen> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: SnapCameraViewfinder(hint: ''),
+                child: const SnapCameraViewfinder(hint: ''),
               ),
             ),
 

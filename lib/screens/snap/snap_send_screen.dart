@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 // ─── Entry: "Let's find out the solution" intro ───────────────────────────────
 
@@ -9,13 +10,14 @@ class SnapSendScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
             _TopBar(
-              title: 'Snap a Lesson',
+              title: l.snap_send_title,
               onBack: () => Navigator.pop(context),
             ),
             Expanded(
@@ -48,7 +50,7 @@ class SnapSendScreen extends StatelessWidget {
                         const SizedBox(width: 12),
                         Expanded(
                           child: _SpeechBubble(
-                            text: "Let's find out\nthe solution",
+                            text: l.snap_send_foxSpeech,
                           ),
                         ),
                       ],
@@ -60,7 +62,7 @@ class SnapSendScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
               child: _OrangeButton(
-                label: "Let's Find",
+                label: l.snap_button_letsFind,
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -83,6 +85,7 @@ class _UnderstandingScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -90,7 +93,7 @@ class _UnderstandingScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _TopBar(
-              title: 'Snap a Lesson',
+              title: l.snap_send_title,
               onBack: () => Navigator.pop(context),
             ),
             Expanded(
@@ -102,8 +105,8 @@ class _UnderstandingScreen extends StatelessWidget {
                     _ProblemCard(equation: '2x + 5 = 15'),
                     const SizedBox(height: 24),
                     Text(
-                      'Understanding:',
-                      style: GoogleFonts.poppins(
+                      l.snap_understanding_title,
+                      style: AppTextStyles.font(context,
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
@@ -116,28 +119,28 @@ class _UnderstandingScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'First, Let\'s Understand It',
-                            style: GoogleFonts.poppins(
+                            l.snap_understand_card1_title,
+                            style: AppTextStyles.font(context,
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: AppColors.primary,
                             ),
                           ),
                           const SizedBox(height: 8),
-                          _bodyText('We need to find '),
+                          _bodyText(context, 'We need to find '),
                           _inlineRow([
-                            _bodyText('x is a hidden number '),
+                            _bodyText(context, 'x is a hidden number '),
                             const Text('❓', style: TextStyle(fontSize: 14)),
                           ]),
                           const SizedBox(height: 6),
-                          _bodyText('This question says:'),
+                          _bodyText(context, 'This question says:'),
                           const SizedBox(height: 4),
                           _inlineRow([
                             const Text('👉 ', style: TextStyle(fontSize: 14)),
                             Expanded(
                               child: Text(
                                 '2 times a number, then add 5, gives 15',
-                                style: GoogleFonts.poppins(
+                                style: AppTextStyles.font(context,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.textPrimary,
@@ -146,11 +149,11 @@ class _UnderstandingScreen extends StatelessWidget {
                             ),
                           ]),
                           const SizedBox(height: 6),
-                          _bodyText('So we are asking:'),
+                          _bodyText(context, 'So we are asking:'),
                           const SizedBox(height: 4),
                           Text(
                             'What number makes this true?',
-                            style: GoogleFonts.poppins(
+                            style: AppTextStyles.font(context,
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
                               color: AppColors.textPrimary,
@@ -168,8 +171,8 @@ class _UnderstandingScreen extends StatelessWidget {
                           _inlineRow([
                             const Text('💡 ', style: TextStyle(fontSize: 13)),
                             Text(
-                              'Let\'s Think Together',
-                              style: GoogleFonts.poppins(
+                              l.snap_understand_card2_title,
+                              style: AppTextStyles.font(context,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w600,
                                 color: AppColors.primary,
@@ -178,10 +181,10 @@ class _UnderstandingScreen extends StatelessWidget {
                           ]),
                           const SizedBox(height: 8),
                           _inlineRow([
-                            _bodyText('If the hidden number was '),
+                            _bodyText(context, 'If the hidden number was '),
                             Text(
                               '5:',
-                              style: GoogleFonts.poppins(
+                              style: AppTextStyles.font(context,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.textPrimary,
@@ -189,23 +192,23 @@ class _UnderstandingScreen extends StatelessWidget {
                             ),
                           ]),
                           const SizedBox(height: 4),
-                          _boldText('2 × 5 = 10'),
-                          _boldText('10 + 5 = 15'),
+                          _boldText(context, '2 × 5 = 10'),
+                          _boldText(context, '10 + 5 = 15'),
                           const SizedBox(height: 4),
                           _inlineRow([
                             Text(
                               'Wow! ',
-                              style: GoogleFonts.poppins(
+                              style: AppTextStyles.font(context,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.textPrimary,
                               ),
                             ),
-                            _bodyText('That works 🎉'),
+                            _bodyText(context, 'That works 🎉'),
                           ]),
                           _inlineRow([
-                            _bodyText('So maybe '),
-                            _boldText('x = 5'),
+                            _bodyText(context, 'So maybe '),
+                            _boldText(context, 'x = 5'),
                           ]),
                         ],
                       ),
@@ -227,8 +230,8 @@ class _UnderstandingScreen extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Formula:',
-                                  style: GoogleFonts.poppins(
+                                  l.snap_formula_label,
+                                  style: AppTextStyles.font(context,
                                     fontSize: 12,
                                     fontWeight: FontWeight.w500,
                                     color: AppColors.textSecondary,
@@ -237,11 +240,11 @@ class _UnderstandingScreen extends StatelessWidget {
                                 const SizedBox(height: 4),
                                 Text(
                                   'ax + b = c',
-                                  style: GoogleFonts.poppins(
+                                  style: AppTextStyles.font(context,
                                     fontSize: 26,
                                     fontWeight: FontWeight.w800,
                                     color: AppColors.textPrimary,
-                                    fontStyle: FontStyle.italic,
+                                    height: 1.2,
                                   ),
                                 ),
                               ],
@@ -269,7 +272,7 @@ class _UnderstandingScreen extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(20, 8, 20, 32),
               child: _OrangeButton(
-                label: "Let's Solve",
+                label: l.snap_button_letsSolve,
                 onTap: () => Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -374,6 +377,7 @@ class _SolutionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final step = _solutionSteps[stepIndex];
+    final l = context.l10n;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -382,7 +386,7 @@ class _SolutionScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             _TopBar(
-              title: 'Snap a Lesson',
+              title: l.snap_send_title,
               onBack: () => Navigator.pop(context),
             ),
             Expanded(
@@ -394,8 +398,8 @@ class _SolutionScreen extends StatelessWidget {
                     _ProblemCard(equation: '2x + 5 = 15'),
                     const SizedBox(height: 24),
                     Text(
-                      'Solution:',
-                      style: GoogleFonts.poppins(
+                      l.snap_solution_title,
+                      style: AppTextStyles.font(context,
                         fontSize: 22,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
@@ -415,7 +419,7 @@ class _SolutionScreen extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   step.label,
-                                  style: GoogleFonts.poppins(
+                                  style: AppTextStyles.font(context,
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
                                     color: step.isVerification
@@ -453,7 +457,7 @@ class _SolutionScreen extends StatelessWidget {
                               else if (step.symbol.isNotEmpty)
                                 Text(
                                   step.symbol,
-                                  style: GoogleFonts.poppins(
+                                  style: AppTextStyles.font(context,
                                     fontSize: 20,
                                     fontWeight: FontWeight.w800,
                                     color: AppColors.primary,
@@ -463,13 +467,13 @@ class _SolutionScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 10),
                           ...step.lines.map(
-                            (l) => Padding(
+                            (line) => Padding(
                               padding: const EdgeInsets.only(bottom: 4),
                               child: Text(
-                                l.text,
-                                style: GoogleFonts.poppins(
+                                line.text,
+                                style: AppTextStyles.font(context,
                                   fontSize: 14,
-                                  fontWeight: l.bold
+                                  fontWeight: line.bold
                                       ? FontWeight.w700
                                       : FontWeight.w400,
                                   color: AppColors.textPrimary,
@@ -491,13 +495,13 @@ class _SolutionScreen extends StatelessWidget {
               child: Row(
                 children: [
                   _OutlineButton(
-                    label: 'Back',
+                    label: l.snap_button_back,
                     onTap: () => Navigator.pop(context),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: _OrangeButton(
-                      label: _isLast ? 'Done' : 'Next Step',
+                      label: _isLast ? l.snap_button_done : l.snap_button_nextStep,
                       onTap: () {
                         if (_isLast) {
                           _showMakeSenseDialog(context);
@@ -539,6 +543,7 @@ class _MakeSenseDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Center(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -554,9 +559,9 @@ class _MakeSenseDialog extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Does this make sense?',
+                  l.snap_makeSense_question,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textPrimary,
@@ -567,7 +572,7 @@ class _MakeSenseDialog extends StatelessWidget {
                   children: [
                     Expanded(
                       child: _OutlineButton(
-                        label: 'Not Yet',
+                        label: l.snap_makeSense_notYet,
                         onTap: () {
                           Navigator.of(context).pop();
                           Navigator.pop(context); // go back to prev step
@@ -577,7 +582,7 @@ class _MakeSenseDialog extends StatelessWidget {
                     const SizedBox(width: 12),
                     Expanded(
                       child: _OrangeButton(
-                        label: 'Yes',
+                        label: l.snap_makeSense_yes,
                         onTap: () {
                           Navigator.of(context).pop();
                           Navigator.pushNamedAndRemoveUntil(
@@ -602,22 +607,22 @@ class _MakeSenseDialog extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Quick check',
-                        style: GoogleFonts.poppins(
+                        l.snap_makeSense_quickCheck,
+                        style: AppTextStyles.font(context,
                           fontSize: 12,
                           color: AppColors.textSecondary,
                         ),
                       ),
                       Text(
                         'Put x = 5 back into the equation:',
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.font(context,
                           fontSize: 12,
                           color: AppColors.textSecondary,
                         ),
                       ),
                       Text(
                         '2(5) + 5 = 10 + 5 = 15 ✓',
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.font(context,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primary,
@@ -656,7 +661,7 @@ class _TopBar extends StatelessWidget {
           const SizedBox(width: 12),
           Text(
             title,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 20,
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
@@ -674,6 +679,7 @@ class _ProblemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -691,8 +697,8 @@ class _ProblemCard extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'Solve for x:',
-            style: GoogleFonts.poppins(
+            l.snap_solveFor,
+            style: AppTextStyles.font(context,
               fontSize: 16,
               fontWeight: FontWeight.w600,
               color: AppColors.textSecondary,
@@ -701,7 +707,7 @@ class _ProblemCard extends StatelessWidget {
           const SizedBox(height: 6),
           Text(
             equation,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 30,
               fontWeight: FontWeight.w800,
               color: AppColors.primary,
@@ -753,10 +759,9 @@ class _SpeechBubble extends StatelessWidget {
         child: Text(
           text,
           textAlign: TextAlign.center,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 13,
             color: AppColors.textSecondary,
-            fontStyle: FontStyle.italic,
             height: 1.5,
           ),
         ),
@@ -800,15 +805,15 @@ class _BubblePainter extends CustomPainter {
   bool shouldRepaint(_BubblePainter _) => false;
 }
 
-Widget _bodyText(String t) => Text(
+Widget _bodyText(BuildContext context, String t) => Text(
       t,
-      style: GoogleFonts.poppins(
+      style: AppTextStyles.font(context,
           fontSize: 13, color: AppColors.textPrimary),
     );
 
-Widget _boldText(String t) => Text(
+Widget _boldText(BuildContext context, String t) => Text(
       t,
-      style: GoogleFonts.poppins(
+      style: AppTextStyles.font(context,
           fontSize: 13,
           fontWeight: FontWeight.w700,
           color: AppColors.textPrimary),
@@ -847,7 +852,7 @@ class _OrangeButton extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 16,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -878,7 +883,7 @@ class _OutlineButton extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: AppColors.primary,

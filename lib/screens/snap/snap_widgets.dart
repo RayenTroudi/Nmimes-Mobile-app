@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class SnapQuickTipsCard extends StatelessWidget {
   const SnapQuickTipsCard({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
@@ -18,8 +20,8 @@ class SnapQuickTipsCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Quick tips:',
-            style: GoogleFonts.poppins(
+            l.snap_widgets_quickTips,
+            style: AppTextStyles.font(context,
               fontSize: 14,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -27,14 +29,14 @@ class SnapQuickTipsCard extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           ...[
-            'Make sure the problem is clear',
-            'Good lighting helps',
-            'Center it in the frame',
+            l.snap_widgets_tip1,
+            l.snap_widgets_tip2,
+            l.snap_widgets_tip3,
           ].map((tip) => Padding(
                 padding: const EdgeInsets.only(top: 3),
                 child: Text(
                   '✓ $tip',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 13,
                     color: Colors.white,
                   ),
@@ -92,7 +94,7 @@ class SnapCameraViewfinder extends StatelessWidget {
                 const SizedBox(height: 12),
                 Text(
                   hint,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 14,
                     color: Colors.white.withValues(alpha: 0.6),
                   ),
@@ -193,7 +195,7 @@ class SnapActionButton extends StatelessWidget {
             const SizedBox(width: 8),
             Text(
               label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
                 color: filled ? Colors.white : AppColors.primary,

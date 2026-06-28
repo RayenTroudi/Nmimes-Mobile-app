@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 import 'snap_widgets.dart';
 
 class SnapHwCapturedScreen extends StatelessWidget {
@@ -8,6 +9,7 @@ class SnapHwCapturedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -25,8 +27,8 @@ class SnapHwCapturedScreen extends StatelessWidget {
                   ),
                   const SizedBox(width: 12),
                   Text(
-                    'Snap a Homework',
-                    style: GoogleFonts.poppins(
+                    l.snap_title_homework,
+                    style: AppTextStyles.font(context,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -64,8 +66,8 @@ class SnapHwCapturedScreen extends StatelessWidget {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      'Solve for x:',
-                                      style: GoogleFonts.poppins(
+                                      l.snap_solveFor,
+                                      style: AppTextStyles.font(context,
                                         fontSize: 18,
                                         fontWeight: FontWeight.w600,
                                         color: AppColors.textPrimary,
@@ -74,7 +76,7 @@ class SnapHwCapturedScreen extends StatelessWidget {
                                     const SizedBox(height: 8),
                                     Text(
                                       '2x + 5 = 15',
-                                      style: GoogleFonts.poppins(
+                                      style: AppTextStyles.font(context,
                                         fontSize: 28,
                                         fontWeight: FontWeight.w800,
                                         color: AppColors.primary,
@@ -131,8 +133,8 @@ class SnapHwCapturedScreen extends StatelessWidget {
                               ),
                               const SizedBox(width: 10),
                               Text(
-                                'Got it! 📸',
-                                style: GoogleFonts.poppins(
+                                l.snap_gotIt,
+                                style: AppTextStyles.font(context,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
@@ -142,15 +144,15 @@ class SnapHwCapturedScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: 8),
                           Text(
-                            'This looks like',
-                            style: GoogleFonts.poppins(
+                            l.snap_looksLike,
+                            style: AppTextStyles.font(context,
                               fontSize: 12,
                               color: Colors.white.withValues(alpha: 0.85),
                             ),
                           ),
                           Text(
-                            'Homework',
-                            style: GoogleFonts.poppins(
+                            l.snap_category_homework,
+                            style: AppTextStyles.font(context,
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
@@ -171,8 +173,8 @@ class SnapHwCapturedScreen extends StatelessWidget {
                                     color: Colors.white, size: 16),
                                 const SizedBox(width: 6),
                                 Text(
-                                  'Ready to make it fun!',
-                                  style: GoogleFonts.poppins(
+                                  l.snap_readyFun,
+                                  style: AppTextStyles.font(context,
                                     fontSize: 12,
                                     color: Colors.white,
                                   ),
@@ -186,7 +188,7 @@ class SnapHwCapturedScreen extends StatelessWidget {
                     const SizedBox(height: 16),
 
                     SnapActionButton(
-                      label: 'Confirm',
+                      label: l.snap_button_confirm,
                       filled: true,
                       icon: Icons.check,
                       onTap: () =>
@@ -194,7 +196,7 @@ class SnapHwCapturedScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 12),
                     SnapActionButton(
-                      label: 'Take another Photo',
+                      label: l.snap_button_takeAnother,
                       filled: false,
                       icon: Icons.camera_alt_rounded,
                       onTap: () => Navigator.pop(context),

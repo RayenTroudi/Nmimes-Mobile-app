@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 // ─── Message model ────────────────────────────────────────────────────────────
 
@@ -35,14 +36,6 @@ class _Reply {
     this.showGetSolution = false,
   });
 }
-
-// Exact chat script from Figma ls_21 → ls_29:
-// User sends "a+b = c"       → AI: "Wrong answer / Let's learn together." [Get Hint]
-// User taps Get Hint         → AI: "Hint: The problem has 3 constant and 1 variable like: 2x + 5 = 15"
-// User sends "ax+b = c"      → AI: "Great! / What was the first step?"
-// User sends "2x + 5 = 15-5" → AI: "Wrong answer / Let's learn together." [Get Hint]
-// User taps Get Hint         → AI: "Hint: We have to perform action on both sides of equation."
-// User sends "2x + 5 = 15-5" → AI: "Wrong answer / Let's learn together." [Get Hint] [Get Solution]
 
 const _replies = [
   _Reply(
@@ -167,12 +160,13 @@ class _SnapExplainScreenState extends State<SnapExplainScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
-            // Header — fox emoji + title (matches ls_20)
+            // Header
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
@@ -198,8 +192,8 @@ class _SnapExplainScreenState extends State<SnapExplainScreen> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    "Let's Explain it Together",
-                    style: GoogleFonts.poppins(
+                    l.snap_explain_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 17,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -255,6 +249,7 @@ class _ChatRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     final isUser = msg.isUser;
 
     final Color bubbleBg;
@@ -309,7 +304,7 @@ class _ChatRow extends StatelessWidget {
                     children: [
                       Text(
                         msg.text,
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.font(context,
                             fontSize: 14,
                             color: textColor,
                             height: 1.45),
@@ -323,7 +318,7 @@ class _ChatRow extends StatelessWidget {
                             children: [
                               Text(
                                 msg.time,
-                                style: GoogleFonts.poppins(
+                                style: AppTextStyles.font(context,
                                   fontSize: 10,
                                   color: isUser
                                       ? Colors.white.withValues(alpha: 0.7)
@@ -357,7 +352,7 @@ class _ChatRow extends StatelessWidget {
               children: [
                 if (msg.showGetHint)
                   _ActionPill(
-                    label: 'Get Hint',
+                    label: l.snap_explain_getHint,
                     color: AppColors.primary,
                     onTap: onGetHint,
                   ),
@@ -365,7 +360,7 @@ class _ChatRow extends StatelessWidget {
                   const SizedBox(width: 8),
                 if (msg.showGetSolution)
                   _ActionPill(
-                    label: 'Get Solution',
+                    label: l.snap_explain_getSolution,
                     color: const Color(0xFF35A468),
                     onTap: onGetSolution,
                   ),
@@ -397,7 +392,7 @@ class _ActionPill extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
               fontSize: 13,
               fontWeight: FontWeight.w600,
               color: Colors.white),
@@ -416,6 +411,7 @@ class _InputBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l = context.l10n;
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 24),
       child: Container(
@@ -437,11 +433,11 @@ class _InputBar extends StatelessWidget {
             Expanded(
               child: TextField(
                 controller: controller,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                     fontSize: 14, color: AppColors.textPrimary),
                 decoration: InputDecoration(
-                  hintText: 'Type here...',
-                  hintStyle: GoogleFonts.poppins(
+                  hintText: l.snap_explain_typeHint,
+                  hintStyle: AppTextStyles.font(context,
                       fontSize: 14, color: AppColors.textHint),
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(
