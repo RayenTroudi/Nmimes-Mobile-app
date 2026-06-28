@@ -113,7 +113,7 @@ class _NmimesAppState extends State<NmimesApp> {
       child: MaterialApp(
         title: 'Nmimes',
         debugShowCheckedModeBanner: false,
-        theme: AppTheme.light,
+        theme: AppTheme.lightForLocale(_localeNotifier.value),
         locale: _localeNotifier.value,
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,

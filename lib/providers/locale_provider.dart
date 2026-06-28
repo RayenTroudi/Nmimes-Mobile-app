@@ -44,5 +44,5 @@ class LocaleProvider extends InheritedWidget {
 
   @override
   bool updateShouldNotify(LocaleProvider oldWidget) =>
-      notifier != oldWidget.notifier;
+      notifier.value != oldWidget.notifier.value;
 }

@@ -3,6 +3,13 @@ import 'package:google_fonts/google_fonts.dart';
 import 'colors.dart';
 
 class AppTheme {
+  static ThemeData lightForLocale(Locale locale) {
+    final isAr = locale.languageCode == 'ar';
+    final textTheme =
+        isAr ? GoogleFonts.cairoTextTheme() : GoogleFonts.poppinsTextTheme();
+    return light.copyWith(textTheme: textTheme);
+  }
+
   static ThemeData get light => ThemeData(
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.background,
