@@ -150,7 +150,7 @@ class _SectionCard extends StatelessWidget {
                   ),
                   if (rule.note != null)
                     Padding(
-                      padding: const EdgeInsets.only(left: 16, top: 2),
+                      padding: const EdgeInsetsDirectional.only(start: 16, top: 2),
                       child: Text(
                         rule.note!,
                         style: AppTextStyles.font(context,

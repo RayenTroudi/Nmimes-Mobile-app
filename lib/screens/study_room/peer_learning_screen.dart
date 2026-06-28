@@ -210,7 +210,7 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                                 final filled = i < code.length;
                                 final isActive = i == code.length;
                                 return Container(
-                                  margin: const EdgeInsets.only(right: 14),
+                                  margin: const EdgeInsetsDirectional.only(end: 14),
                                   width: 58,
                                   height: 58,
                                   decoration: BoxDecoration(

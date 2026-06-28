@@ -38,11 +38,12 @@ class TeachItBackScreen extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.xxl),
               Text(l10n.teachItBack_title,
-                  style: AppTextStyles.h1, textAlign: TextAlign.center),
+                  style: AppTextStyles.font(context, fontSize: 28, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
+                  textAlign: TextAlign.center),
               const SizedBox(height: AppSpacing.md),
               Text(
                 l10n.teachItBack_subtitle,
-                style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
+                style: AppTextStyles.font(context, fontSize: 14, color: AppColors.textSecondary),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpacing.xxxl),
@@ -76,7 +77,7 @@ class _FeatureRow extends StatelessWidget {
       children: [
         Icon(icon, color: AppColors.primary, size: 22),
         const SizedBox(width: AppSpacing.md),
-        Text(text, style: AppTextStyles.body),
+        Text(text, style: AppTextStyles.font(context, fontSize: 14, color: AppColors.textPrimary)),
       ],
     );
   }

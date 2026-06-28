@@ -98,7 +98,7 @@ class _JoinChallengeScreenState extends State<JoinChallengeScreen> {
                     return GestureDetector(
                       onTap: () => _focusNode.requestFocus(),
                       child: Container(
-                        margin: const EdgeInsets.only(right: 16),
+                        margin: const EdgeInsetsDirectional.only(end: 16),
                         width: 60,
                         height: 60,
                         decoration: BoxDecoration(

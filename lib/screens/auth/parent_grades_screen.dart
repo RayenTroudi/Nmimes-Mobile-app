@@ -26,7 +26,7 @@ class _ParentGradesScreenState extends State<ParentGradesScreen> {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(l10n.parentGrades_appBarTitle, style: AppTextStyles.h3),
+        title: Text(l10n.parentGrades_appBarTitle, style: AppTextStyles.font(context, fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
       ),
       body: SafeArea(
         child: Padding(
@@ -34,7 +34,7 @@ class _ParentGradesScreenState extends State<ParentGradesScreen> {
           child: Column(
             children: [
               const SizedBox(height: AppSpacing.xl),
-              Text(l10n.parentGrades_title, style: AppTextStyles.h2),
+              Text(l10n.parentGrades_title, style: AppTextStyles.font(context, fontSize: 22, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
               const SizedBox(height: AppSpacing.xxl),
               Expanded(
                 child: GridView.builder(
@@ -64,11 +64,10 @@ class _ParentGradesScreenState extends State<ParentGradesScreen> {
                         alignment: Alignment.center,
                         child: Text(
                           l10n.parentGrades_gradeLabel(grade),
-                          style: AppTextStyles.body.copyWith(
-                            color: active
-                                ? AppColors.white
-                                : AppColors.textPrimary,
+                          style: AppTextStyles.font(context,
+                            fontSize: 14,
                             fontWeight: FontWeight.w600,
+                            color: active ? AppColors.white : AppColors.textPrimary,
                           ),
                         ),
                       ),

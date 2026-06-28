@@ -584,7 +584,7 @@ class _InputBar extends StatelessWidget {
               child: Container(
                 width: 36,
                 height: 36,
-                margin: const EdgeInsets.only(right: 8),
+                margin: const EdgeInsetsDirectional.only(end: 8),
                 decoration: const BoxDecoration(
                   color: AppColors.primary,
                   shape: BoxShape.circle,

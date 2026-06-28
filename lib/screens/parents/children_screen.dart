@@ -23,7 +23,7 @@ class ChildrenScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(l10n.children_title, style: AppTextStyles.h3),
+        title: Text(l10n.children_title, style: AppTextStyles.font(context, fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
         actions: [
           IconButton(
             icon: const Icon(Icons.add, color: AppColors.primary),
@@ -52,13 +52,11 @@ class ChildrenScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(_children[i].$1,
-                        style: AppTextStyles.body
-                            .copyWith(fontWeight: FontWeight.w600)),
+                        style: AppTextStyles.font(ctx, fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
                     Text(_children[i].$2,
-                        style: AppTextStyles.bodySmall),
+                        style: AppTextStyles.font(ctx, fontSize: 12, color: AppColors.textSecondary)),
                     Text(_children[i].$3,
-                        style: AppTextStyles.bodySmall
-                            .copyWith(color: AppColors.primary)),
+                        style: AppTextStyles.font(ctx, fontSize: 12, color: AppColors.primary)),
                   ],
                 ),
               ),

@@ -162,7 +162,7 @@ class ClaimRewardScreen extends StatelessWidget {
                               Container(
                                 width: 6,
                                 height: 6,
-                                margin: const EdgeInsets.only(top: 7, right: 10),
+                                margin: const EdgeInsetsDirectional.only(top: 7, end: 10),
                                 decoration: const BoxDecoration(
                                   color: AppColors.textSecondary,
                                   shape: BoxShape.circle,

@@ -47,7 +47,10 @@ class RoleCard extends StatelessWidget {
             const SizedBox(height: 12),
             Text(
               label,
-              style: AppTextStyles.h3.copyWith(
+              style: AppTextStyles.font(
+                context,
+                fontSize: 18,
+                fontWeight: FontWeight.w600,
                 color: selected ? AppColors.primary : AppColors.textPrimary,
               ),
             ),

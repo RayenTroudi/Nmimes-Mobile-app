@@ -34,14 +34,14 @@ class ChallengeCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(subject,
-                      style:
-                          AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
+                      style: AppTextStyles.font(context,
+                          fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      _badge(difficulty, AppColors.primary),
+                      _badge(context, difficulty, AppColors.primary),
                       const SizedBox(width: 8),
-                      _badge(timer, AppColors.textSecondary),
+                      _badge(context, timer, AppColors.textSecondary),
                     ],
                   ),
                 ],
@@ -54,7 +54,7 @@ class ChallengeCard extends StatelessWidget {
     );
   }
 
-  Widget _badge(String label, Color color) {
+  Widget _badge(BuildContext context, String label, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
@@ -63,9 +63,10 @@ class ChallengeCard extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: AppTextStyles.caption.copyWith(
-          color: color,
+        style: AppTextStyles.font(context,
+          fontSize: 11,
           fontWeight: FontWeight.w600,
+          color: color,
         ),
       ),
     );

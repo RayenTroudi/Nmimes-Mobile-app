@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../providers/locale_provider.dart';
 import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
 const _languages = [
   (code: 'en', flag: '🇬🇧', label: 'English'),
@@ -49,7 +49,8 @@ class _LanguagePickerSheet extends StatelessWidget {
                 leading: Text(lang.flag, style: const TextStyle(fontSize: 24)),
                 title: Text(
                   lang.label,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(
+                    context,
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
                     color: AppColors.textPrimary,

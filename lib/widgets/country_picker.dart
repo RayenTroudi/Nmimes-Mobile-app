@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
 class Country {
   final String flag;
@@ -232,7 +232,8 @@ class CountryPickerButton extends StatelessWidget {
             const SizedBox(width: 4),
             Text(
               selected.dialCode,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(
+                context,
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: AppColors.textPrimary,
@@ -321,10 +322,10 @@ class _CountryPickerSheetState extends State<_CountryPickerSheet> {
                 ),
                 child: TextField(
                   controller: _searchCtrl,
-                  style: GoogleFonts.poppins(fontSize: 14),
+                  style: AppTextStyles.font(context, fontSize: 14),
                   decoration: InputDecoration(
                     hintText: 'Search country or code',
-                    hintStyle: GoogleFonts.poppins(
+                    hintStyle: AppTextStyles.font(context,
                         fontSize: 14, color: AppColors.textHint),
                     prefixIcon: const Icon(Icons.search,
                         color: AppColors.textHint, size: 20),
@@ -348,7 +349,8 @@ class _CountryPickerSheetState extends State<_CountryPickerSheet> {
                         style: const TextStyle(fontSize: 24)),
                     title: Text(
                       c.name,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(
+                        context,
                         fontSize: 14,
                         fontWeight: isSelected
                             ? FontWeight.w700
@@ -360,7 +362,8 @@ class _CountryPickerSheetState extends State<_CountryPickerSheet> {
                     ),
                     trailing: Text(
                       c.dialCode,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(
+                        context,
                         fontSize: 13,
                         color: AppColors.textSecondary,
                       ),

@@ -34,7 +34,7 @@ class RewardCard extends StatelessWidget {
             Text(icon, style: const TextStyle(fontSize: 36)),
             const SizedBox(height: 8),
             Text(title,
-                style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                style: AppTextStyles.font(context, fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary),
                 textAlign: TextAlign.center),
             const SizedBox(height: 4),
             Container(
@@ -45,9 +45,10 @@ class RewardCard extends StatelessWidget {
               ),
               child: Text(
                 context.l10n.rewardCard_pts(points),
-                style: AppTextStyles.bodySmall.copyWith(
-                  color: AppColors.primary,
+                style: AppTextStyles.font(context,
+                  fontSize: 12,
                   fontWeight: FontWeight.w600,
+                  color: AppColors.primary,
                 ),
               ),
             ),

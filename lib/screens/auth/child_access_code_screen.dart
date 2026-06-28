@@ -132,7 +132,7 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                             return GestureDetector(
                               onTap: () => _focus.requestFocus(),
                               child: Container(
-                                margin: EdgeInsets.only(right: i < 3 ? 16 : 0),
+                                margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
                                 width: 60,
                                 height: 60,
                                 decoration: BoxDecoration(

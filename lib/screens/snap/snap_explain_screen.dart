@@ -448,7 +448,7 @@ class _InputBar extends StatelessWidget {
             ),
             // Attach icon
             Padding(
-              padding: const EdgeInsets.only(right: 4),
+              padding: const EdgeInsetsDirectional.only(end: 4),
               child: Icon(Icons.attach_file_rounded,
                   color: AppColors.textHint, size: 20),
             ),
@@ -466,7 +466,7 @@ class _InputBar extends StatelessWidget {
             ),
             // Send arrow
             Padding(
-              padding: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsetsDirectional.only(end: 12),
               child: GestureDetector(
                 onTap: onSend,
                 child: Icon(Icons.send_rounded,

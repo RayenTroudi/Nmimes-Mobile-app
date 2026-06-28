@@ -30,10 +30,11 @@ class AvatarWidget extends StatelessWidget {
             : Center(
                 child: Text(
                   initials.isNotEmpty ? initials[0].toUpperCase() : '?',
-                  style: AppTextStyles.body.copyWith(
+                  style: AppTextStyles.font(
+                    context,
+                    fontSize: radius * 0.8,
                     fontWeight: FontWeight.w600,
                     color: AppColors.primary,
-                    fontSize: radius * 0.8,
                   ),
                 ),
               ),

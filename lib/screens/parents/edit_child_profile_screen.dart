@@ -19,7 +19,7 @@ class EditChildProfileScreen extends StatelessWidget {
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Text(l10n.editChild_title, style: AppTextStyles.h3),
+        title: Text(l10n.editChild_title, style: AppTextStyles.font(context, fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
       ),
       body: SafeArea(
         child: SingleChildScrollView(

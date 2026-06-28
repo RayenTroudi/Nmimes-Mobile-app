@@ -47,8 +47,8 @@ class StudyRoomCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,
-                      style: AppTextStyles.body.copyWith(fontWeight: FontWeight.w600)),
-                  Text(subtitle, style: AppTextStyles.bodySmall),
+                      style: AppTextStyles.font(context, fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+                  Text(subtitle, style: AppTextStyles.font(context, fontSize: 12, color: AppColors.textSecondary)),
                 ],
               ),
             ),
