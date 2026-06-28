@@ -524,8 +524,30 @@
   "pvp_start": "Start Challenge 🎯",
   "pvp_leaderboard": "Leaderboard",
   "pvp_points": "points",
+  "pvp_streak": "🔥 {count} days streak",
+  "@pvp_streak": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "pvp_leave_body": "By Leaving this challenge, you will lose from your friend.",
   "pvp_leave_confirm": "Are you sure to leave this challenge?",
+
+  "challenge_title_puzzlePro": "Puzzle Pro",
+  "challenge_subtitle_puzzlePro": "Solve 10 puzzles to get Champion badge",
+  "challenge_title_algebraMaster": "Algebra Master",
+  "challenge_subtitle_algebraMaster": "Solve 10 questions to get your Quick Thinker badge.",
+  "challenge_title_speedDemon": "Speed Demon",
+  "challenge_subtitle_speedDemon": "Complete 5 problems to get your Math Wizard",
+  "challenge_title_perfectChain": "Perfect Chain",
+  "challenge_subtitle_perfectChain": "Get 10 correct answers in a row and earn Perfect Scorer",
+  "challenge_title_mazeMaster": "Maze Master",
+  "challenge_subtitle_mazeMaster": "Complete 5 mazes in a row and get Master badge",
+  "challenge_title_geometryGod": "Geometry God",
+  "challenge_subtitle_geometryGod": "Master all geometry concepts and get your Legend",
+  "challenge_difficulty_easy": "Easy",
+  "challenge_difficulty_medium": "Medium",
+  "challenge_difficulty_hard": "Hard",
 
   "challenge_joining_code": "Joining Code",
   "challenge_join_button": "Join",

@@ -15,79 +15,82 @@ class ChallengesScreen extends StatefulWidget {
 class _ChallengesScreenState extends State<ChallengesScreen> {
   int _tab = 0;
 
-  static const _soloChallenge = [
-    _ChallengeData(isBanner: true),
-    _ChallengeData(
-      icon: '🧩',
-      titleKey: 'Puzzle Pro',
-      subtitleKey: 'Solve 10 puzzles to get Champion badge',
-      points: '+150 pts',
-      pointsColor: Color(0xFFE97D9C),
-      progress: 0.8,
-      progressLabel: '8/10',
-      difficultyKey: 'Medium',
-      difficultyTextColor: Color(0xFFa65f00),
-      difficultyBgColor: Color(0xFFFEF9C2),
-    ),
-    _ChallengeData(
-      icon: '🏆',
-      titleKey: 'Algebra Master',
-      subtitleKey: 'Solve 10 questions to get your Quick Thinker badge.',
-      points: '+50 pts',
-      pointsColor: Color(0xFF35A468),
-      progress: 0.7,
-      progressLabel: '7/10',
-      difficultyKey: 'Easy',
-      difficultyTextColor: Color(0xFF008236),
-      difficultyBgColor: Color(0xFFDCFCE7),
-      startRoute: '/algebra-start',
-    ),
-    _ChallengeData(
-      icon: '⚡',
-      titleKey: 'Speed Demon',
-      subtitleKey: 'Complete 5 problems to get your Math Wizard',
-      points: '+100 pts',
-      pointsColor: Color(0xFFFDB500),
-      progress: 0.6,
-      progressLabel: '3/5',
-      difficultyKey: 'Medium',
-      difficultyTextColor: Color(0xFFa65f00),
-      difficultyBgColor: Color(0xFFFEF9C2),
-    ),
-    _ChallengeData(
-      icon: '🔗',
-      titleKey: 'Perfect Chain',
-      subtitleKey: 'Get 10 correct answers in a row and earn Perfect Scorer',
-      points: '+200 pts',
-      pointsColor: Color(0xFF0588C4),
-      progress: 0.8,
-      progressLabel: '12/15',
-      difficultyKey: 'Hard',
-      difficultyTextColor: Color(0xFFF79C09),
-      difficultyBgColor: Color(0x12F79C09),
-    ),
-    _ChallengeData(
-      icon: '🗺️',
-      titleKey: 'Maze Master',
-      subtitleKey: 'Complete 5 mazes in a row and get Master badge',
-      points: '+100 pts',
-      pointsColor: Color(0xFF6A7282),
-      progress: 0.6,
-      progressLabel: '3/5',
-      difficultyKey: 'Hard',
-      difficultyTextColor: Color(0xFFF79C09),
-      difficultyBgColor: Color(0x12F79C09),
-      startRoute: '/maze-start',
-    ),
-    _ChallengeData(
-      icon: '📐',
-      titleKey: 'Geometry God',
-      subtitleKey: 'Master all geometry concepts and get your Legend',
-      points: '+300 pts',
-      pointsColor: Color(0xFFE2562C),
-      isLocked: true,
-    ),
-  ];
+  static List<_ChallengeData> _buildChallenges(BuildContext context) {
+    final l = context.l10n;
+    return [
+      const _ChallengeData(isBanner: true),
+      _ChallengeData(
+        icon: '🧩',
+        title: l.challenge_title_puzzlePro,
+        subtitle: l.challenge_subtitle_puzzlePro,
+        points: '+150 pts',
+        pointsColor: const Color(0xFFE97D9C),
+        progress: 0.8,
+        progressLabel: '8/10',
+        difficulty: l.challenge_difficulty_medium,
+        difficultyTextColor: const Color(0xFFa65f00),
+        difficultyBgColor: const Color(0xFFFEF9C2),
+      ),
+      _ChallengeData(
+        icon: '🏆',
+        title: l.challenge_title_algebraMaster,
+        subtitle: l.challenge_subtitle_algebraMaster,
+        points: '+50 pts',
+        pointsColor: const Color(0xFF35A468),
+        progress: 0.7,
+        progressLabel: '7/10',
+        difficulty: l.challenge_difficulty_easy,
+        difficultyTextColor: const Color(0xFF008236),
+        difficultyBgColor: const Color(0xFFDCFCE7),
+        startRoute: '/algebra-start',
+      ),
+      _ChallengeData(
+        icon: '⚡',
+        title: l.challenge_title_speedDemon,
+        subtitle: l.challenge_subtitle_speedDemon,
+        points: '+100 pts',
+        pointsColor: const Color(0xFFFDB500),
+        progress: 0.6,
+        progressLabel: '3/5',
+        difficulty: l.challenge_difficulty_medium,
+        difficultyTextColor: const Color(0xFFa65f00),
+        difficultyBgColor: const Color(0xFFFEF9C2),
+      ),
+      _ChallengeData(
+        icon: '🔗',
+        title: l.challenge_title_perfectChain,
+        subtitle: l.challenge_subtitle_perfectChain,
+        points: '+200 pts',
+        pointsColor: const Color(0xFF0588C4),
+        progress: 0.8,
+        progressLabel: '12/15',
+        difficulty: l.challenge_difficulty_hard,
+        difficultyTextColor: const Color(0xFFF79C09),
+        difficultyBgColor: const Color(0x12F79C09),
+      ),
+      _ChallengeData(
+        icon: '🗺️',
+        title: l.challenge_title_mazeMaster,
+        subtitle: l.challenge_subtitle_mazeMaster,
+        points: '+100 pts',
+        pointsColor: const Color(0xFF6A7282),
+        progress: 0.6,
+        progressLabel: '3/5',
+        difficulty: l.challenge_difficulty_hard,
+        difficultyTextColor: const Color(0xFFF79C09),
+        difficultyBgColor: const Color(0x12F79C09),
+        startRoute: '/maze-start',
+      ),
+      _ChallengeData(
+        icon: '📐',
+        title: l.challenge_title_geometryGod,
+        subtitle: l.challenge_subtitle_geometryGod,
+        points: '+300 pts',
+        pointsColor: const Color(0xFFE2562C),
+        isLocked: true,
+      ),
+    ];
+  }
 
   void _showChallengePopup(BuildContext context, {String startRoute = '/start-challenge'}) {
     showDialog(
@@ -126,7 +129,7 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
           Expanded(
             child: _tab == 0
                 ? _SoloChallenges(
-                    challenges: _soloChallenge,
+                    challenges: _buildChallenges(context),
                     onPlay: (route) => _showChallengePopup(context, startRoute: route),
                   )
                 : _PVPTab(
@@ -271,13 +274,13 @@ class _ChallengeData {
   final bool isBanner;
   final bool isLocked;
   final String icon;
-  final String titleKey;
-  final String subtitleKey;
+  final String title;
+  final String subtitle;
   final String? points;
   final Color pointsColor;
   final double? progress;
   final String? progressLabel;
-  final String? difficultyKey;
+  final String? difficulty;
   final Color difficultyTextColor;
   final Color difficultyBgColor;
   final String startRoute;
@@ -286,13 +289,13 @@ class _ChallengeData {
     this.isBanner = false,
     this.isLocked = false,
     this.icon = '',
-    this.titleKey = '',
-    this.subtitleKey = '',
+    this.title = '',
+    this.subtitle = '',
     this.points,
     this.pointsColor = const Color(0xFF35A468),
     this.progress,
     this.progressLabel,
-    this.difficultyKey,
+    this.difficulty,
     this.difficultyTextColor = const Color(0xFF008236),
     this.difficultyBgColor = const Color(0xFFDCFCE7),
     this.startRoute = '/start-challenge',
@@ -411,7 +414,7 @@ class _ChallengeCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data.titleKey,
+                      data.title,
                       style: AppTextStyles.font(context,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -420,7 +423,7 @@ class _ChallengeCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      data.subtitleKey,
+                      data.subtitle,
                       style: AppTextStyles.font(context,
                         fontSize: 10,
                         color: const Color(0xFF4A5565),
@@ -496,7 +499,7 @@ class _ChallengeCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(1000),
                 ),
                 child: Text(
-                  data.difficultyKey ?? '',
+                  data.difficulty ?? '',
                   style: AppTextStyles.font(context,
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
@@ -557,7 +560,7 @@ class _LockedCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data.titleKey,
+                      data.title,
                       style: AppTextStyles.font(context,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
@@ -566,7 +569,7 @@ class _LockedCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      data.subtitleKey,
+                      data.subtitle,
                       style: AppTextStyles.font(context,
                         fontSize: 10,
                         color: const Color(0xFF4A5565),
@@ -616,10 +619,10 @@ class _PVPTab extends StatelessWidget {
   const _PVPTab({required this.onStart});
 
   static const _leaders = [
-    _LeaderEntry('🥇', 'Ahmed K.', '🔥 15 days streak', '2450', false, true),
-    _LeaderEntry('🥈', 'Sara M.', '🔥 12 days streak', '1850', false, true),
-    _LeaderEntry('🥉', 'Meriam (You)', '🔥 10 days streak', '1650', true, true),
-    _LeaderEntry('#4', 'Meriam', '🔥 09 days streak', '1550', false, false),
+    _LeaderEntry('🥇', 'Ahmed K.', 15, '2450', false, true),
+    _LeaderEntry('🥈', 'Sara M.', 12, '1850', false, true),
+    _LeaderEntry('🥉', 'Meriam (You)', 10, '1650', true, true),
+    _LeaderEntry('#4', 'Meriam', 9, '1550', false, false),
   ];
 
   @override
@@ -735,11 +738,11 @@ class _PVPTab extends StatelessWidget {
 class _LeaderEntry {
   final String medal;
   final String name;
-  final String streak;
+  final int streakDays;
   final String points;
   final bool isYou;
   final bool hasMedalEmoji;
-  const _LeaderEntry(this.medal, this.name, this.streak, this.points, this.isYou, this.hasMedalEmoji);
+  const _LeaderEntry(this.medal, this.name, this.streakDays, this.points, this.isYou, this.hasMedalEmoji);
 }
 
 class _LeaderRow extends StatelessWidget {
@@ -792,7 +795,7 @@ class _LeaderRow extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  entry.streak,
+                  context.l10n.pvp_streak(entry.streakDays),
                   style: AppTextStyles.font(context,
                     fontSize: 11,
                     fontWeight: FontWeight.w700,

@@ -523,8 +523,30 @@
   "pvp_start": "بدء التحدي 🎯",
   "pvp_leaderboard": "لوحة المتصدرين",
   "pvp_points": "نقاط",
+  "pvp_streak": "🔥 سلسلة {count} أيام",
+  "@pvp_streak": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "pvp_leave_body": "بمغادرة هذا التحدي، ستخسر أمام صديقك.",
   "pvp_leave_confirm": "هل أنت متأكد من مغادرة هذا التحدي؟",
+
+  "challenge_title_puzzlePro": "محترف الألغاز",
+  "challenge_subtitle_puzzlePro": "حل 10 ألغاز للحصول على شارة البطل",
+  "challenge_title_algebraMaster": "سيد الجبر",
+  "challenge_subtitle_algebraMaster": "حل 10 أسئلة للحصول على شارة المفكر السريع.",
+  "challenge_title_speedDemon": "شيطان السرعة",
+  "challenge_subtitle_speedDemon": "أكمل 5 مسائل للحصول على شارة ساحر الرياضيات",
+  "challenge_title_perfectChain": "السلسلة المثالية",
+  "challenge_subtitle_perfectChain": "احصل على 10 إجابات صحيحة متتالية واكسب شارة المسجّل المثالي",
+  "challenge_title_mazeMaster": "سيد المتاهة",
+  "challenge_subtitle_mazeMaster": "أكمل 5 متاهات متتالية واحصل على شارة الماهر",
+  "challenge_title_geometryGod": "إله الهندسة",
+  "challenge_subtitle_geometryGod": "أتقن جميع مفاهيم الهندسة واحصل على شارة الأسطورة",
+  "challenge_difficulty_easy": "سهل",
+  "challenge_difficulty_medium": "متوسط",
+  "challenge_difficulty_hard": "صعب",
 
   "challenge_joining_code": "رمز الانضمام",
   "challenge_join_button": "انضمام",

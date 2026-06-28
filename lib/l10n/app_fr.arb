@@ -523,8 +523,30 @@
   "pvp_start": "Commencer le défi 🎯",
   "pvp_leaderboard": "Classement",
   "pvp_points": "points",
+  "pvp_streak": "🔥 {count} jours de série",
+  "@pvp_streak": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
   "pvp_leave_body": "En quittant ce défi, vous perdrez contre votre ami.",
   "pvp_leave_confirm": "Êtes-vous sûr de vouloir quitter ce défi ?",
+
+  "challenge_title_puzzlePro": "Puzzle Pro",
+  "challenge_subtitle_puzzlePro": "Résolvez 10 puzzles pour obtenir le badge Champion",
+  "challenge_title_algebraMaster": "Maître Algèbre",
+  "challenge_subtitle_algebraMaster": "Résolvez 10 questions pour obtenir le badge Penseur Rapide.",
+  "challenge_title_speedDemon": "Démon de la Vitesse",
+  "challenge_subtitle_speedDemon": "Complétez 5 problèmes pour obtenir votre badge Magicien des Maths",
+  "challenge_title_perfectChain": "Chaîne Parfaite",
+  "challenge_subtitle_perfectChain": "Obtenez 10 bonnes réponses d'affilée et gagnez le badge Scorer Parfait",
+  "challenge_title_mazeMaster": "Maître du Labyrinthe",
+  "challenge_subtitle_mazeMaster": "Complétez 5 labyrinthes d'affilée et obtenez le badge Maître",
+  "challenge_title_geometryGod": "Dieu de la Géométrie",
+  "challenge_subtitle_geometryGod": "Maîtrisez tous les concepts de géométrie et obtenez votre badge Légende",
+  "challenge_difficulty_easy": "Facile",
+  "challenge_difficulty_medium": "Moyen",
+  "challenge_difficulty_hard": "Difficile",
 
   "challenge_joining_code": "Code de participation",
   "challenge_join_button": "Rejoindre",
