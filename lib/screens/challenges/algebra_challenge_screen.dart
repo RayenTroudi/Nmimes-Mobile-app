@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 class _Question {
   final String question;
@@ -206,7 +207,7 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                               const SizedBox(width: 4),
                               Text(
                                 '$_score',
-                                style: GoogleFonts.arimo(
+                                style: AppTextStyles.font(context,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
@@ -235,8 +236,8 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
 
                     // Question counter
                     Text(
-                      'Question ${_index + 1} of ${_questions.length}',
-                      style: GoogleFonts.poppins(
+                      context.l10n.algebra_question_of(_index + 1, _questions.length),
+                      style: AppTextStyles.font(context,
                         fontSize: 12,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -285,7 +286,7 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                         Expanded(
                           child: Text(
                             _q.question,
-                            style: GoogleFonts.arimo(
+                            style: AppTextStyles.font(context,
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF2E2E2E),
@@ -360,7 +361,7 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                                 Expanded(
                                   child: Text(
                                     _q.choices[i],
-                                    style: GoogleFonts.arimo(
+                                    style: AppTextStyles.font(context,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       color: textColor,
@@ -430,9 +431,9 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                             children: [
                               Text(
                                 _isCorrect
-                                    ? 'Perfect! 🎉'
-                                    : 'Oops! Try again!',
-                                style: GoogleFonts.arimo(
+                                    ? context.l10n.algebra_feedback_correct
+                                    : context.l10n.algebra_feedback_wrong,
+                                style: AppTextStyles.font(context,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: const Color(0xFF101828),
@@ -440,9 +441,9 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                               ),
                               Text(
                                 _isCorrect
-                                    ? "You're on fire! Keep going!"
-                                    : "Don't worry, mistakes help us learn! 💪",
-                                style: GoogleFonts.poppins(
+                                    ? context.l10n.algebra_feedback_correct_sub
+                                    : context.l10n.algebra_feedback_wrong_sub,
+                                style: AppTextStyles.font(context,
                                   fontSize: 13,
                                   color: const Color(0xFF364153),
                                 ),
@@ -476,8 +477,8 @@ class _LeaveDialog extends StatelessWidget {
             const Text('⚠️', style: TextStyle(fontSize: 40)),
             const SizedBox(height: 12),
             Text(
-              'Leave Challenge?',
-              style: GoogleFonts.arimo(
+              context.l10n.algebra_leave_title,
+              style: AppTextStyles.font(context,
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF101828),
@@ -485,8 +486,8 @@ class _LeaveDialog extends StatelessWidget {
             ),
             const SizedBox(height: 8),
             Text(
-              'Your progress will be lost.',
-              style: GoogleFonts.poppins(
+              context.l10n.algebra_leave_body,
+              style: AppTextStyles.font(context,
                 fontSize: 14,
                 color: const Color(0xFF5A6677),
               ),
@@ -505,7 +506,10 @@ class _LeaveDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100)),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    child: Text('Stay', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                    child: Text(
+                      context.l10n.algebra_leave_stay,
+                      style: AppTextStyles.font(context, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
                 const SizedBox(width: 12),
@@ -521,7 +525,10 @@ class _LeaveDialog extends StatelessWidget {
                           borderRadius: BorderRadius.circular(100)),
                       padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    child: Text('Leave', style: GoogleFonts.poppins(fontWeight: FontWeight.w600)),
+                    child: Text(
+                      context.l10n.algebra_leave_leave,
+                      style: AppTextStyles.font(context, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ),
               ],

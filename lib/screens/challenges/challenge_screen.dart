@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 // Puzzle data: equation shown as prefix + blank + suffix, answer, wrong choices
 class _Puzzle {
@@ -159,7 +160,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                               const SizedBox(width: 4),
                               Text(
                                 '$_score',
-                                style: GoogleFonts.poppins(
+                                style: AppTextStyles.font(context,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white,
@@ -187,8 +188,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    'Puzzle ${_index + 1} of ${_puzzles.length}',
-                    style: GoogleFonts.poppins(
+                    context.l10n.challenge_puzzle_of(_index + 1, _puzzles.length),
+                    style: AppTextStyles.font(context,
                       fontSize: 12,
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -237,8 +238,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                               ),
                               const SizedBox(width: 10),
                               Text(
-                                'Complete the puzzle',
-                                style: GoogleFonts.arimo(
+                                context.l10n.challenge_complete_puzzle,
+                                style: AppTextStyles.font(context,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
                                   color: const Color(0xFF4A5565),
@@ -251,7 +252,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                           // Equation text
                           Text(
                             puzzle.equation,
-                            style: GoogleFonts.arimo(
+                            style: AppTextStyles.font(context,
                               fontSize: 22,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF101828),
@@ -295,7 +296,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                   _droppedAnswer != null
                                       ? '$_droppedAnswer'
                                       : '?',
-                                  style: GoogleFonts.arimo(
+                                  style: AppTextStyles.font(context,
                                     fontSize: 48,
                                     fontWeight: FontWeight.w700,
                                     color: _droppedAnswer != null
@@ -314,8 +315,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                           Align(
                             alignment: Alignment.centerLeft,
                             child: Text(
-                              'Choose a number:',
-                              style: GoogleFonts.poppins(
+                              context.l10n.challenge_choose_number,
+                              style: AppTextStyles.font(context,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w500,
                                 color: const Color(0xFF4A5565),
@@ -350,8 +351,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                     color: Color(0xFF4A5565), size: 18),
                                 const SizedBox(width: 6),
                                 Text(
-                                  'Drag the number!',
-                                  style: GoogleFonts.poppins(
+                                  context.l10n.challenge_drag_number,
+                                  style: AppTextStyles.font(context,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w600,
                                     color: const Color(0xFF101828),
@@ -363,8 +364,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                             const SizedBox(height: 4),
                           if (_droppedAnswer == null)
                             Text(
-                              'Drop it in the box to complete the puzzle 🧩',
-                              style: GoogleFonts.poppins(
+                              context.l10n.challenge_drop_hint,
+                              style: AppTextStyles.font(context,
                                 fontSize: 13,
                                 color: const Color(0xFF364153),
                               ),
@@ -421,8 +422,10 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       Text(
-                                        _isCorrect ? 'Perfect! 🎉' : 'Oops! Wrong number!',
-                                        style: GoogleFonts.poppins(
+                                        _isCorrect
+                                            ? context.l10n.challenge_feedback_correct
+                                            : context.l10n.challenge_feedback_wrong,
+                                        style: AppTextStyles.font(context,
                                           fontSize: 16,
                                           fontWeight: FontWeight.w600,
                                           color: const Color(0xFF2E2E2E),
@@ -430,9 +433,9 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                       ),
                                       Text(
                                         _isCorrect
-                                            ? 'You solved it! Amazing work!'
-                                            : 'The answer was ${_puzzle.answer}. Keep going!',
-                                        style: GoogleFonts.poppins(
+                                            ? context.l10n.challenge_feedback_correct_sub
+                                            : context.l10n.challenge_feedback_wrong_sub(_puzzle.answer),
+                                        style: AppTextStyles.font(context,
                                           fontSize: 12,
                                           color: const Color(0xFF364153),
                                         ),
@@ -533,7 +536,7 @@ class _TileContent extends StatelessWidget {
         alignment: Alignment.center,
         child: Text(
           '$value',
-          style: GoogleFonts.arimo(
+          style: AppTextStyles.font(context,
             fontSize: 30,
             fontWeight: FontWeight.w700,
             color: Colors.white,
@@ -562,8 +565,8 @@ class _LeaveChallengeDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Leave Challenge',
-              style: GoogleFonts.poppins(
+              context.l10n.challenge_leave_title,
+              style: AppTextStyles.font(context,
                 fontSize: 22,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF2E2E2E),
@@ -571,15 +574,20 @@ class _LeaveChallengeDialog extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'By leaving this challenge, your progress will be lost.',
-              style: GoogleFonts.poppins(
-                  fontSize: 14, color: const Color(0xFF2E2E2E), height: 1.5),
+              context.l10n.challenge_leave_body,
+              style: AppTextStyles.font(context,
+                fontSize: 14,
+                color: const Color(0xFF2E2E2E),
+                height: 1.5,
+              ),
             ),
             const SizedBox(height: 6),
             Text(
-              'Are you sure you want to leave?',
-              style: GoogleFonts.poppins(
-                  fontSize: 14, color: const Color(0xFF2E2E2E)),
+              context.l10n.challenge_leave_confirm,
+              style: AppTextStyles.font(context,
+                fontSize: 14,
+                color: const Color(0xFF2E2E2E),
+              ),
             ),
             const SizedBox(height: 24),
             Row(
@@ -595,11 +603,14 @@ class _LeaveChallengeDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       alignment: Alignment.center,
-                      child: Text('Yes',
-                          style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white)),
+                      child: Text(
+                        context.l10n.challenge_leave_yes,
+                        style: AppTextStyles.font(context,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -612,15 +623,17 @@ class _LeaveChallengeDialog extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
-                        border:
-                            Border.all(color: AppColors.primary, width: 1.5),
+                        border: Border.all(color: AppColors.primary, width: 1.5),
                       ),
                       alignment: Alignment.center,
-                      child: Text('No',
-                          style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.primary)),
+                      child: Text(
+                        context.l10n.challenge_leave_no,
+                        style: AppTextStyles.font(context,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                        ),
+                      ),
                     ),
                   ),
                 ),

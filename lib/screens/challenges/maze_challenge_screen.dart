@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 // Tile types
 enum _Tile { wall, path, checkpoint, goal }
@@ -239,7 +240,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                           const SizedBox(width: 4),
                           Text(
                             '$_score',
-                            style: GoogleFonts.poppins(
+                            style: AppTextStyles.font(context,
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: Colors.white,
@@ -260,8 +261,8 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
             width: double.infinity,
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
             child: Text(
-              'Navigate to the treasure! 💎',
-              style: GoogleFonts.poppins(
+              context.l10n.maze_navigate_treasure,
+              style: AppTextStyles.font(context,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: Colors.white.withValues(alpha: 0.9),
@@ -306,16 +307,16 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Text(
-                                'Use arrows to move!',
-                                style: GoogleFonts.poppins(
+                                context.l10n.maze_use_arrows,
+                                style: AppTextStyles.font(context,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: const Color(0xFF101828),
                                 ),
                               ),
                               Text(
-                                'Reach checkpoints to earn points 🎯',
-                                style: GoogleFonts.poppins(
+                                context.l10n.maze_reach_checkpoints,
+                                style: AppTextStyles.font(context,
                                   fontSize: 13,
                                   color: const Color(0xFF364153),
                                 ),
@@ -374,7 +375,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         _LegendItem(
-                          label: 'You',
+                          label: context.l10n.maze_legend_you,
                           child: Container(
                             width: 28,
                             height: 28,
@@ -392,7 +393,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                           ),
                         ),
                         _LegendItem(
-                          label: 'Wall',
+                          label: context.l10n.maze_legend_wall,
                           child: Container(
                             width: 28,
                             height: 28,
@@ -404,7 +405,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                           ),
                         ),
                         _LegendItem(
-                          label: 'Checkpoint',
+                          label: context.l10n.maze_legend_checkpoint,
                           child: Container(
                             width: 28,
                             height: 28,
@@ -417,7 +418,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                           ),
                         ),
                         _LegendItem(
-                          label: 'Goal',
+                          label: context.l10n.maze_legend_goal,
                           child: Container(
                             width: 28,
                             height: 28,
@@ -496,7 +497,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                         Expanded(
                           child: Text(
                             q.text,
-                            style: GoogleFonts.poppins(
+                            style: AppTextStyles.font(context,
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
                               color: const Color(0xFF101828),
@@ -551,7 +552,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                               Expanded(
                                 child: Text(
                                   q.options[i],
-                                  style: GoogleFonts.poppins(
+                                  style: AppTextStyles.font(context,
                                     fontSize: 16,
                                     fontWeight: FontWeight.w700,
                                     color: textColor,
@@ -608,8 +609,10 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              _feedbackCorrect ? 'Perfect! 🎉' : 'Oops! Wrong answer!',
-                              style: GoogleFonts.poppins(
+                              _feedbackCorrect
+                                  ? context.l10n.challenge_feedback_correct
+                                  : context.l10n.maze_feedback_wrong,
+                              style: AppTextStyles.font(context,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600,
                                 color: const Color(0xFF101828),
@@ -617,9 +620,9 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                             ),
                             Text(
                               _feedbackCorrect
-                                  ? "You're on fire! Keep going!"
-                                  : "The path is blocked. Try again next time!",
-                              style: GoogleFonts.poppins(
+                                  ? context.l10n.maze_feedback_correct_sub
+                                  : context.l10n.maze_feedback_wrong_sub,
+                              style: AppTextStyles.font(context,
                                 fontSize: 12,
                                 color: const Color(0xFF364153),
                               ),
@@ -641,8 +644,8 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                       color: Color(0xFF101828), size: 16),
                   const SizedBox(width: 6),
                   Text(
-                    'Answer to continue!',
-                    style: GoogleFonts.poppins(
+                    context.l10n.maze_answer_to_continue,
+                    style: AppTextStyles.font(context,
                       fontSize: 16,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF101828),
@@ -652,8 +655,8 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
               ),
               const SizedBox(height: 2),
               Text(
-                'Solve the problem to keep moving 🎯',
-                style: GoogleFonts.poppins(
+                context.l10n.maze_solve_to_keep_moving,
+                style: AppTextStyles.font(context,
                   fontSize: 13,
                   color: const Color(0xFF364153),
                 ),
@@ -861,7 +864,7 @@ class _LegendItem extends StatelessWidget {
         const SizedBox(height: 4),
         Text(
           label,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 11,
             fontWeight: FontWeight.w700,
             color: const Color(0xFF364153),
@@ -891,19 +894,31 @@ class _LeaveDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Leave Challenge',
-                style: GoogleFonts.poppins(
-                    fontSize: 22,
-                    fontWeight: FontWeight.w700,
-                    color: const Color(0xFF2E2E2E))),
+            Text(
+              context.l10n.challenge_leave_title,
+              style: AppTextStyles.font(context,
+                fontSize: 22,
+                fontWeight: FontWeight.w700,
+                color: const Color(0xFF2E2E2E),
+              ),
+            ),
             const SizedBox(height: 12),
-            Text('Your maze progress will be lost.',
-                style: GoogleFonts.poppins(
-                    fontSize: 14, color: const Color(0xFF2E2E2E), height: 1.5)),
+            Text(
+              context.l10n.maze_leave_body,
+              style: AppTextStyles.font(context,
+                fontSize: 14,
+                color: const Color(0xFF2E2E2E),
+                height: 1.5,
+              ),
+            ),
             const SizedBox(height: 6),
-            Text('Are you sure you want to leave?',
-                style: GoogleFonts.poppins(
-                    fontSize: 14, color: const Color(0xFF2E2E2E))),
+            Text(
+              context.l10n.challenge_leave_confirm,
+              style: AppTextStyles.font(context,
+                fontSize: 14,
+                color: const Color(0xFF2E2E2E),
+              ),
+            ),
             const SizedBox(height: 24),
             Row(
               children: [
@@ -918,11 +933,14 @@ class _LeaveDialog extends StatelessWidget {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       alignment: Alignment.center,
-                      child: Text('Yes',
-                          style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white)),
+                      child: Text(
+                        context.l10n.challenge_leave_yes,
+                        style: AppTextStyles.font(context,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -939,11 +957,14 @@ class _LeaveDialog extends StatelessWidget {
                             color: AppColors.primary, width: 1.5),
                       ),
                       alignment: Alignment.center,
-                      child: Text('No',
-                          style: GoogleFonts.poppins(
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.primary)),
+                      child: Text(
+                        context.l10n.challenge_leave_no,
+                        style: AppTextStyles.font(context,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.primary,
+                        ),
+                      ),
                     ),
                   ),
                 ),

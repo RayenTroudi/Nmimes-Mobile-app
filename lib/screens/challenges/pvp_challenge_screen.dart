@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 import 'join_challenge_screen.dart';
 
 class PVPChallengeScreen extends StatelessWidget {
@@ -26,8 +27,8 @@ class PVPChallengeScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'PVP Challenge',
-                    style: GoogleFonts.poppins(
+                    context.l10n.challenge_dialog_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 22,
                       fontWeight: FontWeight.w700,
                       color: const Color(0xFF2E2E2E),
@@ -56,8 +57,8 @@ class PVPChallengeScreen extends StatelessWidget {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          'Start Challenge',
-                          style: GoogleFonts.poppins(
+                          context.l10n.challenge_start,
+                          style: AppTextStyles.font(context,
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
@@ -86,8 +87,8 @@ class PVPChallengeScreen extends StatelessWidget {
                         ),
                         alignment: Alignment.center,
                         child: Text(
-                          'Join Challenge',
-                          style: GoogleFonts.poppins(
+                          context.l10n.challenge_join,
+                          style: AppTextStyles.font(context,
                             fontSize: 15,
                             fontWeight: FontWeight.w700,
                             color: AppColors.primary,

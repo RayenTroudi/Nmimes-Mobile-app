@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 class MazeStartScreen extends StatelessWidget {
   const MazeStartScreen({super.key});
@@ -86,8 +87,8 @@ class MazeStartScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Maze Adventure',
-                              style: GoogleFonts.arimo(
+                              context.l10n.maze_title,
+                              style: AppTextStyles.font(context,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -95,8 +96,8 @@ class MazeStartScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Navigate & Solve',
-                              style: GoogleFonts.arimo(
+                              context.l10n.maze_subtitle,
+                              style: AppTextStyles.font(context,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -113,8 +114,8 @@ class MazeStartScreen extends StatelessWidget {
                         bgColor: const Color(0x140588C4),
                         borderColor: const Color(0x3D0588C4),
                         icon: Icons.track_changes_outlined,
-                        label: 'How to Play',
-                        value: 'Move through the maze and answer questions!',
+                        label: context.l10n.challenge_how_to_play,
+                        value: context.l10n.maze_how_to_play_value,
                       ),
                       const SizedBox(height: 10),
                       _InfoRow(
@@ -122,8 +123,8 @@ class MazeStartScreen extends StatelessWidget {
                         bgColor: const Color(0x14E2562C),
                         borderColor: const Color(0x3DE2562C),
                         icon: Icons.emoji_events_outlined,
-                        label: 'Goal',
-                        value: 'Reach the treasure at the end!',
+                        label: context.l10n.maze_goal_label,
+                        value: context.l10n.maze_goal_value,
                       ),
                       const SizedBox(height: 10),
                       _InfoRow(
@@ -131,8 +132,8 @@ class MazeStartScreen extends StatelessWidget {
                         bgColor: const Color(0x14E97D9C),
                         borderColor: const Color(0x3DE97D9C),
                         icon: Icons.favorite_border,
-                        label: 'Lives',
-                        value: '3 hearts (3 mistakes allowed)',
+                        label: context.l10n.challenge_lives_label,
+                        value: context.l10n.challenge_lives_value,
                       ),
                       const SizedBox(height: 10),
 
@@ -151,8 +152,8 @@ class MazeStartScreen extends StatelessWidget {
                                 color: Color(0xFF75CEF9), size: 36),
                             const SizedBox(height: 6),
                             Text(
-                              'Earn up to 400 points!',
-                              style: GoogleFonts.arimo(
+                              context.l10n.maze_earn_400,
+                              style: AppTextStyles.font(context,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
                                 color: const Color(0xFF2E2E2E),
@@ -160,8 +161,8 @@ class MazeStartScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              '+10 bonus per streak!',
-                              style: GoogleFonts.poppins(
+                              context.l10n.challenge_bonus_streak,
+                              style: AppTextStyles.font(context,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: const Color(0xFF5A6677),
@@ -190,8 +191,8 @@ class MazeStartScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            'Start Adventure!',
-                            style: GoogleFonts.poppins(
+                            context.l10n.maze_start_adventure,
+                            style: AppTextStyles.font(context,
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
                             ),
@@ -247,7 +248,7 @@ class _InfoRow extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: GoogleFonts.arimo(
+                  style: AppTextStyles.font(context,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF2E2E2E),
@@ -255,7 +256,7 @@ class _InfoRow extends StatelessWidget {
                 ),
                 Text(
                   value,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 12,
                     color: const Color(0xFF5A6677),
                   ),

@@ -1,6 +1,7 @@
-﻿import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 class JoinChallengeScreen extends StatefulWidget {
   const JoinChallengeScreen({super.key});
@@ -51,8 +52,8 @@ class _JoinChallengeScreenState extends State<JoinChallengeScreen> {
                   children: [
                     Center(
                       child: Text(
-                        'Joining Code',
-                        style: GoogleFonts.poppins(
+                        context.l10n.challenge_joining_code,
+                        style: AppTextStyles.font(context,
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: const Color(0xFF2E2E2E),
@@ -146,8 +147,8 @@ class _JoinChallengeScreenState extends State<JoinChallengeScreen> {
                       ),
                     ),
                     child: Text(
-                      'Join',
-                      style: GoogleFonts.poppins(
+                      context.l10n.challenge_join_button,
+                      style: AppTextStyles.font(context,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                       ),

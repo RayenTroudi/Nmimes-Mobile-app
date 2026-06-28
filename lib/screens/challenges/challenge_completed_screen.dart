@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 class ChallengeCompletedScreen extends StatelessWidget {
   const ChallengeCompletedScreen({super.key});
@@ -71,8 +72,8 @@ class ChallengeCompletedScreen extends StatelessWidget {
                   children: [
                     // "Perfect!" heading
                     Text(
-                      'Perfect!',
-                      style: GoogleFonts.arimo(
+                      context.l10n.challenge_completed_heading,
+                      style: AppTextStyles.font(context,
                         fontSize: 30,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF101828),
@@ -81,8 +82,8 @@ class ChallengeCompletedScreen extends StatelessWidget {
                     const SizedBox(height: 4),
                     // Subtitle
                     Text(
-                      "You're an amazing\u{1F31F}",
-                      style: GoogleFonts.poppins(
+                      context.l10n.challenge_completed_subtitle,
+                      style: AppTextStyles.font(context,
                         fontSize: 20,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF5A6677),
@@ -92,7 +93,7 @@ class ChallengeCompletedScreen extends StatelessWidget {
 
                     // Stat rows
                     _StatRow(
-                      label: 'Total Points',
+                      label: context.l10n.challenge_total_points,
                       value: '$score',
                       bgColor: const Color(0x14F05F01),
                       borderColor: const Color(0x3DF05F01),
@@ -103,7 +104,7 @@ class ChallengeCompletedScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     _StatRow(
-                      label: 'Questions Solved',
+                      label: context.l10n.challenge_questions_solved,
                       value: '$solved/$total',
                       bgColor: const Color(0x140588C4),
                       borderColor: const Color(0x3D0588C4),
@@ -114,7 +115,7 @@ class ChallengeCompletedScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     _StatRow(
-                      label: 'Best Streak',
+                      label: context.l10n.challenge_best_streak,
                       value: '$bestStreak 🔥',
                       bgColor: const Color(0x14E97D9C),
                       borderColor: const Color(0x3DE97D9C),
@@ -149,8 +150,8 @@ class ChallengeCompletedScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Collect Rewards!',
-                    style: GoogleFonts.poppins(
+                    context.l10n.challenge_collect_rewards,
+                    style: AppTextStyles.font(context,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                     ),
@@ -176,8 +177,8 @@ class ChallengeCompletedScreen extends StatelessWidget {
                     ),
                   ),
                   child: Text(
-                    'Play Again',
-                    style: GoogleFonts.poppins(
+                    context.l10n.challenge_play_again,
+                    style: AppTextStyles.font(context,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: AppColors.primary,
@@ -228,7 +229,7 @@ class _StatRow extends StatelessWidget {
         children: [
           Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: labelSize,
               fontWeight: FontWeight.w700,
               color: labelColor,
@@ -236,7 +237,7 @@ class _StatRow extends StatelessWidget {
           ),
           Text(
             value,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: valueSize,
               fontWeight: FontWeight.w700,
               color: valueColor,

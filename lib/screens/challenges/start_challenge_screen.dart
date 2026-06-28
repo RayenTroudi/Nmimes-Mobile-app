@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 
 class StartChallengeScreen extends StatelessWidget {
   const StartChallengeScreen({super.key});
@@ -89,8 +90,8 @@ class StartChallengeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Puzzle Challenge',
-                              style: GoogleFonts.arimo(
+                              context.l10n.challenge_puzzle_title,
+                              style: AppTextStyles.font(context,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -98,8 +99,8 @@ class StartChallengeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              'Drag & Drop Numbers!',
-                              style: GoogleFonts.arimo(
+                              context.l10n.challenge_puzzle_subtitle,
+                              style: AppTextStyles.font(context,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -116,8 +117,8 @@ class StartChallengeScreen extends StatelessWidget {
                         bgColor: const Color(0x140588C4),
                         borderColor: const Color(0x3D0588C4),
                         icon: Icons.track_changes_outlined,
-                        label: 'How to Play',
-                        value: 'Drag number to solve puzzles!',
+                        label: context.l10n.challenge_how_to_play,
+                        value: context.l10n.challenge_how_to_play_value,
                       ),
                       const SizedBox(height: 10),
                       _InfoRow(
@@ -125,8 +126,8 @@ class StartChallengeScreen extends StatelessWidget {
                         bgColor: const Color(0x14E2562C),
                         borderColor: const Color(0x3DE2562C),
                         icon: Icons.grid_view_rounded,
-                        label: 'Puzzles',
-                        value: '8 fun math puzzles',
+                        label: context.l10n.challenge_puzzles_label,
+                        value: context.l10n.challenge_puzzles_value,
                       ),
                       const SizedBox(height: 10),
                       _InfoRow(
@@ -134,8 +135,8 @@ class StartChallengeScreen extends StatelessWidget {
                         bgColor: const Color(0x14E97D9C),
                         borderColor: const Color(0x3DE97D9C),
                         icon: Icons.favorite_border,
-                        label: 'Lives',
-                        value: '3 hearts (3 mistakes allowed)',
+                        label: context.l10n.challenge_lives_label,
+                        value: context.l10n.challenge_lives_value,
                       ),
                       const SizedBox(height: 10),
 
@@ -160,8 +161,8 @@ class StartChallengeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 6),
                             Text(
-                              'Earn up to 300 points!',
-                              style: GoogleFonts.arimo(
+                              context.l10n.challenge_earn_300,
+                              style: AppTextStyles.font(context,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
                                 color: const Color(0xFF2E2E2E),
@@ -169,8 +170,8 @@ class StartChallengeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: 2),
                             Text(
-                              '+10 bonus per streak!',
-                              style: GoogleFonts.poppins(
+                              context.l10n.challenge_bonus_streak,
+                              style: AppTextStyles.font(context,
                                 fontSize: 13,
                                 color: const Color(0xFF5A6677),
                               ),
@@ -197,8 +198,8 @@ class StartChallengeScreen extends StatelessWidget {
                             ),
                           ),
                           child: Text(
-                            'Start Puzzle!',
-                            style: GoogleFonts.poppins(
+                            context.l10n.challenge_start_puzzle,
+                            style: AppTextStyles.font(context,
                               fontSize: 18,
                               fontWeight: FontWeight.w700,
                             ),
@@ -254,7 +255,7 @@ class _InfoRow extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: GoogleFonts.arimo(
+                  style: AppTextStyles.font(context,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF2E2E2E),
@@ -262,7 +263,7 @@ class _InfoRow extends StatelessWidget {
                 ),
                 Text(
                   value,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 12,
                     color: const Color(0xFF4A5565),
                   ),

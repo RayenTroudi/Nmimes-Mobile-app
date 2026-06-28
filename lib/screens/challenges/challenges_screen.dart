@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../widgets/fox_mascot.dart';
 import 'join_challenge_screen.dart';
 
@@ -18,70 +19,70 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
     _ChallengeData(isBanner: true),
     _ChallengeData(
       icon: '🧩',
-      title: 'Puzzle Pro',
-      subtitle: 'Solve 10 puzzles to get Champion badge',
+      titleKey: 'Puzzle Pro',
+      subtitleKey: 'Solve 10 puzzles to get Champion badge',
       points: '+150 pts',
       pointsColor: Color(0xFFE97D9C),
       progress: 0.8,
       progressLabel: '8/10',
-      difficulty: 'Medium',
+      difficultyKey: 'Medium',
       difficultyTextColor: Color(0xFFa65f00),
       difficultyBgColor: Color(0xFFFEF9C2),
     ),
     _ChallengeData(
       icon: '🏆',
-      title: 'Algebra Master',
-      subtitle: 'Solve 10 questions to get your Quick Thinker badge.',
+      titleKey: 'Algebra Master',
+      subtitleKey: 'Solve 10 questions to get your Quick Thinker badge.',
       points: '+50 pts',
       pointsColor: Color(0xFF35A468),
       progress: 0.7,
       progressLabel: '7/10',
-      difficulty: 'Easy',
+      difficultyKey: 'Easy',
       difficultyTextColor: Color(0xFF008236),
       difficultyBgColor: Color(0xFFDCFCE7),
       startRoute: '/algebra-start',
     ),
     _ChallengeData(
       icon: '⚡',
-      title: 'Speed Demon',
-      subtitle: 'Complete 5 problems to get your Math Wizard',
+      titleKey: 'Speed Demon',
+      subtitleKey: 'Complete 5 problems to get your Math Wizard',
       points: '+100 pts',
       pointsColor: Color(0xFFFDB500),
       progress: 0.6,
       progressLabel: '3/5',
-      difficulty: 'Medium',
+      difficultyKey: 'Medium',
       difficultyTextColor: Color(0xFFa65f00),
       difficultyBgColor: Color(0xFFFEF9C2),
     ),
     _ChallengeData(
       icon: '🔗',
-      title: 'Perfect Chain',
-      subtitle: 'Get 10 correct answers in a row and earn Perfect Scorer',
+      titleKey: 'Perfect Chain',
+      subtitleKey: 'Get 10 correct answers in a row and earn Perfect Scorer',
       points: '+200 pts',
       pointsColor: Color(0xFF0588C4),
       progress: 0.8,
       progressLabel: '12/15',
-      difficulty: 'Hard',
+      difficultyKey: 'Hard',
       difficultyTextColor: Color(0xFFF79C09),
       difficultyBgColor: Color(0x12F79C09),
     ),
     _ChallengeData(
       icon: '🗺️',
-      title: 'Maze Master',
-      subtitle: 'Complete 5 mazes in a row and get Master badge',
+      titleKey: 'Maze Master',
+      subtitleKey: 'Complete 5 mazes in a row and get Master badge',
       points: '+100 pts',
       pointsColor: Color(0xFF6A7282),
       progress: 0.6,
       progressLabel: '3/5',
-      difficulty: 'Hard',
+      difficultyKey: 'Hard',
       difficultyTextColor: Color(0xFFF79C09),
       difficultyBgColor: Color(0x12F79C09),
       startRoute: '/maze-start',
     ),
     _ChallengeData(
       icon: '📐',
-      title: 'Geometry God',
-      subtitle: 'Master all geometry concepts and get your Legend',
+      titleKey: 'Geometry God',
+      subtitleKey: 'Master all geometry concepts and get your Legend',
       points: '+300 pts',
       pointsColor: Color(0xFFE2562C),
       isLocked: true,
@@ -109,13 +110,13 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
             child: Row(
               children: [
                 _TabPill(
-                  label: '🎯  Challenges',
+                  label: context.l10n.challenge_tab_challenges,
                   active: _tab == 0,
                   onTap: () => setState(() => _tab = 0),
                 ),
                 const SizedBox(width: 12),
                 _TabPill(
-                  label: '⚔️  PVP',
+                  label: context.l10n.challenge_tab_pvp,
                   active: _tab == 1,
                   onTap: () => setState(() => _tab = 1),
                 ),
@@ -158,16 +159,16 @@ class _ChallengesHeader extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Challenges',
-                          style: GoogleFonts.poppins(
+                          context.l10n.challenge_title,
+                          style: AppTextStyles.font(context,
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: AppColors.white,
                           ),
                         ),
                         Text(
-                          'Ready for a new challenge?',
-                          style: GoogleFonts.poppins(
+                          context.l10n.challenge_subtitle,
+                          style: AppTextStyles.font(context,
                             fontSize: 14,
                             color: Colors.white.withValues(alpha: 0.9),
                           ),
@@ -210,8 +211,8 @@ class _ChallengesHeader extends StatelessWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      '2 Lives remaining',
-                      style: GoogleFonts.poppins(
+                      context.l10n.challenge_lives_remaining,
+                      style: AppTextStyles.font(context,
                         fontSize: 13,
                         fontWeight: FontWeight.w600,
                         color: AppColors.white,
@@ -253,7 +254,7 @@ class _TabPill extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: active ? AppColors.primary : AppColors.textSecondary,
@@ -270,13 +271,13 @@ class _ChallengeData {
   final bool isBanner;
   final bool isLocked;
   final String icon;
-  final String title;
-  final String subtitle;
+  final String titleKey;
+  final String subtitleKey;
   final String? points;
   final Color pointsColor;
   final double? progress;
   final String? progressLabel;
-  final String? difficulty;
+  final String? difficultyKey;
   final Color difficultyTextColor;
   final Color difficultyBgColor;
   final String startRoute;
@@ -285,13 +286,13 @@ class _ChallengeData {
     this.isBanner = false,
     this.isLocked = false,
     this.icon = '',
-    this.title = '',
-    this.subtitle = '',
+    this.titleKey = '',
+    this.subtitleKey = '',
     this.points,
     this.pointsColor = const Color(0xFF35A468),
     this.progress,
     this.progressLabel,
-    this.difficulty,
+    this.difficultyKey,
     this.difficultyTextColor = const Color(0xFF008236),
     this.difficultyBgColor = const Color(0xFFDCFCE7),
     this.startRoute = '/start-challenge',
@@ -355,8 +356,8 @@ class _MotivationBanner extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Keep going!',
-                  style: GoogleFonts.poppins(
+                  context.l10n.challenge_keep_going,
+                  style: AppTextStyles.font(context,
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF2E2E2E),
@@ -364,8 +365,8 @@ class _MotivationBanner extends StatelessWidget {
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  "You're 3 away from Algebra Master! 💪",
-                  style: GoogleFonts.poppins(
+                  context.l10n.challenge_motivation_subtitle,
+                  style: AppTextStyles.font(context,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF5A6677),
@@ -410,8 +411,8 @@ class _ChallengeCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data.title,
-                      style: GoogleFonts.poppins(
+                      data.titleKey,
+                      style: AppTextStyles.font(context,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF101828),
@@ -419,8 +420,8 @@ class _ChallengeCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      data.subtitle,
-                      style: GoogleFonts.poppins(
+                      data.subtitleKey,
+                      style: AppTextStyles.font(context,
                         fontSize: 10,
                         color: const Color(0xFF4A5565),
                         height: 1.4,
@@ -441,7 +442,7 @@ class _ChallengeCard extends StatelessWidget {
                 ),
                 child: Text(
                   data.points ?? '',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -456,8 +457,8 @@ class _ChallengeCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Progress',
-                style: GoogleFonts.poppins(
+                context.l10n.challenge_progress,
+                style: AppTextStyles.font(context,
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFF364153),
@@ -465,7 +466,7 @@ class _ChallengeCard extends StatelessWidget {
               ),
               Text(
                 data.progressLabel ?? '',
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primary,
@@ -495,8 +496,8 @@ class _ChallengeCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(1000),
                 ),
                 child: Text(
-                  data.difficulty ?? '',
-                  style: GoogleFonts.poppins(
+                  data.difficultyKey ?? '',
+                  style: AppTextStyles.font(context,
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     color: data.difficultyTextColor,
@@ -513,8 +514,8 @@ class _ChallengeCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(1000),
                   ),
                   child: Text(
-                    'Play Now! 🎮',
-                    style: GoogleFonts.poppins(
+                    context.l10n.challenge_play_now,
+                    style: AppTextStyles.font(context,
                       fontSize: 13,
                       fontWeight: FontWeight.w700,
                       color: Colors.white,
@@ -556,8 +557,8 @@ class _LockedCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data.title,
-                      style: GoogleFonts.poppins(
+                      data.titleKey,
+                      style: AppTextStyles.font(context,
                         fontSize: 16,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF101828),
@@ -565,8 +566,8 @@ class _LockedCard extends StatelessWidget {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      data.subtitle,
-                      style: GoogleFonts.poppins(
+                      data.subtitleKey,
+                      style: AppTextStyles.font(context,
                         fontSize: 10,
                         color: const Color(0xFF4A5565),
                         height: 1.4,
@@ -586,7 +587,7 @@ class _LockedCard extends StatelessWidget {
                 ),
                 child: Text(
                   data.points ?? '',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -597,8 +598,8 @@ class _LockedCard extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            '🔒 Complete previous challenges to unlock!',
-            style: GoogleFonts.poppins(
+            context.l10n.challenge_locked_unlock,
+            style: AppTextStyles.font(context,
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF6A7282),
@@ -644,8 +645,8 @@ class _PVPTab extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'PVP\nChallenges',
-                          style: GoogleFonts.poppins(
+                          context.l10n.pvp_title,
+                          style: AppTextStyles.font(context,
                             fontSize: 22,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,
@@ -654,8 +655,8 @@ class _PVPTab extends StatelessWidget {
                         ),
                         const SizedBox(height: 6),
                         Text(
-                          "See how you're doing",
-                          style: GoogleFonts.poppins(
+                          context.l10n.pvp_subtitle,
+                          style: AppTextStyles.font(context,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFFFCE7F3),
@@ -679,9 +680,9 @@ class _PVPTab extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Text(
-                    'Start Challenge 🎯',
+                    context.l10n.pvp_start,
                     textAlign: TextAlign.center,
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.font(context,
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
                       color: AppColors.primary,
@@ -709,8 +710,8 @@ class _PVPTab extends StatelessWidget {
                   const Text('🏆', style: TextStyle(fontSize: 22)),
                   const SizedBox(width: 8),
                   Text(
-                    'Leaderboard',
-                    style: GoogleFonts.poppins(
+                    context.l10n.pvp_leaderboard,
+                    style: AppTextStyles.font(context,
                       fontSize: 22,
                       fontWeight: FontWeight.w900,
                       color: const Color(0xFF101828),
@@ -770,7 +771,7 @@ class _LeaderRow extends StatelessWidget {
             width: 40,
             child: Text(
               entry.medal,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: entry.hasMedalEmoji ? 28 : 20,
                 fontWeight: FontWeight.w900,
                 color: textColor,
@@ -784,7 +785,7 @@ class _LeaderRow extends StatelessWidget {
               children: [
                 Text(
                   entry.name,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: textColor,
@@ -792,7 +793,7 @@ class _LeaderRow extends StatelessWidget {
                 ),
                 Text(
                   entry.streak,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     color: subColor,
@@ -806,15 +807,15 @@ class _LeaderRow extends StatelessWidget {
             children: [
               Text(
                 entry.points,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
                   color: textColor,
                 ),
               ),
               Text(
-                'points',
-                style: GoogleFonts.poppins(
+                context.l10n.pvp_points,
+                style: AppTextStyles.font(context,
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                   color: ptsSubColor,
@@ -850,8 +851,8 @@ class _ChallengeChoiceDialog extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'PVP Challenge',
-                  style: GoogleFonts.poppins(
+                  context.l10n.challenge_dialog_title,
+                  style: AppTextStyles.font(context,
                     fontSize: 22,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF2E2E2E),
@@ -880,8 +881,8 @@ class _ChallengeChoiceDialog extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'Start Challenge',
-                        style: GoogleFonts.poppins(
+                        context.l10n.challenge_start,
+                        style: AppTextStyles.font(context,
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: Colors.white,
@@ -910,8 +911,8 @@ class _ChallengeChoiceDialog extends StatelessWidget {
                       ),
                       alignment: Alignment.center,
                       child: Text(
-                        'Join Challenge',
-                        style: GoogleFonts.poppins(
+                        context.l10n.challenge_join,
+                        style: AppTextStyles.font(context,
                           fontSize: 15,
                           fontWeight: FontWeight.w700,
                           color: AppColors.primary,
