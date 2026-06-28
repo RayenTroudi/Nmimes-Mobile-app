@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class ClaimRewardScreen extends StatelessWidget {
   const ClaimRewardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -28,8 +31,8 @@ class ClaimRewardScreen extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Text(
-                        'Claim Reward',
-                        style: GoogleFonts.poppins(
+                        l10n.claimReward_title,
+                        style: AppTextStyles.font(context,
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
@@ -66,8 +69,8 @@ class ClaimRewardScreen extends StatelessWidget {
 
                     // Title
                     Text(
-                      'Get 10% Off on School Supplies',
-                      style: GoogleFonts.poppins(
+                      l10n.claimReward_rewardTitle,
+                      style: AppTextStyles.font(context,
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
                         color: AppColors.primary,
@@ -82,8 +85,8 @@ class ClaimRewardScreen extends StatelessWidget {
                         Container(
                           width: 36,
                           height: 36,
-                          decoration: BoxDecoration(
-                            color: const Color(0xFF4A4A4A),
+                          decoration: const BoxDecoration(
+                            color: Color(0xFF4A4A4A),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(Icons.store_rounded,
@@ -91,8 +94,8 @@ class ClaimRewardScreen extends StatelessWidget {
                         ),
                         const SizedBox(width: 10),
                         Text(
-                          'LearnHub Bookstore',
-                          style: GoogleFonts.poppins(
+                          l10n.claimReward_partner,
+                          style: AppTextStyles.font(context,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary,
@@ -104,8 +107,8 @@ class ClaimRewardScreen extends StatelessWidget {
 
                     // Description
                     Text(
-                      "You've unlocked a special reward! 🎉\nUse this coupon to get 10% off on books, stationery, and school essentials. Perfect for your next study upgrade!",
-                      style: GoogleFonts.poppins(
+                      l10n.claimReward_description,
+                      style: AppTextStyles.font(context,
                         fontSize: 14,
                         color: AppColors.textSecondary,
                         height: 1.55,
@@ -118,15 +121,15 @@ class ClaimRewardScreen extends StatelessWidget {
                       text: TextSpan(
                         children: [
                           TextSpan(
-                            text: 'Valid until: ',
-                            style: GoogleFonts.poppins(
+                            text: l10n.claimReward_validUntil,
+                            style: AppTextStyles.font(context,
                               fontSize: 14,
                               color: AppColors.textSecondary,
                             ),
                           ),
                           TextSpan(
-                            text: '30 June 2026',
-                            style: GoogleFonts.poppins(
+                            text: l10n.claimReward_validDate,
+                            style: AppTextStyles.font(context,
                               fontSize: 14,
                               fontWeight: FontWeight.w700,
                               color: AppColors.primary,
@@ -139,8 +142,8 @@ class ClaimRewardScreen extends StatelessWidget {
 
                     // How to use
                     Text(
-                      'How to Use',
-                      style: GoogleFonts.poppins(
+                      l10n.claimReward_howToUse,
+                      style: AppTextStyles.font(context,
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -148,9 +151,9 @@ class ClaimRewardScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 10),
                     ...[
-                      'Visit the store with your parent',
-                      'Show this coupon at checkout',
-                      'Enjoy your discount!',
+                      l10n.claimReward_step1,
+                      l10n.claimReward_step2,
+                      l10n.claimReward_step3,
                     ].map((step) => Padding(
                           padding: const EdgeInsets.only(bottom: 8),
                           child: Row(
@@ -168,7 +171,7 @@ class ClaimRewardScreen extends StatelessWidget {
                               Expanded(
                                 child: Text(
                                   step,
-                                  style: GoogleFonts.poppins(
+                                  style: AppTextStyles.font(context,
                                     fontSize: 14,
                                     color: AppColors.textSecondary,
                                     height: 1.4,
@@ -198,6 +201,8 @@ class ClaimRewardScreen extends StatelessWidget {
 class _CouponTicket extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: SizedBox(
@@ -214,15 +219,15 @@ class _CouponTicket extends StatelessWidget {
                   children: [
                     Text(
                       '20%',
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(context,
                         fontSize: 32,
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
                       ),
                     ),
                     Text(
-                      'Discount',
-                      style: GoogleFonts.poppins(
+                      l10n.claimReward_coupon_discount,
+                      style: AppTextStyles.font(context,
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: Colors.white,
@@ -250,15 +255,15 @@ class _CouponTicket extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Code:',
-                      style: GoogleFonts.poppins(
+                      l10n.claimReward_coupon_label,
+                      style: AppTextStyles.font(context,
                         fontSize: 13,
                         color: AppColors.textSecondary,
                       ),
                     ),
                     Text(
                       'NMIMES20',
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(context,
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary,
@@ -267,9 +272,9 @@ class _CouponTicket extends StatelessWidget {
                     const SizedBox(height: 8),
                     GestureDetector(
                       onTap: () => ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Reward claimed!'),
-                          duration: Duration(seconds: 2),
+                        SnackBar(
+                          content: Text(l10n.claimReward_snackbar),
+                          duration: const Duration(seconds: 2),
                         ),
                       ),
                       child: Container(
@@ -280,8 +285,8 @@ class _CouponTicket extends StatelessWidget {
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Text(
-                          'Claim Discount',
-                          style: GoogleFonts.poppins(
+                          l10n.claimReward_coupon_button,
+                          style: AppTextStyles.font(context,
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
                             color: Colors.white,

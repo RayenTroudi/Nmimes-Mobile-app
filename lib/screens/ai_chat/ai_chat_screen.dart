@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class AIChatScreen extends StatefulWidget {
   const AIChatScreen({super.key});
@@ -153,6 +154,8 @@ class _AIChatScreenState extends State<AIChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -185,8 +188,8 @@ class _AIChatScreenState extends State<AIChatScreen> {
                     ),
                     const SizedBox(width: 8),
                     Text(
-                      'Nmimes Math Helper',
-                      style: GoogleFonts.poppins(
+                      l10n.aiChat_title,
+                      style: AppTextStyles.font(context,
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                         color: AppColors.textPrimary,
@@ -265,6 +268,8 @@ class _WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: Column(
@@ -280,8 +285,8 @@ class _WelcomeView extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'Nmimes Math Helper',
-            style: GoogleFonts.poppins(
+            l10n.aiChat_title,
+            style: AppTextStyles.font(context,
               fontSize: 22,
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
@@ -290,8 +295,8 @@ class _WelcomeView extends StatelessWidget {
           ),
           const SizedBox(height: 12),
           Text(
-            "Hi! I'm here to help you with math\nYou can ask me any question, no matter\nhow easy or hard it feels.",
-            style: GoogleFonts.poppins(
+            l10n.aiChat_welcome_subtitle,
+            style: AppTextStyles.font(context,
               fontSize: 14,
               color: AppColors.textSecondary,
               height: 1.6,
@@ -319,8 +324,8 @@ class _WelcomeView extends StatelessWidget {
               ),
               child: Center(
                 child: Text(
-                  "Let's Chat!",
-                  style: GoogleFonts.poppins(
+                  l10n.aiChat_button_letsChat,
+                  style: AppTextStyles.font(context,
                     fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -394,6 +399,8 @@ class _BubbleRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Column(
@@ -416,14 +423,14 @@ class _BubbleRow extends StatelessWidget {
             Row(
               children: [
                 _ActionBtn(
-                  label: 'Get Hint',
+                  label: l10n.aiChat_button_getHint,
                   color: AppColors.primary,
                   onTap: onGetHint,
                 ),
                 if (msg.type == _BubbleType.wrongWithSolution) ...[
                   const SizedBox(width: 8),
                   _ActionBtn(
-                    label: 'Get Solution',
+                    label: l10n.aiChat_button_getSolution,
                     color: AppColors.green,
                     onTap: onGetSolution,
                   ),
@@ -475,7 +482,7 @@ class _NormalBubble extends StatelessWidget {
         children: [
           Text(
             msg.text,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 14,
               color: msg.isUser ? Colors.white : AppColors.textPrimary,
               height: 1.45,
@@ -489,7 +496,7 @@ class _NormalBubble extends StatelessWidget {
               children: [
                 Text(
                   msg.time,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 10,
                     color: msg.isUser
                         ? Colors.white.withValues(alpha: 0.7)
@@ -519,9 +526,9 @@ class _WrongBubble extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-      decoration: BoxDecoration(
-        color: const Color(0xFFF2C4B0),
-        borderRadius: const BorderRadius.only(
+      decoration: const BoxDecoration(
+        color: Color(0xFFF2C4B0),
+        borderRadius: BorderRadius.only(
           topLeft: Radius.circular(18),
           topRight: Radius.circular(18),
           bottomLeft: Radius.circular(4),
@@ -533,7 +540,7 @@ class _WrongBubble extends StatelessWidget {
         children: [
           Text(
             msg.text,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 14,
               color: AppColors.textPrimary,
               height: 1.45,
@@ -544,7 +551,7 @@ class _WrongBubble extends StatelessWidget {
             alignment: Alignment.centerRight,
             child: Text(
               msg.time,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                   fontSize: 10, color: AppColors.textHint),
             ),
           ),
@@ -574,7 +581,7 @@ class _ActionBtn extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 13,
             fontWeight: FontWeight.w600,
             color: Colors.white,
@@ -598,6 +605,8 @@ class _InputBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
       child: Container(
@@ -618,11 +627,11 @@ class _InputBar extends StatelessWidget {
             Expanded(
               child: TextField(
                 controller: controller,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                     fontSize: 14, color: AppColors.textPrimary),
                 decoration: InputDecoration(
-                  hintText: 'Type here...',
-                  hintStyle: GoogleFonts.poppins(
+                  hintText: l10n.aiChat_input_hint,
+                  hintStyle: AppTextStyles.font(context,
                       fontSize: 14, color: AppColors.textHint),
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(

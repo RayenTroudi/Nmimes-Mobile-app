@@ -1,29 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class FormulaDetailScreen extends StatelessWidget {
   const FormulaDetailScreen({super.key});
 
-  static const _sections = [
-    _Section('Addition Rules', [
-      _Rule('a + 0 = a', '(Add zero, number stays same)'),
-      _Rule('a + b = b + a', '(You can switch places)'),
-    ]),
-    _Section('Subtraction Rules', [
-      _Rule('a - 0 = a', null),
-      _Rule('a - a = 0', null),
-    ]),
-    _Section('Basic Unknown Number Formulas', [
-      _Rule('x + a = b', null),
-      _Rule('x - a = b', null),
-      _Rule('a × x = b', null),
-      _Rule('x ÷ a = b', null),
-    ]),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    final sections = [
+      _Section(l10n.formulaDetail_section_addition, [
+        _Rule('a + 0 = a', l10n.formulaDetail_note_addZero),
+        _Rule('a + b = b + a', l10n.formulaDetail_note_switchPlaces),
+      ]),
+      _Section(l10n.formulaDetail_section_subtraction, [
+        _Rule('a - 0 = a', null),
+        _Rule('a - a = 0', null),
+      ]),
+      _Section(l10n.formulaDetail_section_basicUnknown, [
+        _Rule('x + a = b', null),
+        _Rule('x - a = b', null),
+        _Rule('a × x = b', null),
+        _Rule('x ÷ a = b', null),
+      ]),
+    ];
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -45,8 +48,8 @@ class FormulaDetailScreen extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Text(
-                        'Saved Formulas',
-                        style: GoogleFonts.poppins(
+                        l10n.savedFormulas_title,
+                        style: AppTextStyles.font(context,
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
@@ -69,9 +72,9 @@ class FormulaDetailScreen extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-                itemCount: _sections.length,
+                itemCount: sections.length,
                 separatorBuilder: (_, _) => const SizedBox(height: 14),
-                itemBuilder: (_, i) => _SectionCard(section: _sections[i]),
+                itemBuilder: (_, i) => _SectionCard(section: sections[i]),
               ),
             ),
           ],
@@ -122,7 +125,7 @@ class _SectionCard extends StatelessWidget {
         children: [
           Text(
             section.title,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 14,
               fontWeight: FontWeight.w700,
               color: AppColors.blue,
@@ -139,7 +142,7 @@ class _SectionCard extends StatelessWidget {
                 children: [
                   Text(
                     '$idx. ${rule.formula}',
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.font(context,
                       fontSize: 14,
                       color: AppColors.textPrimary,
                       height: 1.4,
@@ -150,7 +153,7 @@ class _SectionCard extends StatelessWidget {
                       padding: const EdgeInsets.only(left: 16, top: 2),
                       child: Text(
                         rule.note!,
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.font(context,
                           fontSize: 13,
                           color: AppColors.textSecondary,
                           height: 1.4,

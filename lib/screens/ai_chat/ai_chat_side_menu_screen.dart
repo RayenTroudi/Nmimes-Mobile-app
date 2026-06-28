@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class AIChatSideMenuScreen extends StatelessWidget {
   const AIChatSideMenuScreen({super.key});
@@ -12,6 +13,8 @@ class AIChatSideMenuScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: Colors.black.withValues(alpha: 0.3),
       body: GestureDetector(
@@ -56,15 +59,15 @@ class AIChatSideMenuScreen extends StatelessWidget {
                             children: [
                               Text(
                                 '+  ',
-                                style: GoogleFonts.poppins(
+                                style: AppTextStyles.font(context,
                                   fontSize: 20,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.textPrimary,
                                 ),
                               ),
                               Text(
-                                'New Chat',
-                                style: GoogleFonts.poppins(
+                                l10n.aiChat_menu_newChat,
+                                style: AppTextStyles.font(context,
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
                                   color: AppColors.textPrimary,
@@ -84,8 +87,8 @@ class AIChatSideMenuScreen extends StatelessWidget {
                         padding:
                             const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(
-                          'History',
-                          style: GoogleFonts.poppins(
+                          l10n.aiChat_menu_history,
+                          style: AppTextStyles.font(context,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary,
@@ -109,7 +112,7 @@ class AIChatSideMenuScreen extends StatelessWidget {
                                     Expanded(
                                       child: Text(
                                         item.title,
-                                        style: GoogleFonts.poppins(
+                                        style: AppTextStyles.font(context,
                                           fontSize: 14,
                                           color: item.isActive
                                               ? AppColors.textPrimary

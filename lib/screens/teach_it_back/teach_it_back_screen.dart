@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../theme/spacing.dart';
@@ -9,6 +10,8 @@ class TeachItBackScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -34,23 +37,23 @@ class TeachItBackScreen extends StatelessWidget {
                     size: 72, color: AppColors.primary),
               ),
               const SizedBox(height: AppSpacing.xxl),
-              Text('Teach It Back!',
+              Text(l10n.teachItBack_title,
                   style: AppTextStyles.h1, textAlign: TextAlign.center),
               const SizedBox(height: AppSpacing.md),
               Text(
-                'The best way to learn is to teach. Explain a concept back to Nmimes and deepen your understanding.',
+                l10n.teachItBack_subtitle,
                 style: AppTextStyles.body.copyWith(color: AppColors.textSecondary),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: AppSpacing.xxxl),
-              _FeatureRow(icon: Icons.mic_outlined, text: 'Record your explanation'),
+              _FeatureRow(icon: Icons.mic_outlined, text: l10n.teachItBack_feature_record),
               const SizedBox(height: AppSpacing.md),
-              _FeatureRow(icon: Icons.psychology_outlined, text: 'AI evaluates your understanding'),
+              _FeatureRow(icon: Icons.psychology_outlined, text: l10n.teachItBack_feature_aiEvaluates),
               const SizedBox(height: AppSpacing.md),
-              _FeatureRow(icon: Icons.star_outline, text: 'Earn extra points'),
+              _FeatureRow(icon: Icons.star_outline, text: l10n.teachItBack_feature_earnPoints),
               const SizedBox(height: AppSpacing.xxxl),
               PrimaryButton(
-                label: 'Start',
+                label: l10n.teachItBack_button_start,
                 onTap: () => Navigator.pushNamed(context, '/explaining-back'),
               ),
             ],

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../l10n/l10n_extension.dart';
 import '../theme/colors.dart';
 import '../theme/text_styles.dart';
 
@@ -43,7 +44,7 @@ class RewardCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Text(
-                '$points pts',
+                context.l10n.rewardCard_pts(points),
                 style: AppTextStyles.bodySmall.copyWith(
                   color: AppColors.primary,
                   fontWeight: FontWeight.w600,

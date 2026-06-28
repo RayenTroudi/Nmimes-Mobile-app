@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
 class SecondaryButton extends StatelessWidget {
   final String label;
@@ -24,7 +24,7 @@ class SecondaryButton extends StatelessWidget {
         ),
         child: Text(
           label,
-          style: GoogleFonts.poppins(
+          style: AppTextStyles.font(context,
             fontSize: 15,
             fontWeight: FontWeight.w600,
             color: AppColors.primary,

@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class SavedFormulasScreen extends StatelessWidget {
   const SavedFormulasScreen({super.key});
 
-  static const _categories = [
-    _Category('Algebra', Color(0xFF35A468), Icons.calculate_outlined),
-    _Category('Statistics', Color(0xFF058BC4), Icons.bar_chart_rounded),
-    _Category('Geometry', Color(0xFFE97D9C), Icons.category_outlined),
-    _Category('Calculus', Color(0xFFF59E0B), Icons.auto_graph_rounded),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    final categories = [
+      _Category(l10n.savedFormulas_cat_algebra, const Color(0xFF35A468), Icons.calculate_outlined),
+      _Category(l10n.savedFormulas_cat_statistics, const Color(0xFF058BC4), Icons.bar_chart_rounded),
+      _Category(l10n.savedFormulas_cat_geometry, const Color(0xFFE97D9C), Icons.category_outlined),
+      _Category(l10n.savedFormulas_cat_calculus, const Color(0xFFF59E0B), Icons.auto_graph_rounded),
+    ];
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -35,8 +38,8 @@ class SavedFormulasScreen extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Text(
-                        'Saved Formulas',
-                        style: GoogleFonts.poppins(
+                        l10n.savedFormulas_title,
+                        style: AppTextStyles.font(context,
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
@@ -60,9 +63,9 @@ class SavedFormulasScreen extends StatelessWidget {
                     mainAxisSpacing: 14,
                     childAspectRatio: 1.0,
                   ),
-                  itemCount: _categories.length,
+                  itemCount: categories.length,
                   itemBuilder: (_, i) => _CategoryCard(
-                    cat: _categories[i],
+                    cat: categories[i],
                     onTap: () =>
                         Navigator.pushNamed(context, '/formula-detail'),
                   ),
@@ -104,7 +107,7 @@ class _CategoryCard extends StatelessWidget {
             const SizedBox(height: 14),
             Text(
               cat.label,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: 16,
                 fontWeight: FontWeight.w700,
                 color: Colors.white,

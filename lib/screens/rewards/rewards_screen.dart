@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/fox_mascot.dart';
 
@@ -12,18 +13,20 @@ class RewardsScreen extends StatelessWidget {
     Navigator.pushReplacementNamed(context, routes[index]);
   }
 
-  static const _badges = [
-    _Badge('⚡', 'Quick Thinker', 'Solved 10 problems under 1 min', true),
-    _Badge('🏆', 'First Win', 'Complete your first challenge', true),
-    _Badge('🤝', 'Team Player', 'Joined a study room', true),
-    _Badge('🧙', 'Math Wizard', 'Complete 50 challenges', false),
-    _Badge('💯', 'Perfect Score', 'Get 100% on exam prep', false),
-    _Badge('🏅', 'Legend', 'Earn 10,000 points', false),
-  ];
-
   @override
   Widget build(BuildContext context) {
-    final unlockedCount = _badges.where((b) => b.unlocked).length;
+    final l10n = context.l10n;
+
+    final badges = [
+      _Badge('⚡', l10n.rewards_badge_quickThinker_title, l10n.rewards_badge_quickThinker_desc, true),
+      _Badge('🏆', l10n.rewards_badge_firstWin_title, l10n.rewards_badge_firstWin_desc, true),
+      _Badge('🤝', l10n.rewards_badge_teamPlayer_title, l10n.rewards_badge_teamPlayer_desc, true),
+      _Badge('🧙', l10n.rewards_badge_mathWizard_title, l10n.rewards_badge_mathWizard_desc, false),
+      _Badge('💯', l10n.rewards_badge_perfectScore_title, l10n.rewards_badge_perfectScore_desc, false),
+      _Badge('🏅', l10n.rewards_badge_legend_title, l10n.rewards_badge_legend_desc, false),
+    ];
+
+    final unlockedCount = badges.where((b) => b.unlocked).length;
 
     return Scaffold(
       backgroundColor: AppColors.primary,
@@ -56,8 +59,8 @@ class RewardsScreen extends StatelessWidget {
                                           const Text('🏆', style: TextStyle(fontSize: 26)),
                                           const SizedBox(width: 8),
                                           Text(
-                                            'Rewards',
-                                            style: GoogleFonts.poppins(
+                                            l10n.rewards_title,
+                                            style: AppTextStyles.font(context,
                                               fontSize: 22,
                                               fontWeight: FontWeight.w700,
                                               color: Colors.white,
@@ -67,8 +70,8 @@ class RewardsScreen extends StatelessWidget {
                                       ),
                                       const SizedBox(height: 4),
                                       Text(
-                                        "You're doing amazing!",
-                                        style: GoogleFonts.poppins(
+                                        l10n.rewards_doingAmazing,
+                                        style: AppTextStyles.font(context,
                                           fontSize: 18,
                                           fontWeight: FontWeight.w700,
                                           color: const Color(0xFFFFEDD4),
@@ -98,7 +101,7 @@ class RewardsScreen extends StatelessWidget {
                                     child: _StatPill(
                                       icon: '⭐',
                                       label: '150',
-                                      sublabel: 'Points',
+                                      sublabel: l10n.rewards_label_points,
                                     ),
                                   ),
                                   const SizedBox(width: 12),
@@ -106,7 +109,7 @@ class RewardsScreen extends StatelessWidget {
                                     child: _StatPill(
                                       icon: '🎖️',
                                       label: '$unlockedCount',
-                                      sublabel: 'Badges',
+                                      sublabel: l10n.rewards_label_badges,
                                     ),
                                   ),
                                 ],
@@ -145,9 +148,9 @@ class RewardsScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Text(
-                                '🏆 Collect all badges!',
+                                l10n.rewards_collectAll,
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
+                                style: AppTextStyles.font(context,
                                   fontSize: 16,
                                   fontWeight: FontWeight.w600,
                                   color: const Color(0xFF2E2E2E),
@@ -155,9 +158,9 @@ class RewardsScreen extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                'You have $unlockedCount badges unlocked',
+                                l10n.rewards_badgesUnlocked(unlockedCount),
                                 textAlign: TextAlign.center,
-                                style: GoogleFonts.poppins(
+                                style: AppTextStyles.font(context,
                                   fontSize: 14,
                                   fontWeight: FontWeight.w600,
                                   color: const Color(0xFF5A6677),
@@ -169,16 +172,16 @@ class RewardsScreen extends StatelessWidget {
                         const SizedBox(height: 20),
 
                         // Badge grid — two columns, rows size to tallest card
-                        for (int row = 0; row < (_badges.length / 2).ceil(); row++) ...[
+                        for (int row = 0; row < (badges.length / 2).ceil(); row++) ...[
                           if (row > 0) const SizedBox(height: 14),
                           IntrinsicHeight(
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.stretch,
                               children: [
-                                Expanded(child: _BadgeCard(badge: _badges[row * 2])),
+                                Expanded(child: _BadgeCard(badge: badges[row * 2])),
                                 const SizedBox(width: 14),
-                                if (row * 2 + 1 < _badges.length)
-                                  Expanded(child: _BadgeCard(badge: _badges[row * 2 + 1]))
+                                if (row * 2 + 1 < badges.length)
+                                  Expanded(child: _BadgeCard(badge: badges[row * 2 + 1]))
                                 else
                                   const Expanded(child: SizedBox()),
                               ],
@@ -241,7 +244,7 @@ class _StatPill extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                   fontSize: 24,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
@@ -250,7 +253,7 @@ class _StatPill extends StatelessWidget {
               ),
               Text(
                 sublabel,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
                   color: const Color(0xFFFFEDD4),
@@ -271,6 +274,8 @@ class _BadgeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     if (badge.unlocked) {
       return ConstrainedBox(
         constraints: const BoxConstraints(minHeight: 260),
@@ -293,7 +298,7 @@ class _BadgeCard extends StatelessWidget {
             Text(
               badge.title,
               textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
+              style: AppTextStyles.font(context,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: const Color(0xFF101828),
@@ -305,7 +310,7 @@ class _BadgeCard extends StatelessWidget {
               child: Text(
                 badge.description,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
                   color: const Color(0xFF4A5565),
@@ -323,8 +328,8 @@ class _BadgeCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(1000),
               ),
               child: Text(
-                '✓ UNLOCKED',
-                style: GoogleFonts.poppins(
+                l10n.rewards_badge_unlocked,
+                style: AppTextStyles.font(context,
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primary,
@@ -341,9 +346,9 @@ class _BadgeCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(1000),
                 ),
                 child: Text(
-                  'Claim your Reward',
+                  l10n.rewards_badge_claimButton,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
@@ -375,7 +380,7 @@ class _BadgeCard extends StatelessWidget {
           Text(
             badge.title,
             textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 14,
               fontWeight: FontWeight.w700,
               color: const Color(0xFF101828),
@@ -385,7 +390,7 @@ class _BadgeCard extends StatelessWidget {
           Text(
             badge.description,
             textAlign: TextAlign.center,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 11,
               fontWeight: FontWeight.w600,
               color: const Color(0xFF4A5565),

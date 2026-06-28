@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../theme/colors.dart';
+import '../theme/text_styles.dart';
 
 class AppTextField extends StatelessWidget {
   final String hint;
@@ -22,10 +22,10 @@ class AppTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscure,
-        style: GoogleFonts.poppins(fontSize: 14, color: AppColors.textPrimary),
+        style: AppTextStyles.font(context, fontSize: 14, color: AppColors.textPrimary),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: GoogleFonts.poppins(fontSize: 14, color: AppColors.textHint),
+          hintStyle: AppTextStyles.font(context, fontSize: 14, color: AppColors.textHint),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),

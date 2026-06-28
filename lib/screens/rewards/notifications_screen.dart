@@ -1,33 +1,36 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class NotificationsScreen extends StatelessWidget {
   const NotificationsScreen({super.key});
 
-  static const _items = [
-    _Notif(
-      title: 'Snap & Send',
-      body: "Let's solve a quick problem and earn points!",
-      time: '12:30 pm',
-      isRead: false,
-    ),
-    _Notif(
-      title: 'New Challenge Unlocked!',
-      body: 'Test yourself and win cool rewards.',
-      time: '8:30 am',
-      isRead: false,
-    ),
-    _Notif(
-      title: 'Awesome Job!',
-      body: 'You completed a challenge and earned a badge!',
-      time: 'Yesterday',
-      isRead: true,
-    ),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    final items = [
+      _Notif(
+        title: l10n.notifications_item1_title,
+        body: l10n.notifications_item1_body,
+        time: '12:30 pm',
+        isRead: false,
+      ),
+      _Notif(
+        title: l10n.notifications_item2_title,
+        body: l10n.notifications_item2_body,
+        time: '8:30 am',
+        isRead: false,
+      ),
+      _Notif(
+        title: l10n.notifications_item3_title,
+        body: l10n.notifications_item3_body,
+        time: l10n.notifications_time_yesterday,
+        isRead: true,
+      ),
+    ];
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -49,8 +52,8 @@ class NotificationsScreen extends StatelessWidget {
                   Expanded(
                     child: Center(
                       child: Text(
-                        'Notifications',
-                        style: GoogleFonts.poppins(
+                        l10n.notifications_title,
+                        style: AppTextStyles.font(context,
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
@@ -66,9 +69,9 @@ class NotificationsScreen extends StatelessWidget {
             Expanded(
               child: ListView.separated(
                 padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-                itemCount: _items.length,
+                itemCount: items.length,
                 separatorBuilder: (_, _) => const SizedBox(height: 12),
-                itemBuilder: (_, i) => _NotifCard(item: _items[i]),
+                itemBuilder: (_, i) => _NotifCard(item: items[i]),
               ),
             ),
           ],
@@ -139,7 +142,7 @@ class _NotifCard extends StatelessWidget {
                     Expanded(
                       child: Text(
                         item.title,
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.font(context,
                           fontSize: 14,
                           fontWeight: FontWeight.w700,
                           color: item.isRead
@@ -151,7 +154,7 @@ class _NotifCard extends StatelessWidget {
                     const SizedBox(width: 8),
                     Text(
                       item.time,
-                      style: GoogleFonts.poppins(
+                      style: AppTextStyles.font(context,
                         fontSize: 12,
                         color: AppColors.textHint,
                       ),
@@ -161,7 +164,7 @@ class _NotifCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   item.body,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 13,
                     color: item.isRead
                         ? AppColors.textHint

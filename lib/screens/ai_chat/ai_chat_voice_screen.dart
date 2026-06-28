@@ -1,7 +1,8 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 import '../../widgets/bottom_nav_bar.dart';
 
 class AIChatVoiceScreen extends StatefulWidget {
@@ -41,6 +42,8 @@ class _AIChatVoiceScreenState extends State<AIChatVoiceScreen>
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -72,8 +75,8 @@ class _AIChatVoiceScreenState extends State<AIChatVoiceScreen>
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    'Nmimes Math Helper',
-                    style: GoogleFonts.poppins(
+                    l10n.aiChat_title,
+                    style: AppTextStyles.font(context,
                       fontSize: 15,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -91,8 +94,8 @@ class _AIChatVoiceScreenState extends State<AIChatVoiceScreen>
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    "Let's Talk",
-                    style: GoogleFonts.poppins(
+                    l10n.aiChat_voice_letsTalk,
+                    style: AppTextStyles.font(context,
                       fontSize: 15,
                       fontWeight: FontWeight.w600,
                       color: AppColors.textPrimary,
@@ -118,8 +121,8 @@ class _AIChatVoiceScreenState extends State<AIChatVoiceScreen>
 
             // Status label
             Text(
-              _isSpeaking ? 'Speaking...' : 'Listening...',
-              style: GoogleFonts.poppins(
+              _isSpeaking ? l10n.aiChat_voice_speaking : l10n.aiChat_voice_listening,
+              style: AppTextStyles.font(context,
                 fontSize: 16,
                 fontWeight: FontWeight.w600,
                 color: AppColors.textPrimary,
