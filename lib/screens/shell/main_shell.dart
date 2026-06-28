@@ -4,6 +4,7 @@ import '../ai_chat/ai_chat_screen.dart';
 import '../challenges/challenges_screen.dart';
 import '../profile/profile_screen.dart';
 import '../../widgets/bottom_nav_bar.dart';
+import '../../widgets/overscroll_reveal.dart';
 
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
@@ -25,9 +26,12 @@ class _MainShellState extends State<MainShell> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _tabs,
+      body: OverscrollReveal(
+        childIsScrollable: true,
+        child: IndexedStack(
+          index: _currentIndex,
+          children: _tabs,
+        ),
       ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
