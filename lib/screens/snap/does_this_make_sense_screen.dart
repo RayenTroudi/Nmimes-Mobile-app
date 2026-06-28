@@ -144,7 +144,7 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        'Put x = 5 back into the equation:',
+                        l.snap_send_quickCheckLine,
                         style: AppTextStyles.font(context,
                           fontSize: 13,
                           color: AppColors.textSecondary,
@@ -152,7 +152,7 @@ class DoesThisMakeSenseScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '2(5) + 5 = 10 + 5 = 15 ✓',
+                        l.snap_send_quickCheckResult,
                         style: AppTextStyles.font(context,
                           fontSize: 13,
                           color: AppColors.primary,

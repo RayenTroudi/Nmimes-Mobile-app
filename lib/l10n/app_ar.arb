@@ -430,5 +430,34 @@
   "snap_hw_cs_step3_line1": "الآن:",
   "snap_hw_cs_step3_line3": "هذا يعني:",
   "snap_hw_cs_step3_line4": "2 ضرب x = 10",
-  "snap_hw_cs_step3_line5": "اقسم 10 إلى جزأين متساويين:"
+  "snap_hw_cs_step3_line5": "اقسم 10 إلى جزأين متساويين:",
+
+  "snap_send_needToFind": "نحتاج إلى إيجاد ",
+  "snap_send_xIsHidden": "x هو رقم مخفي ",
+  "snap_send_questionSays": "هذا السؤال يقول:",
+  "snap_send_timesNumberAdd5": "2 ضرب رقم، ثم إضافة 5، يساوي 15",
+  "snap_send_soWeAreAsking": "إذن نتساءل:",
+  "snap_send_whatNumberMakesTrue": "ما الرقم الذي يجعل هذا صحيحاً؟",
+  "snap_send_ifHiddenNumberWas": "إذا كان الرقم المخفي هو ",
+  "snap_send_wow": "رائع! ",
+  "snap_send_thatWorks": "هذا يعمل 🎉",
+  "snap_send_soMaybe": "إذن ربما ",
+
+  "snap_send_step0_label": "✨ الآن لنحل بشكل صحيح",
+  "snap_send_step0_line1": "الخطوة 1: اطرح 5",
+  "snap_send_step0_line2": "لدينا:",
+  "snap_send_step0_line4": "اطرح 5 من كلا الطرفين:",
+  "snap_send_step1_label": "الخطوة 2: اقسم إلى جزأين",
+  "snap_send_step1_line1": "الآن:",
+  "snap_send_step1_line3": "هذا يعني:",
+  "snap_send_step1_line4": "2 ضرب x = 10",
+  "snap_send_step1_line5": "اقسم 10 إلى جزأين متساويين:",
+  "snap_send_step2_label": "🎉 الإجابة النهائية:",
+  "snap_send_step3_label": "أعد 5:",
+  "snap_send_step3_line2": "لدينا:",
+  "snap_send_step3_line3": "أعد x = 5 إلى المعادلة:",
+  "snap_send_step3_verification": "أحسنت! لقد وجدت الرقم المخفي 🌟",
+
+  "snap_send_quickCheckLine": "أعد x = 5 إلى المعادلة:",
+  "snap_send_quickCheckResult": "2(5) + 5 = 10 + 5 = 15 ✓"
 }

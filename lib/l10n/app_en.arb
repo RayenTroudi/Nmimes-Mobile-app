@@ -431,5 +431,34 @@
   "snap_hw_cs_step3_line1": "Now:",
   "snap_hw_cs_step3_line3": "That means:",
   "snap_hw_cs_step3_line4": "2 times x = 10",
-  "snap_hw_cs_step3_line5": "So divide 10 into 2 equal parts:"
+  "snap_hw_cs_step3_line5": "So divide 10 into 2 equal parts:",
+
+  "snap_send_needToFind": "We need to find ",
+  "snap_send_xIsHidden": "x is a hidden number ",
+  "snap_send_questionSays": "This question says:",
+  "snap_send_timesNumberAdd5": "2 times a number, then add 5, gives 15",
+  "snap_send_soWeAreAsking": "So we are asking:",
+  "snap_send_whatNumberMakesTrue": "What number makes this true?",
+  "snap_send_ifHiddenNumberWas": "If the hidden number was ",
+  "snap_send_wow": "Wow! ",
+  "snap_send_thatWorks": "That works 🎉",
+  "snap_send_soMaybe": "So maybe ",
+
+  "snap_send_step0_label": "✨ Now Let's Solve It Properly",
+  "snap_send_step0_line1": "Step 1: Take away 5",
+  "snap_send_step0_line2": "We have:",
+  "snap_send_step0_line4": "Take away 5 from both sides:",
+  "snap_send_step1_label": "Step 2: Split into 2 parts",
+  "snap_send_step1_line1": "Now:",
+  "snap_send_step1_line3": "That means:",
+  "snap_send_step1_line4": "2 times x = 10",
+  "snap_send_step1_line5": "So divide 10 into 2 equal parts:",
+  "snap_send_step2_label": "🎉 Final Answer:",
+  "snap_send_step3_label": "Put 5 back:",
+  "snap_send_step3_line2": "We have:",
+  "snap_send_step3_line3": "Put x = 5 back into the equation:",
+  "snap_send_step3_verification": "Great job! You found the hidden number 🌟",
+
+  "snap_send_quickCheckLine": "Put x = 5 back into the equation:",
+  "snap_send_quickCheckResult": "2(5) + 5 = 10 + 5 = 15 ✓"
 }

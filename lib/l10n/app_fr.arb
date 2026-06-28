@@ -430,5 +430,34 @@
   "snap_hw_cs_step3_line1": "Maintenant :",
   "snap_hw_cs_step3_line3": "Cela signifie :",
   "snap_hw_cs_step3_line4": "2 fois x = 10",
-  "snap_hw_cs_step3_line5": "Diviser 10 en 2 parties égales :"
+  "snap_hw_cs_step3_line5": "Diviser 10 en 2 parties égales :",
+
+  "snap_send_needToFind": "Nous devons trouver ",
+  "snap_send_xIsHidden": "x est un nombre caché ",
+  "snap_send_questionSays": "Cette question dit :",
+  "snap_send_timesNumberAdd5": "2 fois un nombre, puis ajouter 5, donne 15",
+  "snap_send_soWeAreAsking": "Donc on se demande :",
+  "snap_send_whatNumberMakesTrue": "Quel nombre rend cela vrai ?",
+  "snap_send_ifHiddenNumberWas": "Si le nombre caché était ",
+  "snap_send_wow": "Wow ! ",
+  "snap_send_thatWorks": "Ça marche 🎉",
+  "snap_send_soMaybe": "Donc peut-être ",
+
+  "snap_send_step0_label": "✨ Maintenant résolvons correctement",
+  "snap_send_step0_line1": "Étape 1 : Enlever 5",
+  "snap_send_step0_line2": "Nous avons :",
+  "snap_send_step0_line4": "Enlever 5 des deux côtés :",
+  "snap_send_step1_label": "Étape 2 : Diviser en 2 parties",
+  "snap_send_step1_line1": "Maintenant :",
+  "snap_send_step1_line3": "Cela signifie :",
+  "snap_send_step1_line4": "2 fois x = 10",
+  "snap_send_step1_line5": "Diviser 10 en 2 parties égales :",
+  "snap_send_step2_label": "🎉 Réponse finale :",
+  "snap_send_step3_label": "Remettre 5 :",
+  "snap_send_step3_line2": "Nous avons :",
+  "snap_send_step3_line3": "Remettre x = 5 dans l'équation :",
+  "snap_send_step3_verification": "Bravo ! Tu as trouvé le nombre caché 🌟",
+
+  "snap_send_quickCheckLine": "Remettre x = 5 dans l'équation :",
+  "snap_send_quickCheckResult": "2(5) + 5 = 10 + 5 = 15 ✓"
 }

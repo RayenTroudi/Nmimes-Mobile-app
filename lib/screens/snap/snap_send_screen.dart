@@ -127,19 +127,19 @@ class _UnderstandingScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          _bodyText(context, 'We need to find '),
+                          _bodyText(context, l.snap_send_needToFind),
                           _inlineRow([
-                            _bodyText(context, 'x is a hidden number '),
+                            _bodyText(context, l.snap_send_xIsHidden),
                             const Text('❓', style: TextStyle(fontSize: 14)),
                           ]),
                           const SizedBox(height: 6),
-                          _bodyText(context, 'This question says:'),
+                          _bodyText(context, l.snap_send_questionSays),
                           const SizedBox(height: 4),
                           _inlineRow([
                             const Text('👉 ', style: TextStyle(fontSize: 14)),
                             Expanded(
                               child: Text(
-                                '2 times a number, then add 5, gives 15',
+                                l.snap_send_timesNumberAdd5,
                                 style: AppTextStyles.font(context,
                                   fontSize: 13,
                                   fontWeight: FontWeight.w700,
@@ -149,10 +149,10 @@ class _UnderstandingScreen extends StatelessWidget {
                             ),
                           ]),
                           const SizedBox(height: 6),
-                          _bodyText(context, 'So we are asking:'),
+                          _bodyText(context, l.snap_send_soWeAreAsking),
                           const SizedBox(height: 4),
                           Text(
-                            'What number makes this true?',
+                            l.snap_send_whatNumberMakesTrue,
                             style: AppTextStyles.font(context,
                               fontSize: 13,
                               fontWeight: FontWeight.w700,
@@ -181,7 +181,7 @@ class _UnderstandingScreen extends StatelessWidget {
                           ]),
                           const SizedBox(height: 8),
                           _inlineRow([
-                            _bodyText(context, 'If the hidden number was '),
+                            _bodyText(context, l.snap_send_ifHiddenNumberWas),
                             Text(
                               '5:',
                               style: AppTextStyles.font(context,
@@ -197,17 +197,17 @@ class _UnderstandingScreen extends StatelessWidget {
                           const SizedBox(height: 4),
                           _inlineRow([
                             Text(
-                              'Wow! ',
+                              l.snap_send_wow,
                               style: AppTextStyles.font(context,
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.textPrimary,
                               ),
                             ),
-                            _bodyText(context, 'That works 🎉'),
+                            _bodyText(context, l.snap_send_thatWorks),
                           ]),
                           _inlineRow([
-                            _bodyText(context, 'So maybe '),
+                            _bodyText(context, l.snap_send_soMaybe),
                             _boldText(context, 'x = 5'),
                           ]),
                         ],
@@ -313,58 +313,61 @@ class _Line {
   const _Line(this.text, {this.bold = false});
 }
 
-const _solutionSteps = [
-  // Step 0 — Step 1: Take away 5
-  _StepData(
-    label: '✨ Now Let\'s Solve It Properly',
-    symbol: '– 5',
-    lines: [
-      _Line('Step 1: Take away 5', bold: false),
-      _Line('We have:'),
-      _Line('2x + 5 = 15', bold: true),
-      _Line('Take away 5 from both sides:'),
-      _Line('2x = 10', bold: true),
-    ],
-  ),
-  // Step 1 — Step 2: Split into 2 parts
-  _StepData(
-    label: 'Step 2: Split into 2 parts',
-    symbol: '÷',
-    lines: [
-      _Line('Now:'),
-      _Line('2x = 10', bold: true),
-      _Line('That means:'),
-      _Line('2 times x = 10', bold: true),
-      _Line('So divide 10 into 2 equal parts:'),
-      _Line('x = 5', bold: true),
-    ],
-  ),
-  // Step 2 — Final Answer
-  _StepData(
-    label: '🎉 Final Answer:',
-    symbol: '',
-    isFinalAnswer: true,
-    lines: [
-      _Line('x = 5'),
-    ],
-  ),
-  // Step 3 — Put 5 back (verification)
-  _StepData(
-    label: 'Put 5 back:',
-    symbol: '✓',
-    symbolIsIcon: true,
-    isVerification: true,
-    lines: [
-      _Line('We have:'),
-      _Line('2x + 5 = 15', bold: true),
-      _Line('Put x = 5 back into the equation:'),
-      _Line('2(5) + 5 = 15', bold: true),
-      _Line('10 + 5 = 15', bold: true),
-      _Line('15 = 15 ✅', bold: true),
-      _Line('Great job! You found the hidden number 🌟', bold: true),
-    ],
-  ),
-];
+List<_StepData> _buildSolutionSteps(BuildContext context) {
+  final l = context.l10n;
+  return [
+    // Step 0 — Step 1: Take away 5
+    _StepData(
+      label: l.snap_send_step0_label,
+      symbol: '– 5',
+      lines: [
+        _Line(l.snap_send_step0_line1),
+        _Line(l.snap_send_step0_line2),
+        _Line('2x + 5 = 15', bold: true),
+        _Line(l.snap_send_step0_line4),
+        _Line('2x = 10', bold: true),
+      ],
+    ),
+    // Step 1 — Step 2: Split into 2 parts
+    _StepData(
+      label: l.snap_send_step1_label,
+      symbol: '÷',
+      lines: [
+        _Line(l.snap_send_step1_line1),
+        _Line('2x = 10', bold: true),
+        _Line(l.snap_send_step1_line3),
+        _Line(l.snap_send_step1_line4, bold: true),
+        _Line(l.snap_send_step1_line5),
+        _Line('x = 5', bold: true),
+      ],
+    ),
+    // Step 2 — Final Answer
+    _StepData(
+      label: l.snap_send_step2_label,
+      symbol: '',
+      isFinalAnswer: true,
+      lines: [
+        _Line('x = 5'),
+      ],
+    ),
+    // Step 3 — Put 5 back (verification)
+    _StepData(
+      label: l.snap_send_step3_label,
+      symbol: '✓',
+      symbolIsIcon: true,
+      isVerification: true,
+      lines: [
+        _Line(l.snap_send_step3_line2),
+        _Line('2x + 5 = 15', bold: true),
+        _Line(l.snap_send_step3_line3),
+        _Line('2(5) + 5 = 15', bold: true),
+        _Line('10 + 5 = 15', bold: true),
+        _Line('15 = 15 ✅', bold: true),
+        _Line(l.snap_send_step3_verification, bold: true),
+      ],
+    ),
+  ];
+}
 
 // ─── Solution screen (shared for all steps) ───────────────────────────────────
 
@@ -372,11 +375,11 @@ class _SolutionScreen extends StatelessWidget {
   final int stepIndex;
   const _SolutionScreen({required this.stepIndex});
 
-  bool get _isLast => stepIndex == _solutionSteps.length - 1;
-
   @override
   Widget build(BuildContext context) {
-    final step = _solutionSteps[stepIndex];
+    final steps = _buildSolutionSteps(context);
+    final step = steps[stepIndex];
+    final isLast = stepIndex == steps.length - 1;
     final l = context.l10n;
 
     return Scaffold(
@@ -501,9 +504,9 @@ class _SolutionScreen extends StatelessWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: _OrangeButton(
-                      label: _isLast ? l.snap_button_done : l.snap_button_nextStep,
+                      label: isLast ? l.snap_button_done : l.snap_button_nextStep,
                       onTap: () {
-                        if (_isLast) {
+                        if (isLast) {
                           _showMakeSenseDialog(context);
                         } else {
                           Navigator.push(
@@ -614,14 +617,14 @@ class _MakeSenseDialog extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        'Put x = 5 back into the equation:',
+                        l.snap_send_quickCheckLine,
                         style: AppTextStyles.font(context,
                           fontSize: 12,
                           color: AppColors.textSecondary,
                         ),
                       ),
                       Text(
-                        '2(5) + 5 = 10 + 5 = 15 ✓',
+                        l.snap_send_quickCheckResult,
                         style: AppTextStyles.font(context,
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
