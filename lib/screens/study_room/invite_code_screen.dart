@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class InviteCodeScreen extends StatelessWidget {
   const InviteCodeScreen({super.key});
@@ -10,6 +11,7 @@ class InviteCodeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: Colors.black.withValues(alpha: 0.3),
       body: Center(
@@ -29,8 +31,8 @@ class InviteCodeScreen extends StatelessWidget {
                 children: [
                   const SizedBox(width: 32),
                   Text(
-                    'Invite Code',
-                    style: GoogleFonts.poppins(
+                    l10n.studyRoom_inviteCode,
+                    style: AppTextStyles.font(context,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -76,7 +78,7 @@ class InviteCodeScreen extends StatelessWidget {
                     child: Center(
                       child: Text(
                         digit,
-                        style: GoogleFonts.poppins(
+                        style: AppTextStyles.font(context,
                           fontSize: 22,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
@@ -93,9 +95,9 @@ class InviteCodeScreen extends StatelessWidget {
                 onTap: () {
                   Clipboard.setData(const ClipboardData(text: _code));
                   ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('Code copied!'),
-                      duration: Duration(seconds: 1),
+                    SnackBar(
+                      content: Text(l10n.studyRoom_codeCopied),
+                      duration: const Duration(seconds: 1),
                     ),
                   );
                 },
@@ -110,8 +112,8 @@ class InviteCodeScreen extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        'Copy Code',
-                        style: GoogleFonts.poppins(
+                        l10n.studyRoom_copyCode,
+                        style: AppTextStyles.font(context,
                           fontSize: 14,
                           fontWeight: FontWeight.w600,
                           color: AppColors.primary,

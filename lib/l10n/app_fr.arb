@@ -598,5 +598,40 @@
   "algebra_completed_perfect": "Parfait !",
   "algebra_completed_nice_try": "Bel essai !",
   "algebra_completed_perfect_sub": "Vous êtes incroyable⭐",
-  "algebra_completed_nice_try_sub": "Vous ferez encore mieux la prochaine fois !"
+  "algebra_completed_nice_try_sub": "Vous ferez encore mieux la prochaine fois !",
+
+  "studyRoom_peerLearning": "Apprentissage entre pairs",
+  "studyRoom_startYourOwnRoom": "Créer votre salle",
+  "studyRoom_createRoomSubtitle": "Créez une salle et invitez des amis",
+  "studyRoom_roomNameLabel": "Nom de la salle ",
+  "studyRoom_roomNameEditable": "(Vous pouvez modifier ce nom)",
+  "studyRoom_roomNameFieldHint": "Nom de la salle",
+  "studyRoom_roomNameDefault": "Apprentissage entre pairs",
+  "studyRoom_roomTopicLabel": "Sujet de la salle",
+  "studyRoom_roomTopicHint": "Ajoutez le sujet d'aujourd'hui",
+  "studyRoom_createMyRoom": "Créer ma salle",
+  "studyRoom_teamUpTitle": "Rejoindre des amis",
+  "studyRoom_teamUpSubtitle": "Rejoignez des amis et apprenez ensemble",
+  "studyRoom_enterCode": "Entrez le code :",
+  "studyRoom_teamUpButton": "Rejoindre !",
+  "studyRoom_studentsJoined": "{count} étudiants ont rejoint",
+  "@studyRoom_studentsJoined": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studyRoom_you": "Vous",
+  "studyRoom_endRoom": "Terminer la salle",
+  "studyRoom_inviteFriends": "Inviter des amis",
+  "studyRoom_typeHere": "Tapez ici...",
+  "studyRoom_letsLearn": "On apprend",
+  "studyRoom_leave": "Quitter",
+  "studyRoom_inviteCode": "Code d'invitation",
+  "studyRoom_copyCode": "Copier le code",
+  "studyRoom_codeCopied": "Code copié !",
+  "studyRoom_endRoomBody": "Voulez-vous terminer la salle ?",
+  "studyRoom_no": "Non",
+  "studyRoom_yes": "Oui",
+  "studyRoom_leaveRoom": "Quitter la salle",
+  "studyRoom_leaveRoomBody": "Voulez-vous quitter cette salle ?"
 }

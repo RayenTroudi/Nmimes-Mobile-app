@@ -599,5 +599,40 @@
   "algebra_completed_perfect": "Perfect!",
   "algebra_completed_nice_try": "Nice Try!",
   "algebra_completed_perfect_sub": "You're an amazing⭐",
-  "algebra_completed_nice_try_sub": "You'll do even better next time!"
+  "algebra_completed_nice_try_sub": "You'll do even better next time!",
+
+  "studyRoom_peerLearning": "Peer Learning",
+  "studyRoom_startYourOwnRoom": "Start Your Own Room",
+  "studyRoom_createRoomSubtitle": "Create a room and invite friends",
+  "studyRoom_roomNameLabel": "Room Name ",
+  "studyRoom_roomNameEditable": "(You can edit this name)",
+  "studyRoom_roomNameFieldHint": "Room Name",
+  "studyRoom_roomNameDefault": "Peer Learning",
+  "studyRoom_roomTopicLabel": "Room Topic",
+  "studyRoom_roomTopicHint": "Add today's topic",
+  "studyRoom_createMyRoom": "Create My Room",
+  "studyRoom_teamUpTitle": "Team up with friends",
+  "studyRoom_teamUpSubtitle": "Join friends and learn together",
+  "studyRoom_enterCode": "Enter Code:",
+  "studyRoom_teamUpButton": "Team Up!",
+  "studyRoom_studentsJoined": "{count} students joined",
+  "@studyRoom_studentsJoined": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studyRoom_you": "You",
+  "studyRoom_endRoom": "End Room",
+  "studyRoom_inviteFriends": "Invite Friends",
+  "studyRoom_typeHere": "Type here...",
+  "studyRoom_letsLearn": "Let's Learn",
+  "studyRoom_leave": "Leave",
+  "studyRoom_inviteCode": "Invite Code",
+  "studyRoom_copyCode": "Copy Code",
+  "studyRoom_codeCopied": "Code copied!",
+  "studyRoom_endRoomBody": "Do you want to end the room?",
+  "studyRoom_no": "No",
+  "studyRoom_yes": "Yes",
+  "studyRoom_leaveRoom": "Leave Room",
+  "studyRoom_leaveRoomBody": "Do you want to leave this room?"
 }

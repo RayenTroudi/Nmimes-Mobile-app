@@ -598,5 +598,40 @@
   "algebra_completed_perfect": "رائع!",
   "algebra_completed_nice_try": "محاولة جيدة!",
   "algebra_completed_perfect_sub": "أنت مذهل⭐",
-  "algebra_completed_nice_try_sub": "ستفعل أفضل في المرة القادمة!"
+  "algebra_completed_nice_try_sub": "ستفعل أفضل في المرة القادمة!",
+
+  "studyRoom_peerLearning": "التعلم التشاركي",
+  "studyRoom_startYourOwnRoom": "إنشاء غرفتك الخاصة",
+  "studyRoom_createRoomSubtitle": "أنشئ غرفة وادعُ أصدقاءك",
+  "studyRoom_roomNameLabel": "اسم الغرفة ",
+  "studyRoom_roomNameEditable": "(يمكنك تعديل هذا الاسم)",
+  "studyRoom_roomNameFieldHint": "اسم الغرفة",
+  "studyRoom_roomNameDefault": "التعلم التشاركي",
+  "studyRoom_roomTopicLabel": "موضوع الغرفة",
+  "studyRoom_roomTopicHint": "أضف موضوع اليوم",
+  "studyRoom_createMyRoom": "إنشاء غرفتي",
+  "studyRoom_teamUpTitle": "تعاون مع الأصدقاء",
+  "studyRoom_teamUpSubtitle": "انضم إلى أصدقائك وتعلموا معاً",
+  "studyRoom_enterCode": "أدخل الرمز:",
+  "studyRoom_teamUpButton": "انضم الآن!",
+  "studyRoom_studentsJoined": "{count} طلاب انضموا",
+  "@studyRoom_studentsJoined": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "studyRoom_you": "أنت",
+  "studyRoom_endRoom": "إنهاء الغرفة",
+  "studyRoom_inviteFriends": "دعوة الأصدقاء",
+  "studyRoom_typeHere": "اكتب هنا...",
+  "studyRoom_letsLearn": "هيا نتعلم",
+  "studyRoom_leave": "مغادرة",
+  "studyRoom_inviteCode": "رمز الدعوة",
+  "studyRoom_copyCode": "نسخ الرمز",
+  "studyRoom_codeCopied": "تم نسخ الرمز!",
+  "studyRoom_endRoomBody": "هل تريد إنهاء الغرفة؟",
+  "studyRoom_no": "لا",
+  "studyRoom_yes": "نعم",
+  "studyRoom_leaveRoom": "مغادرة الغرفة",
+  "studyRoom_leaveRoomBody": "هل تريد مغادرة هذه الغرفة؟"
 }

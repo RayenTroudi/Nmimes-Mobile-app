@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class JoinedRoomScreen extends StatefulWidget {
   const JoinedRoomScreen({super.key});
@@ -77,6 +78,7 @@ class _JoinedRoomScreenState extends State<JoinedRoomScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -103,8 +105,8 @@ class _JoinedRoomScreenState extends State<JoinedRoomScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Let's Learn",
-                          style: GoogleFonts.poppins(
+                          l10n.studyRoom_letsLearn,
+                          style: AppTextStyles.font(context,
                             fontSize: 16,
                             fontWeight: FontWeight.w700,
                             color: AppColors.textPrimary,
@@ -116,8 +118,8 @@ class _JoinedRoomScreenState extends State<JoinedRoomScreen> {
                                 size: 14, color: AppColors.textSecondary),
                             const SizedBox(width: 4),
                             Text(
-                              '3 students joined',
-                              style: GoogleFonts.poppins(
+                              l10n.studyRoom_studentsJoined(3),
+                              style: AppTextStyles.font(context,
                                 fontSize: 12,
                                 color: AppColors.textSecondary,
                               ),
@@ -142,8 +144,8 @@ class _JoinedRoomScreenState extends State<JoinedRoomScreen> {
                         mainAxisSize: MainAxisSize.min,
                         children: [
                           Text(
-                            'Leave',
-                            style: GoogleFonts.poppins(
+                            l10n.studyRoom_leave,
+                            style: AppTextStyles.font(context,
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: AppColors.red,
@@ -244,6 +246,7 @@ class _TextBubble extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Container(
       padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
       decoration: BoxDecoration(
@@ -270,8 +273,8 @@ class _TextBubble extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(bottom: 4),
               child: Text(
-                'You',
-                style: GoogleFonts.poppins(
+                l10n.studyRoom_you,
+                style: AppTextStyles.font(context,
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: Colors.white,
@@ -280,7 +283,7 @@ class _TextBubble extends StatelessWidget {
             ),
           Text(
             msg.text ?? '',
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 14,
               color: msg.isUser ? Colors.white : AppColors.textPrimary,
               height: 1.4,
@@ -294,7 +297,7 @@ class _TextBubble extends StatelessWidget {
               children: [
                 Text(
                   msg.time,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                     fontSize: 10,
                     color: msg.isUser
                         ? Colors.white.withValues(alpha: 0.7)
@@ -342,7 +345,7 @@ class _ImageBubble extends StatelessWidget {
               children: [
                 Text(
                   'In △ABC, m∠A = 15°, a = 9, and b = 12. Find c\nto the nearest tenth.',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                       fontSize: 9, color: Colors.white),
                   textAlign: TextAlign.center,
                 ),
@@ -360,7 +363,7 @@ class _ImageBubble extends StatelessWidget {
             child: Row(
               children: [
                 Text(msg.time,
-                    style: GoogleFonts.poppins(
+                    style: AppTextStyles.font(context,
                         fontSize: 10,
                         color: Colors.white.withValues(alpha: 0.8))),
                 const SizedBox(width: 4),
@@ -388,7 +391,7 @@ class _TrianglePainter extends CustomPainter {
       ..lineTo(size.width, size.height)
       ..close();
     canvas.drawPath(path, paint);
-    final tp = GoogleFonts.poppins(fontSize: 8, color: Colors.white);
+    final tp = const TextStyle(fontSize: 8, color: Colors.white);
     void label(String t, double x, double y) {
       TextPainter(
           text: TextSpan(text: t, style: tp), textDirection: TextDirection.ltr)
@@ -435,7 +438,7 @@ class _VoiceBubble extends StatelessWidget {
         children: [
           Text(
             msg.sender ?? '',
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 13,
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
@@ -473,10 +476,10 @@ class _VoiceBubble extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(msg.duration ?? '0:00',
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                       fontSize: 11, color: AppColors.textSecondary)),
               Text(msg.time,
-                  style: GoogleFonts.poppins(
+                  style: AppTextStyles.font(context,
                       fontSize: 10, color: AppColors.textHint)),
             ],
           ),
@@ -538,6 +541,7 @@ class _InputBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 20),
       decoration: const BoxDecoration(
@@ -556,11 +560,11 @@ class _InputBar extends StatelessWidget {
             Expanded(
               child: TextField(
                 controller: controller,
-                style: GoogleFonts.poppins(
+                style: AppTextStyles.font(context,
                     fontSize: 14, color: AppColors.textPrimary),
                 decoration: InputDecoration(
-                  hintText: 'Type here...',
-                  hintStyle: GoogleFonts.poppins(
+                  hintText: l10n.studyRoom_typeHere,
+                  hintStyle: AppTextStyles.font(context,
                       fontSize: 14, color: AppColors.textHint),
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.symmetric(

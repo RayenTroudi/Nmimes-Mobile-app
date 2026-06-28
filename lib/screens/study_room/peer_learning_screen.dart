@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class PeerLearningScreen extends StatefulWidget {
   const PeerLearningScreen({super.key});
@@ -10,10 +11,21 @@ class PeerLearningScreen extends StatefulWidget {
 }
 
 class _PeerLearningScreenState extends State<PeerLearningScreen> {
-  final _roomNameCtrl = TextEditingController(text: 'Peer Learning');
+  late final TextEditingController _roomNameCtrl;
   final _topicCtrl = TextEditingController();
   final _codeCtrl = TextEditingController();
   final _codeFocus = FocusNode();
+  bool _roomNameCtrlInit = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_roomNameCtrlInit) {
+      _roomNameCtrlInit = true;
+      _roomNameCtrl = TextEditingController(
+          text: context.l10n.studyRoom_roomNameDefault);
+    }
+  }
 
   @override
   void dispose() {
@@ -26,6 +38,7 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: AppColors.background,
       body: SafeArea(
@@ -45,8 +58,8 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                     ),
                   ),
                   Text(
-                    'Peer Learning',
-                    style: GoogleFonts.poppins(
+                    l10n.studyRoom_peerLearning,
+                    style: AppTextStyles.font(context,
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -69,8 +82,8 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Start Your Own Room',
-                            style: GoogleFonts.poppins(
+                            l10n.studyRoom_startYourOwnRoom,
+                            style: AppTextStyles.font(context,
                               fontSize: 17,
                               fontWeight: FontWeight.w700,
                               color: AppColors.textPrimary,
@@ -78,8 +91,8 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Create a room and invite friends',
-                            style: GoogleFonts.poppins(
+                            l10n.studyRoom_createRoomSubtitle,
+                            style: AppTextStyles.font(context,
                               fontSize: 13,
                               color: AppColors.textSecondary,
                             ),
@@ -89,16 +102,16 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                             text: TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Room Name ',
-                                  style: GoogleFonts.poppins(
+                                  text: l10n.studyRoom_roomNameLabel,
+                                  style: AppTextStyles.font(context,
                                     fontSize: 13,
                                     fontWeight: FontWeight.w600,
                                     color: AppColors.textPrimary,
                                   ),
                                 ),
                                 TextSpan(
-                                  text: '(You can edit this name)',
-                                  style: GoogleFonts.poppins(
+                                  text: l10n.studyRoom_roomNameEditable,
+                                  style: AppTextStyles.font(context,
                                     fontSize: 13,
                                     color: AppColors.textSecondary,
                                   ),
@@ -107,11 +120,13 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          _Field(controller: _roomNameCtrl, hint: 'Room Name'),
+                          _Field(
+                              controller: _roomNameCtrl,
+                              hint: l10n.studyRoom_roomNameFieldHint),
                           const SizedBox(height: 14),
                           Text(
-                            'Room Topic',
-                            style: GoogleFonts.poppins(
+                            l10n.studyRoom_roomTopicLabel,
+                            style: AppTextStyles.font(context,
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
@@ -120,10 +135,10 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                           const SizedBox(height: 8),
                           _Field(
                               controller: _topicCtrl,
-                              hint: "Add today's topic"),
+                              hint: l10n.studyRoom_roomTopicHint),
                           const SizedBox(height: 20),
                           _OrangeButton(
-                            label: 'Create My Room',
+                            label: l10n.studyRoom_createMyRoom,
                             onTap: () =>
                                 Navigator.pushNamed(context, '/my-room'),
                           ),
@@ -140,8 +155,8 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Team up with friends',
-                            style: GoogleFonts.poppins(
+                            l10n.studyRoom_teamUpTitle,
+                            style: AppTextStyles.font(context,
                               fontSize: 17,
                               fontWeight: FontWeight.w700,
                               color: AppColors.textPrimary,
@@ -149,16 +164,16 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            'Join friends and learn together',
-                            style: GoogleFonts.poppins(
+                            l10n.studyRoom_teamUpSubtitle,
+                            style: AppTextStyles.font(context,
                               fontSize: 13,
                               color: AppColors.textSecondary,
                             ),
                           ),
                           const SizedBox(height: 16),
                           Text(
-                            'Enter Code:',
-                            style: GoogleFonts.poppins(
+                            l10n.studyRoom_enterCode,
+                            style: AppTextStyles.font(context,
                               fontSize: 13,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
@@ -219,7 +234,7 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                                     child: filled
                                         ? Text(
                                             code[i],
-                                            style: GoogleFonts.poppins(
+                                            style: AppTextStyles.font(context,
                                               fontSize: 20,
                                               fontWeight: FontWeight.w700,
                                               color: AppColors.textPrimary,
@@ -248,8 +263,8 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                               ),
                               child: Center(
                                 child: Text(
-                                  'Team Up!',
-                                  style: GoogleFonts.poppins(
+                                  l10n.studyRoom_teamUpButton,
+                                  style: AppTextStyles.font(context,
                                     fontSize: 15,
                                     fontWeight: FontWeight.w700,
                                     color: AppColors.primary,
@@ -320,12 +335,12 @@ class _Field extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        style:
-            GoogleFonts.poppins(fontSize: 14, color: AppColors.textPrimary),
+        style: AppTextStyles.font(context,
+            fontSize: 14, color: AppColors.textPrimary),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle:
-              GoogleFonts.poppins(fontSize: 14, color: AppColors.textHint),
+          hintStyle: AppTextStyles.font(context,
+              fontSize: 14, color: AppColors.textHint),
           border: InputBorder.none,
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
@@ -363,7 +378,7 @@ class _OrangeButton extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Colors.white,

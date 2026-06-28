@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/text_styles.dart';
 
 class EndRoomScreen extends StatelessWidget {
   const EndRoomScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = context.l10n;
     return Scaffold(
       backgroundColor: Colors.black.withValues(alpha: 0.3),
       body: Center(
@@ -21,8 +23,8 @@ class EndRoomScreen extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'End Room',
-                style: GoogleFonts.poppins(
+                l10n.studyRoom_endRoom,
+                style: AppTextStyles.font(context,
                   fontSize: 18,
                   fontWeight: FontWeight.w700,
                   color: AppColors.textPrimary,
@@ -30,8 +32,8 @@ class EndRoomScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                'Do you want to end the room?',
-                style: GoogleFonts.poppins(
+                l10n.studyRoom_endRoomBody,
+                style: AppTextStyles.font(context,
                   fontSize: 14,
                   color: AppColors.textSecondary,
                 ),
@@ -42,14 +44,14 @@ class EndRoomScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: _OutlineBtn(
-                      label: 'No',
+                      label: l10n.studyRoom_no,
                       onTap: () => Navigator.pop(context),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
                     child: _OrangeBtn(
-                      label: 'Yes',
+                      label: l10n.studyRoom_yes,
                       onTap: () => Navigator.pushNamedAndRemoveUntil(
                           context, '/home', (r) => false),
                     ),
@@ -91,7 +93,7 @@ class _OrangeBtn extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: Colors.white,
@@ -121,7 +123,7 @@ class _OutlineBtn extends StatelessWidget {
         child: Center(
           child: Text(
             label,
-            style: GoogleFonts.poppins(
+            style: AppTextStyles.font(context,
               fontSize: 15,
               fontWeight: FontWeight.w700,
               color: AppColors.primary,
