@@ -394,7 +394,13 @@
   "snap_widgets_tip2": "Un bon éclairage aide",
   "snap_widgets_tip3": "Centrez-le dans le cadre",
 
+  "snap_hw_quit": "Quitter",
   "snap_hw_tryAgain": "Réessayer.",
+  "snap_hw_letsLearnTogether": "Apprenons ensemble ! 💡",
+  "snap_hw_button_tryAgain": "Réessayons",
+  "snap_hw_watchLesson": "Voir la leçon",
+  "snap_hw_viewExample": "Voir l'exemple",
+  "snap_hw_skipStep": "Passer cette étape",
 
   "snap_dtms_doesMakeSense": "Est-ce logique ?",
   "snap_dtms_notYet": "Pas encore",
@@ -705,6 +711,13 @@
   "aiChat_voice_letsTalk": "Parlons",
   "aiChat_voice_speaking": "En train de parler...",
   "aiChat_voice_listening": "À l'écoute...",
+  "aiChat_ai_greeting": "Bonjour !\nQuelle formule a été utilisée ?",
+  "aiChat_ai_freeReply": "Super question ! Laisse-moi t'aider à mieux comprendre.",
+  "aiChat_ai_wrong": "Mauvaise réponse\nApprenons ensemble.",
+  "aiChat_ai_hint1": "Indice :\nLe problème a 3 constantes\net 1 variable comme :\n2x + 5 = 15",
+  "aiChat_ai_step2": "Bravo !\nQuelle était la première étape ?",
+  "aiChat_ai_hint2": "Indice :\nNous devons effectuer une opération\ndes deux côtés de l'équation.",
+  "aiChat_ai_solution": "Solution :\nÉtape 1 : 2x + 5 - 5 = 15 - 5\nÉtape 2 : 2x = 10\nÉtape 3 : x = 5",
 
   "teachItBack_title": "Réenseigne-le !",
   "teachItBack_subtitle": "La meilleure façon d'apprendre est d'enseigner. Explique un concept à Nmimes et approfondis ta compréhension.",

@@ -75,6 +75,7 @@ class _Step1Screen extends StatefulWidget {
 
 class _Step1ScreenState extends State<_Step1Screen> {
   String? _selected;
+  int _wrongCount = 0;
   static const _correct = 'x';
   static const _options = ['x', '5', '2', '15'];
 
@@ -119,7 +120,7 @@ class _Step1ScreenState extends State<_Step1Screen> {
                       physics: const NeverScrollableScrollPhysics(),
                       crossAxisSpacing: 12,
                       mainAxisSpacing: 12,
-                      childAspectRatio: 2.2,
+                      childAspectRatio: (MediaQuery.of(context).size.width / 2 - 32) / 56,
                       children: _options
                           .map((o) => _TileOption(
                                 label: o,
@@ -131,7 +132,10 @@ class _Step1ScreenState extends State<_Step1Screen> {
                                             : _TileState.wrong)
                                         : _TileState.idle,
                                 onTap: _selected == null
-                                    ? () => setState(() => _selected = o)
+                                    ? () => setState(() {
+                                          _selected = o;
+                                          if (o != _correct) _wrongCount++;
+                                        })
                                     : null,
                               ))
                           .toList(),
@@ -143,7 +147,11 @@ class _Step1ScreenState extends State<_Step1Screen> {
                     if (_feedback == _FeedbackState.wrong)
                       _FeedbackCard.wrong(
                           message: l.snap_hw_step1_wrong,
-                          onTryAgain: () => setState(() => _selected = null)),
+                          wrongCount: _wrongCount,
+                          onTryAgain: () => setState(() {
+                                _selected = null;
+                                _wrongCount = 0;
+                              })),
                     const SizedBox(height: 24),
                   ],
                 ),
@@ -175,6 +183,7 @@ class _Step2Screen extends StatefulWidget {
 
 class _Step2ScreenState extends State<_Step2Screen> {
   String? _selected;
+  int _wrongCount = 0;
   // index of correct answer among options (index 0 = "Subtract 5 from both sides")
   static const _correctIndex = 0;
 
@@ -235,7 +244,10 @@ class _Step2ScreenState extends State<_Step2Screen> {
                                       : _TileState.wrong)
                                   : _TileState.idle,
                           onTap: _selected == null
-                              ? () => setState(() => _selected = o)
+                              ? () => setState(() {
+                                    _selected = o;
+                                    if (idx != _correctIndex) _wrongCount++;
+                                  })
                               : null,
                         ),
                       );
@@ -247,7 +259,11 @@ class _Step2ScreenState extends State<_Step2Screen> {
                     if (feedback == _FeedbackState.wrong)
                       _FeedbackCard.wrong(
                           message: l.snap_hw_step2_wrong,
-                          onTryAgain: () => setState(() => _selected = null)),
+                          wrongCount: _wrongCount,
+                          onTryAgain: () => setState(() {
+                                _selected = null;
+                                _wrongCount = 0;
+                              })),
                     const SizedBox(height: 24),
                   ],
                 ),
@@ -280,6 +296,7 @@ class _Step3Screen extends StatefulWidget {
 class _Step3ScreenState extends State<_Step3Screen> {
   final _controller = TextEditingController();
   _FeedbackState _feedback = _FeedbackState.none;
+  int _wrongCount = 0;
   static const _correct = '5';
 
   @override
@@ -292,9 +309,12 @@ class _Step3ScreenState extends State<_Step3Screen> {
     final answer = _controller.text.trim();
     if (answer.isEmpty) return;
     setState(() {
-      _feedback = answer == _correct
-          ? _FeedbackState.correct
-          : _FeedbackState.wrong;
+      if (answer == _correct) {
+        _feedback = _FeedbackState.correct;
+      } else {
+        _feedback = _FeedbackState.wrong;
+        _wrongCount++;
+      }
     });
   }
 
@@ -346,7 +366,7 @@ class _Step3ScreenState extends State<_Step3Screen> {
                           ),
                         ),
                         Container(
-                          width: 100,
+                          width: (MediaQuery.of(context).size.width * 0.26).clamp(80.0, 120.0),
                           height: 52,
                           decoration: BoxDecoration(
                             color: Colors.white,
@@ -390,9 +410,13 @@ class _Step3ScreenState extends State<_Step3Screen> {
                     if (_feedback == _FeedbackState.wrong)
                       _FeedbackCard.wrong(
                           message: l.snap_hw_step3_wrong,
+                          wrongCount: _wrongCount,
                           onTryAgain: () {
                             _controller.clear();
-                            setState(() => _feedback = _FeedbackState.none);
+                            setState(() {
+                              _feedback = _FeedbackState.none;
+                              _wrongCount = 0;
+                            });
                           }),
                     const SizedBox(height: 24),
                   ],
@@ -515,12 +539,26 @@ class _TopBar extends StatelessWidget {
                 color: AppColors.textPrimary, size: 24),
           ),
           const SizedBox(width: 12),
-          Text(
-            l.snap_title_homework,
-            style: AppTextStyles.font(context,
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+          Expanded(
+            child: Text(
+              l.snap_title_homework,
+              style: AppTextStyles.font(context,
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false),
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.close, color: Colors.white, size: 16),
             ),
           ),
         ],
@@ -560,7 +598,7 @@ class _ProblemCard extends StatelessWidget {
           Text(
             '2x + 5 = 15',
             style: AppTextStyles.font(context,
-              fontSize: 28,
+              fontSize: (MediaQuery.of(context).size.width * 0.07).clamp(20.0, 28.0),
               fontWeight: FontWeight.w800,
               color: AppColors.primary,
             ),
@@ -707,67 +745,105 @@ class _ListOption extends StatelessWidget {
 }
 
 class _FeedbackCard extends StatelessWidget {
-  final Color bg;
-  final Color iconBg;
-  final IconData icon;
+  final bool isCorrect;
   final String message;
+  final int wrongCount;
   final VoidCallback? onTryAgain;
 
   const _FeedbackCard({
-    required this.bg,
-    required this.iconBg,
-    required this.icon,
+    required this.isCorrect,
     required this.message,
+    this.wrongCount = 0,
     this.onTryAgain,
   });
 
   factory _FeedbackCard.correct({required String message}) => _FeedbackCard(
-        bg: AppColors.green,
-        iconBg: const Color(0xFF237A4B),
-        icon: Icons.check_rounded,
+        isCorrect: true,
         message: message,
       );
 
-  factory _FeedbackCard.wrong(
-          {required String message, required VoidCallback onTryAgain}) =>
+  factory _FeedbackCard.wrong({
+    required String message,
+    required int wrongCount,
+    required VoidCallback onTryAgain,
+  }) =>
       _FeedbackCard(
-        bg: AppColors.primary,
-        iconBg: const Color(0xFFC45E00),
-        icon: Icons.lightbulb_outline_rounded,
+        isCorrect: false,
         message: message,
+        wrongCount: wrongCount,
         onTryAgain: onTryAgain,
       );
 
   @override
   Widget build(BuildContext context) {
     final l = context.l10n;
+    if (isCorrect) {
+      return Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: AppColors.green,
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: const Color(0xFF237A4B),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Icon(Icons.check_rounded,
+                  color: Colors.white, size: 18),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(
+                message,
+                style: AppTextStyles.font(context,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // Wrong answer card — Figma: #e2562c bg, cornerRadius 16, padding 24
+    final showActions = wrongCount >= 2;
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: bg,
+        color: const Color(0xFFE2562C),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          // Header row
           Row(
             children: [
               Container(
-                width: 32,
-                height: 32,
+                width: 36,
+                height: 36,
                 decoration: BoxDecoration(
-                  color: iconBg,
-                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.white.withValues(alpha: 0.25),
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                child: Icon(icon, color: Colors.white, size: 18),
+                child: const Icon(Icons.lightbulb_outline_rounded,
+                    color: Colors.white, size: 20),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
-                  message.split('\n').first,
+                  l.snap_hw_letsLearnTogether,
                   style: AppTextStyles.font(context,
-                    fontSize: 15,
+                    fontSize: 16,
                     fontWeight: FontWeight.w700,
                     color: Colors.white,
                   ),
@@ -775,29 +851,107 @@ class _FeedbackCard extends StatelessWidget {
               ),
             ],
           ),
-          if (message.contains('\n')) ...[
-            const SizedBox(height: 6),
+          const SizedBox(height: 14),
+          if (!showActions) ...[
+            // First wrong: hint text + Try Again button
             Text(
-              message.split('\n').skip(1).join('\n'),
+              message,
               style: AppTextStyles.font(context,
                 fontSize: 13,
-                color: Colors.white.withValues(alpha: 0.9),
                 fontWeight: FontWeight.w600,
+                color: Colors.white.withValues(alpha: 0.92),
+                height: 1.5,
               ),
             ),
-          ],
-          if (onTryAgain != null) ...[
-            const SizedBox(height: 10),
-            Text(
-              l.snap_hw_tryAgain,
-              style: AppTextStyles.font(context,
-                fontSize: 13,
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
+            const SizedBox(height: 16),
+            GestureDetector(
+              onTap: onTryAgain,
+              child: Container(
+                width: double.infinity,
+                height: 48,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(28),
+                ),
+                child: Center(
+                  child: Text(
+                    l.snap_hw_button_tryAgain,
+                    style: AppTextStyles.font(context,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w700,
+                      color: const Color(0xFFE2562C),
+                    ),
+                  ),
+                ),
               ),
+            ),
+          ] else ...[
+            // Second+ wrong: 3 action cards
+            _ActionRow(
+              icon: Icons.play_circle_fill_rounded,
+              iconColor: const Color(0xFF26C6A2),
+              label: l.snap_hw_watchLesson,
+              onTap: () {},
+            ),
+            const SizedBox(height: 10),
+            _ActionRow(
+              icon: Icons.lightbulb_rounded,
+              iconColor: const Color(0xFFFFB300),
+              label: l.snap_hw_viewExample,
+              onTap: onTryAgain,
+            ),
+            const SizedBox(height: 10),
+            _ActionRow(
+              icon: Icons.close_rounded,
+              iconColor: const Color(0xFFE2562C),
+              label: l.snap_hw_skipStep,
+              onTap: onTryAgain,
             ),
           ],
         ],
+      ),
+    );
+  }
+}
+
+class _ActionRow extends StatelessWidget {
+  final IconData icon;
+  final Color iconColor;
+  final String label;
+  final VoidCallback? onTap;
+
+  const _ActionRow({
+    required this.icon,
+    required this.iconColor,
+    required this.label,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Row(
+          children: [
+            Icon(icon, color: iconColor, size: 22),
+            const SizedBox(width: 12),
+            Text(
+              label,
+              style: AppTextStyles.font(context,
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

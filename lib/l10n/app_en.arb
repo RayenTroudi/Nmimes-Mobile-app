@@ -395,7 +395,13 @@
   "snap_widgets_tip2": "Good lighting helps",
   "snap_widgets_tip3": "Center it in the frame",
 
+  "snap_hw_quit": "Quit",
   "snap_hw_tryAgain": "Try again.",
+  "snap_hw_letsLearnTogether": "Let's learn together! 💡",
+  "snap_hw_button_tryAgain": "Let's Try Again",
+  "snap_hw_watchLesson": "Watch Lesson",
+  "snap_hw_viewExample": "View Example",
+  "snap_hw_skipStep": "Skip This Step",
 
   "snap_dtms_doesMakeSense": "Does this make sense?",
   "snap_dtms_notYet": "Not Yet",
@@ -706,6 +712,13 @@
   "aiChat_voice_letsTalk": "Let's Talk",
   "aiChat_voice_speaking": "Speaking...",
   "aiChat_voice_listening": "Listening...",
+  "aiChat_ai_greeting": "Hi there!\nWhich formula was used?",
+  "aiChat_ai_freeReply": "That's a great question! Let me help you understand that better.",
+  "aiChat_ai_wrong": "Wrong answer\nLet's learn together.",
+  "aiChat_ai_hint1": "Hint:\nThe problem has 3 constants\nand 1 variable like:\n2x + 5 = 15",
+  "aiChat_ai_step2": "Great!\nWhat was the first step?",
+  "aiChat_ai_hint2": "Hint:\nWe have to perform action on\nboth sides of equation.",
+  "aiChat_ai_solution": "Solution:\nStep 1: 2x + 5 - 5 = 15 - 5\nStep 2: 2x = 10\nStep 3: x = 5",
 
   "teachItBack_title": "Teach It Back!",
   "teachItBack_subtitle": "The best way to learn is to teach. Explain a concept back to Nmimes and deepen your understanding.",

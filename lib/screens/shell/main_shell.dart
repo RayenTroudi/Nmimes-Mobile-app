@@ -16,6 +16,15 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   int _currentIndex = 0;
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final args = ModalRoute.of(context)?.settings.arguments;
+    if (args is int && _currentIndex == 0) {
+      _currentIndex = args;
+    }
+  }
+
   static const _tabs = [
     HomeScreen(),
     AIChatScreen(),

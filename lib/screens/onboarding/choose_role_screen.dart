@@ -35,18 +35,7 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
           Column(
             children: [
               // Orange header area
-              SizedBox(
-                height: screenHeight * 0.30,
-                child: SafeArea(
-                  child: Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: AppColors.white),
-                      onPressed: () => Navigator.pop(context),
-                    ),
-                  ),
-                ),
-              ),
+              SizedBox(height: screenHeight * 0.30),
 
               // White rounded card body
               Expanded(

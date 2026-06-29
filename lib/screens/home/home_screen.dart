@@ -143,7 +143,7 @@ class _HomeHeader extends StatelessWidget {
                     builder: (context, locale, _) {
                       final (flag, label) = switch (locale.languageCode) {
                         'fr' => ('🇫🇷', 'FR'),
-                        'ar' => ('🇸🇦', 'عر'),
+                        'ar' => ('🇸🇦', 'عربية'),
                         _ =>  ('🇬🇧', 'ENG'),
                       };
                       return GestureDetector(

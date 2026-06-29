@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import 'ai_chat_side_menu_screen.dart';
 
 class AIChatScreen extends StatefulWidget {
   const AIChatScreen({super.key});
@@ -16,10 +17,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
   final _controller = TextEditingController();
   final _scroll = ScrollController();
 
-  // Explaining-back sub-flow state
-  // 0 = not started, 1..n = step index
   int _explainStep = 0;
-  // how many times user was wrong on current step
   int _wrongCount = 0;
 
   @override
@@ -52,15 +50,14 @@ class _AIChatScreenState extends State<AIChatScreen> {
     }
   }
 
-  void _addAi(String text,
+  void _addAi(_AiKey key,
       {_BubbleType type = _BubbleType.normal, bool showActions = false}) {
     Future.delayed(const Duration(milliseconds: 600), () {
       if (!mounted) return;
       setState(() {
         _clearActions();
-        _messages.add(_Msg(
-          text: text,
-          isUser: false,
+        _messages.add(_Msg.ai(
+          key: key,
           time: _now(),
           type: type,
           showActions: showActions,
@@ -76,44 +73,34 @@ class _AIChatScreenState extends State<AIChatScreen> {
     _controller.clear();
     setState(() {
       _clearActions();
-      _messages.add(_Msg(text: text, isUser: true, time: _now()));
+      _messages.add(_Msg.user(text: text, time: _now()));
     });
     _scrollToBottom();
 
-    // Normal free chat — just echo a helpful response
     if (_explainStep == 0) {
-      _addAi(
-          "That's a great question! Let me help you understand that better.");
+      _addAi(_AiKey.freeReply);
     }
-    // Explaining back flow responses handled by _onExplainReply
   }
 
-  // Called when user taps send during explain-back flow
   void _onExplainReply(String text) {
     setState(() {
       _clearActions();
-      _messages.add(_Msg(text: text, isUser: true, time: _now()));
+      _messages.add(_Msg.user(text: text, time: _now()));
     });
     _scrollToBottom();
     _controller.clear();
 
     if (_explainStep == 1) {
-      // First question about formula
-      // Wrong answer → show feedback
       _wrongCount++;
       if (_wrongCount == 1) {
-        _addAi('Wrong answer\nLet\'s learn together.',
-            type: _BubbleType.wrong, showActions: true);
+        _addAi(_AiKey.wrong, type: _BubbleType.wrong, showActions: true);
       }
     } else if (_explainStep == 2) {
-      // First step question
       _wrongCount++;
       if (_wrongCount <= 1) {
-        _addAi('Wrong answer\nLet\'s learn together.',
-            type: _BubbleType.wrong, showActions: true);
+        _addAi(_AiKey.wrong, type: _BubbleType.wrong, showActions: true);
       } else {
-        _addAi('Wrong answer\nLet\'s learn together.',
-            type: _BubbleType.wrongWithSolution, showActions: true);
+        _addAi(_AiKey.wrong, type: _BubbleType.wrongWithSolution, showActions: true);
       }
     }
   }
@@ -121,25 +108,21 @@ class _AIChatScreenState extends State<AIChatScreen> {
   void _onGetHint() {
     setState(() => _clearActions());
     if (_explainStep == 1) {
-      _addAi(
-          'Hint:\nThe problem has 3 constant\nand 1 variable like:\n2x + 5 = 15');
-      // After hint, progress to next step
+      _addAi(_AiKey.hint1);
       Future.delayed(const Duration(milliseconds: 700), () {
         if (!mounted) return;
         _explainStep = 2;
         _wrongCount = 0;
-        _addAi('Great!\nWhat was the first step?');
+        _addAi(_AiKey.step2);
       });
     } else if (_explainStep == 2) {
-      _addAi(
-          'Hint:\nWe have to perform action on\nboth sides of equation.');
+      _addAi(_AiKey.hint2);
     }
   }
 
   void _onGetSolution() {
     setState(() => _clearActions());
-    _addAi(
-        'Solution:\nStep 1: 2x + 5 - 5 = 15 - 5\nStep 2: 2x = 10\nStep 3: x = 5');
+    _addAi(_AiKey.solution);
   }
 
   void _startExplaining() {
@@ -149,12 +132,13 @@ class _AIChatScreenState extends State<AIChatScreen> {
       _explainStep = 1;
       _wrongCount = 0;
     });
-    _addAi('Hi there!\nWhich formula was used?');
+    _addAi(_AiKey.greeting);
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+    final isRtl = Directionality.of(context) == TextDirection.rtl;
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -166,37 +150,47 @@ class _AIChatScreenState extends State<AIChatScreen> {
             Padding(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: Row(
-                children: [
-                  GestureDetector(
-                    onTap: () =>
-                        Navigator.pushNamed(context, '/ai-chat-menu'),
-                    child: const Icon(Icons.menu,
-                        color: AppColors.textPrimary, size: 26),
-                  ),
-                  if (_chatStarted) ...[
-                    const SizedBox(width: 12),
-                    Image.asset(
-                      'assets/images/fox_sunglasses.png',
-                      width: 32,
-                      height: 32,
-                      fit: BoxFit.contain,
-                      errorBuilder: (_, _, _) => const Icon(
-                          Icons.pets_rounded,
-                          color: AppColors.primary,
-                          size: 28),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      l10n.aiChat_title,
-                      style: AppTextStyles.font(context,
-                        fontSize: 15,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
+              child: Directionality(
+                textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+                child: Row(
+                  children: [
+                    GestureDetector(
+                      onTap: () => Navigator.push(
+                        context,
+                        PageRouteBuilder(
+                          opaque: false,
+                          barrierColor: Colors.transparent,
+                          pageBuilder: (ctx, a, b) =>
+                              const AIChatSideMenuScreen(),
+                        ),
                       ),
+                      child: const Icon(Icons.menu,
+                          color: AppColors.textPrimary, size: 26),
                     ),
+                    if (_chatStarted) ...[
+                      const SizedBox(width: 12),
+                      Image.asset(
+                        'assets/images/fox_sunglasses.png',
+                        width: 32,
+                        height: 32,
+                        fit: BoxFit.contain,
+                        errorBuilder: (_, _, _) => const Icon(
+                            Icons.pets_rounded,
+                            color: AppColors.primary,
+                            size: 28),
+                      ),
+                      const SizedBox(width: 8),
+                      Text(
+                        l10n.aiChat_title,
+                        style: AppTextStyles.font(context,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.textPrimary,
+                        ),
+                      ),
+                    ],
                   ],
-                ],
+                ),
               ),
             ),
 
@@ -206,6 +200,7 @@ class _AIChatScreenState extends State<AIChatScreen> {
                       messages: _messages,
                       controller: _controller,
                       scroll: _scroll,
+                      isRtl: isRtl,
                       onSend: () {
                         final text = _controller.text.trim();
                         if (text.isEmpty) return;
@@ -224,7 +219,6 @@ class _AIChatScreenState extends State<AIChatScreen> {
                       onStart: _startExplaining,
                     ),
             ),
-
           ],
         ),
       ),
@@ -236,28 +230,57 @@ class _AIChatScreenState extends State<AIChatScreen> {
 
 enum _BubbleType { normal, wrong, wrongWithSolution }
 
+// Keys for AI messages — resolved at render time so language switches work.
+enum _AiKey { greeting, freeReply, wrong, hint1, step2, hint2, solution }
+
 class _Msg {
-  final String text;
+  final String? userText;   // non-null for user messages
+  final _AiKey? aiKey;      // non-null for AI messages
   final bool isUser;
   final String time;
   final _BubbleType type;
   final bool showActions;
 
-  const _Msg({
-    required this.text,
-    required this.isUser,
+  const _Msg.user({
+    required String text,
+    required this.time,
+  })  : userText = text,
+        aiKey = null,
+        isUser = true,
+        type = _BubbleType.normal,
+        showActions = false;
+
+  const _Msg.ai({
+    required _AiKey key,
     required this.time,
     this.type = _BubbleType.normal,
     this.showActions = false,
-  });
+  })  : aiKey = key,
+        userText = null,
+        isUser = false;
 
-  _Msg copyWith({bool? showActions}) => _Msg(
-        text: text,
-        isUser: isUser,
-        time: time,
-        type: type,
-        showActions: showActions ?? this.showActions,
-      );
+  String resolveText(BuildContext context) {
+    if (isUser) return userText!;
+    final l10n = context.l10n;
+    return switch (aiKey!) {
+      _AiKey.greeting  => l10n.aiChat_ai_greeting,
+      _AiKey.freeReply => l10n.aiChat_ai_freeReply,
+      _AiKey.wrong     => l10n.aiChat_ai_wrong,
+      _AiKey.hint1     => l10n.aiChat_ai_hint1,
+      _AiKey.step2     => l10n.aiChat_ai_step2,
+      _AiKey.hint2     => l10n.aiChat_ai_hint2,
+      _AiKey.solution  => l10n.aiChat_ai_solution,
+    };
+  }
+
+  _Msg copyWith({bool? showActions}) => isUser
+      ? _Msg.user(text: userText!, time: time)
+      : _Msg.ai(
+          key: aiKey!,
+          time: time,
+          type: type,
+          showActions: showActions ?? this.showActions,
+        );
 }
 
 // ─── Welcome view ─────────────────────────────────────────────────────────────
@@ -346,6 +369,7 @@ class _ChatView extends StatelessWidget {
   final List<_Msg> messages;
   final TextEditingController controller;
   final ScrollController scroll;
+  final bool isRtl;
   final VoidCallback onSend;
   final VoidCallback onVoice;
   final VoidCallback onGetHint;
@@ -355,6 +379,7 @@ class _ChatView extends StatelessWidget {
     required this.messages,
     required this.controller,
     required this.scroll,
+    required this.isRtl,
     required this.onSend,
     required this.onVoice,
     required this.onGetHint,
@@ -373,13 +398,18 @@ class _ChatView extends StatelessWidget {
             itemCount: messages.length,
             itemBuilder: (_, i) => _BubbleRow(
               msg: messages[i],
+              isRtl: isRtl,
               onGetHint: onGetHint,
               onGetSolution: onGetSolution,
             ),
           ),
         ),
         _InputBar(
-            controller: controller, onSend: onSend, onVoice: onVoice),
+          controller: controller,
+          onSend: onSend,
+          onVoice: onVoice,
+          isRtl: isRtl,
+        ),
       ],
     );
   }
@@ -389,130 +419,129 @@ class _ChatView extends StatelessWidget {
 
 class _BubbleRow extends StatelessWidget {
   final _Msg msg;
+  final bool isRtl;
   final VoidCallback onGetHint;
   final VoidCallback onGetSolution;
 
-  const _BubbleRow(
-      {required this.msg,
-      required this.onGetHint,
-      required this.onGetSolution});
+  const _BubbleRow({
+    required this.msg,
+    required this.isRtl,
+    required this.onGetHint,
+    required this.onGetSolution,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final l10n = context.l10n;
+    // Figma: bubbles are 240px wide on a 375px screen.
+    // User bubble → right-aligned, AI bubble → left-aligned (same in both LTR and RTL).
+    final bubbleWidth = (MediaQuery.of(context).size.width * 0.64).clamp(0.0, 300.0);
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
-      child: Column(
-        crossAxisAlignment: msg.isUser
-            ? CrossAxisAlignment.end
-            : CrossAxisAlignment.start,
-        children: [
-          Align(
-            alignment: msg.isUser
-                ? Alignment.centerRight
-                : Alignment.centerLeft,
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                  maxWidth: MediaQuery.of(context).size.width * 0.75),
-              child: _buildBubble(),
-            ),
-          ),
-          if (!msg.isUser && msg.showActions) ...[
-            const SizedBox(height: 8),
-            Row(
-              children: [
-                _ActionBtn(
-                  label: l10n.aiChat_button_getHint,
-                  color: AppColors.primary,
-                  onTap: onGetHint,
-                ),
-                if (msg.type == _BubbleType.wrongWithSolution) ...[
-                  const SizedBox(width: 8),
-                  _ActionBtn(
-                    label: l10n.aiChat_button_getSolution,
-                    color: AppColors.green,
-                    onTap: onGetSolution,
-                  ),
-                ],
-              ],
-            ),
-          ],
-        ],
+      child: Align(
+        alignment: msg.isUser ? Alignment.centerRight : Alignment.centerLeft,
+        child: SizedBox(
+          width: bubbleWidth,
+          child: _buildBubble(isRtl),
+        ),
       ),
     );
   }
 
-  Widget _buildBubble() {
+  Widget _buildBubble(bool isRtl) {
     if (msg.type == _BubbleType.wrong ||
         msg.type == _BubbleType.wrongWithSolution) {
-      return _WrongBubble(msg: msg);
+      return _WrongBubble(
+        msg: msg,
+        isRtl: isRtl,
+        onGetHint: onGetHint,
+        onGetSolution: onGetSolution,
+      );
     }
-    return _NormalBubble(msg: msg);
+    return _NormalBubble(msg: msg, isRtl: isRtl);
   }
 }
 
 class _NormalBubble extends StatelessWidget {
   final _Msg msg;
-  const _NormalBubble({required this.msg});
+  final bool isRtl;
+  const _NormalBubble({required this.msg, required this.isRtl});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-      decoration: BoxDecoration(
-        color: msg.isUser ? AppColors.primary : Colors.white,
-        borderRadius: BorderRadius.only(
-          topLeft: const Radius.circular(18),
-          topRight: const Radius.circular(18),
-          bottomLeft: Radius.circular(msg.isUser ? 18 : 4),
-          bottomRight: Radius.circular(msg.isUser ? 4 : 18),
-        ),
-        boxShadow: msg.isUser
-            ? null
-            : [
-                BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.06),
-                    blurRadius: 6,
-                    offset: const Offset(0, 2))
-              ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            msg.text,
-            style: AppTextStyles.font(context,
-              fontSize: 14,
-              color: msg.isUser ? Colors.white : AppColors.textPrimary,
-              height: 1.45,
-            ),
+    // User bubble: always right-aligned → tail always bottom-right (small corner).
+    // AI bubble: always left-aligned → tail always bottom-left (small corner).
+    // RTL does NOT change physical position, only text direction inside.
+    const userTailLeft  = Radius.circular(18);
+    const userTailRight = Radius.circular(4);   // user tail: bottom-right
+    const aiTailLeft    = Radius.circular(18);
+    const aiTailRight   = Radius.circular(18);
+
+    // Figma: timestamp on user bubble is #e0e0e0 (grey), not white
+    final timeColor = msg.isUser
+        ? const Color(0xFFE0E0E0)
+        : AppColors.textHint;
+
+    return Directionality(
+      textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+        decoration: BoxDecoration(
+          color: msg.isUser ? AppColors.primary : Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: msg.isUser ? const Radius.circular(18) : const Radius.circular(4),
+            topRight: const Radius.circular(18),
+            bottomLeft: msg.isUser ? userTailLeft : aiTailLeft,
+            bottomRight: msg.isUser ? userTailRight : aiTailRight,
           ),
-          const SizedBox(height: 4),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  msg.time,
-                  style: AppTextStyles.font(context,
-                    fontSize: 10,
-                    color: msg.isUser
-                        ? Colors.white.withValues(alpha: 0.7)
-                        : AppColors.textHint,
-                  ),
-                ),
-                if (msg.isUser) ...[
-                  const SizedBox(width: 4),
-                  Icon(Icons.done_all,
-                      size: 13,
-                      color: Colors.white.withValues(alpha: 0.8)),
+          border: msg.isUser
+              ? null
+              : Border.all(color: const Color(0xFFE0E0E0)),
+          boxShadow: msg.isUser
+              ? null
+              : [
+                  BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.06),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2))
                 ],
-              ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              msg.resolveText(context),
+              style: AppTextStyles.font(context,
+                fontSize: 14,
+                color: msg.isUser ? Colors.white : AppColors.textPrimary,
+                height: 1.4,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 4),
+            // Figma: timestamp row always sits at bottom-right of bubble
+            Align(
+              alignment: Alignment.centerRight,
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    msg.time,
+                    style: AppTextStyles.font(context,
+                      fontSize: 10,
+                      color: timeColor,
+                    ),
+                  ),
+                  if (msg.isUser) ...[
+                    const SizedBox(width: 4),
+                    Icon(Icons.done_all,
+                        size: 13,
+                        color: timeColor),
+                  ],
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -520,52 +549,86 @@ class _NormalBubble extends StatelessWidget {
 
 class _WrongBubble extends StatelessWidget {
   final _Msg msg;
-  const _WrongBubble({required this.msg});
+  final bool isRtl;
+  final VoidCallback onGetHint;
+  final VoidCallback onGetSolution;
+
+  const _WrongBubble({
+    required this.msg,
+    required this.isRtl,
+    required this.onGetHint,
+    required this.onGetSolution,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
-      decoration: const BoxDecoration(
-        color: Color(0xFFF2C4B0),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(18),
-          topRight: Radius.circular(18),
-          bottomLeft: Radius.circular(4),
-          bottomRight: Radius.circular(18),
+    final l10n = context.l10n;
+
+    return Directionality(
+      textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF2C4B0),
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(4),      // tail — AI is always left-aligned
+            topRight: Radius.circular(18),
+            bottomLeft: Radius.circular(18),
+            bottomRight: Radius.circular(18),
+          ),
+          border: Border.all(color: const Color(0x33000000)),
         ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            msg.text,
-            style: AppTextStyles.font(context,
-              fontSize: 14,
-              color: AppColors.textPrimary,
-              height: 1.45,
-            ),
-          ),
-          const SizedBox(height: 4),
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              msg.time,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              msg.resolveText(context),
               style: AppTextStyles.font(context,
-                  fontSize: 10, color: AppColors.textHint),
+                fontSize: 14,
+                color: AppColors.textPrimary,
+                height: 1.45,
+              ),
             ),
-          ),
-        ],
+            const SizedBox(height: 8),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                _InlinePill(
+                  label: l10n.aiChat_button_getHint,
+                  color: AppColors.primary,
+                  onTap: onGetHint,
+                ),
+                if (msg.type == _BubbleType.wrongWithSolution) ...[
+                  const SizedBox(width: 8),
+                  _InlinePill(
+                    label: l10n.aiChat_button_getSolution,
+                    color: AppColors.green,
+                    onTap: onGetSolution,
+                  ),
+                ],
+              ],
+            ),
+            const SizedBox(height: 6),
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                msg.time,
+                style: AppTextStyles.font(context,
+                    fontSize: 10, color: AppColors.textHint),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _ActionBtn extends StatelessWidget {
+class _InlinePill extends StatelessWidget {
   final String label;
   final Color color;
   final VoidCallback onTap;
-  const _ActionBtn(
+  const _InlinePill(
       {required this.label, required this.color, required this.onTap});
 
   @override
@@ -598,14 +661,63 @@ class _InputBar extends StatelessWidget {
   final TextEditingController controller;
   final VoidCallback onSend;
   final VoidCallback onVoice;
-  const _InputBar(
-      {required this.controller,
-      required this.onSend,
-      required this.onVoice});
+  final bool isRtl;
+
+  const _InputBar({
+    required this.controller,
+    required this.onSend,
+    required this.onVoice,
+    required this.isRtl,
+  });
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
+
+    final sendButton = GestureDetector(
+      onTap: onSend,
+      child: Container(
+        width: 36,
+        height: 36,
+        margin: isRtl
+            ? const EdgeInsets.only(left: 8)
+            : const EdgeInsets.only(right: 8),
+        decoration: const BoxDecoration(
+          color: AppColors.primary,
+          shape: BoxShape.circle,
+        ),
+        child: const Icon(Icons.send_rounded, color: Colors.white, size: 17),
+      ),
+    );
+
+    final voiceIcon = GestureDetector(
+      onTap: onVoice,
+      child: const Icon(Icons.mic_none_rounded,
+          color: AppColors.primary, size: 24),
+    );
+
+    final attachIcon = const Icon(Icons.attach_file_rounded,
+        color: AppColors.textHint, size: 20);
+
+    final textField = Expanded(
+      child: TextField(
+        controller: controller,
+        textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+        textAlign: isRtl ? TextAlign.right : TextAlign.left,
+        keyboardType: TextInputType.text,
+        style: AppTextStyles.font(context,
+            fontSize: 14, color: AppColors.textPrimary),
+        decoration: InputDecoration(
+          hintText: l10n.aiChat_input_hint,
+          hintStyle: AppTextStyles.font(context,
+              fontSize: 14, color: AppColors.textHint),
+          border: InputBorder.none,
+          contentPadding: const EdgeInsets.symmetric(
+              horizontal: 18, vertical: 14),
+        ),
+        onSubmitted: (_) => onSend(),
+      ),
+    );
 
     return Container(
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
@@ -622,48 +734,18 @@ class _InputBar extends StatelessWidget {
                 offset: const Offset(0, 2))
           ],
         ),
-        child: Row(
-          children: [
-            Expanded(
-              child: TextField(
-                controller: controller,
-                style: AppTextStyles.font(context,
-                    fontSize: 14, color: AppColors.textPrimary),
-                decoration: InputDecoration(
-                  hintText: l10n.aiChat_input_hint,
-                  hintStyle: AppTextStyles.font(context,
-                      fontSize: 14, color: AppColors.textHint),
-                  border: InputBorder.none,
-                  contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 18, vertical: 14),
-                ),
-                onSubmitted: (_) => onSend(),
-              ),
-            ),
-            const Icon(Icons.attach_file_rounded,
-                color: AppColors.textHint, size: 20),
-            const SizedBox(width: 2),
-            GestureDetector(
-              onTap: onVoice,
-              child: const Icon(Icons.mic_none_rounded,
-                  color: AppColors.primary, size: 24),
-            ),
-            const SizedBox(width: 6),
-            GestureDetector(
-              onTap: onSend,
-              child: Container(
-                width: 36,
-                height: 36,
-                margin: const EdgeInsetsDirectional.only(end: 8),
-                decoration: const BoxDecoration(
-                  color: AppColors.primary,
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(Icons.send_rounded,
-                    color: Colors.white, size: 17),
-              ),
-            ),
-          ],
+        child: Directionality(
+          textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
+          child: Row(
+            children: [
+              textField,
+              attachIcon,
+              const SizedBox(width: 2),
+              voiceIcon,
+              const SizedBox(width: 6),
+              sendButton,
+            ],
+          ),
         ),
       ),
     );

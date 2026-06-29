@@ -52,8 +52,7 @@ class LeaveChallengeScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: GestureDetector(
-                      onTap: () => Navigator.pushNamedAndRemoveUntil(
-                          context, '/challenges', (r) => false),
+                      onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false, arguments: 2),
                       child: Container(
                         height: 54,
                         decoration: BoxDecoration(

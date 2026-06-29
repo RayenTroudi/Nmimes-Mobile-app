@@ -662,12 +662,26 @@ class _TopBar extends StatelessWidget {
                 color: AppColors.textPrimary, size: 24),
           ),
           const SizedBox(width: 12),
-          Text(
-            title,
-            style: AppTextStyles.font(context,
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: AppColors.textPrimary,
+          Expanded(
+            child: Text(
+              title,
+              style: AppTextStyles.font(context,
+                fontSize: 20,
+                fontWeight: FontWeight.w700,
+                color: AppColors.textPrimary,
+              ),
+            ),
+          ),
+          GestureDetector(
+            onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false),
+            child: Container(
+              width: 32,
+              height: 32,
+              decoration: BoxDecoration(
+                color: Colors.black.withValues(alpha: 0.2),
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(Icons.close, color: Colors.white, size: 16),
             ),
           ),
         ],
@@ -711,7 +725,7 @@ class _ProblemCard extends StatelessWidget {
           Text(
             equation,
             style: AppTextStyles.font(context,
-              fontSize: 30,
+              fontSize: (MediaQuery.of(context).size.width * 0.075).clamp(22.0, 30.0),
               fontWeight: FontWeight.w800,
               color: AppColors.primary,
             ),

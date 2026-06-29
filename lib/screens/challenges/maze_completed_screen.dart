@@ -20,16 +20,18 @@ class MazeCompletedScreen extends StatelessWidget {
           children: [
             // Back arrow
             Padding(
-              padding: const EdgeInsets.fromLTRB(8, 8, 0, 0),
-              child: Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.arrow_back_ios,
-                        color: Color(0xFF2E2E2E), size: 20),
-                    onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                        context, '/challenges', (r) => false),
+              padding: const EdgeInsets.fromLTRB(16, 16, 0, 0),
+              child: GestureDetector(
+                onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false, arguments: 2),
+                child: Container(
+                  width: 32,
+                  height: 32,
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
                   ),
-                ],
+                  child: const Icon(Icons.close, color: Colors.white, size: 16),
+                ),
               ),
             ),
 

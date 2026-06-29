@@ -515,8 +515,7 @@ class _LeaveDialog extends StatelessWidget {
                 const SizedBox(width: 12),
                 Expanded(
                   child: ElevatedButton(
-                    onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                        context, '/challenges', (r) => false),
+                    onPressed: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false, arguments: 2),
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xFFE2562C),
                       foregroundColor: Colors.white,

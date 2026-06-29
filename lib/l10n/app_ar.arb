@@ -164,7 +164,7 @@
   "pointsCard_unit": "نقاط",
 
   "nav_home": "الرئيسية",
-  "nav_nmimes": "Nmimes",
+  "nav_nmimes": "نميمات",
   "nav_challenge": "تحدٍّ",
   "nav_profile": "الملف الشخصي",
 
@@ -394,7 +394,13 @@
   "snap_widgets_tip2": "الإضاءة الجيدة تساعد",
   "snap_widgets_tip3": "ضعها في منتصف الإطار",
 
+  "snap_hw_quit": "خروج",
   "snap_hw_tryAgain": "حاول مجدداً.",
+  "snap_hw_letsLearnTogether": "لنتعلم معاً! 💡",
+  "snap_hw_button_tryAgain": "لنحاول مجدداً",
+  "snap_hw_watchLesson": "شاهد الدرس",
+  "snap_hw_viewExample": "عرض المثال",
+  "snap_hw_skipStep": "تخطّ هذه الخطوة",
 
   "snap_dtms_doesMakeSense": "هل هذا منطقي؟",
   "snap_dtms_notYet": "ليس بعد",
@@ -705,6 +711,13 @@
   "aiChat_voice_letsTalk": "لنتحدث",
   "aiChat_voice_speaking": "يتحدث...",
   "aiChat_voice_listening": "يستمع...",
+  "aiChat_ai_greeting": "مرحباً!\nأي صيغة استُخدمت؟",
+  "aiChat_ai_freeReply": "سؤال رائع! دعني أساعدك على فهم ذلك بشكل أفضل.",
+  "aiChat_ai_wrong": "إجابة خاطئة\nلنتعلم معاً.",
+  "aiChat_ai_hint1": "تلميح:\nالمسألة تحتوي على 3 ثوابت\nومتغير واحد مثل:\n2x + 5 = 15",
+  "aiChat_ai_step2": "رائع!\nما كانت الخطوة الأولى؟",
+  "aiChat_ai_hint2": "تلميح:\nيجب أن نجري عملية\nعلى طرفي المعادلة.",
+  "aiChat_ai_solution": "الحل:\nالخطوة 1: 2x + 5 - 5 = 15 - 5\nالخطوة 2: 2x = 10\nالخطوة 3: x = 5",
 
   "teachItBack_title": "علِّم مجدداً!",
   "teachItBack_subtitle": "أفضل طريقة للتعلم هي التعليم. اشرح مفهوماً لـ Nmimes وعمِّق فهمك.",
