@@ -85,7 +85,7 @@ class ProfileScreen extends StatelessWidget {
                                 border: Border.all(
                                     color: const Color(0xFFE0E0E0)),
                               ),
-                              alignment: Alignment.centerLeft,
+                              alignment: AlignmentDirectional.centerStart,
                               child: Text(
                                 context.l10n.profile_button_help,
                                 style: AppTextStyles.font(context,
@@ -112,7 +112,7 @@ class ProfileScreen extends StatelessWidget {
                                 border: Border.all(
                                     color: const Color(0xFFE62929)),
                               ),
-                              alignment: Alignment.centerLeft,
+                              alignment: AlignmentDirectional.centerStart,
                               child: Text(
                                 context.l10n.profile_button_logOut,
                                 style: AppTextStyles.font(context,
