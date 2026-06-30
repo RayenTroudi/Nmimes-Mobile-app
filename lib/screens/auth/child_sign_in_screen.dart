@@ -40,7 +40,7 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.background,
       resizeToAvoidBottomInset: true,
       body: Stack(
         clipBehavior: Clip.none,

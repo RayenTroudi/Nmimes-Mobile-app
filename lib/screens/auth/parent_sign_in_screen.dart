@@ -33,7 +33,7 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.background,
       body: Stack(
         clipBehavior: Clip.none,
         children: [
