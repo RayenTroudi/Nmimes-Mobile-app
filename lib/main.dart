@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:camera_android/camera_android.dart';
 import 'theme/app_theme.dart';
 import 'providers/locale_provider.dart';
 import 'l10n/generated/app_localizations.dart';
@@ -78,6 +79,7 @@ import 'screens/profile/log_out_screen.dart' as profile_logout;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  AndroidCamera.registerWith();
   final initialLocale = await resolveInitialLocale();
   runApp(NmimesApp(initialLocale: initialLocale));
 }

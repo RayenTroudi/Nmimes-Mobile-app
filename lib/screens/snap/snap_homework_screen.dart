@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
-import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import 'snap_widgets.dart';
 
@@ -11,7 +10,7 @@ class SnapHomeworkScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.black,
       body: SafeArea(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,7 +22,7 @@ class SnapHomeworkScreen extends StatelessWidget {
                   GestureDetector(
                     onTap: () => Navigator.pop(context),
                     child: const Icon(Icons.arrow_back,
-                        color: AppColors.textPrimary, size: 24),
+                        color: Colors.white, size: 24),
                   ),
                   const SizedBox(width: 12),
                   Text(
@@ -31,41 +30,24 @@ class SnapHomeworkScreen extends StatelessWidget {
                     style: AppTextStyles.font(context,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
+                      color: Colors.white,
                     ),
                   ),
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: SnapQuickTipsCard(),
+            ),
+            const SizedBox(height: 12),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  children: [
-                    const SnapQuickTipsCard(),
-                    const SizedBox(height: 20),
-                    Expanded(
-                      child: SnapCameraViewfinder(
-                          hint: l.snap_hint_homework),
-                    ),
-                    const SizedBox(height: 24),
-                    SnapActionButton(
-                      label: l.snap_button_takePhoto,
-                      filled: true,
-                      icon: Icons.camera_alt_rounded,
-                      onTap: () =>
-                          Navigator.pushNamed(context, '/snap-hw-captured'),
-                    ),
-                    const SizedBox(height: 12),
-                    SnapActionButton(
-                      label: l.snap_button_uploadPhoto,
-                      filled: false,
-                      icon: Icons.upload_rounded,
-                      onTap: () =>
-                          Navigator.pushNamed(context, '/snap-hw-captured'),
-                    ),
-                    const SizedBox(height: 24),
-                  ],
+                child: SnapCameraPreview(
+                  onCapture: (_) =>
+                      Navigator.pushNamed(context, '/snap-hw-captured'),
+                  nextRoute: '/snap-hw-captured',
                 ),
               ),
             ),
