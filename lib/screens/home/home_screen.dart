@@ -106,21 +106,25 @@ class _HomeHeader extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
               child: Row(
                 children: [
-                  // Avatar
-                  Container(
-                    width: 44,
-                    height: 44,
-                    decoration: BoxDecoration(
-                      color: AppColors.white,
-                      shape: BoxShape.circle,
-                      border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.6), width: 2),
-                    ),
-                    child: ClipOval(
-                      child: SizedBox(
-                        width: 44,
-                        height: 44,
-                        child: FoxMascot(size: 44),
+                  // Avatar — tap to go to Profile tab
+                  GestureDetector(
+                    onTap: () => Navigator.pushNamedAndRemoveUntil(
+                      context, '/home', (r) => false, arguments: 3),
+                    child: Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.6), width: 2),
+                      ),
+                      child: ClipOval(
+                        child: SizedBox(
+                          width: 44,
+                          height: 44,
+                          child: FoxMascot(size: 44),
+                        ),
                       ),
                     ),
                   ),

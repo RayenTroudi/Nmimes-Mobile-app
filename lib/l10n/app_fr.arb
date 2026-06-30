@@ -145,6 +145,9 @@
   "home_row_savedFormulas_title": "Formules sauvegardées",
 
   "profile_title": "Profil",
+  "profile_label_currentPlan": "Plan actuel",
+  "profile_plan_free": "Plan gratuit",
+  "profile_button_upgrade": "Améliorer",
   "profile_button_help": "Aide",
   "profile_button_logOut": "Déconnexion",
 
@@ -225,6 +228,9 @@
   "subscription_validTill": "Valide jusqu'au : 24 fév 2026",
   "subscription_pill_monthly": "Mensuel",
   "subscription_pill_yearly": "Annuel",
+  "subscription_badge_perMonth": "par mois",
+  "subscription_badge_perYear": "par an",
+  "subscription_save": "Économisez 6%",
   "subscription_button_updatePlan": "Mettre à jour l'abonnement",
   "subscription_button_selectPlan": "Choisir un forfait",
 

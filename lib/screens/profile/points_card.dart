@@ -8,7 +8,9 @@ class ProfilePointsCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, '/rewards'),
+      child: Container(
       height: 80,
       padding: const EdgeInsets.symmetric(horizontal: 16),
       decoration: BoxDecoration(
@@ -61,6 +63,7 @@ class ProfilePointsCard extends StatelessWidget {
           ),
         ],
       ),
+    ),
     );
   }
 }

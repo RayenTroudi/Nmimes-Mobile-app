@@ -146,6 +146,9 @@
   "home_row_savedFormulas_title": "Saved Formulas",
 
   "profile_title": "Profile",
+  "profile_label_currentPlan": "Current Plan",
+  "profile_plan_free": "Free Plan",
+  "profile_button_upgrade": "Upgrade",
   "profile_button_help": "Help",
   "profile_button_logOut": "Log Out",
 
@@ -226,6 +229,9 @@
   "subscription_validTill": "Valid till: 24 Feb 2026",
   "subscription_pill_monthly": "Monthly",
   "subscription_pill_yearly": "Yearly",
+  "subscription_badge_perMonth": "per month",
+  "subscription_badge_perYear": "per year",
+  "subscription_save": "Save 6%",
   "subscription_button_updatePlan": "Update Subscription",
   "subscription_button_selectPlan": "Select Plan",
 

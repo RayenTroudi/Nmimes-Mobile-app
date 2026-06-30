@@ -145,6 +145,9 @@
   "home_row_savedFormulas_title": "الصيغ المحفوظة",
 
   "profile_title": "الملف الشخصي",
+  "profile_label_currentPlan": "الخطة الحالية",
+  "profile_plan_free": "الخطة المجانية",
+  "profile_button_upgrade": "ترقية",
   "profile_button_help": "المساعدة",
   "profile_button_logOut": "تسجيل الخروج",
 
@@ -225,6 +228,9 @@
   "subscription_validTill": "صالح حتى: 24 فبراير 2026",
   "subscription_pill_monthly": "شهري",
   "subscription_pill_yearly": "سنوي",
+  "subscription_badge_perMonth": "في الشهر",
+  "subscription_badge_perYear": "في السنة",
+  "subscription_save": "وفّر 6%",
   "subscription_button_updatePlan": "تحديث الاشتراك",
   "subscription_button_selectPlan": "اختر خطة",
 
