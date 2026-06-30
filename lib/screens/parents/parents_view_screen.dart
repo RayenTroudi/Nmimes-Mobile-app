@@ -2,9 +2,18 @@ import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../providers/locale_provider.dart';
+import '../../widgets/language_picker_sheet.dart';
 
-class ParentsViewScreen extends StatelessWidget {
+class ParentsViewScreen extends StatefulWidget {
   const ParentsViewScreen({super.key});
+
+  @override
+  State<ParentsViewScreen> createState() => _ParentsViewScreenState();
+}
+
+class _ParentsViewScreenState extends State<ParentsViewScreen> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,47 +31,65 @@ class ParentsViewScreen extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
                   child: Row(
                     children: [
-                      // Mascot avatar circle
-                      Container(
-                        width: 40,
-                        height: 40,
-                        decoration: const BoxDecoration(
-                          color: Color(0xFFFFFDFC),
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(4),
-                          child: Image.asset(
-                            'assets/images/foxWithSunGlass.png',
-                            fit: BoxFit.contain,
+                      // Mascot avatar circle — tap to see parent profile
+                      GestureDetector(
+                        onTap: () => Navigator.pushNamed(context, '/parent-profile'),
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: const BoxDecoration(
+                            color: Color(0xFFFFFDFC),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(4),
+                            child: Image.asset(
+                              'assets/images/foxWithSunGlass.png',
+                              fit: BoxFit.contain,
+                            ),
                           ),
                         ),
                       ),
                       const Spacer(),
                       // Language toggle
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 8),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.16),
-                          borderRadius: BorderRadius.circular(45),
-                        ),
-                        child: Row(
-                          children: [
-                            const SizedBox(width: 4),
-                            Text(
-                              l10n.parentsView_label_eng,
-                              style: AppTextStyles.font(context,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.white,
+                      ValueListenableBuilder<Locale>(
+                        valueListenable: LocaleProvider.of(context),
+                        builder: (context, locale, _) {
+                          final (flag, label) = switch (locale.languageCode) {
+                            'fr' => ('🇫🇷', 'FR'),
+                            'ar' => ('🇸🇦', 'عربية'),
+                            _ =>  ('🇬🇧', 'ENG'),
+                          };
+                          return GestureDetector(
+                            onTap: () => showLanguagePicker(context),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 8),
+                              decoration: BoxDecoration(
+                                color: Colors.white.withValues(alpha: 0.16),
+                                borderRadius: BorderRadius.circular(45),
+                              ),
+                              child: Row(
+                                children: [
+                                  Text(flag,
+                                      style: const TextStyle(fontSize: 14)),
+                                  const SizedBox(width: 4),
+                                  Text(
+                                    label,
+                                    style: AppTextStyles.font(context,
+                                      fontSize: 12,
+                                      fontWeight: FontWeight.w600,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 2),
+                                  const Icon(Icons.keyboard_arrow_down,
+                                      color: AppColors.white, size: 14),
+                                ],
                               ),
                             ),
-                            const SizedBox(width: 4),
-                            const Icon(Icons.keyboard_arrow_down,
-                                color: AppColors.white, size: 14),
-                          ],
-                        ),
+                          );
+                        },
                       ),
                       const SizedBox(width: 8),
                       // Settings icon

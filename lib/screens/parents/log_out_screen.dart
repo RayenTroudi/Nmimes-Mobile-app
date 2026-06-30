@@ -13,8 +13,10 @@ class LogOutScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     return Scaffold(
-      backgroundColor: Colors.black.withValues(alpha: 0.3),
-      body: Center(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        color: Colors.black.withValues(alpha: 0.5),
+        child: Center(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: AppSpacing.lg),
           padding: const EdgeInsets.all(AppSpacing.xxl),
@@ -56,6 +58,7 @@ class LogOutScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }

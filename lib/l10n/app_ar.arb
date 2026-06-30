@@ -201,6 +201,18 @@
   "parentsView_bullet_try2challenges": "جرّب تحديَّين إضافيَّين لتحسين الانتظام",
   "parentsView_bullet_reviewLesson": "راجع الدرس الأخير قبل الواجب القادم",
   "parentsView_chart_legendLabel": "أبريل",
+  "parentsView_profile_title": "الملف الشخصي للوالد",
+  "parentsView_profile_name": "اسم الوالد",
+  "parentsView_profile_email": "parent@email.com",
+  "parentsView_profile_plan": "الخطة المجانية",
+  "parentsView_section_children": "أطفالي",
+  "parentsView_child_plan_free": "مجاني",
+  "parentsView_child_plan_premium": "مميز",
+  "parentsView_button_addChild": "إضافة طفل",
+  "parentsView_button_changePlan": "تغيير الخطة",
+  "parentsView_button_payPlan": "دفع الخطة",
+  "parentsView_label_currentPlan": "الخطة الحالية",
+  "parentsView_label_points": "نقطة",
 
   "children_title": "الأطفال",
 

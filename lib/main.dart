@@ -63,6 +63,7 @@ import 'screens/challenges/algebra_start_screen.dart';
 import 'screens/challenges/algebra_challenge_screen.dart';
 import 'screens/challenges/algebra_completed_screen.dart';
 import 'screens/parents/parents_view_screen.dart';
+import 'screens/parents/parent_profile_screen.dart';
 import 'screens/parents/subscription_screen.dart';
 import 'screens/parents/payment_screen.dart';
 import 'screens/parents/payment_success_screen.dart';
@@ -71,11 +72,9 @@ import 'screens/parents/children_screen.dart';
 import 'screens/parents/settings_screen.dart';
 import 'screens/parents/terms_screen.dart';
 import 'screens/parents/privacy_screen.dart';
-import 'screens/parents/log_out_screen.dart';
 import 'screens/profile/profile_screen.dart';
 import 'screens/profile/help_screen.dart';
 import 'screens/profile/avatar_screen.dart';
-import 'screens/profile/log_out_screen.dart' as profile_logout;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -182,6 +181,7 @@ class _NmimesAppState extends State<NmimesApp> {
           '/algebra-challenge':(_) => const AlgebraChallengeScreen(),
           '/algebra-done':    (_) => const AlgebraCompletedScreen(),
           '/parents-view':    (_) => const ParentsViewScreen(),
+          '/parent-profile':  (_) => const ParentProfileScreen(),
           '/subscription':    (_) => const SubscriptionScreen(),
           '/payment':         (_) => const PaymentScreen(),
           '/payment-success': (_) => const PaymentSuccessScreen(),
@@ -190,11 +190,9 @@ class _NmimesAppState extends State<NmimesApp> {
           '/settings':        (_) => const SettingsScreen(),
           '/terms':           (_) => const TermsScreen(),
           '/privacy':         (_) => const PrivacyScreen(),
-          '/parent-logout':   (_) => const LogOutScreen(),
           '/profile':         (_) => const ProfileScreen(),
           '/help':            (_) => const HelpScreen(),
           '/avatar':          (_) => const AvatarScreen(),
-          '/logout':          (_) => const profile_logout.LogOutScreen(),
         },
       ),
     );

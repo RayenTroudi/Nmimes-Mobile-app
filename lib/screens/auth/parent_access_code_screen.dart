@@ -36,7 +36,7 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.primary,
+      backgroundColor: AppColors.background,
       body: Stack(
         clipBehavior: Clip.none,
         children: [
@@ -138,12 +138,12 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                                 ),
                                 child: Center(
                                   child: filled
-                                      ? Text(
-                                          pin[i],
-                                          style: AppTextStyles.font(context,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w700,
+                                      ? Container(
+                                          width: 16,
+                                          height: 16,
+                                          decoration: const BoxDecoration(
                                             color: AppColors.textPrimary,
+                                            shape: BoxShape.circle,
                                           ),
                                         )
                                       : null,

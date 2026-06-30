@@ -202,6 +202,18 @@
   "parentsView_bullet_try2challenges": "Try 2 more challenges to improve consistency",
   "parentsView_bullet_reviewLesson": "Review last lesson before next homework",
   "parentsView_chart_legendLabel": "April",
+  "parentsView_profile_title": "Parent Profile",
+  "parentsView_profile_name": "Parent Name",
+  "parentsView_profile_email": "parent@email.com",
+  "parentsView_profile_plan": "Free Plan",
+  "parentsView_section_children": "My Children",
+  "parentsView_child_plan_free": "Free",
+  "parentsView_child_plan_premium": "Premium",
+  "parentsView_button_addChild": "Add a Child",
+  "parentsView_button_changePlan": "Change Plan",
+  "parentsView_button_payPlan": "Pay Plan",
+  "parentsView_label_currentPlan": "Current Plan",
+  "parentsView_label_points": "pts",
 
   "children_title": "Children",
 

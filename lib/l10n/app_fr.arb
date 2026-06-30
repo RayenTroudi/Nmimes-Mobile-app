@@ -201,6 +201,18 @@
   "parentsView_bullet_try2challenges": "Essayer 2 défis de plus pour améliorer la régularité",
   "parentsView_bullet_reviewLesson": "Revoir la dernière leçon avant le prochain devoir",
   "parentsView_chart_legendLabel": "Avril",
+  "parentsView_profile_title": "Profil parent",
+  "parentsView_profile_name": "Nom du parent",
+  "parentsView_profile_email": "parent@email.com",
+  "parentsView_profile_plan": "Plan gratuit",
+  "parentsView_section_children": "Mes enfants",
+  "parentsView_child_plan_free": "Gratuit",
+  "parentsView_child_plan_premium": "Premium",
+  "parentsView_button_addChild": "Ajouter un enfant",
+  "parentsView_button_changePlan": "Changer de forfait",
+  "parentsView_button_payPlan": "Payer le forfait",
+  "parentsView_label_currentPlan": "Forfait actuel",
+  "parentsView_label_points": "pts",
 
   "children_title": "Enfants",
 

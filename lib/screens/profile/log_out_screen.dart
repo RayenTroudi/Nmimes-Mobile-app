@@ -9,8 +9,10 @@ class LogOutScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black.withValues(alpha: 0.3),
-      body: Center(
+      backgroundColor: Colors.transparent,
+      body: Container(
+        color: Colors.black.withValues(alpha: 0.5),
+        child: Center(
         child: Container(
           margin: const EdgeInsets.symmetric(horizontal: 20),
           padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
@@ -96,6 +98,7 @@ class LogOutScreen extends StatelessWidget {
             ],
           ),
         ),
+      ),
       ),
     );
   }
