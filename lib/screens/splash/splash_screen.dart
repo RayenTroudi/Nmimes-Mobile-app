@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../providers/auth_state.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 
@@ -144,7 +146,14 @@ class _SplashScreenState extends State<SplashScreen>
     // Phase 5: hold logo, then navigate
     await Future.delayed(const Duration(milliseconds: 900));
     if (!mounted) return;
-    Navigator.pushReplacementNamed(context, '/onboarding');
+    final authState = context.read<AuthState>();
+    if (authState.isAuthenticated && authState.selectedStudentId != null) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else if (authState.isAuthenticated) {
+      Navigator.pushReplacementNamed(context, '/child-access-code');
+    } else {
+      Navigator.pushReplacementNamed(context, '/onboarding');
+    }
   }
 
   @override
