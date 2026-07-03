@@ -116,7 +116,8 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
                             child: ElevatedButton(
                               onPressed: _canSubmit
                                   ? () => Navigator.pushNamed(
-                                      context, '/parent-access-code')
+                                      context, '/parent-access-code',
+                                      arguments: _emailCtrl.text.trim())
                                   : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,

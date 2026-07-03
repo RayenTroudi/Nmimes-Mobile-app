@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/inline_error_text.dart';
 
 class ParentAccessCodeScreen extends StatefulWidget {
   const ParentAccessCodeScreen({super.key});
@@ -13,6 +16,9 @@ class ParentAccessCodeScreen extends StatefulWidget {
 class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
   final _pinCtrl = TextEditingController();
   final _pinFocus = FocusNode();
+  final _supabaseService = SupabaseService();
+  bool _isLoading = false;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -27,6 +33,25 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
     _pinCtrl.dispose();
     _pinFocus.dispose();
     super.dispose();
+  }
+
+  Future<void> _onSubmit() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    try {
+      final args = ModalRoute.of(context)?.settings.arguments;
+      final email = args is String ? args : '';
+      await _supabaseService.signInWithPassword(
+          email: email, password: _pinCtrl.text);
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(context, '/parents-view');
+    } on AuthException catch (e) {
+      setState(() => _errorMessage = e.message);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -181,9 +206,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                           width: double.infinity,
                           height: 60,
                           child: ElevatedButton(
-                            onPressed: pin.length == 4
-                                ? () => Navigator.pushReplacementNamed(
-                                    context, '/parents-view')
+                            onPressed: pin.length == 4 && !_isLoading
+                                ? _onSubmit
                                 : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
@@ -197,16 +221,26 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                                     color: AppColors.white, width: 2),
                               ),
                             ),
-                            child: Text(
-                              l10n.parentAccessCode_button,
-                              style: AppTextStyles.font(context,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.white,
-                              ),
-                            ),
+                            child: _isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.white,
+                                      strokeWidth: 2.5,
+                                    ),
+                                  )
+                                : Text(
+                                    l10n.parentAccessCode_button,
+                                    style: AppTextStyles.font(context,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
                           ),
                         ),
+                        InlineErrorText(message: _errorMessage),
                       ],
                     ),
                   ),
