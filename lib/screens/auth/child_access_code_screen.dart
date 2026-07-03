@@ -1,7 +1,12 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../providers/auth_state.dart';
+import '../../services/api_client.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/inline_error_text.dart';
 
 class ChildAccessCodeScreen extends StatefulWidget {
   const ChildAccessCodeScreen({super.key});
@@ -13,6 +18,9 @@ class ChildAccessCodeScreen extends StatefulWidget {
 class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
   final _ctrl = TextEditingController();
   final _focus = FocusNode();
+  final _apiClient = ApiClient();
+  bool _isLoading = false;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -31,9 +39,29 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
 
   String get _pin => _ctrl.text;
 
-  void _submit() {
-    if (_pin.length == 4) {
+  Future<void> _submit() async {
+    if (_pin.length != 4 || _isLoading) return;
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    final authState = context.read<AuthState>();
+    try {
+      final student = await _apiClient.verifyAccessCode(_pin);
+      await authState.setSelectedStudentId(student.id);
+      if (!mounted) return;
       Navigator.pushNamed(context, '/child-success');
+    } on DioException catch (e) {
+      final status = e.response?.statusCode;
+      setState(() {
+        _errorMessage = status == 404
+            ? 'That code doesn\'t match any child on this account.'
+            : status == 429
+                ? 'Too many attempts. Please try again later.'
+                : 'Something went wrong. Please try again.';
+      });
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
@@ -161,6 +189,16 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                             );
                           }),
                         ),
+                        if (_isLoading)
+                          const Padding(
+                            padding: EdgeInsets.only(top: 16),
+                            child: SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(strokeWidth: 2),
+                            ),
+                          ),
+                        InlineErrorText(message: _errorMessage),
 
                         const Spacer(),
                       ],
