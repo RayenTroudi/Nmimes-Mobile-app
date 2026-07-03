@@ -63,8 +63,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
   String get _pin => _controller.text;
 
   bool get _isSignIn =>
-      (ModalRoute.of(context)?.settings.arguments as String?) ==
-      '/parent-success';
+      ModalRoute.of(context)?.settings.arguments == '/parent-success';
 
   Map<String, dynamic> get _args {
     final raw = ModalRoute.of(context)?.settings.arguments;
