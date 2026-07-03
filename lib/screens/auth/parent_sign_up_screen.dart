@@ -75,6 +75,7 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
           'email': _emailCtrl.text.trim(),
           'firstName': _firstNameCtrl.text.trim(),
           'lastName': _lastNameCtrl.text.trim(),
+          'pin': _pinCtrl.text,
         },
       );
     } on AuthException catch (e) {
