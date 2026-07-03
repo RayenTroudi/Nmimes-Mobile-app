@@ -57,7 +57,9 @@ class _ParentResetAccessCodeScreenState
       _errorMessage = null;
     });
     try {
-      await _supabaseService.updatePassword(_newPinCtrl.text);
+      final args = ModalRoute.of(context)?.settings.arguments;
+      final email = args is String ? args : '';
+      await _supabaseService.updatePassword(email: email, newPin: _newPinCtrl.text);
       if (!mounted) return;
       Navigator.pushNamedAndRemoveUntil(
         context,

@@ -64,7 +64,7 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
     try {
       await _supabaseService.signUp(
         email: _emailCtrl.text.trim(),
-        password: _pinCtrl.text,
+        pin: _pinCtrl.text,
       );
       if (!mounted) return;
       Navigator.pushNamed(

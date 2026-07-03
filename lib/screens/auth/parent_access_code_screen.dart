@@ -44,7 +44,7 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
       final args = ModalRoute.of(context)?.settings.arguments;
       final email = args is String ? args : '';
       await _supabaseService.signInWithPassword(
-          email: email, password: _pinCtrl.text);
+          email: email, pin: _pinCtrl.text);
       if (!mounted) return;
       Navigator.pushReplacementNamed(context, '/parents-view');
     } on AuthException catch (e) {
