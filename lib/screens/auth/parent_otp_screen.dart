@@ -1,8 +1,12 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../services/supabase_service.dart';
+import '../../services/api_client.dart';
+import '../../widgets/inline_error_text.dart';
 
 class ParentOtpScreen extends StatefulWidget {
   const ParentOtpScreen({super.key});
@@ -17,6 +21,11 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
 
   int _secondsLeft = 49;
   Timer? _timer;
+
+  final _supabaseService = SupabaseService();
+  final _apiClient = ApiClient();
+  bool _isLoading = false;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -56,6 +65,37 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
   bool get _isSignIn =>
       (ModalRoute.of(context)?.settings.arguments as String?) ==
       '/parent-success';
+
+  Map<String, dynamic> get _args {
+    final raw = ModalRoute.of(context)?.settings.arguments;
+    if (raw is Map<String, dynamic>) return raw;
+    return {'next': '/account-created'};
+  }
+
+  Future<void> _onSubmit() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    try {
+      final args = _args;
+      await _supabaseService.verifyOtp(
+        email: args['email'] as String,
+        token: _pin,
+        type: OtpType.signup,
+      );
+      await _apiClient.upsertParent(
+        firstName: args['firstName'] as String,
+        lastName: args['lastName'] as String,
+      );
+      if (!mounted) return;
+      Navigator.pushNamed(context, args['next'] as String);
+    } on AuthException catch (e) {
+      setState(() => _errorMessage = e.message);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -229,14 +269,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                           width: double.infinity,
                           height: 60,
                           child: ElevatedButton(
-                            onPressed: _pin.length == 4
-                                ? () {
-                                    final next = ModalRoute.of(context)
-                                            ?.settings.arguments as String? ??
-                                        '/account-created';
-                                    Navigator.pushNamed(context, next);
-                                  }
-                                : null,
+                            onPressed: _pin.length == 4 && !_isLoading ? _onSubmit : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
                               disabledBackgroundColor:
@@ -249,16 +282,26 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
                                     color: AppColors.white, width: 2),
                               ),
                             ),
-                            child: Text(
-                              _isSignIn ? l10n.parentOtp_buttonSignIn : l10n.parentOtp_buttonSignUp,
-                              style: AppTextStyles.font(context,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.white,
-                              ),
-                            ),
+                            child: _isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: AppColors.white,
+                                    ),
+                                  )
+                                : Text(
+                                    _isSignIn ? l10n.parentOtp_buttonSignIn : l10n.parentOtp_buttonSignUp,
+                                    style: AppTextStyles.font(context,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
                           ),
                         ),
+                        InlineErrorText(message: _errorMessage),
                       ],
                     ),
                   ),

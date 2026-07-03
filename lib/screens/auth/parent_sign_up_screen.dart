@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../services/supabase_service.dart';
+import '../../widgets/inline_error_text.dart';
 
 class ParentSignUpScreen extends StatefulWidget {
   const ParentSignUpScreen({super.key});
@@ -18,6 +21,10 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
   final _confirmPinCtrl = TextEditingController();
   final _pinFocus = FocusNode();
   final _confirmPinFocus = FocusNode();
+
+  final _supabaseService = SupabaseService();
+  bool _isLoading = false;
+  String? _errorMessage;
 
   bool get _canSubmit =>
       _firstNameCtrl.text.trim().isNotEmpty &&
@@ -47,6 +54,34 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
     _pinFocus.dispose();
     _confirmPinFocus.dispose();
     super.dispose();
+  }
+
+  Future<void> _onSubmit() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    try {
+      await _supabaseService.signUp(
+        email: _emailCtrl.text.trim(),
+        password: _pinCtrl.text,
+      );
+      if (!mounted) return;
+      Navigator.pushNamed(
+        context,
+        '/parent-otp',
+        arguments: {
+          'next': '/account-created',
+          'email': _emailCtrl.text.trim(),
+          'firstName': _firstNameCtrl.text.trim(),
+          'lastName': _lastNameCtrl.text.trim(),
+        },
+      );
+    } on AuthException catch (e) {
+      setState(() => _errorMessage = e.message);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -199,11 +234,7 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                           width: double.infinity,
                           height: 60,
                           child: ElevatedButton(
-                            onPressed: _canSubmit
-                                ? () => Navigator.pushNamed(
-                                    context, '/parent-otp',
-                                    arguments: '/account-created')
-                                : null,
+                            onPressed: _canSubmit && !_isLoading ? _onSubmit : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
                               foregroundColor: AppColors.white,
@@ -214,15 +245,25 @@ class _ParentSignUpScreenState extends State<ParentSignUpScreen> {
                                     color: AppColors.white, width: 2),
                               ),
                             ),
-                            child: Text(
-                              l10n.parentSignUp_button,
-                              style: AppTextStyles.font(context,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
+                            child: _isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      color: AppColors.white,
+                                    ),
+                                  )
+                                : Text(
+                                    l10n.parentSignUp_button,
+                                    style: AppTextStyles.font(context,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
                           ),
                         ),
+                        InlineErrorText(message: _errorMessage),
                         const SizedBox(height: 40),
 
                         // Already have an account? Sign In
