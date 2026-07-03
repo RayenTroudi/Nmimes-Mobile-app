@@ -19,6 +19,10 @@ dependencies:
   camera: ^0.11.0+2
   camera_android: ^0.10.9+15
   image_picker: ^1.1.2
+  supabase_flutter: ^2.8.0
+  dio: ^5.7.0
+  flutter_secure_storage: ^9.2.2
+  provider: ^6.1.2
 
 dev_dependencies:
   flutter_test:
