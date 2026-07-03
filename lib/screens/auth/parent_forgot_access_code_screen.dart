@@ -1,8 +1,11 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/inline_error_text.dart';
 
 class ParentForgotAccessCodeScreen extends StatefulWidget {
   const ParentForgotAccessCodeScreen({super.key});
@@ -16,6 +19,10 @@ class _ParentForgotAccessCodeScreenState
     extends State<ParentForgotAccessCodeScreen> {
   final _otpCtrl = TextEditingController();
   final _otpFocus = FocusNode();
+  final _supabaseService = SupabaseService();
+  bool _isLoading = false;
+  String? _errorMessage;
+  bool _hasSentOtp = false;
 
   Timer? _timer;
   int _secondsLeft = 49;
@@ -28,6 +35,54 @@ class _ParentForgotAccessCodeScreenState
     _startTimer();
     WidgetsBinding.instance
         .addPostFrameCallback((_) => _otpFocus.requestFocus());
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (!_hasSentOtp) {
+      _hasSentOtp = true;
+      _sendOtp();
+    }
+  }
+
+  String _emailFromRoute() {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    return args is String ? args : '';
+  }
+
+  Future<void> _sendOtp() async {
+    final email = _emailFromRoute();
+    try {
+      await _supabaseService.resetPasswordForEmail(email);
+    } on AuthException catch (e) {
+      setState(() => _errorMessage = e.message);
+    }
+  }
+
+  Future<void> _onVerify() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    try {
+      final email = _emailFromRoute();
+      await _supabaseService.verifyOtp(
+        email: email,
+        token: _otpCtrl.text,
+        type: OtpType.recovery,
+      );
+      if (!mounted) return;
+      Navigator.pushReplacementNamed(
+        context,
+        '/parent-reset-access-code',
+        arguments: email,
+      );
+    } on AuthException catch (e) {
+      setState(() => _errorMessage = e.message);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   void _startTimer() {
@@ -215,9 +270,8 @@ class _ParentForgotAccessCodeScreenState
                           width: double.infinity,
                           height: 60,
                           child: ElevatedButton(
-                            onPressed: otp.length == 4
-                                ? () => Navigator.pushReplacementNamed(
-                                    context, '/parent-reset-access-code')
+                            onPressed: otp.length == 4 && !_isLoading
+                                ? _onVerify
                                 : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
@@ -231,16 +285,26 @@ class _ParentForgotAccessCodeScreenState
                                     color: AppColors.white, width: 2),
                               ),
                             ),
-                            child: Text(
-                              l10n.parentForgotCode_button,
-                              style: AppTextStyles.font(context,
-                                fontSize: 16,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.white,
-                              ),
-                            ),
+                            child: _isLoading
+                                ? const SizedBox(
+                                    width: 24,
+                                    height: 24,
+                                    child: CircularProgressIndicator(
+                                      color: AppColors.white,
+                                      strokeWidth: 2.5,
+                                    ),
+                                  )
+                                : Text(
+                                    l10n.parentForgotCode_button,
+                                    style: AppTextStyles.font(context,
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w700,
+                                      color: AppColors.white,
+                                    ),
+                                  ),
                           ),
                         ),
+                        InlineErrorText(message: _errorMessage),
                       ],
                     ),
                   ),

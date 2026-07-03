@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../services/api_client.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/inline_error_text.dart';
 
 class ParentProfileSetupScreen extends StatefulWidget {
   const ParentProfileSetupScreen({super.key});
@@ -20,6 +23,10 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
   String? _selectedGrade;
   String? _selectedInterest;
 
+  final _apiClient = ApiClient();
+  bool _isLoading = false;
+  String? _errorMessage;
+
   static const _grades = [
     'Grade 7', 'Grade 8', 'Grade 9',
     '1st year', '2nd year', '3rd year', '4th year',
@@ -36,9 +43,21 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
       _selectedInterest != null &&
       _pinCtrl.text.length == 4;
 
-  void _onSubmit() {
-    final l10n = context.l10n;
-    showDialog(
+  Future<void> _onSubmit() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    try {
+      await _apiClient.createStudent(
+        name: _nameCtrl.text.trim(),
+        grade: _selectedGrade,
+        interest: _selectedInterest,
+        accessCode: _pinCtrl.text,
+      );
+      if (!mounted) return;
+      final l10n = context.l10n;
+      showDialog(
       context: context,
       barrierDismissible: false,
       builder: (_) => AlertDialog(
@@ -123,6 +142,15 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
         ],
       ),
     );
+    } on DioException catch (e) {
+      setState(() {
+        _errorMessage = e.response?.statusCode == 422
+            ? 'Please check the child\'s details and try again.'
+            : 'Something went wrong. Please try again.';
+      });
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -310,7 +338,8 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                   width: double.infinity,
                   height: 60,
                   child: ElevatedButton(
-                    onPressed: _canSubmit ? _onSubmit : null,
+                    onPressed:
+                        _canSubmit && !_isLoading ? _onSubmit : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.primary,
                       disabledBackgroundColor:
@@ -323,15 +352,25 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                             color: AppColors.white, width: 2),
                       ),
                     ),
-                    child: Text(
-                      l10n.parentSetup_button,
-                      style: AppTextStyles.font(context,
-                        fontSize: 18,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
+                    child: _isLoading
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              color: AppColors.white,
+                              strokeWidth: 2.5,
+                            ),
+                          )
+                        : Text(
+                            l10n.parentSetup_button,
+                            style: AppTextStyles.font(context,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
                   ),
                 ),
+                InlineErrorText(message: _errorMessage),
               ],
             ),
           ),

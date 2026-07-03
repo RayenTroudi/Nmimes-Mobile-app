@@ -59,6 +59,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
     final screenHeight = MediaQuery.of(context).size.height;
     final pin = _pinCtrl.text;
     final l10n = context.l10n;
+    final routeArgs = ModalRoute.of(context)?.settings.arguments;
+    final email = routeArgs is String ? routeArgs : '';
 
     return Scaffold(
       backgroundColor: AppColors.background,
@@ -184,7 +186,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                         Center(
                           child: GestureDetector(
                             onTap: () => Navigator.pushNamed(
-                                context, '/parent-forgot-access-code'),
+                                context, '/parent-forgot-access-code',
+                                arguments: email),
                             child: Text(
                               l10n.parentAccessCode_forgotLink,
                               style: AppTextStyles.font(context,

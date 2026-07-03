@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/inline_error_text.dart';
 
 class ParentResetAccessCodeScreen extends StatefulWidget {
   const ParentResetAccessCodeScreen({super.key});
@@ -17,6 +20,9 @@ class _ParentResetAccessCodeScreenState
   final _confirmPinCtrl = TextEditingController();
   final _newPinFocus = FocusNode();
   final _confirmPinFocus = FocusNode();
+  final _supabaseService = SupabaseService();
+  bool _isLoading = false;
+  String? _errorMessage;
 
   bool get _pinMismatch =>
       _confirmPinCtrl.text.isNotEmpty &&
@@ -43,6 +49,26 @@ class _ParentResetAccessCodeScreenState
     _newPinFocus.dispose();
     _confirmPinFocus.dispose();
     super.dispose();
+  }
+
+  Future<void> _onSubmit() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+    try {
+      await _supabaseService.updatePassword(_newPinCtrl.text);
+      if (!mounted) return;
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        '/parent-sign-in',
+        (route) => false,
+      );
+    } on AuthException catch (e) {
+      setState(() => _errorMessage = e.message);
+    } finally {
+      if (mounted) setState(() => _isLoading = false);
+    }
   }
 
   @override
@@ -157,15 +183,8 @@ class _ParentResetAccessCodeScreenState
                             width: double.infinity,
                             height: 60,
                             child: ElevatedButton(
-                              onPressed: _canSubmit
-                                  ? () {
-                                      // Pop back to sign-in after reset
-                                      Navigator.pushNamedAndRemoveUntil(
-                                        context,
-                                        '/parent-sign-in',
-                                        (route) => false,
-                                      );
-                                    }
+                              onPressed: _canSubmit && !_isLoading
+                                  ? _onSubmit
                                   : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
@@ -179,16 +198,26 @@ class _ParentResetAccessCodeScreenState
                                       color: AppColors.white, width: 2),
                                 ),
                               ),
-                              child: Text(
-                                l10n.parentResetCode_button,
-                                style: AppTextStyles.font(context,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.white,
-                                ),
-                              ),
+                              child: _isLoading
+                                  ? const SizedBox(
+                                      width: 24,
+                                      height: 24,
+                                      child: CircularProgressIndicator(
+                                        color: AppColors.white,
+                                        strokeWidth: 2.5,
+                                      ),
+                                    )
+                                  : Text(
+                                      l10n.parentResetCode_button,
+                                      style: AppTextStyles.font(context,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.white,
+                                      ),
+                                    ),
                             ),
                           ),
+                          InlineErrorText(message: _errorMessage),
                         ],
                       ),
                     ),
