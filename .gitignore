@@ -49,3 +49,10 @@ app.*.map.json
 
 # L10n generated files
 lib/l10n/generated/
+
+# Firebase config (contains API keys) — injected at build time via CI secret
+google-services.json
+**/google-services.json
+android/app/google-services.json
+GoogleService-Info.plist
+**/GoogleService-Info.plist
