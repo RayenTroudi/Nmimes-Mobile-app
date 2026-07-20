@@ -36,6 +36,14 @@ class ApiClient {
   Never _rethrow(Object error) {
     if (error is PostgrestException) {
       final msg = error.message;
+      // No/expired parent session: Postgres denies EXECUTE to the anon role
+      // (42501), or PostgREST rejects an expired JWT. Surface both as an
+      // auth problem rather than a generic failure.
+      if (error.code == '42501' ||
+          msg.contains('permission denied') ||
+          msg.toUpperCase().contains('JWT')) {
+        throw const ApiException('not_authenticated');
+      }
       final code = _knownCodes.firstWhere(
         (c) => msg.contains(c),
         orElse: () => 'unknown',

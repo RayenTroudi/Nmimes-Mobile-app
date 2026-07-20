@@ -45,6 +45,16 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
       _errorMessage = null;
     });
     final authState = context.read<AuthState>();
+    // A child's code selects a profile under the parent's session, so a
+    // parent must be signed in on this device first.
+    if (!authState.isAuthenticated) {
+      setState(() {
+        _isLoading = false;
+        _errorMessage =
+            'Ask a parent to sign in on this device first, then enter your code.';
+      });
+      return;
+    }
     try {
       final student = await _apiClient.verifyAccessCode(_pin);
       await authState.setSelectedStudentId(student.id);
