@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/l10n_extension.dart';
@@ -51,13 +50,12 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
       await authState.setSelectedStudentId(student.id);
       if (!mounted) return;
       Navigator.pushNamed(context, '/child-success');
-    } on DioException catch (e) {
-      final status = e.response?.statusCode;
+    } on ApiException catch (e) {
       setState(() {
-        _errorMessage = status == 404
+        _errorMessage = e.code == 'access_code_not_found'
             ? 'That code doesn\'t match any child on this account.'
-            : status == 429
-                ? 'Too many attempts. Please try again later.'
+            : e.code == 'not_authenticated'
+                ? 'Please sign in as a parent on this device first.'
                 : 'Something went wrong. Please try again.';
       });
     } finally {

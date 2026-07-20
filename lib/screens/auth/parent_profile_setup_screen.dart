@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../services/api_client.dart';
@@ -51,6 +50,7 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
     try {
       await _apiClient.createStudent(
         name: _nameCtrl.text.trim(),
+        username: _usernameCtrl.text.trim(),
         grade: _selectedGrade,
         interest: _selectedInterest,
         accessCode: _pinCtrl.text,
@@ -142,11 +142,15 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
         ],
       ),
     );
-    } on DioException catch (e) {
+    } on ApiException catch (e) {
       setState(() {
-        _errorMessage = e.response?.statusCode == 422
-            ? 'Please check the child\'s details and try again.'
-            : 'Something went wrong. Please try again.';
+        _errorMessage = switch (e.code) {
+          'invalid_access_code_format' || 'invalid_name' =>
+            'Please check the child\'s details and try again.',
+          'duplicate_access_code' =>
+            'Another child already uses this access code. Pick a different one.',
+          _ => 'Something went wrong. Please try again.',
+        };
       });
     } finally {
       if (mounted) setState(() => _isLoading = false);

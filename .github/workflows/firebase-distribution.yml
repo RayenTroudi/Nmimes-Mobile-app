@@ -23,7 +23,10 @@ jobs:
           GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
         run: echo "$GOOGLE_SERVICES_JSON" | base64 --decode > android/app/google-services.json
 
-      - run: flutter build apk --release
+      - run: >
+          flutter build apk --release
+          --dart-define=SUPABASE_URL=https://vebmbkbmmglgpwwmwevk.supabase.co
+          --dart-define=SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlYm1ia2JtbWdsZ3B3d213ZXZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MjQzMDgsImV4cCI6MjA5ODUwMDMwOH0.5YHlcnRFTsqbmAk_Ng206L4IW9CBM60HXIt3K6VR43E
 
       - run: npm install -g firebase-tools
 

@@ -82,9 +82,18 @@ import 'screens/profile/avatar_screen.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AndroidCamera.registerWith();
+  // The anon key is a public client identifier (data access is enforced by
+  // RLS), so shipping it as a default is safe; dart-defines still override.
   await Supabase.initialize(
-    url: const String.fromEnvironment('SUPABASE_URL'),
-    anonKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
+    url: const String.fromEnvironment(
+      'SUPABASE_URL',
+      defaultValue: 'https://vebmbkbmmglgpwwmwevk.supabase.co',
+    ),
+    anonKey: const String.fromEnvironment(
+      'SUPABASE_ANON_KEY',
+      defaultValue:
+          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZlYm1ia2JtbWdsZ3B3d213ZXZrIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI5MjQzMDgsImV4cCI6MjA5ODUwMDMwOH0.5YHlcnRFTsqbmAk_Ng206L4IW9CBM60HXIt3K6VR43E',
+    ),
   );
   final initialLocale = await resolveInitialLocale();
   runApp(NmimesApp(initialLocale: initialLocale));

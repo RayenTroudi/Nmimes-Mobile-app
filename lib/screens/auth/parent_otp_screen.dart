@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import '../../l10n/l10n_extension.dart';
@@ -97,7 +96,7 @@ class _ParentOtpScreenState extends State<ParentOtpScreen> {
       );
       if (!mounted) return;
       Navigator.pushNamed(context, args['next'] as String);
-    } on DioException catch (_) {
+    } on ApiException catch (_) {
       _confirmed = false;
       setState(() => _errorMessage = 'Something went wrong finishing your sign-up. Please try again.');
     } finally {
