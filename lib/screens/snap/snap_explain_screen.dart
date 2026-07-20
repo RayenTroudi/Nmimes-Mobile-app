@@ -419,7 +419,7 @@ class _InputBar extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: AppColors.border, width: 2),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),
@@ -454,7 +454,7 @@ class _InputBar extends StatelessWidget {
             ),
             // Divider
             Container(
-                width: 1, height: 24, color: AppColors.cardBorder),
+                width: 1, height: 24, color: AppColors.border),
             // Mic icon
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10),

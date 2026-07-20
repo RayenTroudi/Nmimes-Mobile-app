@@ -219,7 +219,7 @@ class _ParentForgotAccessCodeScreenState
                                   border: Border.all(
                                     color: isActive
                                         ? AppColors.primary
-                                        : AppColors.cardBorder,
+                                        : AppColors.border,
                                     width: isActive ? 2 : 1,
                                   ),
                                 ),

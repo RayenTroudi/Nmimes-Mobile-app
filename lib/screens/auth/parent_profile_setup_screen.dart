@@ -311,7 +311,7 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                           border: Border.all(
                             color: isActive
                                 ? AppColors.primary
-                                : AppColors.cardBorder,
+                                : AppColors.border,
                             width: isActive ? 2 : 1,
                           ),
                         ),
@@ -415,7 +415,7 @@ class _RoundedTextField extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.white,
         borderRadius: BorderRadius.circular(36),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: AppColors.border, width: 2),
       ),
       child: TextField(
         controller: controller,
@@ -469,7 +469,7 @@ class _DropdownField extends StatelessWidget {
               height: 4,
               margin: const EdgeInsets.only(bottom: 20),
               decoration: BoxDecoration(
-                color: AppColors.cardBorder,
+                color: AppColors.border,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),
@@ -491,7 +491,7 @@ class _DropdownField extends StatelessWidget {
                       border: Border.all(
                         color: value == item
                             ? AppColors.primary
-                            : AppColors.cardBorder,
+                            : AppColors.border,
                       ),
                     ),
                     child: Text(
@@ -523,7 +523,7 @@ class _DropdownField extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.white,
           borderRadius: BorderRadius.circular(36),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: AppColors.border, width: 2),
         ),
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: Row(

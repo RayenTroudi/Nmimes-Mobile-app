@@ -219,7 +219,7 @@ class _PeerLearningScreenState extends State<PeerLearningScreen> {
                                     border: Border.all(
                                       color: isActive
                                           ? AppColors.primary
-                                          : AppColors.cardBorder,
+                                          : AppColors.border,
                                       width: isActive ? 2.5 : 1.5,
                                     ),
                                     boxShadow: [

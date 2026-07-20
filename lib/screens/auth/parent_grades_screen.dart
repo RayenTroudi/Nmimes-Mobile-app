@@ -58,7 +58,7 @@ class _ParentGradesScreenState extends State<ParentGradesScreen> {
                           border: Border.all(
                             color: active
                                 ? AppColors.primary
-                                : AppColors.cardBorder,
+                                : AppColors.border,
                           ),
                         ),
                         alignment: Alignment.center,

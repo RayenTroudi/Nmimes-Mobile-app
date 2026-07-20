@@ -139,7 +139,7 @@ class ProfileScreen extends StatelessWidget {
                   top: avatarOverlap,
                   child: Container(
                     decoration: const BoxDecoration(
-                      color: Color(0xFFFFF7E8),
+                      color: AppColors.background,
                       borderRadius:
                           BorderRadius.vertical(top: Radius.circular(30)),
                     ),

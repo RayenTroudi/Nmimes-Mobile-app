@@ -80,7 +80,7 @@ class AIChatSideMenuScreen extends StatelessWidget {
                           ),
                         ),
 
-                        const Divider(color: AppColors.cardBorder, height: 1),
+                        const Divider(color: AppColors.border, height: 1),
                         const SizedBox(height: 20),
 
                         // History title
@@ -137,7 +137,7 @@ class AIChatSideMenuScreen extends StatelessWidget {
                                 ),
                               ),
                               const Divider(
-                                  color: AppColors.cardBorder,
+                                  color: AppColors.border,
                                   height: 1,
                                   indent: 24,
                                   endIndent: 24),

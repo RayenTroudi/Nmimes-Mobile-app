@@ -221,7 +221,7 @@ class _UnderstandingScreen extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: const Color(0xFFFFF3E0),
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: AppColors.cardBorder),
+                        border: Border.all(color: AppColors.border, width: 2),
                       ),
                       child: Row(
                         children: [
@@ -794,7 +794,7 @@ class _BubblePainter extends CustomPainter {
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     final stroke = Paint()
-      ..color = AppColors.cardBorder
+      ..color = AppColors.border
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.2;
     const r = 14.0;

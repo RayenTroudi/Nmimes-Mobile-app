@@ -630,7 +630,7 @@ class _PVPTab extends StatelessWidget {
         Container(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
           decoration: BoxDecoration(
-            color: const Color(0xFFF79C09),
+            color: AppColors.primaryLight,
             borderRadius: BorderRadius.circular(AppRadius.lg),
             boxShadow: const [
               BoxShadow(

@@ -156,7 +156,7 @@ class MazeStartScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFF7EB),
                           borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: const Color(0xFFF79C09), width: 1),
+                          border: Border.all(color: AppColors.primaryLight, width: 1),
                         ),
                         child: Column(
                           children: [

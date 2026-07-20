@@ -222,7 +222,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                   shape: BoxShape.circle,
                                 ),
                                 child: const Icon(Icons.extension,
-                                    color: Color(0xFFF79C09), size: 18),
+                                    color: AppColors.primaryLight, size: 18),
                               ),
                               const SizedBox(width: 10),
                               Text(
@@ -274,8 +274,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                             ? const Color(0xFF35A468)
                                             : Colors.red)
                                         : isHovering
-                                            ? const Color(0xFFF79C09)
-                                            : const Color(0xFFF79C09),
+                                            ? AppColors.primaryLight
+                                            : AppColors.primaryLight,
                                     width: 2,
                                   ),
                                 ),

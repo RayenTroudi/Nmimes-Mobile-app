@@ -118,7 +118,7 @@ class _ParentsViewScreenState extends State<ParentsViewScreen> {
               Expanded(
                 child: Container(
                   decoration: const BoxDecoration(
-                    color: Color(0xFFFFF7E8),
+                    color: AppColors.background,
                     borderRadius: BorderRadius.vertical(
                         top: Radius.circular(30)),
                   ),
@@ -214,7 +214,7 @@ class _ParentsViewScreenState extends State<ParentsViewScreen> {
 
                         // Weekly Summary card (orange)
                         _InfoCard(
-                          color: const Color(0xFFF79C09),
+                          color: AppColors.primaryLight,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [

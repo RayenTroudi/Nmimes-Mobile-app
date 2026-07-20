@@ -334,14 +334,11 @@ class _WelcomeView extends StatelessWidget {
               height: 56,
               decoration: BoxDecoration(
                 color: AppColors.primary,
-                borderRadius: BorderRadius.circular(50),
-                border: const Border.fromBorderSide(
-                    BorderSide(color: Colors.white, width: 2.5)),
-                boxShadow: [
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: const [
                   BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.35),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+                    color: AppColors.primaryDark,
+                    offset: Offset(0, 4),
                   )
                 ],
               ),
@@ -350,7 +347,7 @@ class _WelcomeView extends StatelessWidget {
                   l10n.aiChat_button_letsChat,
                   style: AppTextStyles.font(context,
                     fontSize: 16,
-                    fontWeight: FontWeight.w700,
+                    fontWeight: FontWeight.w800,
                     color: Colors.white,
                   ),
                 ),
@@ -726,7 +723,7 @@ class _InputBar extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: AppColors.border, width: 2),
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withValues(alpha: 0.04),

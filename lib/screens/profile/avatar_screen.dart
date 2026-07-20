@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import 'points_card.dart';
 
@@ -31,7 +32,7 @@ class _AvatarScreenState extends State<AvatarScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF7E8),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: Column(

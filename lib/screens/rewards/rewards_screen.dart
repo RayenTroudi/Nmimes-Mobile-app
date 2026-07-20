@@ -124,7 +124,7 @@ class RewardsScreen extends StatelessWidget {
                   // White content section with rounded top corners
                   Container(
                     decoration: const BoxDecoration(
-                      color: Color(0xFFFFF7E8),
+                      color: AppColors.background,
                       borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30),
                         topRight: Radius.circular(30),
@@ -284,7 +284,7 @@ class _BadgeCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.72),
-          border: Border.all(color: const Color(0xFFF79C09), width: 1),
+          border: Border.all(color: AppColors.primaryLight, width: 1),
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

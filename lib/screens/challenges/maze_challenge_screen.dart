@@ -382,7 +382,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                               'assets/images/fi_616430.png',
                               fit: BoxFit.contain,
                               errorBuilder: (ctx, e, st) =>
-                                  const Icon(Icons.person, size: 14, color: Color(0xFFF79C09)),
+                                  const Icon(Icons.person, size: 14, color: AppColors.primaryLight),
                             ),
                           ),
                         ),
@@ -445,7 +445,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
     final q = _questions[_questionIndex];
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF7E8),
+        color: AppColors.background,
         borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
         boxShadow: [
           BoxShadow(
@@ -469,7 +469,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: const Color(0xFFFFD6A7), width: 1.5),
+                  border: Border.all(color: AppColors.border, width: 1.5),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -485,7 +485,7 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                             borderRadius: BorderRadius.circular(10),
                           ),
                           child: const Icon(Icons.quiz_outlined,
-                              color: Color(0xFFF79C09), size: 22),
+                              color: AppColors.primaryLight, size: 22),
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -730,7 +730,7 @@ class _MazeTile extends StatelessWidget {
         height: 30,
         fit: BoxFit.contain,
         errorBuilder: (ctx, e, st) =>
-            const Icon(Icons.person, color: Color(0xFFF79C09), size: 22),
+            const Icon(Icons.person, color: AppColors.primaryLight, size: 22),
       );
     } else {
       switch (tile) {

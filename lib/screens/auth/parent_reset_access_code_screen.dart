@@ -301,7 +301,7 @@ class _PinRow extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(
                       color:
-                          isActive ? AppColors.primary : AppColors.cardBorder,
+                          isActive ? AppColors.primary : AppColors.border,
                       width: isActive ? 2 : 1,
                     ),
                   ),

@@ -156,7 +156,7 @@ class StartChallengeScreen extends StatelessWidget {
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFF7EB),
                           borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: const Color(0xFFF79C09), width: 1),
+                          border: Border.all(color: AppColors.primaryLight, width: 1),
                         ),
                         child: Column(
                           children: [
@@ -166,7 +166,7 @@ class StartChallengeScreen extends StatelessWidget {
                               width: 36,
                               height: 36,
                               errorBuilder: (ctx, e, st) =>
-                                  const Icon(Icons.emoji_events, color: Color(0xFFF79C09), size: 36),
+                                  const Icon(Icons.emoji_events, color: AppColors.primaryLight, size: 36),
                             ),
                             const SizedBox(height: 6),
                             Text(

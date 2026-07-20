@@ -376,7 +376,7 @@ class _Step3ScreenState extends State<_Step3Screen> {
                                   ? AppColors.green
                                   : _feedback == _FeedbackState.wrong
                                       ? AppColors.red
-                                      : AppColors.cardBorder,
+                                      : AppColors.border,
                               width: 2,
                             ),
                           ),
@@ -671,7 +671,7 @@ class _TileOption extends StatelessWidget {
         break;
       case _TileState.idle:
         bg = Colors.white;
-        border = AppColors.cardBorder;
+        border = AppColors.border;
         text = AppColors.textPrimary;
     }
     return GestureDetector(
@@ -719,7 +719,7 @@ class _ListOption extends StatelessWidget {
         break;
       case _TileState.idle:
         bg = Colors.white;
-        border = AppColors.cardBorder;
+        border = AppColors.border;
     }
     return GestureDetector(
       onTap: onTap,
@@ -972,7 +972,7 @@ class _SolutionStepCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: AppColors.border, width: 2),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1031,7 +1031,7 @@ class _FinalAnswerCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.cardBorder),
+        border: Border.all(color: AppColors.border, width: 2),
       ),
       child: Row(
         children: [
@@ -1107,7 +1107,7 @@ class _ThoughtPainter extends CustomPainter {
       ..color = Colors.white
       ..style = PaintingStyle.fill;
     final stroke = Paint()
-      ..color = AppColors.cardBorder
+      ..color = AppColors.border
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
     const r = 12.0;

@@ -101,7 +101,7 @@ class AlgebraStartScreen extends StatelessWidget {
                               ),
                               child: const Icon(
                                 Icons.calculate_outlined,
-                                color: Color(0xFFF79C09),
+                                color: AppColors.primaryLight,
                                 size: 20,
                               ),
                             ),

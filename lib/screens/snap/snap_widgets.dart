@@ -344,7 +344,7 @@ class _SnapCameraPreviewState extends State<SnapCameraPreview>
                   decoration: BoxDecoration(
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.cardBorder, width: 1.5),
+                    border: Border.all(color: AppColors.border, width: 1.5),
                   ),
                   child: const Icon(Icons.photo_library_outlined,
                       color: AppColors.textPrimary, size: 24),
@@ -384,7 +384,7 @@ class _SnapCameraPreviewState extends State<SnapCameraPreview>
                   decoration: BoxDecoration(
                     color: AppColors.surface,
                     borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: AppColors.cardBorder, width: 1.5),
+                    border: Border.all(color: AppColors.border, width: 1.5),
                   ),
                   child: const Icon(Icons.flip_camera_ios_outlined,
                       color: AppColors.textPrimary, size: 24),

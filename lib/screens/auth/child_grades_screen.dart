@@ -56,7 +56,7 @@ class _ChildGradesScreenState extends State<ChildGradesScreen> {
                           border: Border.all(
                             color: active
                                 ? AppColors.primary
-                                : AppColors.cardBorder,
+                                : AppColors.border,
                           ),
                         ),
                         alignment: Alignment.center,

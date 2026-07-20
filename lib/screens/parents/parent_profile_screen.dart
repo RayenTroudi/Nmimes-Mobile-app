@@ -102,7 +102,7 @@ class ParentProfileScreen extends StatelessWidget {
           Expanded(
             child: Container(
               decoration: const BoxDecoration(
-                color: Color(0xFFFFF7E8),
+                color: AppColors.background,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
               ),
               child: SingleChildScrollView(

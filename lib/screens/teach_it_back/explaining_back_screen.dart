@@ -473,7 +473,7 @@ class _InputBar extends StatelessWidget {
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: AppColors.border, width: 2),
           boxShadow: [
             BoxShadow(
                 color: Colors.black.withValues(alpha: 0.04),

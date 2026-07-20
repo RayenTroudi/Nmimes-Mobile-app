@@ -105,7 +105,7 @@ class _JoinChallengeScreenState extends State<JoinChallengeScreen> {
                           color: Colors.white,
                           shape: BoxShape.circle,
                           border: Border.all(
-                            color: isActive ? AppColors.primary : AppColors.cardBorder,
+                            color: isActive ? AppColors.primary : AppColors.border,
                             width: isActive ? 2 : 1,
                           ),
                         ),
@@ -142,8 +142,7 @@ class _JoinChallengeScreenState extends State<JoinChallengeScreen> {
                       foregroundColor: Colors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(100),
-                        side: const BorderSide(color: Colors.white, width: 1),
+                        borderRadius: BorderRadius.circular(16),
                       ),
                     ),
                     child: Text(

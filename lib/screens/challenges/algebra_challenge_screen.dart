@@ -256,13 +256,13 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                           width: 44,
                           height: 44,
                           decoration: BoxDecoration(
-                            color: const Color(0xFFFFF7E8),
+                            color: AppColors.background,
                             borderRadius: BorderRadius.circular(12),
                             border: Border.all(
-                                color: const Color(0xFFFFD6A7), width: 1),
+                                color: AppColors.border, width: 1),
                           ),
                           child: const Icon(Icons.calculate_outlined,
-                              color: Color(0xFFF79C09), size: 24),
+                              color: AppColors.primaryLight, size: 24),
                         ),
                         const SizedBox(width: 14),
                         Expanded(

@@ -307,7 +307,7 @@ class _CountryPickerSheetState extends State<_CountryPickerSheet> {
               width: 40,
               height: 4,
               decoration: BoxDecoration(
-                color: AppColors.cardBorder,
+                color: AppColors.border,
                 borderRadius: BorderRadius.circular(2),
               ),
             ),

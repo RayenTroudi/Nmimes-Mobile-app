@@ -361,14 +361,14 @@ class _InputBar extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 10, 16, 20),
       decoration: const BoxDecoration(
         border:
-            Border(top: BorderSide(color: AppColors.cardBorder, width: 0.5)),
+            Border(top: BorderSide(color: AppColors.border, width: 0.5)),
       ),
       child: Container(
         height: 52,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: AppColors.cardBorder),
+          border: Border.all(color: AppColors.border, width: 2),
         ),
         child: Row(
           children: [

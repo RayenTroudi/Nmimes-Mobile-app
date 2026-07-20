@@ -68,7 +68,7 @@ class _HelpScreenState extends State<HelpScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF7E8),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         bottom: false,
         child: Column(
