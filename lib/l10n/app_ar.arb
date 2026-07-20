@@ -747,5 +747,10 @@
   "rewardCard_pts": "{points} نقطة",
   "@rewardCard_pts": {
     "placeholders": { "points": { "type": "int" } }
-  }
+  },
+  "map_start": "ابدأ",
+  "map_unit1_title": "الوحدة ١ · نينجا الأرقام",
+  "map_unit1_subtitle": "ألغاز وجبر وتحديات سرعة",
+  "map_unit2_title": "الوحدة ٢ · دوري الأبطال",
+  "map_unit2_subtitle": "سلاسل ومتاهات وهندسة"
 }

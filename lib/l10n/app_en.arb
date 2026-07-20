@@ -748,5 +748,10 @@
   "rewardCard_pts": "{points} pts",
   "@rewardCard_pts": {
     "placeholders": { "points": { "type": "int" } }
-  }
+  },
+  "map_start": "START",
+  "map_unit1_title": "Unit 1 · Number Ninjas",
+  "map_unit1_subtitle": "Puzzles, algebra and speed runs",
+  "map_unit2_title": "Unit 2 · Master League",
+  "map_unit2_subtitle": "Chains, mazes and geometry"
 }

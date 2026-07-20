@@ -747,5 +747,10 @@
   "rewardCard_pts": "{points} pts",
   "@rewardCard_pts": {
     "placeholders": { "points": { "type": "int" } }
-  }
+  },
+  "map_start": "GO !",
+  "map_unit1_title": "Unité 1 · Ninjas des nombres",
+  "map_unit1_subtitle": "Puzzles, algèbre et défis de vitesse",
+  "map_unit2_title": "Unité 2 · Ligue des maîtres",
+  "map_unit2_subtitle": "Chaînes, labyrinthes et géométrie"
 }
