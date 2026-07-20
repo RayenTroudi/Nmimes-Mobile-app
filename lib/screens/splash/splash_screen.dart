@@ -5,68 +5,6 @@ import '../../providers/auth_state.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 
-// Character entry config
-class _CharConfig {
-  const _CharConfig({
-    required this.asset,
-    required this.width,
-    required this.height,
-    required this.entryOffset,   // where it slides IN from (e.g. Offset(-2, 0) = from left)
-    required this.exitOffset,    // where it slides OUT to
-    required this.left,          // Positioned.left (null if using right)
-    required this.right,         // Positioned.right (null if using left)
-    required this.bottom,        // Positioned.bottom
-    required this.entryDelay,    // ms before entry starts
-  });
-  final String asset;
-  final double width;
-  final double height;
-  final Offset entryOffset;
-  final Offset exitOffset;
-  final double? left;
-  final double? right;
-  final double bottom;
-  final int entryDelay;
-}
-
-const _chars = [
-  _CharConfig(
-    asset: 'assets/images/onboarding_understand.png',
-    width: 130, height: 130,
-    entryOffset: Offset(-2, 0), exitOffset: Offset(-2, 0),
-    left: 10, right: null, bottom: 160,
-    entryDelay: 0,
-  ),
-  _CharConfig(
-    asset: 'assets/images/fox_soccer.png',
-    width: 120, height: 120,
-    entryOffset: Offset(2, 0), exitOffset: Offset(2, 0),
-    left: null, right: 10, bottom: 170,
-    entryDelay: 400,
-  ),
-  _CharConfig(
-    asset: 'assets/images/fox_gift.png',
-    width: 120, height: 120,
-    entryOffset: Offset(-2, 0), exitOffset: Offset(-2, 0),
-    left: 60, right: null, bottom: 155,
-    entryDelay: 800,
-  ),
-  _CharConfig(
-    asset: 'assets/images/avatar_default.png',
-    width: 120, height: 120,
-    entryOffset: Offset(2, 0), exitOffset: Offset(2, 0),
-    left: null, right: 60, bottom: 155,
-    entryDelay: 1200,
-  ),
-  _CharConfig(
-    asset: 'assets/images/yippyee.png',
-    width: 150, height: 150,
-    entryOffset: Offset(0, -2), exitOffset: Offset(0, 2),
-    left: null, right: null, bottom: 120,
-    entryDelay: 1600,
-  ),
-];
-
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -76,75 +14,58 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
+  // Intro: logo pops in, then name + tagline follow.
+  late final AnimationController _introCtrl = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 700),
+  );
+  late final AnimationController _nameCtrl = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 450),
+  );
+  late final AnimationController _taglineCtrl = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 300),
+  );
 
-  // One entry + one exit controller per character
-  late final List<AnimationController> _entryCtrl;
-  late final List<AnimationController> _exitCtrl;
+  // Continuous blink/pulse loop on the logo + breathing glow rings.
+  late final AnimationController _pulseCtrl = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 750),
+  );
 
-  // Logo + text
-  late final AnimationController _logoCtrl;
-  late final AnimationController _nameFadeCtrl;
-  late final AnimationController _taglineFadeCtrl;
+  // Loading dots bounce loop.
+  late final AnimationController _dotsCtrl = AnimationController(
+    vsync: this,
+    duration: const Duration(milliseconds: 900),
+  );
 
-  bool _showLogo = false;
+  late final Animation<double> _logoScaleIn = CurvedAnimation(
+    parent: _introCtrl,
+    curve: Curves.elasticOut,
+  );
 
   @override
   void initState() {
     super.initState();
-
-    _entryCtrl = List.generate(
-      _chars.length,
-      (_) => AnimationController(vsync: this, duration: const Duration(milliseconds: 300)),
-    );
-    _exitCtrl = List.generate(
-      _chars.length,
-      (_) => AnimationController(vsync: this, duration: const Duration(milliseconds: 250)),
-    );
-    _logoCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
-    _nameFadeCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 300));
-    _taglineFadeCtrl = AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
-
     _runSequence();
   }
 
   Future<void> _runSequence() async {
-    // Phase 1: characters slide in, staggered based on entryDelay config
-    for (int i = 0; i < _chars.length; i++) {
-      final delay = i == 0 ? 0 : (_chars[i].entryDelay - _chars[i - 1].entryDelay);
-      await Future.delayed(Duration(milliseconds: delay));
-      if (!mounted) return;
-      if (i == _chars.length - 1) {
-        await _entryCtrl[i].forward();  // wait for last entry to finish before hold
-      } else {
-        _entryCtrl[i].forward();
-      }
-    }
-
-    // Phase 2: group photo hold (wait for last entry to finish + 300ms hold)
-    await Future.delayed(const Duration(milliseconds: 600));
+    _dotsCtrl.repeat();
+    await _introCtrl.forward();
     if (!mounted) return;
 
-    // Phase 3: all scatter simultaneously
-    for (final ctrl in _exitCtrl) {
-      ctrl.forward();
-    }
+    // Start the blink loop once the logo has landed.
+    _pulseCtrl.repeat(reverse: true);
+    _nameCtrl.forward();
 
-    // Phase 4: wait for scatter to fully complete, then show logo
-    await Future.delayed(const Duration(milliseconds: 400));
+    await Future.delayed(const Duration(milliseconds: 250));
     if (!mounted) return;
-    setState(() => _showLogo = true);
-    _logoCtrl.forward();
+    _taglineCtrl.forward();
 
-    await Future.delayed(const Duration(milliseconds: 300));
-    if (!mounted) return;
-    _nameFadeCtrl.forward();
-
-    await Future.delayed(const Duration(milliseconds: 150));
-    if (!mounted) return;
-    _taglineFadeCtrl.forward();
-
-    // Phase 5: hold logo, then navigate
-    await Future.delayed(const Duration(milliseconds: 900));
+    // Hold the blinking logo, then navigate (same auth gating as before).
+    await Future.delayed(const Duration(milliseconds: 1800));
     if (!mounted) return;
     final authState = context.read<AuthState>();
     if (authState.isAuthenticated && authState.selectedStudentId != null) {
@@ -158,81 +79,96 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    for (final c in _entryCtrl) {
-      c.dispose();
-    }
-    for (final c in _exitCtrl) {
-      c.dispose();
-    }
-    _logoCtrl.dispose();
-    _nameFadeCtrl.dispose();
-    _taglineFadeCtrl.dispose();
+    _introCtrl.dispose();
+    _nameCtrl.dispose();
+    _taglineCtrl.dispose();
+    _pulseCtrl.dispose();
+    _dotsCtrl.dispose();
     super.dispose();
   }
 
-  Widget _buildCharacter(int index, BoxConstraints constraints) {
-    final cfg = _chars[index];
-
-    final entryAnim = SlideTransition(
-      position: Tween<Offset>(begin: cfg.entryOffset, end: Offset.zero).animate(
-        CurvedAnimation(parent: _entryCtrl[index], curve: Curves.easeOut),
+  Widget _blinkingLogo() {
+    return AnimatedBuilder(
+      animation: Listenable.merge([_introCtrl, _pulseCtrl]),
+      builder: (context, child) {
+        final pulse = Curves.easeInOut.transform(_pulseCtrl.value);
+        final scale = _logoScaleIn.value * (1.0 + 0.06 * pulse);
+        final ringAlpha = 0.14 * (1 - pulse) * _introCtrl.value;
+        return SizedBox(
+          width: 280,
+          height: 280,
+          child: Stack(
+            alignment: Alignment.center,
+            children: [
+              // Breathing glow rings behind the logo.
+              Container(
+                width: 240 + 24 * pulse,
+                height: 240 + 24 * pulse,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.primary.withValues(alpha: ringAlpha * 0.5),
+                ),
+              ),
+              Container(
+                width: 190 + 16 * pulse,
+                height: 190 + 16 * pulse,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: AppColors.primary.withValues(alpha: ringAlpha),
+                ),
+              ),
+              // The blinking logo itself.
+              Transform.scale(
+                scale: scale,
+                child: Opacity(
+                  // Blink: dips softly and comes back with the pulse.
+                  opacity: (0.75 + 0.25 * (1 - pulse)).clamp(0.0, 1.0),
+                  child: child,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+      child: Image.asset(
+        'assets/images/nmimes_logo.png',
+        width: 160,
+        height: 160,
+        fit: BoxFit.contain,
       ),
-      child: SlideTransition(
-        position: Tween<Offset>(begin: Offset.zero, end: cfg.exitOffset).animate(
-          CurvedAnimation(parent: _exitCtrl[index], curve: Curves.easeIn),
-        ),
-        child: Image.asset(cfg.asset, width: cfg.width, height: cfg.height, fit: BoxFit.contain),
-      ),
-    );
-
-    // yippyee (index 4) is centered horizontally
-    if (index == 4) {
-      return Positioned(
-        bottom: cfg.bottom,
-        left: (constraints.maxWidth - cfg.width) / 2,
-        child: entryAnim,
-      );
-    }
-
-    return Positioned(
-      bottom: cfg.bottom,
-      left: cfg.left,
-      right: cfg.right,
-      child: entryAnim,
     );
   }
 
-  Widget _buildLogo() {
-    return SlideTransition(
-      position: Tween<Offset>(begin: const Offset(0, -3), end: Offset.zero).animate(
-        CurvedAnimation(parent: _logoCtrl, curve: const ElasticOutCurve(0.6)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Image.asset('assets/images/nmimes_logo.png', width: 160, height: 160, fit: BoxFit.contain),
-          const SizedBox(height: 16),
-          FadeTransition(
-            opacity: _nameFadeCtrl,
-            child: Builder(
-              builder: (ctx) => Text(
-                'Nmimes',
-                style: AppTextStyles.font(ctx, fontSize: 28, fontWeight: FontWeight.w800, color: AppColors.primary),
+  Widget _bouncingDots() {
+    const colors = [AppColors.primary, AppColors.blue, AppColors.green];
+    return AnimatedBuilder(
+      animation: _dotsCtrl,
+      builder: (context, _) {
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: List.generate(3, (i) {
+            // Phase-shift each dot for a wave; bounce with a sine-like curve.
+            final t = (_dotsCtrl.value + i * 0.18) % 1.0;
+            final bounce = t < 0.5
+                ? Curves.easeOut.transform(t * 2)
+                : Curves.easeIn.transform(2 - t * 2);
+            return Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5),
+              child: Transform.translate(
+                offset: Offset(0, -10 * bounce),
+                child: Container(
+                  width: 12,
+                  height: 12,
+                  decoration: BoxDecoration(
+                    color: colors[i],
+                    shape: BoxShape.circle,
+                  ),
+                ),
               ),
-            ),
-          ),
-          const SizedBox(height: 6),
-          FadeTransition(
-            opacity: _taglineFadeCtrl,
-            child: Builder(
-              builder: (ctx) => Text(
-                ctx.l10n.splash_tagline,
-                style: AppTextStyles.font(ctx, fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.textHint),
-              ),
-            ),
-          ),
-        ],
-      ),
+            );
+          }),
+        );
+      },
     );
   }
 
@@ -240,25 +176,44 @@ class _SplashScreenState extends State<SplashScreen>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: LayoutBuilder(
-        builder: (context, constraints) {
-          return Stack(
-            children: [
-              // Characters layer
-              for (int i = 0; i < _chars.length; i++)
-                _buildCharacter(i, constraints),
-
-              // Logo — centered in upper half, only shown after scatter
-              if (_showLogo)
-                Positioned(
-                  top: constraints.maxHeight * 0.28,
-                  left: 0,
-                  right: 0,
-                  child: Center(child: _buildLogo()),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const Spacer(flex: 3),
+            _blinkingLogo(),
+            const SizedBox(height: 8),
+            ScaleTransition(
+              scale: CurvedAnimation(
+                parent: _nameCtrl,
+                curve: Curves.elasticOut,
+              ),
+              child: FadeTransition(
+                opacity: _nameCtrl,
+                child: Text(
+                  'Nmimes',
+                  style: AppTextStyles.font(context,
+                      fontSize: 34,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.primary),
                 ),
-            ],
-          );
-        },
+              ),
+            ),
+            const SizedBox(height: 8),
+            FadeTransition(
+              opacity: _taglineCtrl,
+              child: Text(
+                context.l10n.splash_tagline,
+                style: AppTextStyles.font(context,
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textSecondary),
+              ),
+            ),
+            const Spacer(flex: 3),
+            _bouncingDots(),
+            const SizedBox(height: 48),
+          ],
+        ),
       ),
     );
   }
