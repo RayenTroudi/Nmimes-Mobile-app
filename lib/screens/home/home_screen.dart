@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/chunky_button.dart';
 import '../../widgets/fox_mascot.dart';
 import '../../widgets/language_picker_sheet.dart';
 import '../../providers/locale_provider.dart';
@@ -28,11 +30,19 @@ class HomeScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  // Continue hero card — jumps into the challenges map
+                  _ContinueHeroCard(
+                    onTap: () => Navigator.pushNamedAndRemoveUntil(
+                        context, '/home', (r) => false, arguments: 2),
+                  ),
+                  const SizedBox(height: 24),
+
                   // Snap a Homework card
                   _ActionCard(
                     title: context.l10n.home_card_snapHomework_title,
                     subtitle: context.l10n.home_card_snapHomework_subtitle,
                     imagePath: 'assets/images/icon_snap_homework.png',
+                    color: AppColors.blue,
                     onTap: () =>
                         Navigator.pushNamed(context, '/snap-homework'),
                   ),
@@ -43,6 +53,7 @@ class HomeScreen extends StatelessWidget {
                     title: context.l10n.home_card_snapLesson_title,
                     subtitle: context.l10n.home_card_snapLesson_subtitle,
                     imagePath: 'assets/images/icon_snap_lesson.png',
+                    color: AppColors.blue,
                     onTap: () =>
                         Navigator.pushNamed(context, '/snap-lesson'),
                   ),
@@ -53,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                     context.l10n.home_label_studyRooms,
                     style: AppTextStyles.font(context,
                         fontSize: 20,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary),
                   ),
                   const SizedBox(height: 12),
@@ -135,8 +146,8 @@ class _HomeHeader extends StatelessWidget {
                     child: Text(
                       context.l10n.home_greeting('John Deo'),
                       style: AppTextStyles.font(context,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w800,
                           color: AppColors.white),
                     ),
                   ),
@@ -157,7 +168,8 @@ class _HomeHeader extends StatelessWidget {
                               horizontal: 10, vertical: 5),
                           decoration: BoxDecoration(
                             color: Colors.white.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(20),
+                            borderRadius:
+                                BorderRadius.circular(AppRadius.pill),
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -169,7 +181,7 @@ class _HomeHeader extends StatelessWidget {
                                 label,
                                 style: AppTextStyles.font(context,
                                     fontSize: 12,
-                                    fontWeight: FontWeight.w600,
+                                    fontWeight: FontWeight.w800,
                                     color: AppColors.white),
                               ),
                               const SizedBox(width: 2),
@@ -201,7 +213,7 @@ class _HomeHeader extends StatelessWidget {
               ),
             ),
 
-            // Points bar
+            // Points stat bar
             Padding(
               padding:
                   const EdgeInsets.fromLTRB(20, 0, 20, 20),
@@ -210,7 +222,10 @@ class _HomeHeader extends StatelessWidget {
                     horizontal: 16, vertical: 12),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.18),
-                  borderRadius: BorderRadius.circular(16),
+                  borderRadius: BorderRadius.circular(AppRadius.md),
+                  border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.35),
+                      width: AppSizes.cardBorder),
                 ),
                 child: Row(
                   children: [
@@ -219,7 +234,7 @@ class _HomeHeader extends StatelessWidget {
                       height: 44,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.25),
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppRadius.sm),
                       ),
                       child: const Icon(Icons.emoji_events_rounded,
                           color: AppColors.white, size: 24),
@@ -232,6 +247,7 @@ class _HomeHeader extends StatelessWidget {
                           context.l10n.home_label_yourPoints,
                           style: AppTextStyles.font(context,
                               fontSize: 12,
+                              fontWeight: FontWeight.w700,
                               color: Colors.white.withValues(alpha: 0.85)),
                         ),
                         Text(
@@ -244,14 +260,15 @@ class _HomeHeader extends StatelessWidget {
                       ],
                     ),
                     const Spacer(),
-                    GestureDetector(
+                    TapScale(
                       onTap: () => Navigator.pushNamed(context, '/rewards'),
+                      haptics: true,
                       child: Container(
                         padding: const EdgeInsets.symmetric(
                             horizontal: 14, vertical: 8),
                         decoration: BoxDecoration(
                           color: AppColors.white,
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(AppRadius.pill),
                         ),
                         child: Row(
                           children: [
@@ -262,7 +279,7 @@ class _HomeHeader extends StatelessWidget {
                               context.l10n.home_button_rewards,
                               style: AppTextStyles.font(context,
                                   fontSize: 13,
-                                  fontWeight: FontWeight.w700,
+                                  fontWeight: FontWeight.w800,
                                   color: AppColors.primary),
                             ),
                           ],
@@ -280,29 +297,105 @@ class _HomeHeader extends StatelessWidget {
   }
 }
 
+/// Big orange hero card that continues into the challenges map,
+/// like Duolingo's "continue lesson" entry point.
+class _ContinueHeroCard extends StatelessWidget {
+  final VoidCallback onTap;
+  const _ContinueHeroCard({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return TapScale(
+      onTap: onTap,
+      haptics: true,
+      child: Container(
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          boxShadow: const [
+            BoxShadow(
+              color: AppColors.primaryDark,
+              offset: Offset(0, AppSizes.buttonEdge),
+            ),
+          ],
+        ),
+        child: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    context.l10n.challenge_keep_going,
+                    style: AppTextStyles.font(context,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.white),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    context.l10n.challenge_motivation_subtitle,
+                    style: AppTextStyles.font(context,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: Colors.white.withValues(alpha: 0.9)),
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(AppRadius.pill),
+                    ),
+                    child: Text(
+                      context.l10n.challenge_play_now,
+                      style: AppTextStyles.font(context,
+                          fontSize: 14,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primary),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 12),
+            const FoxMascot(size: 88, variant: 'happy'),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class _ActionCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final String imagePath;
+  final Color color;
   final VoidCallback onTap;
 
   const _ActionCard({
     required this.title,
     required this.subtitle,
     required this.imagePath,
+    required this.color,
     required this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapScale(
       onTap: onTap,
+      haptics: true,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.primary, width: 1.5),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          border: Border.all(
+              color: AppColors.border, width: AppSizes.cardBorder),
         ),
         child: Row(
           children: [
@@ -314,7 +407,7 @@ class _ActionCard extends StatelessWidget {
                     title,
                     style: AppTextStyles.font(context,
                         fontSize: 16,
-                        fontWeight: FontWeight.w700,
+                        fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary),
                   ),
                   const SizedBox(height: 4),
@@ -322,6 +415,7 @@ class _ActionCard extends StatelessWidget {
                     subtitle,
                     style: AppTextStyles.font(context,
                         fontSize: 13,
+                        fontWeight: FontWeight.w600,
                         color: AppColors.textSecondary),
                   ),
                 ],
@@ -331,8 +425,8 @@ class _ActionCard extends StatelessWidget {
               width: 64,
               height: 64,
               decoration: BoxDecoration(
-                color: AppColors.background,
-                borderRadius: BorderRadius.circular(12),
+                color: color.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(AppRadius.sm),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(6),
@@ -361,14 +455,16 @@ class _StudyRoomRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapScale(
       onTap: onTap,
+      haptics: true,
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
           color: AppColors.white,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: AppColors.cardBorder),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          border: Border.all(
+              color: AppColors.border, width: AppSizes.cardBorder),
         ),
         child: Row(
           children: [
@@ -376,8 +472,8 @@ class _StudyRoomRow extends StatelessWidget {
               width: 44,
               height: 44,
               decoration: BoxDecoration(
-                color: AppColors.background,
-                borderRadius: BorderRadius.circular(10),
+                color: AppColors.green.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(AppRadius.sm),
               ),
               child: Padding(
                 padding: const EdgeInsets.all(6),
@@ -393,7 +489,7 @@ class _StudyRoomRow extends StatelessWidget {
                     title,
                     style: AppTextStyles.font(context,
                         fontSize: 15,
-                        fontWeight: FontWeight.w600,
+                        fontWeight: FontWeight.w800,
                         color: AppColors.textPrimary),
                   ),
                   if (subtitle.isNotEmpty) ...[
@@ -402,13 +498,14 @@ class _StudyRoomRow extends StatelessWidget {
                       subtitle,
                       style: AppTextStyles.font(context,
                           fontSize: 12,
+                          fontWeight: FontWeight.w600,
                           color: AppColors.textSecondary),
                     ),
                   ],
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right,
+            const Icon(Icons.chevron_right_rounded,
                 color: AppColors.textSecondary, size: 22),
           ],
         ),
