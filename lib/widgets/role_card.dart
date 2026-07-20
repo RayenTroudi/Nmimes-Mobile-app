@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/spacing.dart';
 import '../theme/text_styles.dart';
+import 'chunky_button.dart';
 
 class RoleCard extends StatelessWidget {
   final String label;
@@ -18,18 +20,21 @@ class RoleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapScale(
       onTap: onTap,
+      haptics: true,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         width: 161,
         height: 161,
         decoration: BoxDecoration(
-          color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
+          color: selected
+              ? AppColors.primary.withValues(alpha: 0.1)
+              : AppColors.surface,
+          borderRadius: BorderRadius.circular(AppRadius.md),
           border: Border.all(
-            color: selected ? AppColors.primary : AppColors.cardBorder,
-            width: 2,
+            color: selected ? AppColors.primary : AppColors.border,
+            width: AppSizes.cardBorder,
           ),
         ),
         child: Column(
@@ -39,7 +44,7 @@ class RoleCard extends StatelessWidget {
               width: 70,
               height: 70,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.1),
+                color: AppColors.primary.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
               child: const Icon(Icons.person, size: 40, color: AppColors.primary),
@@ -50,7 +55,7 @@ class RoleCard extends StatelessWidget {
               style: AppTextStyles.font(
                 context,
                 fontSize: 18,
-                fontWeight: FontWeight.w600,
+                fontWeight: FontWeight.w800,
                 color: selected ? AppColors.primary : AppColors.textPrimary,
               ),
             ),

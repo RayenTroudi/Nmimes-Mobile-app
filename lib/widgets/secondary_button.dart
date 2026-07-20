@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 import '../theme/text_styles.dart';
+import 'chunky_button.dart';
 
 class SecondaryButton extends StatelessWidget {
   final String label;
@@ -10,26 +11,19 @@ class SecondaryButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return ChunkyButton(
+      onTap: onTap,
+      color: AppColors.white,
+      edgeColor: AppColors.border,
+      borderColor: AppColors.border,
       width: double.infinity,
-      height: 52,
-      child: OutlinedButton(
-        onPressed: onTap,
-        style: OutlinedButton.styleFrom(
-          foregroundColor: AppColors.primary,
-          side: const BorderSide(color: AppColors.primary, width: 1.5),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(50),
-          ),
-        ),
-        child: Text(
-          label,
-          style: AppTextStyles.font(context,
-            fontSize: 15,
-            fontWeight: FontWeight.w600,
-            color: AppColors.primary,
-          ),
-        ),
+      child: Text(
+        label.toUpperCase(),
+        style: AppTextStyles.font(context,
+          fontSize: 15,
+          fontWeight: FontWeight.w800,
+          color: AppColors.primary,
+        ).copyWith(letterSpacing: 0.8),
       ),
     );
   }

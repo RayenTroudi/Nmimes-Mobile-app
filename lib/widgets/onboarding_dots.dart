@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../theme/colors.dart';
+import 'app_progress_bar.dart';
 
+/// Onboarding progress, restyled as a thin Duolingo-style bar.
 class OnboardingDots extends StatelessWidget {
   final int count;
   final int current;
@@ -9,21 +10,11 @@ class OnboardingDots extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(count, (i) {
-        final active = i == current;
-        return AnimatedContainer(
-          duration: const Duration(milliseconds: 250),
-          margin: const EdgeInsets.symmetric(horizontal: 4),
-          width: active ? 40 : 16,
-          height: 16,
-          decoration: BoxDecoration(
-            color: active ? AppColors.dotActive : AppColors.dotInactive,
-            borderRadius: BorderRadius.circular(8),
-          ),
-        );
-      }),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 48),
+      child: AppProgressBar(
+        value: count == 0 ? 0 : (current + 1) / count,
+      ),
     );
   }
 }

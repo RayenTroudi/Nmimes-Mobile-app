@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/spacing.dart';
 import '../theme/text_styles.dart';
+import 'chunky_button.dart';
 
 class HomeActionButton extends StatelessWidget {
   final String title;
   final String subtitle;
   final IconData iconData;
   final VoidCallback onTap;
+  final Color color;
 
   const HomeActionButton({
     super.key,
@@ -14,20 +17,22 @@ class HomeActionButton extends StatelessWidget {
     required this.subtitle,
     required this.iconData,
     required this.onTap,
+    this.color = AppColors.primary,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapScale(
       onTap: onTap,
+      haptics: true,
       child: Container(
         width: 335,
         height: 100,
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.cardBorder),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          border: Border.all(color: AppColors.border, width: AppSizes.cardBorder),
         ),
         child: Row(
           children: [
@@ -37,20 +42,23 @@ class HomeActionButton extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,
-                      style: AppTextStyles.font(context, fontSize: 16, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+                      style: AppTextStyles.font(context,
+                          fontSize: 16, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
                   const SizedBox(height: 4),
-                  Text(subtitle, style: AppTextStyles.font(context, fontSize: 12, color: AppColors.textSecondary)),
+                  Text(subtitle,
+                      style: AppTextStyles.font(context,
+                          fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
                 ],
               ),
             ),
             Container(
-              width: 48,
-              height: 48,
+              width: 52,
+              height: 52,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(12),
+                color: color.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(AppRadius.sm),
               ),
-              child: Icon(iconData, color: AppColors.primary, size: 28),
+              child: Icon(iconData, color: color, size: 28),
             ),
           ],
         ),

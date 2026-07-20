@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/spacing.dart';
 import '../theme/text_styles.dart';
+import 'chunky_button.dart';
 
 class ChallengeCard extends StatelessWidget {
   final String subject;
@@ -18,14 +20,14 @@ class ChallengeCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapScale(
       onTap: onTap,
       child: Container(
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.cardBorder),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          border: Border.all(color: AppColors.border, width: AppSizes.cardBorder),
         ),
         child: Row(
           children: [
@@ -35,7 +37,7 @@ class ChallengeCard extends StatelessWidget {
                 children: [
                   Text(subject,
                       style: AppTextStyles.font(context,
-                          fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
+                          fontSize: 15, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
                   const SizedBox(height: 4),
                   Row(
                     children: [
@@ -47,7 +49,7 @@ class ChallengeCard extends StatelessWidget {
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: AppColors.textHint),
+            const Icon(Icons.chevron_right_rounded, color: AppColors.textHint),
           ],
         ),
       ),
@@ -59,13 +61,13 @@ class ChallengeCard extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppRadius.sm),
       ),
       child: Text(
         label,
         style: AppTextStyles.font(context,
           fontSize: 11,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w800,
           color: color,
         ),
       ),

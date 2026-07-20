@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/spacing.dart';
 import '../theme/text_styles.dart';
 
 class AppTextField extends StatelessWidget {
@@ -22,21 +23,25 @@ class AppTextField extends StatelessWidget {
       child: TextField(
         controller: controller,
         obscureText: obscure,
-        style: AppTextStyles.font(context, fontSize: 14, color: AppColors.textPrimary),
+        style: AppTextStyles.font(context,
+            fontSize: 15, fontWeight: FontWeight.w700, color: AppColors.textPrimary),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: AppTextStyles.font(context, fontSize: 14, color: AppColors.textHint),
+          hintStyle: AppTextStyles.font(context,
+              fontSize: 15, fontWeight: FontWeight.w600, color: AppColors.textHint),
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.inputBorder),
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            borderSide: const BorderSide(
+                color: AppColors.border, width: AppSizes.cardBorder),
           ),
           focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-            borderSide: const BorderSide(color: AppColors.primary, width: 2),
+            borderRadius: BorderRadius.circular(AppRadius.md),
+            borderSide: const BorderSide(
+                color: AppColors.primary, width: AppSizes.cardBorder),
           ),
           filled: true,
-          fillColor: AppColors.background,
+          fillColor: AppColors.white,
         ),
       ),
     );

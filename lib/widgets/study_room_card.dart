@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import '../theme/colors.dart';
+import '../theme/spacing.dart';
 import '../theme/text_styles.dart';
+import 'chunky_button.dart';
 
 class StudyRoomCard extends StatelessWidget {
   final String title;
@@ -18,7 +20,7 @@ class StudyRoomCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return TapScale(
       onTap: onTap,
       child: Container(
         width: 335,
@@ -26,19 +28,19 @@ class StudyRoomCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.cardBorder),
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          border: Border.all(color: AppColors.border, width: AppSizes.cardBorder),
         ),
         child: Row(
           children: [
             Container(
-              width: 28,
-              height: 28,
+              width: 36,
+              height: 36,
               decoration: BoxDecoration(
-                color: AppColors.primary.withValues(alpha: 0.12),
-                borderRadius: BorderRadius.circular(8),
+                color: AppColors.green.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(AppRadius.sm),
               ),
-              child: Icon(iconData, color: AppColors.primary, size: 18),
+              child: Icon(iconData, color: AppColors.green, size: 20),
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -47,12 +49,15 @@ class StudyRoomCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(title,
-                      style: AppTextStyles.font(context, fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.textPrimary)),
-                  Text(subtitle, style: AppTextStyles.font(context, fontSize: 12, color: AppColors.textSecondary)),
+                      style: AppTextStyles.font(context,
+                          fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
+                  Text(subtitle,
+                      style: AppTextStyles.font(context,
+                          fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
                 ],
               ),
             ),
-            const Icon(Icons.chevron_right, color: AppColors.textHint),
+            const Icon(Icons.chevron_right_rounded, color: AppColors.textHint),
           ],
         ),
       ),

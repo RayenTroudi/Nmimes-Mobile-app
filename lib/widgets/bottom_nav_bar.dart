@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../l10n/l10n_extension.dart';
 import '../theme/colors.dart';
+import '../theme/spacing.dart';
 import '../theme/text_styles.dart';
 
 class BottomNavBar extends StatelessWidget {
@@ -20,6 +22,14 @@ class BottomNavBar extends StatelessWidget {
     Icons.person_rounded,
   ];
 
+  // Section colors, Duolingo-style: each tab lights up in its own color.
+  static const _colors = [
+    AppColors.primary,
+    AppColors.blue,
+    AppColors.green,
+    AppColors.pink,
+  ];
+
   @override
   Widget build(BuildContext context) {
     final labels = [
@@ -31,42 +41,45 @@ class BottomNavBar extends StatelessWidget {
 
     return Container(
       height: 83,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppColors.navBarBg,
-        border: const Border(
-          top: BorderSide(color: AppColors.cardBorder, width: 0.5),
+        border: Border(
+          top: BorderSide(color: AppColors.border, width: 2),
         ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.06),
-            blurRadius: 12,
-            offset: const Offset(0, -2),
-          ),
-        ],
       ),
       child: Row(
         children: List.generate(4, (i) {
           final active = i == currentIndex;
+          final color = _colors[i];
           return Expanded(
             child: GestureDetector(
-              onTap: () => onTap(i),
+              onTap: () {
+                HapticFeedback.selectionClick();
+                onTap(i);
+              },
               behavior: HitTestBehavior.opaque,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
-                    width: 44,
-                    height: 44,
+                    curve: Curves.easeOut,
+                    width: 52,
+                    height: 42,
                     decoration: BoxDecoration(
-                      color: active ? AppColors.primary : Colors.transparent,
-                      shape: BoxShape.circle,
+                      color: active
+                          ? color.withValues(alpha: 0.15)
+                          : Colors.transparent,
+                      borderRadius: BorderRadius.circular(AppRadius.sm),
+                      border: active
+                          ? Border.all(color: color, width: 2)
+                          : Border.all(color: Colors.transparent, width: 2),
                     ),
                     child: Center(
                       child: Icon(
                         _icons[i],
-                        size: 22,
-                        color: active ? Colors.white : AppColors.navInactive,
+                        size: 26,
+                        color: active ? color : AppColors.navInactive,
                       ),
                     ),
                   ),
@@ -75,8 +88,8 @@ class BottomNavBar extends StatelessWidget {
                     labels[i],
                     style: AppTextStyles.font(context,
                       fontSize: 10,
-                      color: active ? AppColors.navActive : AppColors.navInactive,
-                      fontWeight: FontWeight.w600,
+                      color: active ? color : AppColors.navInactive,
+                      fontWeight: FontWeight.w800,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
