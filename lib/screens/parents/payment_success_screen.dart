@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../widgets/chunky_button.dart';
 
 class PaymentSuccessScreen extends StatefulWidget {
   const PaymentSuccessScreen({super.key});
@@ -109,37 +110,27 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
                   // Continue button
                   Padding(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
-                    child: SizedBox(
+                    child: ChunkyButton(
+                      onTap: () => Navigator.pushNamedAndRemoveUntil(
+                          context, '/parents-view', (_) => false),
+                      color: AppColors.primary,
                       width: double.infinity,
-                      height: 70,
-                      child: ElevatedButton(
-                        onPressed: () => Navigator.pushNamedAndRemoveUntil(
-                            context, '/parents-view', (_) => false),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: AppColors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                            side: const BorderSide(
-                                color: AppColors.white, width: 2),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              l10n.paymentSuccess_button_continue,
-                              style: AppTextStyles.font(context,
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.white,
-                              ),
+                      height: 60,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            l10n.paymentSuccess_button_continue,
+                            style: AppTextStyles.font(context,
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.white,
                             ),
-                            const SizedBox(width: 10),
-                            const Icon(Icons.arrow_forward_rounded, size: 20),
-                          ],
-                        ),
+                          ),
+                          const SizedBox(width: 10),
+                          const Icon(Icons.arrow_forward_rounded,
+                              size: 20, color: AppColors.white),
+                        ],
                       ),
                     ),
                   ),

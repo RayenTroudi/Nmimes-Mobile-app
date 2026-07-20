@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/bounce_in.dart';
+import '../../widgets/primary_button.dart';
 
 class ChildSignInSuccessScreen extends StatefulWidget {
   const ChildSignInSuccessScreen({super.key});
@@ -53,11 +55,13 @@ class _ChildSignInSuccessScreenState extends State<ChildSignInSuccessScreen>
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/images/yippyee.png',
-                    width: 200,
-                    height: 200,
-                    fit: BoxFit.contain,
+                  BounceIn(
+                    child: Image.asset(
+                      'assets/images/yippyee.png',
+                      width: 200,
+                      height: 200,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                   const SizedBox(height: 32),
                   Text(
@@ -81,28 +85,10 @@ class _ChildSignInSuccessScreenState extends State<ChildSignInSuccessScreen>
                   const SizedBox(height: 48),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: SizedBox(
-                      width: double.infinity,
-                      height: 58,
-                      child: ElevatedButton(
-                        onPressed: () =>
-                            Navigator.pushReplacementNamed(context, '/home'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: AppColors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                        child: Text(
-                          context.l10n.childSuccess_button_continue,
-                          style: AppTextStyles.font(context,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
+                    child: PrimaryButton(
+                      label: context.l10n.childSuccess_button_continue,
+                      onTap: () =>
+                          Navigator.pushReplacementNamed(context, '/home'),
                     ),
                   ),
                 ],

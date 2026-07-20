@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/bounce_in.dart';
+import '../../widgets/primary_button.dart';
 
 class AccountCreatedScreen extends StatefulWidget {
   const AccountCreatedScreen({super.key});
@@ -59,11 +61,13 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
                 child: Column(
                   children: [
                     const SizedBox(height: 60),
-                    Image.asset(
-                      'assets/images/yippyee.png',
-                      width: 220,
-                      height: 220,
-                      fit: BoxFit.contain,
+                    BounceIn(
+                      child: Image.asset(
+                        'assets/images/yippyee.png',
+                        width: 220,
+                        height: 220,
+                        fit: BoxFit.contain,
+                      ),
                     ),
                     const Spacer(),
                     Text(
@@ -86,30 +90,12 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
                       ),
                     ),
                     const Spacer(),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          _autoNav?.cancel();
-                          _navigate();
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: AppColors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                        child: Text(
-                          l10n.accountCreated_button,
-                          style: AppTextStyles.font(context,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
+                    PrimaryButton(
+                      label: l10n.accountCreated_button,
+                      onTap: () {
+                        _autoNav?.cancel();
+                        _navigate();
+                      },
                     ),
                     const SizedBox(height: 32),
                   ],
@@ -170,7 +156,7 @@ class _ParentSignInSuccessScreenState
                 child: Column(
                   children: [
                     const SizedBox(height: 60),
-                    const _CoolFox(size: 200),
+                    const BounceIn(child: _CoolFox(size: 200)),
                     const Spacer(),
                     Text(
                       l10n.accountCreated_signInTitle,
@@ -192,28 +178,10 @@ class _ParentSignInSuccessScreenState
                       ),
                     ),
                     const Spacer(),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 56,
-                      child: ElevatedButton(
-                        onPressed: () =>
-                            Navigator.pushReplacementNamed(context, '/parents-view'),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: AppColors.white,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                        child: Text(
-                          l10n.accountCreated_signInButton,
-                          style: AppTextStyles.font(context,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
+                    PrimaryButton(
+                      label: l10n.accountCreated_signInButton,
+                      onTap: () => Navigator.pushReplacementNamed(
+                          context, '/parents-view'),
                     ),
                     const SizedBox(height: 32),
                   ],

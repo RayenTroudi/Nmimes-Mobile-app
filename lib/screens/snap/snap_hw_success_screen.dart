@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/bounce_in.dart';
+import '../../widgets/chunky_button.dart';
 
 class SnapHwSuccessScreen extends StatefulWidget {
   const SnapHwSuccessScreen({super.key});
@@ -84,32 +86,37 @@ class _SnapHwSuccessScreenState extends State<SnapHwSuccessScreen> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Image.asset(
-                        'assets/images/fox_sunglasses.png',
-                        width: 200,
-                        height: 200,
-                        fit: BoxFit.contain,
-                        errorBuilder: (ctx, err, _) => const Icon(
-                            Icons.pets_rounded,
-                            color: AppColors.primary,
-                            size: 140),
+                      BounceIn(
+                        child: Image.asset(
+                          'assets/images/fox_sunglasses.png',
+                          width: 200,
+                          height: 200,
+                          fit: BoxFit.contain,
+                          errorBuilder: (ctx, err, _) => const Icon(
+                              Icons.pets_rounded,
+                              color: AppColors.primary,
+                              size: 140),
+                        ),
                       ),
                       const SizedBox(height: 24),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          const Text('🎉',
-                              style: TextStyle(fontSize: 22)),
-                          const SizedBox(width: 6),
-                          Text(
-                            l.snap_hw_success_greatJob,
-                            style: AppTextStyles.font(context,
-                              fontSize: 28,
-                              fontWeight: FontWeight.w800,
-                              color: AppColors.primary,
+                      BounceIn(
+                        delay: const Duration(milliseconds: 200),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Text('🎉',
+                                style: TextStyle(fontSize: 22)),
+                            const SizedBox(width: 6),
+                            Text(
+                              l.snap_hw_success_greatJob,
+                              style: AppTextStyles.font(context,
+                                fontSize: 28,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.primary,
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                       const SizedBox(height: 10),
                       Text(
@@ -120,29 +127,33 @@ class _SnapHwSuccessScreenState extends State<SnapHwSuccessScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30),
-                          border: Border.all(color: AppColors.cardBorder),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Text('🏆',
-                                style: TextStyle(fontSize: 16)),
-                            const SizedBox(width: 8),
-                            Text(
-                              l.snap_hw_success_earned100,
-                              style: AppTextStyles.font(context,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.textPrimary,
+                      BounceIn(
+                        delay: const Duration(milliseconds: 400),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(30),
+                            border:
+                                Border.all(color: AppColors.border, width: 2),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const Text('🏆',
+                                  style: TextStyle(fontSize: 16)),
+                              const SizedBox(width: 8),
+                              Text(
+                                l.snap_hw_success_earned100,
+                                style: AppTextStyles.font(context,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.textPrimary,
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -219,32 +230,16 @@ class _OrangeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ChunkyButton(
       onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        height: 56,
-        decoration: BoxDecoration(
-          color: AppColors.primary,
-          borderRadius: BorderRadius.circular(30),
-          border: const Border.fromBorderSide(
-              BorderSide(color: Colors.white, width: 2.5)),
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.primary.withValues(alpha: 0.35),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Center(
-          child: Text(label,
-              style: AppTextStyles.font(context,
-                  fontSize: 16,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.white)),
-        ),
-      ),
+      color: AppColors.primary,
+      width: double.infinity,
+      height: 52,
+      child: Text(label,
+          style: AppTextStyles.font(context,
+              fontSize: 16,
+              fontWeight: FontWeight.w800,
+              color: Colors.white)),
     );
   }
 }
@@ -256,22 +251,17 @@ class _OutlineButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ChunkyButton(
       onTap: onTap,
-      child: Container(
-        height: 56,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(30),
-          border: Border.all(color: AppColors.primary, width: 2),
-        ),
-        child: Center(
-          child: Text(label,
-              style: AppTextStyles.font(context,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary)),
-        ),
-      ),
+      color: Colors.white,
+      edgeColor: AppColors.border,
+      borderColor: AppColors.border,
+      height: 52,
+      child: Text(label,
+          style: AppTextStyles.font(context,
+              fontSize: 15,
+              fontWeight: FontWeight.w800,
+              color: AppColors.primary)),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/bounce_in.dart';
 
 class ClaimRewardScreen extends StatelessWidget {
   const ClaimRewardScreen({super.key});
@@ -53,15 +54,17 @@ class ClaimRewardScreen extends StatelessWidget {
                   children: [
                     // Fox image
                     Center(
-                      child: Image.asset(
-                        'assets/images/fox_sunglasses.png',
-                        width: 140,
-                        height: 140,
-                        fit: BoxFit.contain,
-                        errorBuilder: (_, _, _) => const Icon(
-                          Icons.pets_rounded,
-                          color: AppColors.primary,
-                          size: 100,
+                      child: BounceIn(
+                        child: Image.asset(
+                          'assets/images/fox_sunglasses.png',
+                          width: 140,
+                          height: 140,
+                          fit: BoxFit.contain,
+                          errorBuilder: (_, _, _) => const Icon(
+                            Icons.pets_rounded,
+                            color: AppColors.primary,
+                            size: 100,
+                          ),
                         ),
                       ),
                     ),
