@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../widgets/app_progress_bar.dart';
 
 class _Question {
   final String question;
@@ -136,116 +139,95 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
     final progress = (_index) / _questions.length;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF7E8),
+      backgroundColor: AppColors.background,
       body: Column(
         children: [
-          // Orange header
-          Container(
-            color: const Color(0xFFF79C09),
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-                child: Column(
-                  children: [
-                    Row(
-                      children: [
-                        // Close button
-                        GestureDetector(
-                          onTap: () => showDialog(
-                            context: context,
-                            barrierColor: Colors.black.withValues(alpha: 0.3),
-                            builder: (_) => const _LeaveDialog(),
-                          ),
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(Icons.close,
-                                color: Colors.white, size: 16),
-                          ),
+          // Duolingo-style lesson top bar: X + thick progress + hearts + score
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+              child: Column(
+                children: [
+                  Row(
+                    children: [
+                      // Close button
+                      GestureDetector(
+                        onTap: () => showDialog(
+                          context: context,
+                          barrierColor: Colors.black.withValues(alpha: 0.3),
+                          builder: (_) => const _LeaveDialog(),
                         ),
-                        // Lives
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(
-                              3,
-                              (i) => Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 3),
-                                child: Icon(
-                                  i < _lives
-                                      ? Icons.favorite
-                                      : Icons.favorite_border,
-                                  color: Colors.white,
-                                  size: 22,
-                                ),
-                              ),
+                        child: const Icon(Icons.close_rounded,
+                            color: AppColors.textHint, size: 28),
+                      ),
+                      const SizedBox(width: 12),
+                      // Progress bar fills the row
+                      Expanded(
+                        child: AppProgressBar(value: progress),
+                      ),
+                      const SizedBox(width: 12),
+                      // Lives
+                      Row(
+                        children: List.generate(
+                          3,
+                          (i) => Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 1.5),
+                            child: Icon(
+                              i < _lives
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: AppColors.red,
+                              size: 20,
                             ),
                           ),
                         ),
-                        // Score
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(
-                                color:
-                                    Colors.white.withValues(alpha: 0.4)),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.star,
-                                  color: Color(0xFFFFDF20), size: 16),
-                              const SizedBox(width: 4),
-                              Text(
-                                '$_score',
-                                style: AppTextStyles.font(context,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
+                      ),
+                      const SizedBox(width: 8),
+                      // Score
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius:
+                              BorderRadius.circular(AppRadius.pill),
+                          border: Border.all(
+                              color: AppColors.border,
+                              width: AppSizes.cardBorder),
                         ),
-                      ],
-                    ),
-                    const SizedBox(height: 12),
-
-                    // Progress bar
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        backgroundColor:
-                            Colors.white.withValues(alpha: 0.2),
-                        valueColor: const AlwaysStoppedAnimation<Color>(
-                            Colors.white),
-                        minHeight: 8,
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.star_rounded,
+                                color: AppColors.gold, size: 16),
+                            const SizedBox(width: 4),
+                            Text(
+                              '$_score',
+                              style: AppTextStyles.font(context,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 8),
+                    ],
+                  ),
+                  const SizedBox(height: 6),
 
-                    // Question counter
-                    Text(
-                      context.l10n.algebra_question_of(_index + 1, _questions.length),
-                      style: AppTextStyles.font(context,
-                        fontSize: 12,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.white,
-                      ),
+                  // Question counter
+                  Text(
+                    context.l10n.algebra_question_of(_index + 1, _questions.length),
+                    style: AppTextStyles.font(context,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textSecondary,
                     ),
-                    const SizedBox(height: 12),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
@@ -259,9 +241,9 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                 padding: const EdgeInsets.all(28),
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
+                  borderRadius: BorderRadius.circular(AppRadius.lg),
                   border: Border.all(
-                      color: const Color(0xFFFFD6A7), width: 1.5),
+                      color: AppColors.border, width: AppSizes.cardBorder),
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -305,9 +287,9 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                       final isWrongSelected =
                           isSelected && _showFeedback && !_isCorrect;
 
-                      Color bgColor = const Color(0xFFF6F6F6);
-                      Color borderColor = const Color(0xFFA8A8A8);
-                      Color textColor = const Color(0xFF2E2E2E);
+                      Color bgColor = AppColors.white;
+                      Color borderColor = AppColors.border;
+                      Color textColor = AppColors.textPrimary;
                       Widget? trailing;
 
                       if (_showFeedback) {
@@ -352,9 +334,19 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                                 horizontal: 16, vertical: 16),
                             decoration: BoxDecoration(
                               color: bgColor,
-                              borderRadius: BorderRadius.circular(14),
-                              border:
-                                  Border.all(color: borderColor, width: 1.5),
+                              borderRadius:
+                                  BorderRadius.circular(AppRadius.md),
+                              border: Border.all(
+                                  color: borderColor,
+                                  width: AppSizes.cardBorder),
+                              boxShadow: _showFeedback
+                                  ? null
+                                  : [
+                                      BoxShadow(
+                                        color: borderColor,
+                                        offset: const Offset(0, 2),
+                                      ),
+                                    ],
                             ),
                             child: Row(
                               children: [
@@ -391,16 +383,10 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                     padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
                     decoration: BoxDecoration(
                       color: _isCorrect
-                          ? const Color(0xFFD1FAE5)
-                          : const Color(0xFFFFEDD4),
-                      border: Border(
-                        top: BorderSide(
-                          color: _isCorrect
-                              ? const Color(0xFF35A468)
-                              : const Color(0xFFE2562C),
-                          width: 1.5,
-                        ),
-                      ),
+                          ? AppColors.successBg
+                          : AppColors.errorBg,
+                      borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(AppRadius.lg)),
                     ),
                     child: Row(
                       children: [
@@ -435,8 +421,10 @@ class _AlgebraChallengeScreenState extends State<AlgebraChallengeScreen> {
                                     : context.l10n.algebra_feedback_wrong,
                                 style: AppTextStyles.font(context,
                                   fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: const Color(0xFF101828),
+                                  fontWeight: FontWeight.w800,
+                                  color: _isCorrect
+                                      ? AppColors.greenDark
+                                      : AppColors.redDark,
                                 ),
                               ),
                               Text(

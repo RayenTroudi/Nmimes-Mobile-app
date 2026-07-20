@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../widgets/chunky_button.dart';
 
 // Tile types
 enum _Tile { wall, path, checkpoint, goal }
@@ -182,90 +184,81 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF7E8),
+      backgroundColor: AppColors.background,
       body: Column(
         children: [
-          // Orange header
-          Container(
-            color: const Color(0xFFF79C09),
-            child: SafeArea(
-              bottom: false,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
-                child: Row(
-                  children: [
-                    // Close button
-                    GestureDetector(
-                      onTap: () => showDialog(
-                        context: context,
-                        barrierColor: Colors.black.withValues(alpha: 0.3),
-                        builder: (_) => const _LeaveDialog(),
-                      ),
-                      child: Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color: Colors.black.withValues(alpha: 0.2),
-                          shape: BoxShape.circle,
+          // Duolingo-style lesson top bar: X + hearts + score
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+              child: Row(
+                children: [
+                  // Close button
+                  GestureDetector(
+                    onTap: () => showDialog(
+                      context: context,
+                      barrierColor: Colors.black.withValues(alpha: 0.3),
+                      builder: (_) => const _LeaveDialog(),
+                    ),
+                    child: const Icon(Icons.close_rounded,
+                        color: AppColors.textHint, size: 28),
+                  ),
+                  // Lives
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(3, (i) => Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 3),
+                        child: Icon(
+                          i < _lives ? Icons.favorite : Icons.favorite_border,
+                          color: AppColors.red,
+                          size: 22,
                         ),
-                        child: const Icon(Icons.close, color: Colors.white, size: 16),
-                      ),
+                      )),
                     ),
-                    // Lives
-                    Expanded(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(3, (i) => Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 3),
-                          child: Icon(
-                            i < _lives ? Icons.favorite : Icons.favorite_border,
-                            color: Colors.white,
-                            size: 22,
+                  ),
+                  // Score
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: AppColors.white,
+                      borderRadius: BorderRadius.circular(AppRadius.pill),
+                      border: Border.all(
+                          color: AppColors.border, width: AppSizes.cardBorder),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(Icons.star_rounded,
+                            color: AppColors.gold, size: 16),
+                        const SizedBox(width: 4),
+                        Text(
+                          '$_score',
+                          style: AppTextStyles.font(context,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.textPrimary,
                           ),
-                        )),
-                      ),
+                        ),
+                      ],
                     ),
-                    // Score
-                    Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                      decoration: BoxDecoration(
-                        color: Colors.black.withValues(alpha: 0.2),
-                        borderRadius: BorderRadius.circular(100),
-                        border: Border.all(color: Colors.white.withValues(alpha: 0.4)),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.star, color: Color(0xFFFFDF20), size: 16),
-                          const SizedBox(width: 4),
-                          Text(
-                            '$_score',
-                            style: AppTextStyles.font(context,
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
           ),
 
           // Subtitle banner
           Container(
-            color: const Color(0xFFF79C09),
             width: double.infinity,
-            padding: const EdgeInsets.fromLTRB(20, 0, 20, 12),
+            padding: const EdgeInsets.fromLTRB(20, 6, 20, 0),
             child: Text(
               context.l10n.maze_navigate_treasure,
               style: AppTextStyles.font(context,
                 fontSize: 14,
                 fontWeight: FontWeight.w700,
-                color: Colors.white.withValues(alpha: 0.9),
+                color: AppColors.textSecondary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -283,10 +276,9 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
+                      borderRadius: BorderRadius.circular(AppRadius.lg),
                       border: Border.all(
-                          color: const Color(0xFFE97D9C).withValues(alpha: 0.5),
-                          width: 1.5),
+                          color: AppColors.border, width: AppSizes.cardBorder),
                     ),
                     child: Row(
                       children: [
@@ -338,8 +330,9 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                     padding: const EdgeInsets.all(20),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: const Color(0xFFFFD6A7), width: 1.5),
+                      borderRadius: BorderRadius.circular(AppRadius.lg),
+                      border: Border.all(
+                          color: AppColors.border, width: AppSizes.cardBorder),
                     ),
                     child: Column(
                       children: [
@@ -368,8 +361,9 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
                       color: Colors.white,
-                      borderRadius: BorderRadius.circular(16),
-                      border: Border.all(color: const Color(0xFFE9D4FF), width: 1.5),
+                      borderRadius: BorderRadius.circular(AppRadius.md),
+                      border: Border.all(
+                          color: AppColors.border, width: AppSizes.cardBorder),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -510,29 +504,26 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
 
                     // Options
                     ...List.generate(q.options.length, (i) {
-                      Color bg = const Color(0xFFF6F6F6);
-                      Color border = const Color(0xFFA8A8A8);
-                      Color textColor = const Color(0xFF2E2E2E);
+                      Color bg = AppColors.white;
+                      Color border = AppColors.border;
+                      Color textColor = AppColors.textPrimary;
                       Widget? trailing;
 
                       if (_answerLocked) {
                         if (i == q.correct) {
-                          bg = const Color(0xFFDCFCE7);
-                          border = const Color(0xFF00A63E);
-                          textColor = Colors.white;
-                          trailing = const Text('✓',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w700));
+                          bg = AppColors.successBg;
+                          border = AppColors.green;
+                          textColor = AppColors.greenDark;
+                          trailing = const Icon(Icons.check_rounded,
+                              color: AppColors.greenDark, size: 22);
                         } else if (i == _selectedOption && i != q.correct) {
-                          bg = const Color(0xFFFFE4E4);
-                          border = Colors.red;
-                          textColor = Colors.red;
+                          bg = AppColors.errorBg;
+                          border = AppColors.red;
+                          textColor = AppColors.redDark;
                         }
                       } else if (_selectedOption == i) {
-                        bg = const Color(0xFFFFF0CC);
-                        border = const Color(0xFFF79C09);
+                        bg = AppColors.primary.withValues(alpha: 0.12);
+                        border = AppColors.primary;
                       }
 
                       return GestureDetector(
@@ -544,8 +535,17 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: 20),
                           decoration: BoxDecoration(
                             color: bg,
-                            borderRadius: BorderRadius.circular(14),
-                            border: Border.all(color: border, width: 1.5),
+                            borderRadius: BorderRadius.circular(AppRadius.md),
+                            border: Border.all(
+                                color: border, width: AppSizes.cardBorder),
+                            boxShadow: _answerLocked
+                                ? null
+                                : [
+                                    BoxShadow(
+                                      color: border,
+                                      offset: const Offset(0, 2),
+                                    ),
+                                  ],
                           ),
                           child: Row(
                             children: [
@@ -576,15 +576,9 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                   decoration: BoxDecoration(
                     color: _feedbackCorrect
-                        ? const Color(0xFFD1FAE5)
-                        : const Color(0xFFFFE4E4),
-                    borderRadius: BorderRadius.circular(14),
-                    border: Border.all(
-                      color: _feedbackCorrect
-                          ? const Color(0xFF7BF1A8)
-                          : Colors.red.withValues(alpha: 0.5),
-                      width: 1.5,
-                    ),
+                        ? AppColors.successBg
+                        : AppColors.errorBg,
+                    borderRadius: BorderRadius.circular(AppRadius.md),
                   ),
                   child: Row(
                     children: [
@@ -614,8 +608,10 @@ class _MazeChallengeScreenState extends State<MazeChallengeScreen> {
                                   : context.l10n.maze_feedback_wrong,
                               style: AppTextStyles.font(context,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w600,
-                                color: const Color(0xFF101828),
+                                fontWeight: FontWeight.w800,
+                                color: _feedbackCorrect
+                                    ? AppColors.greenDark
+                                    : AppColors.redDark,
                               ),
                             ),
                             Text(
@@ -824,25 +820,13 @@ class _ArrowBtn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return ChunkyButton(
       onTap: onTap,
-      child: Container(
-        width: 64,
-        height: 64,
-        decoration: BoxDecoration(
-          color: const Color(0xFF0588C4),
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Colors.white, width: 2),
-          boxShadow: [
-            BoxShadow(
-              color: const Color(0xFF0588C4).withValues(alpha: 0.35),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        child: Icon(icon, color: Colors.white, size: 28),
-      ),
+      color: AppColors.blue,
+      height: 60,
+      width: 64,
+      borderRadius: BorderRadius.circular(AppRadius.md),
+      child: Icon(icon, color: Colors.white, size: 28),
     );
   }
 }
@@ -921,48 +905,38 @@ class _LeaveDialog extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false, arguments: 2),
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        context.l10n.challenge_leave_yes,
-                        style: AppTextStyles.font(context,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
+                  child: ChunkyButton(
+                    onTap: () => Navigator.pushNamedAndRemoveUntil(
+                        context, '/home', (r) => false, arguments: 2),
+                    color: AppColors.primary,
+                    height: 50,
+                    child: Text(
+                      context.l10n.challenge_leave_yes,
+                      style: AppTextStyles.font(context,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: GestureDetector(
+                  child: ChunkyButton(
                     onTap: () => Navigator.pop(context),
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                            color: AppColors.primary, width: 1.5),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        context.l10n.challenge_leave_no,
-                        style: AppTextStyles.font(context,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.primary,
-                        ),
+                    color: Colors.white,
+                    edgeColor: AppColors.border,
+                    borderColor: AppColors.border,
+                    height: 50,
+                    child: Text(
+                      context.l10n.challenge_leave_no,
+                      style: AppTextStyles.font(context,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
                       ),
                     ),
                   ),

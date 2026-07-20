@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../widgets/app_progress_bar.dart';
+import '../../widgets/chunky_button.dart';
 
 // Puzzle data: equation shown as prefix + blank + suffix, answer, wrong choices
 class _Puzzle {
@@ -100,104 +103,87 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
     final progress = (_index + 1) / _puzzles.length;
 
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF7E8),
+      backgroundColor: AppColors.background,
       body: Column(
         children: [
-          // Orange header
-          Container(
-            color: const Color(0xFFF79C09),
-            child: SafeArea(
-              bottom: false,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
-                    child: Row(
-                      children: [
-                        // Close button
-                        GestureDetector(
-                          onTap: () => showDialog(
-                            context: context,
-                            barrierColor: Colors.black.withValues(alpha: 0.3),
-                            builder: (_) => const _LeaveChallengeDialog(),
-                          ),
-                          child: Container(
-                            width: 32,
-                            height: 32,
-                            decoration: BoxDecoration(
-                              color: Colors.black.withValues(alpha: 0.2),
-                              shape: BoxShape.circle,
-                            ),
-                            child: const Icon(Icons.close, color: Colors.white, size: 16),
-                          ),
+          // Duolingo-style lesson top bar: X + thick progress + hearts + score
+          SafeArea(
+            bottom: false,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(16, 12, 16, 0),
+                  child: Row(
+                    children: [
+                      // Close button
+                      GestureDetector(
+                        onTap: () => showDialog(
+                          context: context,
+                          barrierColor: Colors.black.withValues(alpha: 0.3),
+                          builder: (_) => const _LeaveChallengeDialog(),
                         ),
-                        // Lives (hearts)
-                        Expanded(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: List.generate(3, (i) => Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 3),
-                              child: Icon(
-                                i < _lives ? Icons.favorite : Icons.favorite_border,
-                                color: Colors.white,
-                                size: 22,
-                              ),
-                            )),
-                          ),
-                        ),
-                        // Score pill
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: Colors.black.withValues(alpha: 0.2),
-                            borderRadius: BorderRadius.circular(100),
-                            border: Border.all(color: Colors.white.withValues(alpha: 0.4)),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const Icon(Icons.star, color: Color(0xFFFFD475), size: 16),
-                              const SizedBox(width: 4),
-                              Text(
-                                '$_score',
-                                style: AppTextStyles.font(context,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  // Progress bar
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: LinearProgressIndicator(
-                        value: progress,
-                        minHeight: 10,
-                        backgroundColor: Colors.white.withValues(alpha: 0.3),
-                        valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
+                        child: const Icon(Icons.close_rounded,
+                            color: AppColors.textHint, size: 28),
                       ),
-                    ),
+                      const SizedBox(width: 12),
+                      // Progress bar fills the row
+                      Expanded(
+                        child: AppProgressBar(value: progress),
+                      ),
+                      const SizedBox(width: 12),
+                      // Lives (hearts)
+                      Row(
+                        children: List.generate(3, (i) => Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 1.5),
+                          child: Icon(
+                            i < _lives ? Icons.favorite : Icons.favorite_border,
+                            color: AppColors.red,
+                            size: 20,
+                          ),
+                        )),
+                      ),
+                      const SizedBox(width: 8),
+                      // Score pill
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: AppColors.white,
+                          borderRadius: BorderRadius.circular(AppRadius.pill),
+                          border: Border.all(
+                              color: AppColors.border,
+                              width: AppSizes.cardBorder),
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.star_rounded,
+                                color: AppColors.gold, size: 16),
+                            const SizedBox(width: 4),
+                            Text(
+                              '$_score',
+                              style: AppTextStyles.font(context,
+                                fontSize: 14,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.textPrimary,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 8),
-                  Text(
-                    context.l10n.challenge_puzzle_of(_index + 1, _puzzles.length),
-                    style: AppTextStyles.font(context,
-                      fontSize: 12,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                    ),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  context.l10n.challenge_puzzle_of(_index + 1, _puzzles.length),
+                  style: AppTextStyles.font(context,
+                    fontSize: 12,
+                    color: AppColors.textSecondary,
+                    fontWeight: FontWeight.w700,
                   ),
-                  const SizedBox(height: 12),
-                ],
-              ),
+                ),
+                const SizedBox(height: 6),
+              ],
             ),
           ),
 
@@ -216,8 +202,10 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                       padding: const EdgeInsets.fromLTRB(20, 24, 20, 24),
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(color: const Color(0xFFFFD6A7), width: 1.5),
+                        borderRadius: BorderRadius.circular(AppRadius.lg),
+                        border: Border.all(
+                            color: AppColors.border,
+                            width: AppSizes.cardBorder),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -382,24 +370,18 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                   duration: const Duration(milliseconds: 300),
                   curve: Curves.easeInOut,
                   child: _showFeedback
-                      ? Padding(
-                          padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 16, vertical: 12),
-                            decoration: BoxDecoration(
-                              color: _isCorrect
-                                  ? const Color(0xFFD1FAE5)
-                                  : const Color(0xFFFFE4E4),
-                              borderRadius: BorderRadius.circular(16),
-                              border: Border.all(
-                                color: _isCorrect
-                                    ? const Color(0xFF35A468)
-                                    : Colors.red.withValues(alpha: 0.6),
-                                width: 1.5,
-                              ),
-                            ),
-                            child: Row(
+                      ? Container(
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(top: 10),
+                          padding: const EdgeInsets.fromLTRB(20, 14, 20, 14),
+                          decoration: BoxDecoration(
+                            color: _isCorrect
+                                ? AppColors.successBg
+                                : AppColors.errorBg,
+                            borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(AppRadius.lg)),
+                          ),
+                          child: Row(
                               children: [
                                 SizedBox(
                                   width: 55,
@@ -427,8 +409,10 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                             : context.l10n.challenge_feedback_wrong,
                                         style: AppTextStyles.font(context,
                                           fontSize: 16,
-                                          fontWeight: FontWeight.w600,
-                                          color: const Color(0xFF2E2E2E),
+                                          fontWeight: FontWeight.w800,
+                                          color: _isCorrect
+                                              ? AppColors.greenDark
+                                              : AppColors.redDark,
                                         ),
                                       ),
                                       Text(
@@ -445,7 +429,6 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                 ),
                               ],
                             ),
-                          ),
                         )
                       : const SizedBox.shrink(),
                 ),
@@ -522,14 +505,12 @@ class _TileContent extends StatelessWidget {
         width: 80,
         height: 80,
         decoration: BoxDecoration(
-          color: const Color(0xFFF79C09),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: Colors.white, width: 2),
-          boxShadow: [
+          color: AppColors.primary,
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          boxShadow: const [
             BoxShadow(
-              color: const Color(0xFFF79C09).withValues(alpha: 0.4),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
+              color: AppColors.primaryDark,
+              offset: Offset(0, AppSizes.buttonEdge),
             ),
           ],
         ),
@@ -591,47 +572,38 @@ class _LeaveChallengeDialog extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: GestureDetector(
-                    onTap: () => Navigator.pushNamedAndRemoveUntil(context, '/home', (r) => false, arguments: 2),
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                        color: AppColors.primary,
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        context.l10n.challenge_leave_yes,
-                        style: AppTextStyles.font(context,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
+                  child: ChunkyButton(
+                    onTap: () => Navigator.pushNamedAndRemoveUntil(
+                        context, '/home', (r) => false, arguments: 2),
+                    color: AppColors.primary,
+                    height: 50,
+                    child: Text(
+                      context.l10n.challenge_leave_yes,
+                      style: AppTextStyles.font(context,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: Colors.white,
                       ),
                     ),
                   ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
-                  child: GestureDetector(
+                  child: ChunkyButton(
                     onTap: () => Navigator.pop(context),
-                    child: Container(
-                      height: 54,
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(color: AppColors.primary, width: 1.5),
-                      ),
-                      alignment: Alignment.center,
-                      child: Text(
-                        context.l10n.challenge_leave_no,
-                        style: AppTextStyles.font(context,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.primary,
-                        ),
+                    color: Colors.white,
+                    edgeColor: AppColors.border,
+                    borderColor: AppColors.border,
+                    height: 50,
+                    child: Text(
+                      context.l10n.challenge_leave_no,
+                      style: AppTextStyles.font(context,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
                       ),
                     ),
                   ),

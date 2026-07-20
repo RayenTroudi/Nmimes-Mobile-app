@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../widgets/chunky_button.dart';
 
 class MazeStartScreen extends StatelessWidget {
   const MazeStartScreen({super.key});
@@ -9,7 +11,7 @@ class MazeStartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF7E8),
+      backgroundColor: AppColors.background,
       body: SafeArea(
         child: Column(
           children: [
@@ -60,8 +62,9 @@ class MazeStartScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: const Color(0xFFFFD6A7), width: 1.5),
+                    borderRadius: BorderRadius.circular(AppRadius.lg),
+                    border: Border.all(
+                        color: AppColors.border, width: AppSizes.cardBorder),
                   ),
                   child: Column(
                     children: [
@@ -70,8 +73,14 @@ class MazeStartScreen extends StatelessWidget {
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
                         decoration: BoxDecoration(
-                          color: const Color(0xFFF79C09),
-                          borderRadius: BorderRadius.circular(14),
+                          color: AppColors.primary,
+                          borderRadius: BorderRadius.circular(AppRadius.md),
+                          boxShadow: const [
+                            BoxShadow(
+                              color: AppColors.primaryDark,
+                              offset: Offset(0, AppSizes.buttonEdge),
+                            ),
+                          ],
                         ),
                         child: Column(
                           children: [
@@ -178,27 +187,18 @@ class MazeStartScreen extends StatelessWidget {
                       const Spacer(),
 
                       // Start button
-                      SizedBox(
+                      ChunkyButton(
+                        onTap: () =>
+                            Navigator.pushNamed(context, '/maze-challenge'),
+                        color: AppColors.primary,
                         width: double.infinity,
-                        height: 70,
-                        child: ElevatedButton(
-                          onPressed: () =>
-                              Navigator.pushNamed(context, '/maze-challenge'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                              side: const BorderSide(color: Colors.white, width: 1),
-                            ),
-                          ),
-                          child: Text(
-                            context.l10n.maze_start_adventure,
-                            style: AppTextStyles.font(context,
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                            ),
+                        height: 60,
+                        child: Text(
+                          context.l10n.maze_start_adventure,
+                          style: AppTextStyles.font(context,
+                            fontSize: 18,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
                           ),
                         ),
                       ),

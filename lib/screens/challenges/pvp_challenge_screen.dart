@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../widgets/chunky_button.dart';
 import 'join_challenge_screen.dart';
 
 class PVPChallengeScreen extends StatelessWidget {
@@ -42,34 +43,29 @@ class PVPChallengeScreen extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(
-                    child: GestureDetector(
+                    child: ChunkyButton(
                       onTap: () {
                         Navigator.pop(context);
                         Navigator.pushNamed(context, '/start-challenge');
                       },
-                      child: Container(
-                        height: 54,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          context.l10n.challenge_start,
-                          style: AppTextStyles.font(context,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: Colors.white,
-                          ),
+                      color: AppColors.primary,
+                      height: 50,
+                      child: Text(
+                        context.l10n.challenge_start,
+                        style: AppTextStyles.font(context,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
                   const SizedBox(width: 12),
                   Expanded(
-                    child: GestureDetector(
+                    child: ChunkyButton(
                       onTap: () {
                         Navigator.pop(context);
                         showDialog(
@@ -78,21 +74,16 @@ class PVPChallengeScreen extends StatelessWidget {
                           builder: (_) => const JoinChallengeScreen(),
                         );
                       },
-                      child: Container(
-                        height: 54,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(12),
-                          border: Border.all(color: AppColors.primary, width: 1.5),
-                        ),
-                        alignment: Alignment.center,
-                        child: Text(
-                          context.l10n.challenge_join,
-                          style: AppTextStyles.font(context,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.primary,
-                          ),
+                      color: Colors.white,
+                      edgeColor: AppColors.border,
+                      borderColor: AppColors.border,
+                      height: 50,
+                      child: Text(
+                        context.l10n.challenge_join,
+                        style: AppTextStyles.font(context,
+                          fontSize: 15,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primary,
                         ),
                       ),
                     ),
