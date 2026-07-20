@@ -14,6 +14,10 @@ class ParentProfileSetupScreen extends StatefulWidget {
 }
 
 class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
+  /// The child's access code doubles as their login credential, so it is
+  /// 6 digits rather than a 4-digit PIN.
+  static const _codeLength = 6;
+
   final _nameCtrl = TextEditingController();
   final _usernameCtrl = TextEditingController();
   final _pinCtrl = TextEditingController();
@@ -40,7 +44,8 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
       _usernameCtrl.text.trim().isNotEmpty &&
       _selectedGrade != null &&
       _selectedInterest != null &&
-      _pinCtrl.text.length == 4;
+      RegExp(r'^[a-z0-9_]{3,20}$').hasMatch(_usernameCtrl.text.trim().toLowerCase()) &&
+      _pinCtrl.text.length == _codeLength;
 
   Future<void> _onSubmit() async {
     setState(() {
@@ -50,7 +55,7 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
     try {
       await _apiClient.createStudent(
         name: _nameCtrl.text.trim(),
-        username: _usernameCtrl.text.trim(),
+        username: _usernameCtrl.text.trim().toLowerCase(),
         grade: _selectedGrade,
         interest: _selectedInterest,
         accessCode: _pinCtrl.text,
@@ -145,10 +150,14 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
     } on ApiException catch (e) {
       setState(() {
         _errorMessage = switch (e.code) {
-          'invalid_access_code_format' || 'invalid_name' =>
-            'Please check the child\'s details and try again.',
-          'duplicate_access_code' =>
-            'Another child already uses this access code. Pick a different one.',
+          'username_taken' =>
+            'That username is already taken. Please choose another.',
+          'invalid_username_format' =>
+            'Usernames must be 3-20 characters: letters, numbers or underscores.',
+          'invalid_access_code_format' =>
+            'The access code must be 6 digits.',
+          'invalid_name' => 'Please check the child\'s details and try again.',
+          'not_authenticated' => 'Your session expired. Please sign in again.',
           _ => 'Something went wrong. Please try again.',
         };
       });
@@ -285,7 +294,7 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                       child: TextField(
                         controller: _pinCtrl,
                         focusNode: _pinFocus,
-                        maxLength: 4,
+                        maxLength: _codeLength,
                         keyboardType: TextInputType.number,
                         decoration: const InputDecoration(
                           counterText: '',
@@ -297,18 +306,19 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                   ),
                 ),
 
-                // PIN circles
+                // Code circles
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(4, (i) {
+                  children: List.generate(_codeLength, (i) {
                     final filled = i < pin.length;
                     final isActive = i == pin.length;
                     return GestureDetector(
                       onTap: () => _pinFocus.requestFocus(),
                       child: Container(
-                        margin: const EdgeInsetsDirectional.only(end: 14),
-                        width: 60,
-                        height: 60,
+                        margin: EdgeInsetsDirectional.only(
+                            end: i < _codeLength - 1 ? 8 : 0),
+                        width: 46,
+                        height: 46,
                         decoration: BoxDecoration(
                           color: AppColors.white,
                           shape: BoxShape.circle,

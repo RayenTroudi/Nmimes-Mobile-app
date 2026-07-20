@@ -28,7 +28,9 @@ class ApiClient {
   static const _knownCodes = {
     'not_authenticated',
     'invalid_name',
+    'invalid_username_format',
     'invalid_access_code_format',
+    'username_taken',
     'duplicate_access_code',
     'access_code_not_found',
   };
@@ -68,22 +70,39 @@ class ApiClient {
     }
   }
 
+  /// Creating a child mints a real auth user, which requires the service-role
+  /// key — so it runs in the `create-student` edge function, never in-app.
   Future<Student> createStudent({
     required String name,
+    required String username,
     String? grade,
     String? interest,
-    String? username,
     required String accessCode,
   }) async {
     try {
-      final data = await _client.rpc('create_student', params: {
-        'p_name': name,
-        'p_access_code': accessCode,
-        'p_username': username,
-        'p_grade': grade,
-        'p_interest': interest,
+      final res = await _client.functions.invoke('create-student', body: {
+        'name': name,
+        'username': username,
+        'access_code': accessCode,
+        'grade': grade,
+        'interest': interest,
       });
-      return Student.fromJson(Map<String, dynamic>.from(data as Map));
+      final data = Map<String, dynamic>.from(res.data as Map);
+      if (res.status >= 400) {
+        throw ApiException(
+          _knownCodes.contains(data['code']) ? data['code'] as String : 'unknown',
+          data['detail']?.toString() ?? '',
+        );
+      }
+      return Student.fromJson(data);
+    } on ApiException {
+      rethrow;
+    } on FunctionException catch (e) {
+      final details = e.details;
+      final code = details is Map && _knownCodes.contains(details['code'])
+          ? details['code'] as String
+          : 'unknown';
+      throw ApiException(code, e.reasonPhrase ?? '');
     } catch (e) {
       _rethrow(e);
     }

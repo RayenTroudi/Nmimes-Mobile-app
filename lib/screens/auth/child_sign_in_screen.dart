@@ -30,9 +30,11 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
   }
 
   void _continue() {
-    if (_ctrl.text.trim().isNotEmpty) {
-      Navigator.pushNamed(context, '/child-access-code');
-    }
+    final username = _ctrl.text.trim().toLowerCase();
+    if (username.isEmpty) return;
+    // The username identifies the student account; the next screen collects
+    // the 6-digit code that completes the sign-in.
+    Navigator.pushNamed(context, '/child-access-code', arguments: username);
   }
 
   @override
@@ -113,6 +115,9 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
                                   child: TextField(
                                     controller: _ctrl,
                                     focusNode: _focus,
+                                    autocorrect: false,
+                                    enableSuggestions: false,
+                                    textCapitalization: TextCapitalization.none,
                                     style: AppTextStyles.font(context,
                                         fontSize: 14,
                                         color: AppColors.textPrimary),

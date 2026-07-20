@@ -17,6 +17,44 @@ class SupabaseService {
     return digest.toString().substring(0, 32);
   }
 
+  /// Students log in with a globally-unique username plus a 6-digit access
+  /// code, independently of any parent session. Their auth identity uses a
+  /// synthetic mailbox derived from the username; the code never travels as
+  /// the raw password.
+  static const studentEmailDomain = 'students.nmimes.app';
+
+  static String studentEmailFor(String username) =>
+      '${username.trim().toLowerCase()}@$studentEmailDomain';
+
+  /// Must mirror `derivePassword` in the create-student edge function.
+  static String deriveStudentPassword({
+    required String username,
+    required String accessCode,
+  }) {
+    final digest = sha256
+        .convert(utf8.encode('${username.trim().toLowerCase()}:$accessCode'));
+    return digest.toString().substring(0, 32);
+  }
+
+  Future<void> signInStudent({
+    required String username,
+    required String accessCode,
+  }) async {
+    await _client.auth.signInWithPassword(
+      email: studentEmailFor(username),
+      password: deriveStudentPassword(
+        username: username,
+        accessCode: accessCode,
+      ),
+    );
+  }
+
+  /// 'student' for child accounts, 'parent' otherwise.
+  String? get currentRole =>
+      _client.auth.currentUser?.userMetadata?['role'] as String?;
+
+  bool get isStudentSession => currentRole == 'student';
+
   Future<void> signUp({required String email, required String pin}) async {
     await _client.auth.signUp(
       email: email,

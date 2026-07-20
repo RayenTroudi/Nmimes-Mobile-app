@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/l10n_extension.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 import '../../providers/auth_state.dart';
-import '../../services/api_client.dart';
+import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../widgets/inline_error_text.dart';
@@ -15,11 +16,19 @@ class ChildAccessCodeScreen extends StatefulWidget {
 }
 
 class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
+  static const codeLength = 6;
+
   final _ctrl = TextEditingController();
   final _focus = FocusNode();
-  final _apiClient = ApiClient();
+  final _supabaseService = SupabaseService();
   bool _isLoading = false;
   String? _errorMessage;
+
+  /// Username passed from the previous screen; identifies the student account.
+  String get _username {
+    final args = ModalRoute.of(context)?.settings.arguments;
+    return args is String ? args : '';
+  }
 
   @override
   void initState() {
@@ -39,34 +48,38 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
   String get _pin => _ctrl.text;
 
   Future<void> _submit() async {
-    if (_pin.length != 4 || _isLoading) return;
+    if (_pin.length != codeLength || _isLoading) return;
+    final username = _username;
     setState(() {
       _isLoading = true;
       _errorMessage = null;
     });
     final authState = context.read<AuthState>();
-    // A child's code selects a profile under the parent's session, so a
-    // parent must be signed in on this device first.
-    if (!authState.isAuthenticated) {
-      setState(() {
-        _isLoading = false;
-        _errorMessage =
-            'Ask a parent to sign in on this device first, then enter your code.';
-      });
-      return;
-    }
     try {
-      final student = await _apiClient.verifyAccessCode(_pin);
-      await authState.setSelectedStudentId(student.id);
+      // A full, independent student sign-in — no parent session required.
+      await _supabaseService.signInStudent(
+        username: username,
+        accessCode: _pin,
+      );
+      await authState.setSelectedStudentId(
+        Supabase.instance.client.auth.currentUser?.id,
+      );
       if (!mounted) return;
       Navigator.pushNamed(context, '/child-success');
-    } on ApiException catch (e) {
+    } on AuthException catch (e) {
+      final msg = e.message.toLowerCase();
       setState(() {
-        _errorMessage = e.code == 'access_code_not_found'
-            ? 'That code doesn\'t match any child on this account.'
-            : e.code == 'not_authenticated'
-                ? 'Please sign in as a parent on this device first.'
-                : 'Something went wrong. Please try again.';
+        _errorMessage = msg.contains('invalid login')
+            ? 'That username and code don\'t match. Please check and try again.'
+            : msg.contains('failed host lookup') || msg.contains('socket')
+                ? 'No internet connection. Please check your network.'
+                : e.message;
+        _ctrl.clear();
+      });
+    } catch (_) {
+      setState(() {
+        _errorMessage = 'Something went wrong. Please try again.';
+        _ctrl.clear();
       });
     } finally {
       if (mounted) setState(() => _isLoading = false);
@@ -144,7 +157,7 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                               child: TextField(
                                 controller: _ctrl,
                                 focusNode: _focus,
-                                maxLength: 4,
+                                maxLength: codeLength,
                                 keyboardType: TextInputType.number,
                                 decoration: const InputDecoration(
                                   counterText: '',
@@ -152,25 +165,26 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                                 ),
                                 onChanged: (v) {
                   setState(() {});
-                  if (v.length == 4) _submit();
+                  if (v.length == codeLength) _submit();
                 },
                               ),
                             ),
                           ),
                         ),
 
-                        // 4 PIN circles
+                        // 6 code circles (sized to fit six across)
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(4, (i) {
+                          children: List.generate(codeLength, (i) {
                             final filled = i < _pin.length;
                             final isActive = i == _pin.length;
                             return GestureDetector(
                               onTap: () => _focus.requestFocus(),
                               child: Container(
-                                margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
-                                width: 60,
-                                height: 60,
+                                margin: EdgeInsetsDirectional.only(
+                                    end: i < codeLength - 1 ? 8 : 0),
+                                width: 46,
+                                height: 46,
                                 decoration: BoxDecoration(
                                   color: AppColors.white,
                                   shape: BoxShape.circle,
@@ -184,8 +198,8 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                                 child: Center(
                                   child: filled
                                       ? Container(
-                                          width: 18,
-                                          height: 18,
+                                          width: 14,
+                                          height: 14,
                                           decoration: const BoxDecoration(
                                             color: AppColors.textPrimary,
                                             shape: BoxShape.circle,

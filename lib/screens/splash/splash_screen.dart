@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../providers/auth_state.dart';
+import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 
@@ -69,12 +70,16 @@ class _SplashScreenState extends State<SplashScreen>
     await Future.delayed(const Duration(milliseconds: 1700));
     if (!mounted) return;
     final authState = context.read<AuthState>();
-    if (authState.isAuthenticated && authState.selectedStudentId != null) {
-      Navigator.pushReplacementNamed(context, '/home');
-    } else if (authState.isAuthenticated) {
-      Navigator.pushReplacementNamed(context, '/child-access-code');
-    } else {
+    if (!authState.isAuthenticated) {
       Navigator.pushReplacementNamed(context, '/onboarding');
+    } else if (SupabaseService().isStudentSession) {
+      // Students own their session outright and go straight to the app.
+      Navigator.pushReplacementNamed(context, '/home');
+    } else if (authState.selectedStudentId != null) {
+      Navigator.pushReplacementNamed(context, '/home');
+    } else {
+      // Signed-in parent: land on the parent dashboard.
+      Navigator.pushReplacementNamed(context, '/parents-view');
     }
   }
 
