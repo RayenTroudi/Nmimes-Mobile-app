@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/bounce_in.dart';
+import '../../widgets/chunky_button.dart';
+import '../../widgets/primary_button.dart';
 
 class ChooseRoleScreen extends StatefulWidget {
   const ChooseRoleScreen({super.key});
@@ -98,30 +102,29 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
                       const Spacer(),
 
                       // Continue button
-                      SizedBox(
-                        width: double.infinity,
-                        height: 58,
-                        child: ElevatedButton(
-                          onPressed: _selected != null ? _continue : null,
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            disabledBackgroundColor: AppColors.primary.withValues(alpha: 0.4),
-                            foregroundColor: AppColors.white,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50),
+                      _selected != null
+                          ? PrimaryButton(
+                              label:
+                                  context.l10n.chooseRole_button_continue,
+                              onTap: _continue,
+                            )
+                          : ChunkyButton(
+                              onTap: null,
+                              color:
+                                  AppColors.primary.withValues(alpha: 0.4),
+                              edgeColor:
+                                  AppColors.primary.withValues(alpha: 0.2),
+                              width: double.infinity,
+                              child: Text(
+                                context.l10n.chooseRole_button_continue
+                                    .toUpperCase(),
+                                style: AppTextStyles.font(context,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.white,
+                                ),
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            context.l10n.chooseRole_button_continue,
-                            style: AppTextStyles.font(context,
-                              fontSize: 16,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.white,
-                            ),
-                          ),
-                        ),
-                      ),
                     ],
                   ),
                 ),
@@ -135,11 +138,13 @@ class _ChooseRoleScreenState extends State<ChooseRoleScreen> {
             left: 0,
             right: 0,
             child: Center(
-              child: Image.asset(
-                'assets/images/char_auth.png',
-                width: 160,
-                height: 160,
-                fit: BoxFit.contain,
+              child: BounceIn(
+                child: Image.asset(
+                  'assets/images/char_auth.png',
+                  width: 160,
+                  height: 160,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
           ),
@@ -173,8 +178,9 @@ class _RoleCard extends StatelessWidget {
       fit: BoxFit.contain,
     );
 
-    return GestureDetector(
+    return TapScale(
       onTap: onTap,
+      haptics: true,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         height: 150,
@@ -182,10 +188,10 @@ class _RoleCard extends StatelessWidget {
           color: selected
               ? AppColors.primary.withValues(alpha: 0.08)
               : AppColors.white,
-          borderRadius: BorderRadius.circular(20),
+          borderRadius: BorderRadius.circular(AppRadius.lg),
           border: Border.all(
-            color: selected ? AppColors.primary : AppColors.cardBorder,
-            width: selected ? 2 : 1,
+            color: selected ? AppColors.primary : AppColors.border,
+            width: AppSizes.cardBorder,
           ),
         ),
         child: Column(

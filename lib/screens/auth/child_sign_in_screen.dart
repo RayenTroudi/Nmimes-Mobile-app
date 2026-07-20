@@ -150,7 +150,7 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
                                 foregroundColor: AppColors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(50),
+                                  borderRadius: BorderRadius.circular(16),
                                 ),
                               ),
                               child: Text(

@@ -91,9 +91,9 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                     Navigator.pushReplacementNamed(context, '/profile-setup-done');
                   },
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: AppColors.primary),
+                    side: const BorderSide(color: AppColors.primary, width: 2),
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
+                        borderRadius: BorderRadius.circular(16)),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   child: Text(
@@ -125,7 +125,7 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                     foregroundColor: AppColors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50)),
+                        borderRadius: BorderRadius.circular(16)),
                     padding: const EdgeInsets.symmetric(vertical: 14),
                   ),
                   child: Text(
@@ -347,10 +347,8 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                       foregroundColor: AppColors.white,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(50),
-                        side: const BorderSide(
-                            color: AppColors.white, width: 2),
-                      ),
+                        borderRadius: BorderRadius.circular(16),
+                              ),
                     ),
                     child: _isLoading
                         ? const SizedBox(

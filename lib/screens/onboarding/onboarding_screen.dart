@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/onboarding_dots.dart';
+import '../../widgets/primary_button.dart';
+import '../../widgets/secondary_button.dart';
 
 List<_OnboardingData> _buildPages(BuildContext context) => [
   _OnboardingData(
@@ -195,70 +198,22 @@ class _OnboardingPage extends StatelessWidget {
 
                   const Spacer(),
 
-                  // Dots indicator
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: List.generate(total, (i) {
-                      final active = i == current;
-                      return AnimatedContainer(
-                        duration: const Duration(milliseconds: 250),
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        width: active ? 36 : 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          color: active ? AppColors.primary : AppColors.dotInactive,
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                      );
-                    }),
-                  ),
+                  // Progress bar indicator (thin Duolingo-style)
+                  OnboardingDots(count: total, current: current),
                   const SizedBox(height: 20),
 
-                  SizedBox(
-                    width: double.infinity,
-                    height: 58,
-                    child: ElevatedButton(
-                      onPressed: onNext,
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.primary,
-                        foregroundColor: AppColors.white,
-                        elevation: 0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                      ),
-                      child: Text(
-                        isLast ? context.l10n.onboarding_button_start : context.l10n.onboarding_button_next,
-                        style: AppTextStyles.font(context,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
+                  PrimaryButton(
+                    label: isLast
+                        ? context.l10n.onboarding_button_start
+                        : context.l10n.onboarding_button_next,
+                    onTap: onNext,
                   ),
 
                   if (current > 0) ...[
                     const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      height: 52,
-                      child: OutlinedButton(
-                        onPressed: onBack,
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: AppColors.primary,
-                          side: const BorderSide(color: AppColors.primary, width: 1.5),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(50),
-                          ),
-                        ),
-                        child: Text(
-                          context.l10n.onboarding_button_back,
-                          style: AppTextStyles.font(context,
-                            fontSize: 15,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                      ),
+                    SecondaryButton(
+                      label: context.l10n.onboarding_button_back,
+                      onTap: onBack,
                     ),
                   ],
                   const SizedBox(height: 8),

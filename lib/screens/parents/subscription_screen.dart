@@ -128,9 +128,8 @@ class _SubscriptionScreenState extends State<SubscriptionScreen> {
                     foregroundColor: AppColors.white,
                     elevation: 0,
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(50),
-                      side: const BorderSide(color: AppColors.white, width: 2),
-                    ),
+                      borderRadius: BorderRadius.circular(16),
+                              ),
                   ),
                   child: Text(
                     _tab == 0

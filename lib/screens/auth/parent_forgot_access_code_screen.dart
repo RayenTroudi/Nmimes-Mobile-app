@@ -280,9 +280,7 @@ class _ParentForgotAccessCodeScreenState
                               foregroundColor: AppColors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50),
-                                side: const BorderSide(
-                                    color: AppColors.white, width: 2),
+                                borderRadius: BorderRadius.circular(16),
                               ),
                             ),
                             child: _isLoading
