@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="splash_background">#FFF7E8</color>
+    <!-- Native launch: brand orange so the system splash blends into the
+         Flutter splash for one continuous brand moment -->
+    <color name="splash_background">#E8720C</color>
+    <!-- Window background once Flutter is running -->
+    <color name="app_background">#FAF3E8</color>
 </resources>
