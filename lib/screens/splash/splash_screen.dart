@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../providers/auth_state.dart';
@@ -7,9 +8,10 @@ import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 
-/// Orange brand launch screen: the logo sits in a white badge that
-/// blinks (soft pulse + glow) over the full brand-orange background,
-/// matching the native splash color for a seamless launch.
+/// Brand launch screen on the logo's orange background: the logo's two eyes
+/// live in a white badge and blink — an F7C381 eyelid sweeps down to close
+/// them and back up — over the full brand-orange field, with the wordmark
+/// "Nmimes" set in a heavy white serif to match the brand art.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -32,10 +34,10 @@ class _SplashScreenState extends State<SplashScreen>
     duration: const Duration(milliseconds: 300),
   );
 
-  // Continuous blink loop on the logo badge.
-  late final AnimationController _pulseCtrl = AnimationController(
+  // Continuous blink loop on the eyes (open -> close -> open, then hold open).
+  late final AnimationController _blinkCtrl = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 700),
+    duration: const Duration(milliseconds: 2200),
   );
 
   // Loading dots bounce loop.
@@ -49,6 +51,21 @@ class _SplashScreenState extends State<SplashScreen>
     curve: Curves.elasticOut,
   );
 
+  // 0 = eyes fully open, 1 = eyes fully closed. A short close/open pulse
+  // near the start of each loop, open the rest of the time.
+  late final Animation<double> _lid = TweenSequence<double>([
+    TweenSequenceItem(tween: ConstantTween(0.0), weight: 40), // hold open
+    TweenSequenceItem(
+        tween: Tween(begin: 0.0, end: 1.0)
+            .chain(CurveTween(curve: Curves.easeIn)),
+        weight: 8), // close
+    TweenSequenceItem(
+        tween: Tween(begin: 1.0, end: 0.0)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 8), // open
+    TweenSequenceItem(tween: ConstantTween(0.0), weight: 44), // hold open
+  ]).animate(_blinkCtrl);
+
   @override
   void initState() {
     super.initState();
@@ -60,7 +77,7 @@ class _SplashScreenState extends State<SplashScreen>
     await _introCtrl.forward();
     if (!mounted) return;
 
-    _pulseCtrl.repeat(reverse: true);
+    _blinkCtrl.repeat();
     _nameCtrl.forward();
 
     await Future.delayed(const Duration(milliseconds: 250));
@@ -88,70 +105,40 @@ class _SplashScreenState extends State<SplashScreen>
     _introCtrl.dispose();
     _nameCtrl.dispose();
     _taglineCtrl.dispose();
-    _pulseCtrl.dispose();
+    _blinkCtrl.dispose();
     _dotsCtrl.dispose();
     super.dispose();
   }
 
   Widget _blinkingBadge() {
     return AnimatedBuilder(
-      animation: Listenable.merge([_introCtrl, _pulseCtrl]),
+      animation: Listenable.merge([_introCtrl, _blinkCtrl]),
       builder: (context, child) {
-        final pulse = Curves.easeInOut.transform(_pulseCtrl.value);
-        final scale = _badgeScaleIn.value * (1.0 + 0.05 * pulse);
-        final glow = (1 - pulse) * _introCtrl.value;
-        return SizedBox(
-          width: 260,
-          height: 260,
-          child: Stack(
-            alignment: Alignment.center,
-            children: [
-              // White glow rings breathing behind the badge.
-              Container(
-                width: 224 + 20 * pulse,
-                height: 224 + 20 * pulse,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.08 * glow),
-                ),
-              ),
-              Container(
-                width: 188 + 14 * pulse,
-                height: 188 + 14 * pulse,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.white.withValues(alpha: 0.14 * glow),
-                ),
-              ),
-              // White badge with the chunky 3D edge, blinking.
-              Transform.scale(
-                scale: scale,
-                child: Opacity(
-                  opacity: (0.8 + 0.2 * (1 - pulse)).clamp(0.0, 1.0),
-                  child: child,
-                ),
-              ),
-            ],
-          ),
+        return Transform.scale(
+          scale: _badgeScaleIn.value,
+          child: child,
         );
       },
       child: Container(
         width: 160,
         height: 160,
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(28),
         decoration: const BoxDecoration(
           color: Colors.white,
           shape: BoxShape.circle,
           boxShadow: [
             BoxShadow(
-              color: AppColors.primaryDark,
+              color: AppColors.logoOrangeDark,
               offset: Offset(0, 5),
             ),
           ],
         ),
-        child: Image.asset(
-          'assets/images/nmimes_logo.png',
-          fit: BoxFit.contain,
+        child: AnimatedBuilder(
+          animation: _lid,
+          builder: (context, _) => CustomPaint(
+            painter: EyesPainter(lid: _lid.value),
+            size: Size.infinite,
+          ),
         ),
       ),
     );
@@ -194,16 +181,16 @@ class _SplashScreenState extends State<SplashScreen>
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.light.copyWith(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: AppColors.primary,
+        systemNavigationBarColor: AppColors.logoOrange,
       ),
       child: Scaffold(
-        backgroundColor: AppColors.primary,
+        backgroundColor: AppColors.logoOrange,
         body: SafeArea(
           child: Column(
             children: [
               const Spacer(flex: 3),
               _blinkingBadge(),
-              const SizedBox(height: 12),
+              const SizedBox(height: 20),
               ScaleTransition(
                 scale: CurvedAnimation(
                   parent: _nameCtrl,
@@ -213,10 +200,12 @@ class _SplashScreenState extends State<SplashScreen>
                   opacity: _nameCtrl,
                   child: Text(
                     'Nmimes',
-                    style: AppTextStyles.font(context,
-                        fontSize: 36,
-                        fontWeight: FontWeight.w800,
-                        color: Colors.white),
+                    style: GoogleFonts.robotoSlab(
+                      fontSize: 40,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                      letterSpacing: 0.5,
+                    ),
                   ),
                 ),
               ),
@@ -240,4 +229,67 @@ class _SplashScreenState extends State<SplashScreen>
       ),
     );
   }
+}
+
+/// Draws the logo's two eyes — a cream blob with two dark pupils — and an
+/// F7C381 eyelid that closes from the top as [lid] goes 0 (open) -> 1 (closed).
+class EyesPainter extends CustomPainter {
+  EyesPainter({required this.lid});
+
+  /// 0.0 = eyes fully open, 1.0 = eyes fully closed.
+  final double lid;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final w = size.width;
+    final h = size.height;
+
+    // Two overlapping circles form the cream eye-blob, matching the logo.
+    final r = w * 0.30; // eye radius
+    final gap = w * 0.34; // distance between eye centers
+    final cy = h * 0.5;
+    final leftC = Offset(w * 0.5 - gap / 2, cy);
+    final rightC = Offset(w * 0.5 + gap / 2, cy);
+
+    final cream = Paint()..color = AppColors.eyeCream;
+    final pupil = Paint()..color = AppColors.eyePupil;
+
+    // Cream backdrop (two joined circles).
+    canvas.drawCircle(leftC, r, cream);
+    canvas.drawCircle(rightC, r, cream);
+
+    // Pupils sit inside each eye.
+    final pr = r * 0.58;
+    // Clip each pupil to its own eye circle so the closing lid can hide it
+    // within the eye, and draw the lid over the pupil area.
+    for (final c in [leftC, rightC]) {
+      canvas.save();
+      canvas.clipPath(Path()..addOval(Rect.fromCircle(center: c, radius: r)));
+      canvas.drawCircle(c, pr, pupil);
+
+      if (lid > 0) {
+        // Eyelid sweeps down from the top of the eye. At lid=1 it covers
+        // the whole eye; a soft curved lower edge reads as a closing lid.
+        final top = c.dy - r;
+        final coverH = 2 * r * lid;
+        final lidRect = Rect.fromLTRB(c.dx - r, top, c.dx + r, top + coverH);
+        final lidPath = Path()
+          ..moveTo(lidRect.left, lidRect.top)
+          ..lineTo(lidRect.right, lidRect.top)
+          ..lineTo(lidRect.right, lidRect.bottom)
+          ..quadraticBezierTo(
+            c.dx,
+            lidRect.bottom + r * 0.28 * lid,
+            lidRect.left,
+            lidRect.bottom,
+          )
+          ..close();
+        canvas.drawPath(lidPath, Paint()..color = AppColors.eyelid);
+      }
+      canvas.restore();
+    }
+  }
+
+  @override
+  bool shouldRepaint(EyesPainter old) => old.lid != lid;
 }
