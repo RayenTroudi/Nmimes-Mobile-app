@@ -124,25 +124,25 @@ class _OnboardingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final h = MediaQuery.of(context).size.height;
-
     return Container(
       color: AppColors.background,
       child: Column(
         children: [
-          // Illustration area — full image from Figma
-          SizedBox(
-            height: h * 0.46,
-            child: Center(
-              child: Image.asset(
-                data.image,
-                fit: BoxFit.contain,
+          // Illustration area — flexes so short screens can give the card
+          // the room it needs instead of overflowing.
+          Flexible(
+            flex: 46,
+            child: Padding(
+              padding: const EdgeInsets.all(12),
+              child: Center(
+                child: Image.asset(data.image, fit: BoxFit.contain),
               ),
             ),
           ),
 
           // White rounded card
-          Expanded(
+          Flexible(
+            flex: 54,
             child: Container(
               width: double.infinity,
               decoration: const BoxDecoration(
@@ -153,71 +153,86 @@ class _OnboardingPage extends StatelessWidget {
                 ),
               ),
               padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 28),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    data.title,
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.font(context,
-                      fontSize: 26,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.textPrimary,
-                      height: 1.2,
+              // Scrolls only when the card is too short for its content
+              // (small screens, large system font). IntrinsicHeight bounds
+              // the column so the Spacer stays legal inside the scroll view
+              // and still distributes slack on tall screens.
+              child: LayoutBuilder(
+                builder: (context, constraints) => SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minHeight: constraints.maxHeight,
                     ),
-                  ),
-                  const SizedBox(height: 14),
-
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    child: Text(
-                      data.badge,
-                      style: AppTextStyles.font(context,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.white,
+                    child: IntrinsicHeight(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            data.title,
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.font(
+                              context,
+                              fontSize: 26,
+                              fontWeight: FontWeight.w800,
+                              color: AppColors.textPrimary,
+                              height: 1.2,
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 18,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: AppColors.primary,
+                              borderRadius: BorderRadius.circular(50),
+                            ),
+                            child: Text(
+                              data.badge,
+                              style: AppTextStyles.font(
+                                context,
+                                fontSize: 13,
+                                fontWeight: FontWeight.w600,
+                                color: AppColors.white,
+                              ),
+                            ),
+                          ),
+                          const SizedBox(height: 14),
+                          Text(
+                            data.body,
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.font(
+                              context,
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: AppColors.textSecondary,
+                              height: 1.5,
+                            ),
+                          ),
+                          const Spacer(),
+                          // Progress bar indicator (thin Duolingo-style)
+                          OnboardingDots(count: total, current: current),
+                          const SizedBox(height: 20),
+                          PrimaryButton(
+                            label: isLast
+                                ? context.l10n.onboarding_button_start
+                                : context.l10n.onboarding_button_next,
+                            onTap: onNext,
+                          ),
+                          if (current > 0) ...[
+                            const SizedBox(height: 12),
+                            SecondaryButton(
+                              label: context.l10n.onboarding_button_back,
+                              onTap: onBack,
+                            ),
+                          ],
+                          const SizedBox(height: 8),
+                        ],
                       ),
                     ),
                   ),
-                  const SizedBox(height: 14),
-
-                  Text(
-                    data.body,
-                    textAlign: TextAlign.center,
-                    style: AppTextStyles.font(context,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: AppColors.textSecondary,
-                      height: 1.5,
-                    ),
-                  ),
-
-                  const Spacer(),
-
-                  // Progress bar indicator (thin Duolingo-style)
-                  OnboardingDots(count: total, current: current),
-                  const SizedBox(height: 20),
-
-                  PrimaryButton(
-                    label: isLast
-                        ? context.l10n.onboarding_button_start
-                        : context.l10n.onboarding_button_next,
-                    onTap: onNext,
-                  ),
-
-                  if (current > 0) ...[
-                    const SizedBox(height: 12),
-                    SecondaryButton(
-                      label: context.l10n.onboarding_button_back,
-                      onTap: onBack,
-                    ),
-                  ],
-                  const SizedBox(height: 8),
-                ],
+                ),
               ),
             ),
           ),

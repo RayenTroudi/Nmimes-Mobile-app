@@ -4,6 +4,7 @@ import '../../theme/spacing.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../widgets/chunky_button.dart';
+import '../../widgets/flexible_column.dart';
 
 class StartChallengeScreen extends StatelessWidget {
   const StartChallengeScreen({super.key});
@@ -21,8 +22,11 @@ class StartChallengeScreen extends StatelessWidget {
               child: Row(
                 children: [
                   IconButton(
-                    icon: const Icon(Icons.arrow_back_ios,
-                        color: Color(0xFF2E2E2E), size: 20),
+                    icon: const Icon(
+                      Icons.arrow_back_ios,
+                      color: Color(0xFF2E2E2E),
+                      size: 20,
+                    ),
                     onPressed: () => Navigator.pop(context),
                   ),
                 ],
@@ -44,10 +48,8 @@ class StartChallengeScreen extends StatelessWidget {
                   width: 120,
                   height: 120,
                   fit: BoxFit.contain,
-                  errorBuilder: (ctx, e, st) => const Text(
-                    '🧩',
-                    style: TextStyle(fontSize: 60),
-                  ),
+                  errorBuilder: (ctx, e, st) =>
+                      const Text('🧩', style: TextStyle(fontSize: 60)),
                 ),
               ),
             ),
@@ -63,14 +65,19 @@ class StartChallengeScreen extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(AppRadius.lg),
                     border: Border.all(
-                        color: AppColors.border, width: AppSizes.cardBorder),
+                      color: AppColors.border,
+                      width: AppSizes.cardBorder,
+                    ),
                   ),
-                  child: Column(
+                  child: FlexibleColumn(
                     children: [
                       // Orange header block
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 16,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.primary,
                           borderRadius: BorderRadius.circular(AppRadius.md),
@@ -100,7 +107,8 @@ class StartChallengeScreen extends StatelessWidget {
                             const SizedBox(height: 8),
                             Text(
                               context.l10n.challenge_puzzle_title,
-                              style: AppTextStyles.font(context,
+                              style: AppTextStyles.font(
+                                context,
                                 fontSize: 22,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -109,7 +117,8 @@ class StartChallengeScreen extends StatelessWidget {
                             const SizedBox(height: 4),
                             Text(
                               context.l10n.challenge_puzzle_subtitle,
-                              style: AppTextStyles.font(context,
+                              style: AppTextStyles.font(
+                                context,
                                 fontSize: 14,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.white,
@@ -152,11 +161,17 @@ class StartChallengeScreen extends StatelessWidget {
                       // Points reward box
                       Container(
                         width: double.infinity,
-                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 20,
+                          vertical: 14,
+                        ),
                         decoration: BoxDecoration(
                           color: const Color(0xFFFFF7EB),
                           borderRadius: BorderRadius.circular(14),
-                          border: Border.all(color: AppColors.primaryLight, width: 1),
+                          border: Border.all(
+                            color: AppColors.primaryLight,
+                            width: 1,
+                          ),
                         ),
                         child: Column(
                           children: [
@@ -165,13 +180,17 @@ class StartChallengeScreen extends StatelessWidget {
                               'assets/images/trophy.png',
                               width: 36,
                               height: 36,
-                              errorBuilder: (ctx, e, st) =>
-                                  const Icon(Icons.emoji_events, color: AppColors.primaryLight, size: 36),
+                              errorBuilder: (ctx, e, st) => const Icon(
+                                Icons.emoji_events,
+                                color: AppColors.primaryLight,
+                                size: 36,
+                              ),
                             ),
                             const SizedBox(height: 6),
                             Text(
                               context.l10n.challenge_earn_300,
-                              style: AppTextStyles.font(context,
+                              style: AppTextStyles.font(
+                                context,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w700,
                                 color: const Color(0xFF2E2E2E),
@@ -180,7 +199,8 @@ class StartChallengeScreen extends StatelessWidget {
                             const SizedBox(height: 2),
                             Text(
                               context.l10n.challenge_bonus_streak,
-                              style: AppTextStyles.font(context,
+                              style: AppTextStyles.font(
+                                context,
                                 fontSize: 13,
                                 color: const Color(0xFF5A6677),
                               ),
@@ -193,13 +213,13 @@ class StartChallengeScreen extends StatelessWidget {
 
                       // Start button
                       ChunkyButton(
-                        onTap: () =>
-                            Navigator.pushNamed(context, '/challenge'),
+                        onTap: () => Navigator.pushNamed(context, '/challenge'),
                         color: AppColors.primary,
                         width: double.infinity,
                         child: Text(
                           context.l10n.challenge_start_puzzle,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
@@ -255,7 +275,8 @@ class _InfoRow extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: AppTextStyles.font(context,
+                  style: AppTextStyles.font(
+                    context,
                     fontSize: 14,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF2E2E2E),
@@ -263,7 +284,8 @@ class _InfoRow extends StatelessWidget {
                 ),
                 Text(
                   value,
-                  style: AppTextStyles.font(context,
+                  style: AppTextStyles.font(
+                    context,
                     fontSize: 12,
                     color: const Color(0xFF4A5565),
                   ),

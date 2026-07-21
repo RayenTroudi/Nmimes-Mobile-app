@@ -35,6 +35,7 @@ import 'screens/snap/does_this_make_sense_screen.dart';
 import 'screens/snap/snap_success_screen.dart';
 import 'screens/snap/snap_hw_captured_screen.dart';
 import 'screens/snap/snap_hw_send_screen.dart';
+import 'screens/snap/homework_player/homework_player_screen.dart';
 import 'screens/snap/snap_hw_success_screen.dart';
 import 'screens/snap/snap_hw_explain_screen.dart';
 import 'screens/study_room/peer_learning_screen.dart';
@@ -168,6 +169,7 @@ class _NmimesAppState extends State<NmimesApp> {
             '/snap-sense':      (_) => const DoesThisMakeSenseScreen(),
             '/snap-hw-captured':(_) => const SnapHwCapturedScreen(),
             '/snap-hw-send':    (_) => const SnapHwSendScreen(),
+            '/homework-player': (_) => const HomeworkPlayerScreen(),
             '/snap-hw-success': (_) => const SnapHwSuccessScreen(),
             '/snap-hw-explain': (_) => const SnapHwExplainScreen(),
             '/snap-success':    (_) => const SnapSuccessScreen(),

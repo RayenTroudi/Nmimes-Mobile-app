@@ -4,6 +4,7 @@ import '../../theme/spacing.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../widgets/chunky_button.dart';
+import '../../widgets/flexible_column.dart';
 
 class AlgebraStartScreen extends StatelessWidget {
   const AlgebraStartScreen({super.key});
@@ -70,15 +71,19 @@ class AlgebraStartScreen extends StatelessWidget {
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(AppRadius.lg),
                     border: Border.all(
-                        color: AppColors.border, width: AppSizes.cardBorder),
+                      color: AppColors.border,
+                      width: AppSizes.cardBorder,
+                    ),
                   ),
-                  child: Column(
+                  child: FlexibleColumn(
                     children: [
                       // Orange header block
                       Container(
                         width: double.infinity,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 20, vertical: 16),
+                          horizontal: 20,
+                          vertical: 16,
+                        ),
                         decoration: BoxDecoration(
                           color: AppColors.primary,
                           borderRadius: BorderRadius.circular(AppRadius.md),
@@ -106,12 +111,17 @@ class AlgebraStartScreen extends StatelessWidget {
                               ),
                             ),
                             const SizedBox(width: 12),
-                            Text(
-                              context.l10n.algebra_title,
-                              style: AppTextStyles.font(context,
-                                fontSize: 22,
-                                fontWeight: FontWeight.w700,
-                                color: Colors.white,
+                            // Expanded so the title wraps instead of
+                            // overflowing at large text scales.
+                            Expanded(
+                              child: Text(
+                                context.l10n.algebra_title,
+                                style: AppTextStyles.font(
+                                  context,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                  color: Colors.white,
+                                ),
                               ),
                             ),
                           ],
@@ -152,14 +162,15 @@ class AlgebraStartScreen extends StatelessWidget {
 
                       // Start button
                       ChunkyButton(
-                        onTap: () => Navigator.pushNamed(
-                            context, '/algebra-challenge'),
+                        onTap: () =>
+                            Navigator.pushNamed(context, '/algebra-challenge'),
                         color: AppColors.primary,
                         width: double.infinity,
                         height: 60,
                         child: Text(
                           context.l10n.algebra_start_challenge,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 18,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
@@ -215,7 +226,8 @@ class _InfoRow extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: AppTextStyles.font(context,
+                  style: AppTextStyles.font(
+                    context,
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
                     color: const Color(0xFF101828),
@@ -223,7 +235,8 @@ class _InfoRow extends StatelessWidget {
                 ),
                 Text(
                   value,
-                  style: AppTextStyles.font(context,
+                  style: AppTextStyles.font(
+                    context,
                     fontSize: 12,
                     color: const Color(0xFF4A5565),
                   ),

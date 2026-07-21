@@ -27,18 +27,24 @@ class RewardCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          border: Border.all(color: AppColors.border, width: AppSizes.cardBorder),
+          borderRadius: BorderRadius.circular(AppRadius.card),
+          boxShadow: AppShadows.card,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Text(icon, style: const TextStyle(fontSize: 36)),
             const SizedBox(height: 8),
-            Text(title,
-                style: AppTextStyles.font(context,
-                    fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.textPrimary),
-                textAlign: TextAlign.center),
+            Text(
+              title,
+              style: AppTextStyles.font(
+                context,
+                fontSize: 14,
+                fontWeight: FontWeight.w800,
+                color: AppColors.textPrimary,
+              ),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 4),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -48,7 +54,8 @@ class RewardCard extends StatelessWidget {
               ),
               child: Text(
                 context.l10n.rewardCard_pts(points),
-                style: AppTextStyles.font(context,
+                style: AppTextStyles.font(
+                  context,
                   fontSize: 12,
                   fontWeight: FontWeight.w800,
                   color: AppColors.pinkDark,

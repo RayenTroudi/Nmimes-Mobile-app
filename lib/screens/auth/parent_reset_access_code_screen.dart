@@ -38,8 +38,9 @@ class _ParentResetAccessCodeScreenState
     super.initState();
     _newPinCtrl.addListener(() => setState(() {}));
     _confirmPinCtrl.addListener(() => setState(() {}));
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _newPinFocus.requestFocus());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _newPinFocus.requestFocus(),
+    );
   }
 
   @override
@@ -59,7 +60,10 @@ class _ParentResetAccessCodeScreenState
     try {
       final args = ModalRoute.of(context)?.settings.arguments;
       final email = args is String ? args : '';
-      await _supabaseService.updatePassword(email: email, newPin: _newPinCtrl.text);
+      await _supabaseService.updatePassword(
+        email: email,
+        newPin: _newPinCtrl.text,
+      );
       if (!mounted) return;
       Navigator.pushNamedAndRemoveUntil(
         context,
@@ -91,8 +95,11 @@ class _ParentResetAccessCodeScreenState
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back,
-                          color: AppColors.white, size: 24),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: AppColors.white,
+                        size: 24,
+                      ),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
@@ -118,7 +125,8 @@ class _ParentResetAccessCodeScreenState
                         children: [
                           Text(
                             l10n.parentResetCode_title,
-                            style: AppTextStyles.font(context,
+                            style: AppTextStyles.font(
+                              context,
                               fontSize: 26,
                               fontWeight: FontWeight.w800,
                               color: AppColors.textPrimary,
@@ -127,7 +135,8 @@ class _ParentResetAccessCodeScreenState
                           const SizedBox(height: 8),
                           Text(
                             l10n.parentResetCode_subtitle,
-                            style: AppTextStyles.font(context,
+                            style: AppTextStyles.font(
+                              context,
                               fontSize: 14,
                               color: AppColors.textSecondary,
                             ),
@@ -137,7 +146,8 @@ class _ParentResetAccessCodeScreenState
                           // New access code
                           Text(
                             l10n.parentResetCode_label_newCode,
-                            style: AppTextStyles.font(context,
+                            style: AppTextStyles.font(
+                              context,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
@@ -154,7 +164,8 @@ class _ParentResetAccessCodeScreenState
                           // Verify access code
                           Text(
                             l10n.parentResetCode_label_verifyCode,
-                            style: AppTextStyles.font(context,
+                            style: AppTextStyles.font(
+                              context,
                               fontSize: 14,
                               fontWeight: FontWeight.w600,
                               color: AppColors.textPrimary,
@@ -172,8 +183,11 @@ class _ParentResetAccessCodeScreenState
                             Center(
                               child: Text(
                                 l10n.parentResetCode_error_mismatch,
-                                style: AppTextStyles.font(context,
-                                    fontSize: 12, color: Colors.red),
+                                style: AppTextStyles.font(
+                                  context,
+                                  fontSize: 12,
+                                  color: Colors.red,
+                                ),
                               ),
                             ),
                           ],
@@ -190,13 +204,13 @@ class _ParentResetAccessCodeScreenState
                                   : null,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: AppColors.primary,
-                                disabledBackgroundColor:
-                                    AppColors.primary.withValues(alpha: 0.35),
+                                disabledBackgroundColor: AppColors.primary
+                                    .withValues(alpha: 0.35),
                                 foregroundColor: AppColors.white,
                                 elevation: 0,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(16),
-                              ),
+                                ),
                               ),
                               child: _isLoading
                                   ? const SizedBox(
@@ -209,7 +223,8 @@ class _ParentResetAccessCodeScreenState
                                     )
                                   : Text(
                                       l10n.parentResetCode_button,
-                                      style: AppTextStyles.font(context,
+                                      style: AppTextStyles.font(
+                                        context,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
                                         color: AppColors.white,
@@ -285,41 +300,54 @@ class _PinRow extends StatelessWidget {
               ),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(4, (i) {
-              final filled = i < pin.length;
-              final isActive = i == pin.length;
-              return GestureDetector(
-                onTap: () => focusNode.requestFocus(),
-                child: Container(
-                  margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
-                  width: 60,
-                  height: 60,
-                  decoration: BoxDecoration(
-                    color: AppColors.white,
-                    shape: BoxShape.circle,
-                    border: Border.all(
-                      color:
-                          isActive ? AppColors.primary : AppColors.border,
-                      width: isActive ? 2 : 1,
-                    ),
-                  ),
-                  child: Center(
-                    child: filled
-                        ? Text(
-                            pin[i],
-                            style: AppTextStyles.font(context,
-                              fontSize: 22,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.textPrimary,
-                            ),
-                          )
-                        : null,
-                  ),
-                ),
+          // PIN circles — sized to the available width so they never
+          // overflow on narrow screens.
+          LayoutBuilder(
+            builder: (context, constraints) {
+              const gap = 16.0;
+              final box = ((constraints.maxWidth - gap * 3) / 4).clamp(
+                40.0,
+                60.0,
               );
-            }),
+              return Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(4, (i) {
+                  final filled = i < pin.length;
+                  final isActive = i == pin.length;
+                  return GestureDetector(
+                    onTap: () => focusNode.requestFocus(),
+                    child: Container(
+                      margin: EdgeInsetsDirectional.only(end: i < 3 ? gap : 0),
+                      width: box,
+                      height: box,
+                      decoration: BoxDecoration(
+                        color: AppColors.white,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: isActive
+                              ? AppColors.primary
+                              : AppColors.border,
+                          width: isActive ? 2 : 1,
+                        ),
+                      ),
+                      child: Center(
+                        child: filled
+                            ? Text(
+                                pin[i],
+                                style: AppTextStyles.font(
+                                  context,
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.textPrimary,
+                                ),
+                              )
+                            : null,
+                      ),
+                    ),
+                  );
+                }),
+              );
+            },
           ),
         ],
       ),

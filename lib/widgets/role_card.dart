@@ -31,7 +31,7 @@ class RoleCard extends StatelessWidget {
           color: selected
               ? AppColors.primary.withValues(alpha: 0.1)
               : AppColors.surface,
-          borderRadius: BorderRadius.circular(AppRadius.md),
+          borderRadius: BorderRadius.circular(AppRadius.card),
           border: Border.all(
             color: selected ? AppColors.primary : AppColors.border,
             width: AppSizes.cardBorder,
@@ -47,7 +47,11 @@ class RoleCard extends StatelessWidget {
                 color: AppColors.primary.withValues(alpha: 0.12),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(Icons.person, size: 40, color: AppColors.primary),
+              child: const Icon(
+                Icons.person,
+                size: 40,
+                color: AppColors.primary,
+              ),
             ),
             const SizedBox(height: 12),
             Text(

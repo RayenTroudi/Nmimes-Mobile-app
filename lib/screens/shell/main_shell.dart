@@ -22,6 +22,7 @@ class _MainShellState extends State<MainShell> {
     final args = ModalRoute.of(context)?.settings.arguments;
     if (args is int && _currentIndex == 0) {
       _currentIndex = args;
+      _visited.add(args);
     }
   }
 
@@ -32,6 +33,13 @@ class _MainShellState extends State<MainShell> {
     ProfileScreen(),
   ];
 
+  /// Tabs the user has actually opened. An [IndexedStack] builds every child
+  /// up front, so all four screens used to mount — and run their entry
+  /// animations and any startup work — while the user was still on home.
+  /// Building a tab only once it is first selected keeps startup to one
+  /// screen; [IndexedStack] then preserves its state as before.
+  final _visited = <int>{0};
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,12 +47,18 @@ class _MainShellState extends State<MainShell> {
         childIsScrollable: true,
         child: IndexedStack(
           index: _currentIndex,
-          children: _tabs,
+          children: [
+            for (var i = 0; i < _tabs.length; i++)
+              if (_visited.contains(i)) _tabs[i] else const SizedBox.shrink(),
+          ],
         ),
       ),
       bottomNavigationBar: BottomNavBar(
         currentIndex: _currentIndex,
-        onTap: (i) => setState(() => _currentIndex = i),
+        onTap: (i) => setState(() {
+          _currentIndex = i;
+          _visited.add(i);
+        }),
       ),
     );
   }

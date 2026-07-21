@@ -43,6 +43,12 @@ class _ChunkyButtonState extends State<ChunkyButton> {
     setState(() => _pressed = v);
   }
 
+  void _activate() {
+    if (widget.onTap == null) return;
+    if (widget.haptics) HapticFeedback.lightImpact();
+    widget.onTap!();
+  }
+
   @override
   Widget build(BuildContext context) {
     final edge = widget.edgeColor ?? AppColors.edgeFor(widget.color);
@@ -54,12 +60,7 @@ class _ChunkyButtonState extends State<ChunkyButton> {
       onTapDown: (_) => _setPressed(true),
       onTapUp: (_) => _setPressed(false),
       onTapCancel: () => _setPressed(false),
-      onTap: widget.onTap == null
-          ? null
-          : () {
-              if (widget.haptics) HapticFeedback.lightImpact();
-              widget.onTap!();
-            },
+      onTap: widget.onTap == null ? null : _activate,
       child: SizedBox(
         width: widget.width,
         height: widget.height + AppSizes.buttonEdge,
@@ -114,6 +115,12 @@ class TapScale extends StatefulWidget {
 class _TapScaleState extends State<TapScale> {
   bool _pressed = false;
 
+  void _activate() {
+    if (widget.onTap == null) return;
+    if (widget.haptics) HapticFeedback.lightImpact();
+    widget.onTap!();
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -123,12 +130,7 @@ class _TapScaleState extends State<TapScale> {
       },
       onTapUp: (_) => setState(() => _pressed = false),
       onTapCancel: () => setState(() => _pressed = false),
-      onTap: widget.onTap == null
-          ? null
-          : () {
-              if (widget.haptics) HapticFeedback.lightImpact();
-              widget.onTap!();
-            },
+      onTap: widget.onTap == null ? null : _activate,
       child: AnimatedScale(
         scale: _pressed ? 0.97 : 1.0,
         duration: const Duration(milliseconds: 90),

@@ -34,8 +34,7 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
   void initState() {
     super.initState();
     _ctrl.addListener(() => setState(() {}));
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _focus.requestFocus());
+    WidgetsBinding.instance.addPostFrameCallback((_) => _focus.requestFocus());
   }
 
   @override
@@ -72,8 +71,8 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
         _errorMessage = msg.contains('invalid login')
             ? 'That username and code don\'t match. Please check and try again.'
             : msg.contains('failed host lookup') || msg.contains('socket')
-                ? 'No internet connection. Please check your network.'
-                : e.message;
+            ? 'No internet connection. Please check your network.'
+            : e.message;
         _ctrl.clear();
       });
     } catch (_) {
@@ -104,8 +103,10 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back,
-                          color: AppColors.white),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: AppColors.white,
+                      ),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
@@ -131,7 +132,8 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                       children: [
                         Text(
                           context.l10n.childAccessCode_title,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 26,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
@@ -140,7 +142,8 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                         const SizedBox(height: 6),
                         Text(
                           context.l10n.childAccessCode_subtitle,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 14,
                             color: AppColors.textSecondary,
                           ),
@@ -164,52 +167,64 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                                   border: InputBorder.none,
                                 ),
                                 onChanged: (v) {
-                  setState(() {});
-                  if (v.length == codeLength) _submit();
-                },
+                                  setState(() {});
+                                  if (v.length == codeLength) _submit();
+                                },
                               ),
                             ),
                           ),
                         ),
 
-                        // 6 code circles (sized to fit six across)
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(codeLength, (i) {
-                            final filled = i < _pin.length;
-                            final isActive = i == _pin.length;
-                            return GestureDetector(
-                              onTap: () => _focus.requestFocus(),
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(
-                                    end: i < codeLength - 1 ? 8 : 0),
-                                width: 46,
-                                height: 46,
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: isActive
-                                        ? AppColors.primary
-                                        : AppColors.border,
-                                    width: isActive ? 2 : 1,
+                        // 6 code circles — sized to the available width so
+                        // they never overflow on narrow screens.
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            const gap = 8.0;
+                            final box =
+                                ((constraints.maxWidth -
+                                            gap * (codeLength - 1)) /
+                                        codeLength)
+                                    .clamp(28.0, 46.0);
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(codeLength, (i) {
+                                final filled = i < _pin.length;
+                                final isActive = i == _pin.length;
+                                return GestureDetector(
+                                  onTap: () => _focus.requestFocus(),
+                                  child: Container(
+                                    margin: EdgeInsetsDirectional.only(
+                                      end: i < codeLength - 1 ? gap : 0,
+                                    ),
+                                    width: box,
+                                    height: box,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: isActive
+                                            ? AppColors.primary
+                                            : AppColors.border,
+                                        width: isActive ? 2 : 1,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: filled
+                                          ? Container(
+                                              width: box * 0.3,
+                                              height: box * 0.3,
+                                              decoration: const BoxDecoration(
+                                                color: AppColors.textPrimary,
+                                                shape: BoxShape.circle,
+                                              ),
+                                            )
+                                          : null,
+                                    ),
                                   ),
-                                ),
-                                child: Center(
-                                  child: filled
-                                      ? Container(
-                                          width: 14,
-                                          height: 14,
-                                          decoration: const BoxDecoration(
-                                            color: AppColors.textPrimary,
-                                            shape: BoxShape.circle,
-                                          ),
-                                        )
-                                      : null,
-                                ),
-                              ),
+                                );
+                              }),
                             );
-                          }),
+                          },
                         ),
                         if (_isLoading)
                           const Padding(

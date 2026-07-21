@@ -24,8 +24,9 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
   void initState() {
     super.initState();
     _pinCtrl.addListener(() => setState(() {}));
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _pinFocus.requestFocus());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _pinFocus.requestFocus(),
+    );
   }
 
   @override
@@ -44,7 +45,9 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
       final args = ModalRoute.of(context)?.settings.arguments;
       final email = args is String ? args : '';
       await _supabaseService.signInWithPassword(
-          email: email, pin: _pinCtrl.text);
+        email: email,
+        pin: _pinCtrl.text,
+      );
       if (!mounted) return;
       Navigator.pushReplacementNamed(context, '/parents-view');
     } on AuthException catch (e) {
@@ -76,8 +79,11 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back,
-                          color: AppColors.white, size: 24),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: AppColors.white,
+                        size: 24,
+                      ),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
@@ -103,7 +109,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                       children: [
                         Text(
                           l10n.parentAccessCode_title,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
@@ -112,7 +119,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                         const SizedBox(height: 8),
                         Text(
                           l10n.parentAccessCode_subtitle,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 14,
                             color: AppColors.textSecondary,
                           ),
@@ -141,43 +149,53 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                           ),
                         ),
 
-                        // PIN circles
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(4, (i) {
-                            final filled = i < pin.length;
-                            final isActive = i == pin.length;
-                            return GestureDetector(
-                              onTap: () => _pinFocus.requestFocus(),
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: isActive
-                                        ? AppColors.primary
-                                        : AppColors.border,
-                                    width: isActive ? 2 : 1,
+                        // PIN circles — sized to the available width so they
+                        // never overflow on narrow screens.
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            const gap = 16.0;
+                            final box = ((constraints.maxWidth - gap * 3) / 4)
+                                .clamp(40.0, 60.0);
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(4, (i) {
+                                final filled = i < pin.length;
+                                final isActive = i == pin.length;
+                                return GestureDetector(
+                                  onTap: () => _pinFocus.requestFocus(),
+                                  child: Container(
+                                    margin: EdgeInsetsDirectional.only(
+                                      end: i < 3 ? gap : 0,
+                                    ),
+                                    width: box,
+                                    height: box,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: isActive
+                                            ? AppColors.primary
+                                            : AppColors.border,
+                                        width: isActive ? 2 : 1,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: filled
+                                          ? Container(
+                                              width: box * 0.27,
+                                              height: box * 0.27,
+                                              decoration: const BoxDecoration(
+                                                color: AppColors.textPrimary,
+                                                shape: BoxShape.circle,
+                                              ),
+                                            )
+                                          : null,
+                                    ),
                                   ),
-                                ),
-                                child: Center(
-                                  child: filled
-                                      ? Container(
-                                          width: 16,
-                                          height: 16,
-                                          decoration: const BoxDecoration(
-                                            color: AppColors.textPrimary,
-                                            shape: BoxShape.circle,
-                                          ),
-                                        )
-                                      : null,
-                                ),
-                              ),
+                                );
+                              }),
                             );
-                          }),
+                          },
                         ),
 
                         const SizedBox(height: 16),
@@ -186,18 +204,22 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                         Center(
                           child: GestureDetector(
                             onTap: () => Navigator.pushNamed(
-                                context, '/parent-forgot-access-code',
-                                arguments: email),
+                              context,
+                              '/parent-forgot-access-code',
+                              arguments: email,
+                            ),
                             child: Text(
                               l10n.parentAccessCode_forgotLink,
-                              style: AppTextStyles.font(context,
-                                fontSize: 13,
-                                fontWeight: FontWeight.w600,
-                                color: AppColors.primary,
-                              ).copyWith(
-                                decoration: TextDecoration.underline,
-                                decorationColor: AppColors.primary,
-                              ),
+                              style:
+                                  AppTextStyles.font(
+                                    context,
+                                    fontSize: 13,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.primary,
+                                  ).copyWith(
+                                    decoration: TextDecoration.underline,
+                                    decorationColor: AppColors.primary,
+                                  ),
                             ),
                           ),
                         ),
@@ -214,8 +236,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                                 : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              disabledBackgroundColor:
-                                  AppColors.primary.withValues(alpha: 0.35),
+                              disabledBackgroundColor: AppColors.primary
+                                  .withValues(alpha: 0.35),
                               foregroundColor: AppColors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -233,7 +255,8 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                                   )
                                 : Text(
                                     l10n.parentAccessCode_button,
-                                    style: AppTextStyles.font(context,
+                                    style: AppTextStyles.font(
+                                      context,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.white,

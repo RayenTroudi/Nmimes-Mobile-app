@@ -4,6 +4,7 @@ import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../widgets/chunky_button.dart';
+import '../../widgets/flexible_column.dart';
 
 class PaymentSuccessScreen extends StatefulWidget {
   const PaymentSuccessScreen({super.key});
@@ -60,7 +61,7 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
           SafeArea(
             child: FadeTransition(
               opacity: _fadeIn,
-              child: Column(
+              child: FlexibleColumn(
                 children: [
                   // Space so character sits below confetti
                   const SizedBox(height: 60),
@@ -81,7 +82,8 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
                   // "Payment Successful"
                   Text(
                     l10n.paymentSuccess_title,
-                    style: AppTextStyles.font(context,
+                    style: AppTextStyles.font(
+                      context,
                       fontSize: 28,
                       fontWeight: FontWeight.w700,
                       color: AppColors.primary,
@@ -96,7 +98,8 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
                     child: Text(
                       l10n.paymentSuccess_subtitle,
                       textAlign: TextAlign.center,
-                      style: AppTextStyles.font(context,
+                      style: AppTextStyles.font(
+                        context,
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                         color: AppColors.textPrimary,
@@ -112,7 +115,10 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
                     child: ChunkyButton(
                       onTap: () => Navigator.pushNamedAndRemoveUntil(
-                          context, '/parents-view', (_) => false),
+                        context,
+                        '/parents-view',
+                        (_) => false,
+                      ),
                       color: AppColors.primary,
                       width: double.infinity,
                       height: 60,
@@ -121,15 +127,19 @@ class _PaymentSuccessScreenState extends State<PaymentSuccessScreen>
                         children: [
                           Text(
                             l10n.paymentSuccess_button_continue,
-                            style: AppTextStyles.font(context,
+                            style: AppTextStyles.font(
+                              context,
                               fontSize: 18,
                               fontWeight: FontWeight.w800,
                               color: AppColors.white,
                             ),
                           ),
                           const SizedBox(width: 10),
-                          const Icon(Icons.arrow_forward_rounded,
-                              size: 20, color: AppColors.white),
+                          const Icon(
+                            Icons.arrow_forward_rounded,
+                            size: 20,
+                            color: AppColors.white,
+                          ),
                         ],
                       ),
                     ),
@@ -208,10 +218,7 @@ class _ConfettiIllustrationState extends State<_ConfettiIllustration>
         builder: (context, child) {
           return CustomPaint(
             size: const Size(double.infinity, 300),
-            painter: _ConfettiPainter(
-              pieces: _pieces,
-              progress: _ctrl.value,
-            ),
+            painter: _ConfettiPainter(pieces: _pieces, progress: _ctrl.value),
           );
         },
       ),
@@ -248,7 +255,10 @@ class _ConfettiPainter extends CustomPainter {
         canvas.drawRRect(
           RRect.fromRectAndRadius(
             Rect.fromCenter(
-                center: Offset.zero, width: p.size * 0.35, height: p.size * 2),
+              center: Offset.zero,
+              width: p.size * 0.35,
+              height: p.size * 2,
+            ),
             const Radius.circular(2),
           ),
           paint,
@@ -256,9 +266,10 @@ class _ConfettiPainter extends CustomPainter {
       } else {
         canvas.drawRect(
           Rect.fromCenter(
-              center: Offset.zero,
-              width: p.size,
-              height: p.size * 0.55),
+            center: Offset.zero,
+            width: p.size,
+            height: p.size * 0.55,
+          ),
           paint,
         );
       }

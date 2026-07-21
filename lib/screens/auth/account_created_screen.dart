@@ -6,6 +6,7 @@ import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../widgets/bounce_in.dart';
 import '../../widgets/primary_button.dart';
+import '../../widgets/flexible_column.dart';
 
 class AccountCreatedScreen extends StatefulWidget {
   const AccountCreatedScreen({super.key});
@@ -58,7 +59,7 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Column(
+                child: FlexibleColumn(
                   children: [
                     const SizedBox(height: 60),
                     BounceIn(
@@ -72,7 +73,8 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
                     const Spacer(),
                     Text(
                       l10n.accountCreated_title,
-                      style: AppTextStyles.font(context,
+                      style: AppTextStyles.font(
+                        context,
                         fontSize: 32,
                         fontWeight: FontWeight.w800,
                         color: AppColors.primary,
@@ -82,7 +84,8 @@ class _AccountCreatedScreenState extends State<AccountCreatedScreen>
                     Text(
                       l10n.accountCreated_body,
                       textAlign: TextAlign.center,
-                      style: AppTextStyles.font(context,
+                      style: AppTextStyles.font(
+                        context,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: AppColors.textPrimary,
@@ -117,8 +120,7 @@ class ParentSignInSuccessScreen extends StatefulWidget {
       _ParentSignInSuccessScreenState();
 }
 
-class _ParentSignInSuccessScreenState
-    extends State<ParentSignInSuccessScreen>
+class _ParentSignInSuccessScreenState extends State<ParentSignInSuccessScreen>
     with SingleTickerProviderStateMixin {
   late final AnimationController _ctrl;
   late final Animation<double> _fadeIn;
@@ -153,14 +155,15 @@ class _ParentSignInSuccessScreenState
             child: SafeArea(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Column(
+                child: FlexibleColumn(
                   children: [
                     const SizedBox(height: 60),
                     const BounceIn(child: _CoolFox(size: 200)),
                     const Spacer(),
                     Text(
                       l10n.accountCreated_signInTitle,
-                      style: AppTextStyles.font(context,
+                      style: AppTextStyles.font(
+                        context,
                         fontSize: 32,
                         fontWeight: FontWeight.w800,
                         color: AppColors.primary,
@@ -170,7 +173,8 @@ class _ParentSignInSuccessScreenState
                     Text(
                       l10n.accountCreated_signInBody,
                       textAlign: TextAlign.center,
-                      style: AppTextStyles.font(context,
+                      style: AppTextStyles.font(
+                        context,
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: AppColors.textPrimary,
@@ -181,7 +185,9 @@ class _ParentSignInSuccessScreenState
                     PrimaryButton(
                       label: l10n.accountCreated_signInButton,
                       onTap: () => Navigator.pushReplacementNamed(
-                          context, '/parents-view'),
+                        context,
+                        '/parents-view',
+                      ),
                     ),
                     const SizedBox(height: 32),
                   ],

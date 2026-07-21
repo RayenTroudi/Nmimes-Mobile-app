@@ -85,7 +85,10 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
     ];
   }
 
-  void _showChallengePopup(BuildContext context, {String startRoute = '/start-challenge'}) {
+  void _showChallengePopup(
+    BuildContext context, {
+    String startRoute = '/start-challenge',
+  }) {
     showDialog(
       context: context,
       barrierColor: Colors.black.withValues(alpha: 0.3),
@@ -96,38 +99,84 @@ class _ChallengesScreenState extends State<ChallengesScreen> {
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: AppColors.background,
+      // The page behind the sheet is brand orange, so the cream sheet's
+      // rounded top corners reveal the header colour rather than a seam.
+      // Matches the home screen.
+      color: AppColors.primary,
       child: Column(
         children: [
           _ChallengesHeader(),
-          // Tab selector
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
-            child: Row(
-              children: [
-                _TabPill(
-                  label: context.l10n.challenge_tab_challenges,
-                  active: _tab == 0,
-                  onTap: () => setState(() => _tab = 0),
-                ),
-                const SizedBox(width: 12),
-                _TabPill(
-                  label: context.l10n.challenge_tab_pvp,
-                  active: _tab == 1,
-                  onTap: () => setState(() => _tab = 1),
-                ),
-              ],
-            ),
-          ),
+
+          // Cream content sheet, rounded where it meets the orange header
           Expanded(
-            child: _tab == 0
-                ? _ChallengeMap(
-                    challenges: _buildChallenges(context),
-                    onPlay: (route) => _showChallengePopup(context, startRoute: route),
-                  )
-                : _PVPTab(
-                    onStart: () => _showChallengePopup(context),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: AppColors.background,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(AppRadius.sheet),
+                ),
+              ),
+              clipBehavior: Clip.antiAlias,
+              child: Column(
+                children: [
+                  // Tab selector. The bottom padding is a real gap outside
+                  // the scroll view below — list padding would scroll away
+                  // and let the unit banners slide under the pills.
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
+                    child: Row(
+                      children: [
+                        _TabPill(
+                          label: context.l10n.challenge_tab_challenges,
+                          active: _tab == 0,
+                          onTap: () => setState(() => _tab = 0),
+                        ),
+                        const SizedBox(width: 12),
+                        _TabPill(
+                          label: context.l10n.challenge_tab_pvp,
+                          active: _tab == 1,
+                          onTap: () => setState(() => _tab = 1),
+                        ),
+                      ],
+                    ),
                   ),
+                  Expanded(
+                    // Crossfade + slide between the two tabs rather than
+                    // swapping instantly. Keyed by tab index so the switcher
+                    // sees a genuinely different child.
+                    child: AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 260),
+                      switchInCurve: Curves.easeOutCubic,
+                      switchOutCurve: Curves.easeIn,
+                      transitionBuilder: (child, anim) => FadeTransition(
+                        opacity: anim,
+                        child: SlideTransition(
+                          position: Tween<Offset>(
+                            begin: const Offset(0.06, 0),
+                            end: Offset.zero,
+                          ).animate(anim),
+                          child: child,
+                        ),
+                      ),
+                      child: KeyedSubtree(
+                        key: ValueKey(_tab),
+                        child: _tab == 0
+                            ? _ChallengeMap(
+                                challenges: _buildChallenges(context),
+                                onPlay: (route) => _showChallengePopup(
+                                  context,
+                                  startRoute: route,
+                                ),
+                              )
+                            : _PVPTab(
+                                onStart: () => _showChallengePopup(context),
+                              ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ],
       ),
@@ -156,7 +205,8 @@ class _ChallengesHeader extends StatelessWidget {
                       children: [
                         Text(
                           context.l10n.challenge_title,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
                             color: AppColors.white,
@@ -164,7 +214,8 @@ class _ChallengesHeader extends StatelessWidget {
                         ),
                         Text(
                           context.l10n.challenge_subtitle,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: Colors.white.withValues(alpha: 0.9),
@@ -187,43 +238,57 @@ class _ChallengesHeader extends StatelessWidget {
               const SizedBox(height: 14),
               // Stat bar: lives + points, Duolingo-style chips
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 12,
+                ),
                 decoration: BoxDecoration(
                   color: Colors.white.withValues(alpha: 0.18),
                   borderRadius: BorderRadius.circular(AppRadius.md),
                   border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.35),
-                      width: AppSizes.cardBorder),
+                    color: Colors.white.withValues(alpha: 0.35),
+                    width: AppSizes.cardBorder,
+                  ),
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Row(
-                          children: [
-                            Text('❤️', style: TextStyle(fontSize: 22)),
-                            SizedBox(width: 6),
-                            Text('❤️', style: TextStyle(fontSize: 22)),
-                            SizedBox(width: 6),
-                            Text('🤍', style: TextStyle(fontSize: 22)),
-                          ],
-                        ),
-                        const SizedBox(height: 4),
-                        Text(
-                          context.l10n.challenge_lives_remaining,
-                          style: AppTextStyles.font(context,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.white,
+                    // Flexible so a narrow phone or a large text scale
+                    // shrinks the label rather than overflowing the bar.
+                    Flexible(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Row(
+                            children: [
+                              Text('❤️', style: TextStyle(fontSize: 22)),
+                              SizedBox(width: 6),
+                              Text('❤️', style: TextStyle(fontSize: 22)),
+                              SizedBox(width: 6),
+                              Text('🤍', style: TextStyle(fontSize: 22)),
+                            ],
                           ),
-                        ),
-                      ],
+                          const SizedBox(height: 4),
+                          Text(
+                            context.l10n.challenge_lives_remaining,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.font(
+                              context,
+                              fontSize: 12,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.white,
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
+                    const SizedBox(width: 8),
                     Container(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 14, vertical: 8),
+                        horizontal: 14,
+                        vertical: 8,
+                      ),
                       decoration: BoxDecoration(
                         color: AppColors.white,
                         borderRadius: BorderRadius.circular(AppRadius.pill),
@@ -234,7 +299,8 @@ class _ChallengesHeader extends StatelessWidget {
                           const SizedBox(width: 6),
                           Text(
                             '150',
-                            style: AppTextStyles.font(context,
+                            style: AppTextStyles.font(
+                              context,
                               fontSize: 15,
                               fontWeight: FontWeight.w800,
                               color: AppColors.primary,
@@ -259,7 +325,11 @@ class _TabPill extends StatelessWidget {
   final bool active;
   final VoidCallback onTap;
 
-  const _TabPill({required this.label, required this.active, required this.onTap});
+  const _TabPill({
+    required this.label,
+    required this.active,
+    required this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -282,7 +352,8 @@ class _TabPill extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: AppTextStyles.font(context,
+              style: AppTextStyles.font(
+                context,
                 fontSize: 14,
                 fontWeight: FontWeight.w800,
                 color: active ? AppColors.primary : AppColors.textSecondary,
@@ -377,10 +448,11 @@ class _ChallengeMap extends StatelessWidget {
     final dx = math.sin(index * math.pi / 2) * 0.7;
     final state = _stateFor(index);
     final unitColor = index < 3 ? AppColors.primary : AppColors.blue;
-    final showMascot = index % 3 == 1;
 
     return SizedBox(
-      height: 158,
+      // The active row is slightly taller so the champion perched on the
+      // node's rim has room without crowding the row above.
+      height: state == _NodeState.active ? 168 : 158,
       child: Stack(
         children: [
           Align(
@@ -393,31 +465,30 @@ class _ChallengeMap extends StatelessWidget {
                 if (state == _NodeState.locked) {
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
-                    ..showSnackBar(SnackBar(
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: AppColors.textPrimary,
-                      shape: RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.circular(AppRadius.sm)),
-                      content: Text(
-                        context.l10n.challenge_locked_unlock,
-                        style: AppTextStyles.font(context,
+                    ..showSnackBar(
+                      SnackBar(
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: AppColors.textPrimary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(AppRadius.sm),
+                        ),
+                        content: Text(
+                          context.l10n.challenge_locked_unlock,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 13,
                             fontWeight: FontWeight.w700,
-                            color: AppColors.white),
+                            color: AppColors.white,
+                          ),
+                        ),
                       ),
-                    ));
+                    );
                   return;
                 }
                 onPlay(c.startRoute);
               },
             ),
           ),
-          if (showMascot)
-            Align(
-              alignment: AlignmentDirectional(-dx.sign * 0.9, 0.2),
-              child: const FoxMascot(size: 64, variant: 'happy'),
-            ),
         ],
       ),
     );
@@ -458,29 +529,40 @@ class _UnitBanner extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: AppTextStyles.font(context,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.white),
+                  style: AppTextStyles.font(
+                    context,
+                    fontSize: 17,
+                    fontWeight: FontWeight.w800,
+                    color: AppColors.white,
+                  ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   subtitle,
-                  style: AppTextStyles.font(context,
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white.withValues(alpha: 0.9)),
+                  style: AppTextStyles.font(
+                    context,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: Colors.white.withValues(alpha: 0.9),
+                  ),
                 ),
               ],
             ),
           ),
-          const Icon(Icons.menu_book_rounded,
-              color: AppColors.white, size: 28),
+          const Icon(Icons.menu_book_rounded, color: AppColors.white, size: 28),
         ],
       ),
     );
   }
 }
+
+/// Champion artwork size, and how much of it shows above the node's rim.
+/// The difference between them is how deep the champion sinks into the
+/// circle — enough overlap to read as sitting on it, not floating above.
+/// At rise 26 the champion's feet reach ~32px into the 70px node, so it
+/// straddles the rim and visibly rests on the circle.
+const double _championSize = 58;
+const double _championRise = 26;
 
 class _MapNode extends StatelessWidget {
   final _ChallengeData data;
@@ -499,38 +581,53 @@ class _MapNode extends StatelessWidget {
   Widget build(BuildContext context) {
     final (fill, content) = switch (state) {
       _NodeState.completed => (
-          AppColors.gold,
-          const Icon(Icons.check_rounded, color: AppColors.white, size: 34)
-              as Widget,
-        ),
+        AppColors.gold,
+        const Icon(Icons.check_rounded, color: AppColors.white, size: 34)
+            as Widget,
+      ),
       _NodeState.locked => (
-          AppColors.locked,
-          const Icon(Icons.lock_rounded,
-              color: AppColors.lockedIcon, size: 30) as Widget,
-        ),
+        AppColors.locked,
+        const Icon(Icons.lock_rounded, color: AppColors.lockedIcon, size: 30)
+            as Widget,
+      ),
       _ => (
-          color,
-          Text(data.icon, style: const TextStyle(fontSize: 30)) as Widget,
-        ),
+        color,
+        Text(data.icon, style: const TextStyle(fontSize: 30)) as Widget,
+      ),
     };
+
+    final node = ChunkyButton(
+      onTap: onTap,
+      color: fill,
+      shape: BoxShape.circle,
+      height: AppSizes.mapNode,
+      width: AppSizes.mapNode,
+      child: content,
+    );
 
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        SizedBox(
-          height: 34,
-          child: state == _NodeState.active
-              ? _StartBubble(color: color)
-              : null,
-        ),
-        ChunkyButton(
-          onTap: onTap,
-          color: fill,
-          shape: BoxShape.circle,
-          height: AppSizes.mapNode,
-          width: AppSizes.mapNode,
-          child: content,
-        ),
+        if (state == _NodeState.active)
+          // The champion physically sits ON the node: the stack is only as
+          // tall as the node plus the champion's exposed part, so the
+          // champion's feet overlap the circle's top rim instead of
+          // floating above it.
+          SizedBox(
+            height: AppSizes.mapNode + _championRise,
+            child: Stack(
+              alignment: Alignment.topCenter,
+              clipBehavior: Clip.none,
+              children: [
+                Positioned(bottom: 0, child: node),
+                const Positioned(top: 0, child: _ChampionMarker()),
+              ],
+            ),
+          )
+        else ...[
+          const SizedBox(height: 34),
+          node,
+        ],
         const SizedBox(height: 6),
         SizedBox(
           width: 130,
@@ -539,41 +636,45 @@ class _MapNode extends StatelessWidget {
             textAlign: TextAlign.center,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: AppTextStyles.font(context,
-                fontSize: 13,
-                fontWeight: FontWeight.w800,
-                color: state == _NodeState.locked
-                    ? AppColors.textHint
-                    : AppColors.textPrimary),
+            style: AppTextStyles.font(
+              context,
+              fontSize: 13,
+              fontWeight: FontWeight.w800,
+              color: state == _NodeState.locked
+                  ? AppColors.textHint
+                  : AppColors.textPrimary,
+            ),
           ),
         ),
         if (data.progressLabel != null && state != _NodeState.locked)
           Text(
             data.progressLabel!,
-            style: AppTextStyles.font(context,
-                fontSize: 11,
-                fontWeight: FontWeight.w700,
-                color: AppColors.textSecondary),
+            style: AppTextStyles.font(
+              context,
+              fontSize: 11,
+              fontWeight: FontWeight.w700,
+              color: AppColors.textSecondary,
+            ),
           ),
       ],
     );
   }
 }
 
-/// Bouncing "START" bubble above the current node.
-class _StartBubble extends StatefulWidget {
-  final Color color;
-  const _StartBubble({required this.color});
+/// The champion sitting on top of the node the user is currently on, gently
+/// bobbing so it reads as "you are here" on the path.
+class _ChampionMarker extends StatefulWidget {
+  const _ChampionMarker();
 
   @override
-  State<_StartBubble> createState() => _StartBubbleState();
+  State<_ChampionMarker> createState() => _ChampionMarkerState();
 }
 
-class _StartBubbleState extends State<_StartBubble>
+class _ChampionMarkerState extends State<_ChampionMarker>
     with SingleTickerProviderStateMixin {
   late final AnimationController _controller = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 600),
+    duration: const Duration(milliseconds: 900),
   )..repeat(reverse: true);
 
   @override
@@ -586,25 +687,15 @@ class _StartBubbleState extends State<_StartBubble>
   Widget build(BuildContext context) {
     return AnimatedBuilder(
       animation: _controller,
+      // Bobs slightly downward into the node rather than lifting off it, so
+      // the champion always reads as resting on the circle.
       builder: (context, child) => Transform.translate(
-        offset: Offset(0, -4 * _controller.value),
+        offset: Offset(0, 3 * Curves.easeInOut.transform(_controller.value)),
         child: child,
       ),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        decoration: BoxDecoration(
-          color: AppColors.white,
-          borderRadius: BorderRadius.circular(AppRadius.sm),
-          border: Border.all(
-              color: AppColors.border, width: AppSizes.cardBorder),
-        ),
-        child: Text(
-          context.l10n.map_start,
-          style: AppTextStyles.font(context,
-              fontSize: 12,
-              fontWeight: FontWeight.w800,
-              color: widget.color),
-        ),
+      child: Semantics(
+        label: context.l10n.map_start,
+        child: const FoxMascot(size: _championSize, variant: 'happy'),
       ),
     );
   }
@@ -651,7 +742,8 @@ class _PVPTab extends StatelessWidget {
                       children: [
                         Text(
                           context.l10n.pvp_title,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 22,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
@@ -661,7 +753,8 @@ class _PVPTab extends StatelessWidget {
                         const SizedBox(height: 6),
                         Text(
                           context.l10n.pvp_subtitle,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 14,
                             fontWeight: FontWeight.w600,
                             color: const Color(0xFFFCE7F3),
@@ -684,7 +777,8 @@ class _PVPTab extends StatelessWidget {
                 child: Text(
                   context.l10n.pvp_start,
                   textAlign: TextAlign.center,
-                  style: AppTextStyles.font(context,
+                  style: AppTextStyles.font(
+                    context,
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
                     color: AppColors.primary,
@@ -702,7 +796,9 @@ class _PVPTab extends StatelessWidget {
             color: Colors.white,
             borderRadius: BorderRadius.circular(AppRadius.lg),
             border: Border.all(
-                color: AppColors.border, width: AppSizes.cardBorder),
+              color: AppColors.border,
+              width: AppSizes.cardBorder,
+            ),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -713,7 +809,8 @@ class _PVPTab extends StatelessWidget {
                   const SizedBox(width: 8),
                   Text(
                     context.l10n.pvp_leaderboard,
-                    style: AppTextStyles.font(context,
+                    style: AppTextStyles.font(
+                      context,
                       fontSize: 22,
                       fontWeight: FontWeight.w900,
                       color: const Color(0xFF101828),
@@ -741,7 +838,14 @@ class _LeaderEntry {
   final String points;
   final bool isYou;
   final bool hasMedalEmoji;
-  const _LeaderEntry(this.medal, this.name, this.streakDays, this.points, this.isYou, this.hasMedalEmoji);
+  const _LeaderEntry(
+    this.medal,
+    this.name,
+    this.streakDays,
+    this.points,
+    this.isYou,
+    this.hasMedalEmoji,
+  );
 }
 
 class _LeaderRow extends StatelessWidget {
@@ -750,7 +854,9 @@ class _LeaderRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bg = entry.isYou ? const Color(0x99F05F01) : (entry.hasMedalEmoji ? Colors.transparent : const Color(0xFFF9FAFB));
+    final bg = entry.isYou
+        ? const Color(0x99F05F01)
+        : (entry.hasMedalEmoji ? Colors.transparent : const Color(0xFFF9FAFB));
     final textColor = entry.isYou ? Colors.white : const Color(0xFF0A0A0A);
     final subColor = entry.isYou ? Colors.white : const Color(0xFF4A5565);
     final ptsSubColor = entry.isYou ? Colors.white : const Color(0xFF6A7282);
@@ -771,7 +877,8 @@ class _LeaderRow extends StatelessWidget {
             width: 40,
             child: Text(
               entry.medal,
-              style: AppTextStyles.font(context,
+              style: AppTextStyles.font(
+                context,
                 fontSize: entry.hasMedalEmoji ? 28 : 20,
                 fontWeight: FontWeight.w900,
                 color: textColor,
@@ -785,7 +892,8 @@ class _LeaderRow extends StatelessWidget {
               children: [
                 Text(
                   entry.name,
-                  style: AppTextStyles.font(context,
+                  style: AppTextStyles.font(
+                    context,
                     fontSize: 14,
                     fontWeight: FontWeight.w900,
                     color: textColor,
@@ -793,7 +901,8 @@ class _LeaderRow extends StatelessWidget {
                 ),
                 Text(
                   context.l10n.pvp_streak(entry.streakDays),
-                  style: AppTextStyles.font(context,
+                  style: AppTextStyles.font(
+                    context,
                     fontSize: 11,
                     fontWeight: FontWeight.w700,
                     color: subColor,
@@ -807,7 +916,8 @@ class _LeaderRow extends StatelessWidget {
             children: [
               Text(
                 entry.points,
-                style: AppTextStyles.font(context,
+                style: AppTextStyles.font(
+                  context,
                   fontSize: 14,
                   fontWeight: FontWeight.w900,
                   color: textColor,
@@ -815,7 +925,8 @@ class _LeaderRow extends StatelessWidget {
               ),
               Text(
                 context.l10n.pvp_points,
-                style: AppTextStyles.font(context,
+                style: AppTextStyles.font(
+                  context,
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                   color: ptsSubColor,
@@ -852,7 +963,8 @@ class _ChallengeChoiceDialog extends StatelessWidget {
               children: [
                 Text(
                   context.l10n.challenge_dialog_title,
-                  style: AppTextStyles.font(context,
+                  style: AppTextStyles.font(
+                    context,
                     fontSize: 22,
                     fontWeight: FontWeight.w800,
                     color: const Color(0xFF2E2E2E),
@@ -867,7 +979,11 @@ class _ChallengeChoiceDialog extends StatelessWidget {
                       color: Colors.black.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(Icons.close, color: Colors.white, size: 16),
+                    child: const Icon(
+                      Icons.close,
+                      color: Colors.white,
+                      size: 16,
+                    ),
                   ),
                 ),
               ],
@@ -886,7 +1002,8 @@ class _ChallengeChoiceDialog extends StatelessWidget {
                     height: 50,
                     child: Text(
                       context.l10n.challenge_start,
-                      style: AppTextStyles.font(context,
+                      style: AppTextStyles.font(
+                        context,
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
                         color: Colors.white,
@@ -911,7 +1028,8 @@ class _ChallengeChoiceDialog extends StatelessWidget {
                     height: 50,
                     child: Text(
                       context.l10n.challenge_join,
-                      style: AppTextStyles.font(context,
+                      style: AppTextStyles.font(
+                        context,
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
                         color: AppColors.primary,

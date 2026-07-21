@@ -33,8 +33,9 @@ class _ParentForgotAccessCodeScreenState
     super.initState();
     _otpCtrl.addListener(() => setState(() {}));
     _startTimer();
-    WidgetsBinding.instance
-        .addPostFrameCallback((_) => _otpFocus.requestFocus());
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _otpFocus.requestFocus(),
+    );
   }
 
   @override
@@ -137,8 +138,11 @@ class _ParentForgotAccessCodeScreenState
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back,
-                          color: AppColors.white, size: 24),
+                      icon: const Icon(
+                        Icons.arrow_back,
+                        color: AppColors.white,
+                        size: 24,
+                      ),
                       onPressed: () => Navigator.pop(context),
                     ),
                   ),
@@ -163,7 +167,8 @@ class _ParentForgotAccessCodeScreenState
                       children: [
                         Text(
                           l10n.parentForgotCode_title,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 28,
                             fontWeight: FontWeight.w800,
                             color: AppColors.textPrimary,
@@ -172,7 +177,8 @@ class _ParentForgotAccessCodeScreenState
                         const SizedBox(height: 8),
                         Text(
                           l10n.parentForgotCode_subtitle,
-                          style: AppTextStyles.font(context,
+                          style: AppTextStyles.font(
+                            context,
                             fontSize: 14,
                             color: AppColors.textSecondary,
                           ),
@@ -201,43 +207,54 @@ class _ParentForgotAccessCodeScreenState
                           ),
                         ),
 
-                        // OTP circles
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: List.generate(4, (i) {
-                            final filled = i < otp.length;
-                            final isActive = i == otp.length;
-                            return GestureDetector(
-                              onTap: () => _otpFocus.requestFocus(),
-                              child: Container(
-                                margin: EdgeInsetsDirectional.only(end: i < 3 ? 16 : 0),
-                                width: 60,
-                                height: 60,
-                                decoration: BoxDecoration(
-                                  color: AppColors.white,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    color: isActive
-                                        ? AppColors.primary
-                                        : AppColors.border,
-                                    width: isActive ? 2 : 1,
+                        // OTP circles — sized to the available width so they
+                        // never overflow on narrow screens.
+                        LayoutBuilder(
+                          builder: (context, constraints) {
+                            const gap = 16.0;
+                            final box = ((constraints.maxWidth - gap * 3) / 4)
+                                .clamp(40.0, 60.0);
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: List.generate(4, (i) {
+                                final filled = i < otp.length;
+                                final isActive = i == otp.length;
+                                return GestureDetector(
+                                  onTap: () => _otpFocus.requestFocus(),
+                                  child: Container(
+                                    margin: EdgeInsetsDirectional.only(
+                                      end: i < 3 ? gap : 0,
+                                    ),
+                                    width: box,
+                                    height: box,
+                                    decoration: BoxDecoration(
+                                      color: AppColors.white,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        color: isActive
+                                            ? AppColors.primary
+                                            : AppColors.border,
+                                        width: isActive ? 2 : 1,
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: filled
+                                          ? Text(
+                                              otp[i],
+                                              style: AppTextStyles.font(
+                                                context,
+                                                fontSize: 22,
+                                                fontWeight: FontWeight.w700,
+                                                color: AppColors.textPrimary,
+                                              ),
+                                            )
+                                          : null,
+                                    ),
                                   ),
-                                ),
-                                child: Center(
-                                  child: filled
-                                      ? Text(
-                                          otp[i],
-                                          style: AppTextStyles.font(context,
-                                            fontSize: 22,
-                                            fontWeight: FontWeight.w700,
-                                            color: AppColors.textPrimary,
-                                          ),
-                                        )
-                                      : null,
-                                ),
-                              ),
+                                );
+                              }),
                             );
-                          }),
+                          },
                         ),
                         const SizedBox(height: 20),
 
@@ -247,18 +264,20 @@ class _ParentForgotAccessCodeScreenState
                             onTap: _canResend ? _resend : null,
                             child: Text(
                               _timerLabel(context),
-                              style: AppTextStyles.font(context,
-                                fontSize: 14,
-                                fontWeight: FontWeight.w600,
-                                color: _canResend
-                                    ? AppColors.primary
-                                    : AppColors.textSecondary,
-                              ).copyWith(
-                                decoration: _canResend
-                                    ? TextDecoration.underline
-                                    : TextDecoration.none,
-                                decorationColor: AppColors.primary,
-                              ),
+                              style:
+                                  AppTextStyles.font(
+                                    context,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600,
+                                    color: _canResend
+                                        ? AppColors.primary
+                                        : AppColors.textSecondary,
+                                  ).copyWith(
+                                    decoration: _canResend
+                                        ? TextDecoration.underline
+                                        : TextDecoration.none,
+                                    decorationColor: AppColors.primary,
+                                  ),
                             ),
                           ),
                         ),
@@ -275,8 +294,8 @@ class _ParentForgotAccessCodeScreenState
                                 : null,
                             style: ElevatedButton.styleFrom(
                               backgroundColor: AppColors.primary,
-                              disabledBackgroundColor:
-                                  AppColors.primary.withValues(alpha: 0.35),
+                              disabledBackgroundColor: AppColors.primary
+                                  .withValues(alpha: 0.35),
                               foregroundColor: AppColors.white,
                               elevation: 0,
                               shape: RoundedRectangleBorder(
@@ -294,7 +313,8 @@ class _ParentForgotAccessCodeScreenState
                                   )
                                 : Text(
                                     l10n.parentForgotCode_button,
-                                    style: AppTextStyles.font(context,
+                                    style: AppTextStyles.font(
+                                      context,
                                       fontSize: 16,
                                       fontWeight: FontWeight.w700,
                                       color: AppColors.white,

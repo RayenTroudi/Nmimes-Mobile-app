@@ -28,8 +28,8 @@ class StudyRoomCard extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          border: Border.all(color: AppColors.border, width: AppSizes.cardBorder),
+          borderRadius: BorderRadius.circular(AppRadius.card),
+          boxShadow: AppShadows.card,
         ),
         child: Row(
           children: [
@@ -48,12 +48,24 @@ class StudyRoomCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title,
-                      style: AppTextStyles.font(context,
-                          fontSize: 14, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
-                  Text(subtitle,
-                      style: AppTextStyles.font(context,
-                          fontSize: 12, fontWeight: FontWeight.w600, color: AppColors.textSecondary)),
+                  Text(
+                    title,
+                    style: AppTextStyles.font(
+                      context,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: AppTextStyles.font(
+                      context,
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: AppColors.textSecondary,
+                    ),
+                  ),
                 ],
               ),
             ),

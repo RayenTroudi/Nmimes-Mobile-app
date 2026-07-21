@@ -26,8 +26,8 @@ class ChallengeCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(AppRadius.md),
-          border: Border.all(color: AppColors.border, width: AppSizes.cardBorder),
+          borderRadius: BorderRadius.circular(AppRadius.card),
+          boxShadow: AppShadows.card,
         ),
         child: Row(
           children: [
@@ -35,9 +35,15 @@ class ChallengeCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(subject,
-                      style: AppTextStyles.font(context,
-                          fontSize: 15, fontWeight: FontWeight.w800, color: AppColors.textPrimary)),
+                  Text(
+                    subject,
+                    style: AppTextStyles.font(
+                      context,
+                      fontSize: 15,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
@@ -65,7 +71,8 @@ class ChallengeCard extends StatelessWidget {
       ),
       child: Text(
         label,
-        style: AppTextStyles.font(context,
+        style: AppTextStyles.font(
+          context,
           fontSize: 11,
           fontWeight: FontWeight.w800,
           color: color,

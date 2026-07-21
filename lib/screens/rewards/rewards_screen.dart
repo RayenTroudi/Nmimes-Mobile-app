@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/spacing.dart';
 import '../../theme/text_styles.dart';
 import '../../widgets/bottom_nav_bar.dart';
 import '../../widgets/fox_mascot.dart';
@@ -285,6 +286,7 @@ class _BadgeCard extends StatelessWidget {
           color: Colors.white,
           borderRadius: BorderRadius.circular(20.72),
           border: Border.all(color: AppColors.primaryLight, width: 1),
+          boxShadow: AppShadows.card,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -371,6 +373,7 @@ class _BadgeCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(20.72),
         border: Border.all(color: const Color(0xFFE5E7EB), width: 1),
+        boxShadow: AppShadows.card,
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
