@@ -752,5 +752,26 @@
   "map_unit1_title": "Unité 1 · Ninjas des nombres",
   "map_unit1_subtitle": "Puzzles, algèbre et défis de vitesse",
   "map_unit2_title": "Unité 2 · Ligue des maîtres",
-  "map_unit2_subtitle": "Chaînes, labyrinthes et géométrie"
+  "map_unit2_subtitle": "Chaînes, labyrinthes et géométrie",
+
+  "lesson_intro_title": "Voici le nombre mystère !",
+  "lesson_intro_fox": "x se cache ! Trouvons-le ensemble.",
+  "lesson_balance_title": "Une équation, c'est comme une balance",
+  "lesson_balance_body": "Les deux côtés pèsent toujours pareil :\n2x + 5 à gauche, 15 à droite.",
+  "lesson_quiz1_question": "Que faut-il enlever d'abord pour isoler x ?",
+  "lesson_quiz1_hint": "Regarde — on ajoute 5 à gauche. Qu'est-ce qui annule + 5 ?",
+  "lesson_remove_title": "Enlève 5 des DEUX côtés",
+  "lesson_remove_body": "Regarde la balance — elle reste équilibrée !",
+  "lesson_remove_done": "Toujours équilibrée !",
+  "lesson_drag_title": "Partage les 10 blocs entre les deux boîtes x",
+  "lesson_drag_hint": "Glisse les blocs bleus dans les boîtes",
+  "lesson_drag_done": "Chaque x reçoit exactement 5 !",
+  "lesson_quiz2_question": "Alors, combien vaut x ?",
+  "lesson_quiz2_hint": "Chaque boîte x a reçu 5 blocs.",
+  "lesson_check_title": "Vérifions !",
+  "lesson_check_body": "Remets 5 à la place de x",
+  "lesson_feedback_correct": "Bravo !",
+  "lesson_feedback_wrong": "Pas tout à fait !",
+  "lesson_feedback_gotIt": "Compris",
+  "lesson_quiz_glowHint": "Psst… essaie celui qui brille !"
 }

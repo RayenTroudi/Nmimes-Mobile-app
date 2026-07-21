@@ -29,6 +29,7 @@ import 'screens/snap/snap_homework_camera_screen.dart';
 import 'screens/snap/snap_lesson_screen.dart';
 import 'screens/snap/snap_captured_screen.dart';
 import 'screens/snap/snap_send_screen.dart';
+import 'screens/snap/lesson_player/lesson_player_screen.dart';
 import 'screens/snap/snap_explain_screen.dart';
 import 'screens/snap/does_this_make_sense_screen.dart';
 import 'screens/snap/snap_success_screen.dart';
@@ -162,6 +163,7 @@ class _NmimesAppState extends State<NmimesApp> {
             '/snap-lesson':     (_) => const SnapLessonScreen(),
             '/snap-captured':   (_) => const SnapCapturedScreen(),
             '/snap-send':       (_) => const SnapSendScreen(),
+            '/lesson-player':   (_) => const LessonPlayerScreen(),
             '/snap-explain':    (_) => const SnapExplainScreen(),
             '/snap-sense':      (_) => const DoesThisMakeSenseScreen(),
             '/snap-hw-captured':(_) => const SnapHwCapturedScreen(),

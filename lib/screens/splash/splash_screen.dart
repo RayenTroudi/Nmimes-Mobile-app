@@ -8,10 +8,10 @@ import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 
-/// Brand launch screen on the logo's orange background: the logo's two eyes
-/// live in a white badge and blink — an F7C381 eyelid sweeps down to close
-/// them and back up — over the full brand-orange field, with the wordmark
-/// "Nmimes" set in a heavy white serif to match the brand art.
+/// Brand launch screen on a flat orange field: the logo's two eyes sit
+/// directly on the background and blink — an F7C381 eyelid sweeps down to
+/// close them and back up — with the wordmark "Nmimes" set in a heavy white
+/// serif to match the brand art.
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -119,20 +119,10 @@ class _SplashScreenState extends State<SplashScreen>
           child: child,
         );
       },
-      child: Container(
-        width: 160,
-        height: 160,
-        padding: const EdgeInsets.all(28),
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.logoOrangeDark,
-              offset: Offset(0, 5),
-            ),
-          ],
-        ),
+      // The eyes sit directly on the flat orange field — no badge disc.
+      child: SizedBox(
+        width: 104,
+        height: 104,
         child: AnimatedBuilder(
           animation: _lid,
           builder: (context, _) => CustomPaint(

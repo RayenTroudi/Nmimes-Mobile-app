@@ -6,9 +6,8 @@ class AppColors {
   static const primaryDark   = Color(0xFFC45E00);
   static const primaryLight  = Color(0xFFF79009);
 
-  // Splash / logo brand orange — the exact background of nmimes_logo.png
-  static const logoOrange     = Color(0xFFFF7A00);
-  static const logoOrangeDark = Color(0xFFD96700); // 3D edge under the badge
+  // Splash brand orange — the flat field the logo eyes sit on
+  static const logoOrange     = Color(0xFFF05F01);
   static const eyeCream        = Color(0xFFFCE9C8); // the logo's eye-blob
   static const eyePupil        = Color(0xFF141414); // the logo's pupils
   static const eyelid          = Color(0xFFF7C381); // blinking eyelid

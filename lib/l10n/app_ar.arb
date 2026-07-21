@@ -752,5 +752,26 @@
   "map_unit1_title": "الوحدة ١ · نينجا الأرقام",
   "map_unit1_subtitle": "ألغاز وجبر وتحديات سرعة",
   "map_unit2_title": "الوحدة ٢ · دوري الأبطال",
-  "map_unit2_subtitle": "سلاسل ومتاهات وهندسة"
+  "map_unit2_subtitle": "سلاسل ومتاهات وهندسة",
+
+  "lesson_intro_title": "تعرّف على الرقم الغامض!",
+  "lesson_intro_fox": "x يختبئ! هيا نجده معًا.",
+  "lesson_balance_title": "المعادلة مثل الميزان",
+  "lesson_balance_body": "الكفّتان دائمًا متساويتان:\n2x + 5 على اليسار، و15 على اليمين.",
+  "lesson_quiz1_question": "ماذا نزيل أولًا حتى يبقى x وحده؟",
+  "lesson_quiz1_hint": "انظر — أضفنا 5 على اليسار. ما الذي يلغي + 5؟",
+  "lesson_remove_title": "أزل 5 من الجهتين معًا",
+  "lesson_remove_body": "راقب الميزان — يبقى متوازنًا!",
+  "lesson_remove_done": "ما زال متوازنًا!",
+  "lesson_drag_title": "وزّع المكعبات العشرة بين صندوقي x",
+  "lesson_drag_hint": "اسحب المكعبات الزرقاء إلى الصندوقين",
+  "lesson_drag_done": "كل x حصل على 5 بالضبط!",
+  "lesson_quiz2_question": "إذن، كم يساوي x؟",
+  "lesson_quiz2_hint": "كل صندوق x حصل على 5 مكعبات.",
+  "lesson_check_title": "هيا نتحقق!",
+  "lesson_check_body": "ضع 5 مكان x",
+  "lesson_feedback_correct": "أحسنت!",
+  "lesson_feedback_wrong": "ليست الإجابة الصحيحة!",
+  "lesson_feedback_gotIt": "فهمت",
+  "lesson_quiz_glowHint": "بسّت… جرّب الزر المضيء!"
 }

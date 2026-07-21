@@ -753,5 +753,26 @@
   "map_unit1_title": "Unit 1 · Number Ninjas",
   "map_unit1_subtitle": "Puzzles, algebra and speed runs",
   "map_unit2_title": "Unit 2 · Master League",
-  "map_unit2_subtitle": "Chains, mazes and geometry"
+  "map_unit2_subtitle": "Chains, mazes and geometry",
+
+  "lesson_intro_title": "Meet the mystery number!",
+  "lesson_intro_fox": "x is hiding! Let's find it together.",
+  "lesson_balance_title": "An equation is like a balance",
+  "lesson_balance_body": "Both sides always weigh the same:\n2x + 5 on the left, 15 on the right.",
+  "lesson_quiz1_question": "What should we remove first to get x alone?",
+  "lesson_quiz1_hint": "Look — 5 is added on the left. What undoes + 5?",
+  "lesson_remove_title": "Take 5 away from BOTH sides",
+  "lesson_remove_body": "Watch the scale — it stays level!",
+  "lesson_remove_done": "Still balanced!",
+  "lesson_drag_title": "Split the 10 blocks between the two x boxes",
+  "lesson_drag_hint": "Drag the blue blocks into the boxes",
+  "lesson_drag_done": "Each x gets exactly 5!",
+  "lesson_quiz2_question": "So what is x?",
+  "lesson_quiz2_hint": "Each x box got 5 blocks.",
+  "lesson_check_title": "Let's check it!",
+  "lesson_check_body": "Put 5 back in place of x",
+  "lesson_feedback_correct": "Great job!",
+  "lesson_feedback_wrong": "Not quite!",
+  "lesson_feedback_gotIt": "Got it",
+  "lesson_quiz_glowHint": "Psst… try the glowing one!"
 }
