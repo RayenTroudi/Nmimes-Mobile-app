@@ -6,6 +6,7 @@ import '../../l10n/l10n_extension.dart';
 import '../../providers/auth_state.dart';
 import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
+import '../../theme/responsive.dart';
 import '../../theme/text_styles.dart';
 
 /// Brand launch screen on a flat orange field: the logo's two eyes sit
@@ -124,7 +125,7 @@ class _SplashScreenState extends State<SplashScreen>
     super.dispose();
   }
 
-  Widget _blinkingBadge() {
+  Widget _blinkingBadge(BuildContext context) {
     // The eyes fade in and settle (no elastic pop) on the plain orange field,
     // then run the continuous blink loop.
     return FadeTransition(
@@ -132,8 +133,8 @@ class _SplashScreenState extends State<SplashScreen>
       child: ScaleTransition(
         scale: _eyeScale,
         child: SizedBox(
-          width: 104,
-          height: 104,
+          width: context.rs(104),
+          height: context.rs(104),
           child: AnimatedBuilder(
             animation: _lid,
             builder: (context, _) => CustomPaint(
@@ -146,7 +147,7 @@ class _SplashScreenState extends State<SplashScreen>
     );
   }
 
-  Widget _bouncingDots() {
+  Widget _bouncingDots(BuildContext context) {
     return AnimatedBuilder(
       animation: _dotsCtrl,
       builder: (context, _) {
@@ -158,12 +159,12 @@ class _SplashScreenState extends State<SplashScreen>
                 ? Curves.easeOut.transform(t * 2)
                 : Curves.easeIn.transform(2 - t * 2);
             return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 5),
+              padding: EdgeInsets.symmetric(horizontal: context.rs(5)),
               child: Transform.translate(
-                offset: Offset(0, -10 * bounce),
+                offset: Offset(0, -context.rs(10) * bounce),
                 child: Container(
-                  width: 12,
-                  height: 12,
+                  width: context.rs(12),
+                  height: context.rs(12),
                   decoration: BoxDecoration(
                     color:
                         Colors.white.withValues(alpha: 0.55 + 0.45 * bounce),
@@ -191,7 +192,7 @@ class _SplashScreenState extends State<SplashScreen>
           child: Column(
             children: [
               const Spacer(flex: 3),
-              _blinkingBadge(),
+              _blinkingBadge(context),
               const SizedBox(height: 20),
               ScaleTransition(
                 scale: CurvedAnimation(
@@ -203,7 +204,7 @@ class _SplashScreenState extends State<SplashScreen>
                   child: Text(
                     'Nmimes',
                     style: GoogleFonts.robotoSlab(
-                      fontSize: 40,
+                      fontSize: context.rs(40),
                       fontWeight: FontWeight.w800,
                       color: Colors.white,
                       letterSpacing: 0.5,
@@ -217,14 +218,14 @@ class _SplashScreenState extends State<SplashScreen>
                 child: Text(
                   context.l10n.splash_tagline,
                   style: AppTextStyles.font(context,
-                      fontSize: 15,
+                      fontSize: context.rs(15),
                       fontWeight: FontWeight.w600,
                       color: Colors.white.withValues(alpha: 0.85)),
                 ),
               ),
               const Spacer(flex: 3),
-              _bouncingDots(),
-              const SizedBox(height: 48),
+              _bouncingDots(context),
+              SizedBox(height: context.rs(48)),
             ],
           ),
         ),
