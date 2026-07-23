@@ -30,19 +30,32 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
   @override
   Widget build(BuildContext context) {
     final screenHeight = MediaQuery.of(context).size.height;
+    final keyboardInset = MediaQuery.of(context).viewInsets.bottom;
+    // When the keyboard is up, collapse the orange header so the card keeps
+    // enough room and the title/field don't get scrolled out of view.
+    final headerHeight =
+        keyboardInset > 0 ? screenHeight * 0.12 : screenHeight * 0.28;
     final l10n = context.l10n;
 
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: AppColors.primary,
+      resizeToAvoidBottomInset: true,
       body: Stack(
         clipBehavior: Clip.none,
         children: [
           Column(
             children: [
-              // Orange header area
-              SizedBox(
-                height: screenHeight * 0.28,
+              // Orange header area — orange comes from the Scaffold
+              // background, matching the "Who are you?" screen so the card's
+              // rounded top corners reveal the brand orange behind them.
+              // Collapses when the keyboard opens so the title/field stay
+              // visible.
+              AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                curve: Curves.easeOut,
+                height: headerHeight,
                 child: SafeArea(
+                  bottom: false,
                   child: Align(
                     alignment: Alignment.topLeft,
                     child: IconButton(
@@ -68,7 +81,10 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
                       ),
                     ),
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(20, 80, 20, 32),
+                      // Less top padding with the keyboard up: the mascot is
+                      // hidden, so the title needn't clear its overlap.
+                      padding: EdgeInsets.fromLTRB(
+                          20, keyboardInset > 0 ? 28 : 80, 20, 32),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -178,20 +194,22 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
             ],
           ),
 
-          // Mascot overlapping the card seam
-          Positioned(
-            top: screenHeight * 0.28 - 110,
-            left: 0,
-            right: 0,
-            child: Center(
-              child: Image.asset(
-                'assets/images/char_auth.png',
-                width: 160,
-                height: 160,
-                fit: BoxFit.contain,
+          // Mascot overlapping the card seam. Hidden while the keyboard is
+          // open, where the collapsed header leaves no room for it.
+          if (keyboardInset == 0)
+            Positioned(
+              top: headerHeight - 110,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: Image.asset(
+                  'assets/images/char_auth.png',
+                  width: 160,
+                  height: 160,
+                  fit: BoxFit.contain,
+                ),
               ),
             ),
-          ),
         ],
       ),
     );

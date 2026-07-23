@@ -163,8 +163,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     const double avatarSize = 100;
     const double avatarOverlap = 50;
-    // Reserve space for the fixed name that now sits below the avatar.
-    const double nameBlockHeight = 44;
+    // Reserve space for the fixed name that now sits below the avatar
+    // (8px gap + ~40px line height for the 28px font).
+    const double nameBlockHeight = 48;
 
     final name = _profile?.name ?? 'John';
     final avatarUrl = _profile?.avatarUrl;
@@ -400,16 +401,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(height: 8),
                       // Fixed name — pinned with the avatar, never scrolls.
-                      // Single line + ellipsis so a long name can't wrap into
-                      // the first scrolling card below.
-                      Text(
-                        name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: AppTextStyles.font(context,
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700,
-                          color: const Color(0xFF2E2E2E),
+                      // Opaque background so scrolling cards can never show
+                      // through behind it. Single line + ellipsis so a long
+                      // name can't wrap into the first scrolling card below.
+                      Container(
+                        width: double.infinity,
+                        color: AppColors.background,
+                        child: Text(
+                          name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: AppTextStyles.font(context,
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: const Color(0xFF2E2E2E),
+                          ),
                         ),
                       ),
                     ],

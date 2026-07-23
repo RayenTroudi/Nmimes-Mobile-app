@@ -37,10 +37,12 @@ class _SplashScreenState extends State<SplashScreen>
     duration: const Duration(milliseconds: 300),
   );
 
-  // Continuous blink loop on the eyes (open -> close -> open, then hold open).
+  // Continuous blink loop on the eyes (close -> open, then hold open). Kept
+  // short (1600ms) so the leading blink pulse lands early enough to be seen
+  // before the splash navigates away — even on the quick logout hand-off.
   late final AnimationController _blinkCtrl = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 2200),
+    duration: const Duration(milliseconds: 1600),
   );
 
   // Loading dots bounce loop.
@@ -58,10 +60,12 @@ class _SplashScreenState extends State<SplashScreen>
   late final Animation<double> _eyeScale = Tween<double>(begin: 0.92, end: 1.0)
       .animate(CurvedAnimation(parent: _eyeCtrl, curve: Curves.easeOutCubic));
 
-  // 0 = eyes fully open, 1 = eyes fully closed. A short close/open pulse
-  // near the start of each loop, open the rest of the time.
+  // 0 = eyes fully open, 1 = eyes fully closed. The close/open pulse fires at
+  // the very start of each loop so it's visible almost immediately — the
+  // splash can navigate away shortly after the eyes appear (e.g. on logout),
+  // and a blink parked later in the loop would never be seen. Hold open the
+  // rest of the time.
   late final Animation<double> _lid = TweenSequence<double>([
-    TweenSequenceItem(tween: ConstantTween(0.0), weight: 40), // hold open
     TweenSequenceItem(
         tween: Tween(begin: 0.0, end: 1.0)
             .chain(CurveTween(curve: Curves.easeIn)),
@@ -70,7 +74,7 @@ class _SplashScreenState extends State<SplashScreen>
         tween: Tween(begin: 1.0, end: 0.0)
             .chain(CurveTween(curve: Curves.easeOut)),
         weight: 8), // open
-    TweenSequenceItem(tween: ConstantTween(0.0), weight: 44), // hold open
+    TweenSequenceItem(tween: ConstantTween(0.0), weight: 84), // hold open
   ]).animate(_blinkCtrl);
 
   @override

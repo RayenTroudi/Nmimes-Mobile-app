@@ -154,6 +154,18 @@ class _AIChatScreenState extends State<AIChatScreen> {
                 textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
                 child: Row(
                   children: [
+                    if (Navigator.canPop(context)) ...[
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context),
+                        child: Icon(
+                            isRtl
+                                ? Icons.arrow_forward_ios_rounded
+                                : Icons.arrow_back_ios_new_rounded,
+                            color: AppColors.textPrimary,
+                            size: 22),
+                      ),
+                      const SizedBox(width: 12),
+                    ],
                     GestureDetector(
                       onTap: () => Navigator.push(
                         context,
