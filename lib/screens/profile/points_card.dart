@@ -31,12 +31,15 @@ class ProfilePointsCard extends StatelessWidget {
                 size: 31),
           ),
           const SizedBox(width: 12),
-          Text(
-            context.l10n.pointsCard_label,
-            style: AppTextStyles.font(context,
-              fontSize: 18,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
+          Flexible(
+            child: Text(
+              context.l10n.pointsCard_label,
+              style: AppTextStyles.font(context,
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ),
           const Spacer(),
