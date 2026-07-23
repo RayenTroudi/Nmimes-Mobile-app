@@ -85,3 +85,29 @@ Manual verification on device/emulator: cold-launch the app and confirm the eyes
 do not pop, shrink, or blur at the native → Flutter handoff — they should appear
 continuous. `flutter analyze` must pass with no new warnings (e.g. no unused
 field / dead code left behind by the removed controller).
+
+## Revision (2026-07-23) — remove the native launch eye entirely
+
+Follow-up decision: rather than matching the native eye to the Dart eye, make the
+**custom Flutter splash the only screen with an eye**. On Android 12+ the OS
+mandates a splash frame that cannot be removed, so the goal is to make that frame
+indistinguishable from the app background.
+
+Changes:
+
+- **Android 12+ styles** (`values-v31`, `values-night-v31`): drop
+  `windowSplashScreenAnimatedIcon`; the launch window background is a plain
+  `@color/splash_background` (brand orange), no icon.
+- **Pre-Android-12 launch background** (`drawable`, `drawable-v21`): remove the
+  eye layer; only the orange color item remains.
+- **iOS** (`LaunchScreen.storyboard`): remove the `LaunchImage` imageView and its
+  centering constraints; the launch view is a plain orange background.
+- **Orphaned assets removed**: `splash_eyes.xml`, `splash_eyes_icon.xml`, and the
+  iOS `LaunchImage.imageset`.
+- **Flutter splash**: since there is no longer a native eye to hand off from, the
+  eyes now animate in with a soft fade + settle (0.92 → 1.0, `easeOutCubic`, no
+  overshoot) via a new `_eyeCtrl`, then run the blink loop. The eyes are no
+  longer static-on-entry.
+
+Result: the pre-Flutter frame is just orange; the custom splash brings the eyes
+to life. There is no separate "default eye screen."

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A fully transparent 108dp splash icon. On Android 12+ the OS reserves a
+     splash-icon slot and, if none is supplied, falls back to the app launcher
+     icon. Pointing windowSplashScreenAnimatedIcon at this transparent vector
+     suppresses that fallback so the OS launch frame is a plain orange field —
+     the Flutter splash then draws and animates the eyes. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#00000000"
+        android:pathData="M0,0 h108 v108 h-108 z" />
+</vector>

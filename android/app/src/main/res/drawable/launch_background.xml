@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Plain brand-orange field, no eye. The mandatory OS launch frame is just
+         the background; the Flutter splash draws and animates the eyes so the
+         custom splash is effectively the only screen the user sees. -->
     <item android:drawable="@color/splash_background" />
-    <!-- Eyes centered via a fixed size; vector drawables can't go inside
-         <bitmap>, so the item is sized and gravity-centered directly. -->
-    <item
-        android:drawable="@drawable/splash_eyes"
-        android:gravity="center"
-        android:width="108dp"
-        android:height="108dp" />
 </layer-list>

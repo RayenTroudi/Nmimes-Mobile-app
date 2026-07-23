@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <!-- Android 12+ splash screen: brand orange field with the Nmimes eyes,
-         handing off seamlessly to the Flutter splash which continues the
-         blink animation on the same background. -->
+    <!-- Android 12+ splash screen: a plain brand-orange field with no icon, so
+         the mandatory OS splash frame is indistinguishable from the background
+         and the Flutter splash is effectively the only screen the user sees.
+         The eyes are drawn (and animated) by the Flutter splash, not here. -->
     <style name="LaunchTheme" parent="@android:style/Theme.Light.NoTitleBar">
-        <item name="android:windowBackground">@drawable/launch_background</item>
+        <item name="android:windowBackground">@color/splash_background</item>
         <item name="android:windowSplashScreenBackground">@color/splash_background</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_eyes_icon</item>
+        <!-- Transparent icon so the OS does not fall back to the app launcher
+             icon; the splash frame stays a plain orange field. -->
+        <item name="android:windowSplashScreenAnimatedIcon">@drawable/splash_icon_transparent</item>
     </style>
     <style name="NormalTheme" parent="@android:style/Theme.Light.NoTitleBar">
         <item name="android:windowBackground">@color/app_background</item>

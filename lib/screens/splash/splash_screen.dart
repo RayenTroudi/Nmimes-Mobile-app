@@ -21,9 +21,12 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  late final AnimationController _introCtrl = AnimationController(
+  // Gentle eye entrance. There is no longer a native launch eye to hand off
+  // from — the OS launch frame is a plain orange field — so the custom splash
+  // brings its own eyes to life with a soft fade + settle (no elastic pop).
+  late final AnimationController _eyeCtrl = AnimationController(
     vsync: this,
-    duration: const Duration(milliseconds: 650),
+    duration: const Duration(milliseconds: 300),
   );
   late final AnimationController _nameCtrl = AnimationController(
     vsync: this,
@@ -46,10 +49,14 @@ class _SplashScreenState extends State<SplashScreen>
     duration: const Duration(milliseconds: 900),
   );
 
-  late final Animation<double> _badgeScaleIn = CurvedAnimation(
-    parent: _introCtrl,
-    curve: Curves.elasticOut,
+  // Eye entrance: fade from 0 and settle up from 92% with an easeOut curve —
+  // a soft arrival, no overshoot.
+  late final Animation<double> _eyeFade = CurvedAnimation(
+    parent: _eyeCtrl,
+    curve: Curves.easeOut,
   );
+  late final Animation<double> _eyeScale = Tween<double>(begin: 0.92, end: 1.0)
+      .animate(CurvedAnimation(parent: _eyeCtrl, curve: Curves.easeOutCubic));
 
   // 0 = eyes fully open, 1 = eyes fully closed. A short close/open pulse
   // near the start of each loop, open the rest of the time.
@@ -73,8 +80,11 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Future<void> _runSequence() async {
+    // The OS launch frame is a plain orange field, so the custom splash brings
+    // the eyes to life: they fade in first, then start blinking, then the
+    // wordmark and tagline arrive.
     _dotsCtrl.repeat();
-    await _introCtrl.forward();
+    await _eyeCtrl.forward();
     if (!mounted) return;
 
     _blinkCtrl.repeat();
@@ -84,7 +94,7 @@ class _SplashScreenState extends State<SplashScreen>
     if (!mounted) return;
     _taglineCtrl.forward();
 
-    await Future.delayed(const Duration(milliseconds: 1700));
+    await Future.delayed(const Duration(milliseconds: 400));
     if (!mounted) return;
     final authState = context.read<AuthState>();
     if (!authState.isAuthenticated) {
@@ -102,7 +112,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   @override
   void dispose() {
-    _introCtrl.dispose();
+    _eyeCtrl.dispose();
     _nameCtrl.dispose();
     _taglineCtrl.dispose();
     _blinkCtrl.dispose();
@@ -111,23 +121,21 @@ class _SplashScreenState extends State<SplashScreen>
   }
 
   Widget _blinkingBadge() {
-    return AnimatedBuilder(
-      animation: Listenable.merge([_introCtrl, _blinkCtrl]),
-      builder: (context, child) {
-        return Transform.scale(
-          scale: _badgeScaleIn.value,
-          child: child,
-        );
-      },
-      // The eyes sit directly on the flat orange field — no badge disc.
-      child: SizedBox(
-        width: 104,
-        height: 104,
-        child: AnimatedBuilder(
-          animation: _lid,
-          builder: (context, _) => CustomPaint(
-            painter: EyesPainter(lid: _lid.value),
-            size: Size.infinite,
+    // The eyes fade in and settle (no elastic pop) on the plain orange field,
+    // then run the continuous blink loop.
+    return FadeTransition(
+      opacity: _eyeFade,
+      child: ScaleTransition(
+        scale: _eyeScale,
+        child: SizedBox(
+          width: 104,
+          height: 104,
+          child: AnimatedBuilder(
+            animation: _lid,
+            builder: (context, _) => CustomPaint(
+              painter: EyesPainter(lid: _lid.value),
+              size: Size.infinite,
+            ),
           ),
         ),
       ),
