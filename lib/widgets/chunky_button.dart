@@ -17,6 +17,7 @@ class ChunkyButton extends StatefulWidget {
   final BorderRadius? borderRadius;
   final BoxShape shape;
   final bool haptics;
+  final bool scaleHeight;
 
   const ChunkyButton({
     super.key,
@@ -30,6 +31,7 @@ class ChunkyButton extends StatefulWidget {
     this.borderRadius,
     this.shape = BoxShape.rectangle,
     this.haptics = true,
+    this.scaleHeight = true,
   });
 
   @override
@@ -56,46 +58,58 @@ class _ChunkyButtonState extends State<ChunkyButton> {
     final radius = widget.shape == BoxShape.circle
         ? null
         : (widget.borderRadius ?? BorderRadius.circular(AppRadius.md));
+    final content = AnimatedContainer(
+      duration: const Duration(milliseconds: 90),
+      curve: Curves.easeOut,
+      margin: EdgeInsets.only(
+        top: _pressed ? AppSizes.buttonEdge : 0,
+        bottom: _pressed ? 0 : AppSizes.buttonEdge,
+      ),
+      decoration: BoxDecoration(
+        color: widget.color,
+        shape: widget.shape,
+        borderRadius: radius,
+        border: widget.borderColor == null
+            ? null
+            : Border.all(
+                color: widget.borderColor!, width: AppSizes.cardBorder),
+        boxShadow: _pressed
+            ? const []
+            : [
+                BoxShadow(
+                  color: edge,
+                  offset: const Offset(0, AppSizes.buttonEdge),
+                ),
+              ],
+      ),
+      child: Center(child: widget.child),
+    );
+    // Text-labeled rectangular buttons need their min-height scaled with
+    // context.rs() so a larger text-scale factor never overflows the box.
+    // Fixed-shape controls (e.g. the circular map node) must keep their
+    // exact, unscaled dimensions so width and height stay in sync.
+    final sizedChild = widget.scaleHeight
+        ? ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: context.rs(widget.height) + AppSizes.buttonEdge,
+            ),
+            child: SizedBox(
+              width: widget.width,
+              child: content,
+            ),
+          )
+        : SizedBox(
+            height: widget.height + AppSizes.buttonEdge,
+            width: widget.width,
+            child: content,
+          );
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
       onTapDown: (_) => _setPressed(true),
       onTapUp: (_) => _setPressed(false),
       onTapCancel: () => _setPressed(false),
       onTap: widget.onTap == null ? null : _activate,
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          minHeight: context.rs(widget.height) + AppSizes.buttonEdge,
-        ),
-        child: SizedBox(
-          width: widget.width,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 90),
-            curve: Curves.easeOut,
-            margin: EdgeInsets.only(
-              top: _pressed ? AppSizes.buttonEdge : 0,
-              bottom: _pressed ? 0 : AppSizes.buttonEdge,
-            ),
-            decoration: BoxDecoration(
-              color: widget.color,
-              shape: widget.shape,
-              borderRadius: radius,
-              border: widget.borderColor == null
-                  ? null
-                  : Border.all(
-                      color: widget.borderColor!, width: AppSizes.cardBorder),
-              boxShadow: _pressed
-                  ? const []
-                  : [
-                      BoxShadow(
-                        color: edge,
-                        offset: const Offset(0, AppSizes.buttonEdge),
-                      ),
-                    ],
-            ),
-            child: Center(child: widget.child),
-          ),
-        ),
-      ),
+      child: sizedChild,
     );
   }
 }

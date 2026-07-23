@@ -602,6 +602,7 @@ class _MapNode extends StatelessWidget {
       shape: BoxShape.circle,
       height: AppSizes.mapNode,
       width: AppSizes.mapNode,
+      scaleHeight: false,
       child: content,
     );
 
