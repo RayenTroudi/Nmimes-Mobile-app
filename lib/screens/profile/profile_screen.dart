@@ -400,8 +400,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       ),
                       const SizedBox(height: 8),
                       // Fixed name — pinned with the avatar, never scrolls.
+                      // Single line + ellipsis so a long name can't wrap into
+                      // the first scrolling card below.
                       Text(
                         name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
                         style: AppTextStyles.font(context,
                           fontSize: 28,
                           fontWeight: FontWeight.w700,
