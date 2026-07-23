@@ -1,15 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:supabase_flutter/supabase_flutter.dart' hide AuthState;
 import '../../l10n/l10n_extension.dart';
+import '../../models/student_profile.dart';
+import '../../providers/auth_state.dart';
+import '../../services/api_http_client.dart';
+import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import 'points_card.dart';
+
+Future<void> _confirmLogout(BuildContext context) async {
+  // End the Supabase session if one exists (guarded so tests without a live
+  // session don't attempt a real network sign-out), clear the locally
+  // selected student, then return to the root route.
+  final auth = context.read<AuthState>();
+  final messenger = Navigator.of(context);
+  try {
+    if (Supabase.instance.client.auth.currentSession != null) {
+      await SupabaseService().signOut();
+    }
+  } catch (_) {
+    // Ignore sign-out transport errors; still clear local state below.
+  }
+  await auth.setSelectedStudentId(null);
+  messenger.pushNamedAndRemoveUntil('/', (r) => false);
+}
 
 void _showLogoutDialog(BuildContext context) {
   final l10n = context.l10n;
   showDialog(
     context: context,
     barrierColor: Colors.black.withValues(alpha: 0.5),
-    builder: (_) => Dialog(
+    builder: (dialogContext) => Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
       child: Container(
@@ -43,7 +66,7 @@ void _showLogoutDialog(BuildContext context) {
               children: [
                 Expanded(
                   child: GestureDetector(
-                    onTap: () => Navigator.pop(context),
+                    onTap: () => Navigator.pop(dialogContext),
                     child: Container(
                       height: 54,
                       decoration: BoxDecoration(
@@ -67,8 +90,10 @@ void _showLogoutDialog(BuildContext context) {
                 const SizedBox(width: 12),
                 Expanded(
                   child: GestureDetector(
-                    onTap: () => Navigator.pushNamedAndRemoveUntil(
-                        context, '/', (r) => false),
+                    onTap: () async {
+                      Navigator.pop(dialogContext);
+                      await _confirmLogout(context);
+                    },
                     child: Container(
                       height: 54,
                       decoration: BoxDecoration(
@@ -97,21 +122,58 @@ void _showLogoutDialog(BuildContext context) {
   );
 }
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({super.key});
+class ProfileScreen extends StatefulWidget {
+  /// Injectable for tests; production uses [ApiHttpClient].
+  final ProfileApi? api;
+
+  /// Test-only override for the selected student id. When null, the id is
+  /// read from [AuthState].
+  final String? selectedStudentIdOverride;
+
+  const ProfileScreen({super.key, this.api, this.selectedStudentIdOverride});
+
+  @override
+  State<ProfileScreen> createState() => _ProfileScreenState();
+}
+
+class _ProfileScreenState extends State<ProfileScreen> {
+  late final ProfileApi _api;
+  StudentProfile? _profile;
+
+  @override
+  void initState() {
+    super.initState();
+    _api = widget.api ?? ApiHttpClient();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _load());
+  }
+
+  Future<void> _load() async {
+    final id = widget.selectedStudentIdOverride ??
+        context.read<AuthState>().selectedStudentId;
+    if (id == null) return;
+    try {
+      final profile = await _api.fetchStudentProfile(id);
+      if (mounted) setState(() => _profile = profile);
+    } catch (_) {
+      // Keep fallback mock values on any failure.
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Avatar radius + how much of it overlaps into the cream section
     const double avatarSize = 100;
-    const double avatarOverlap = 50; // half the avatar dips into cream
+    const double avatarOverlap = 50;
+    // Reserve space for the fixed name that now sits below the avatar.
+    const double nameBlockHeight = 44;
+
+    final name = _profile?.name ?? 'John';
+    final avatarUrl = _profile?.avatarUrl;
 
     return ColoredBox(
       color: AppColors.primary,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // ── Orange section: status bar + "Profile" title only ──────
           SafeArea(
             bottom: false,
             child: Padding(
@@ -126,15 +188,12 @@ class ProfileScreen extends StatelessWidget {
               ),
             ),
           ),
-          // Gap between title and the avatar boundary
           const SizedBox(height: 20),
-
-          // ── Boundary zone: avatar straddles orange → cream ─────────
           Expanded(
             child: Stack(
               clipBehavior: Clip.none,
               children: [
-                // Cream body with rounded top corners
+                // Cream body — only the cards inside this scroll.
                 Positioned.fill(
                   top: avatarOverlap,
                   child: Container(
@@ -144,27 +203,14 @@ class ProfileScreen extends StatelessWidget {
                           BorderRadius.vertical(top: Radius.circular(30)),
                     ),
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.fromLTRB(
-                          20, avatarOverlap + 8, 20, 24),
+                      // Top padding clears the pinned avatar + fixed name.
+                      padding: EdgeInsets.fromLTRB(
+                          20, avatarOverlap + 8 + nameBlockHeight, 20, 24),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // "John" name sits just below the avatar
-                          Text(
-                            'John',
-                            style: AppTextStyles.font(context,
-                              fontSize: 28,
-                              fontWeight: FontWeight.w700,
-                              color: const Color(0xFF2E2E2E),
-                            ),
-                          ),
-                          const SizedBox(height: 20),
-
-                          // Earned Points card
-                          const ProfilePointsCard(),
+                          ProfilePointsCard(points: _profile?.pointsBalance),
                           const SizedBox(height: 16),
-
-                          // Current Plan card
                           Container(
                             padding: const EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 16),
@@ -239,8 +285,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 16),
-
-                          // Help row
+                          // Help row — label centered.
                           GestureDetector(
                             onTap: () =>
                                 Navigator.pushNamed(context, '/help'),
@@ -254,7 +299,7 @@ class ProfileScreen extends StatelessWidget {
                                 border: Border.all(
                                     color: const Color(0xFFE0E0E0)),
                               ),
-                              alignment: AlignmentDirectional.centerStart,
+                              alignment: Alignment.center,
                               child: Text(
                                 context.l10n.profile_button_help,
                                 style: AppTextStyles.font(context,
@@ -266,8 +311,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 16),
-
-                          // Log Out row
+                          // Log Out row — label centered.
                           GestureDetector(
                             onTap: () => _showLogoutDialog(context),
                             child: Container(
@@ -280,7 +324,7 @@ class ProfileScreen extends StatelessWidget {
                                 border: Border.all(
                                     color: const Color(0xFFE62929)),
                               ),
-                              alignment: AlignmentDirectional.centerStart,
+                              alignment: Alignment.center,
                               child: Text(
                                 context.l10n.profile_button_logOut,
                                 style: AppTextStyles.font(context,
@@ -296,52 +340,76 @@ class ProfileScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // Avatar circle positioned to straddle the boundary
+                // Pinned avatar + fixed name (do not scroll).
                 Positioned(
                   top: 0,
                   left: 20,
-                  child: Stack(
-                    clipBehavior: Clip.none,
+                  right: 20,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        width: avatarSize,
-                        height: avatarSize,
-                        decoration: const BoxDecoration(
-                          color: Colors.white,
-                          shape: BoxShape.circle,
-                        ),
-                        child: ClipOval(
-                          child: Image.asset(
-                            'assets/images/nmimes_front.png',
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
                             width: avatarSize,
                             height: avatarSize,
-                            fit: BoxFit.cover,
-                            errorBuilder: (_, _, _) => Container(
-                              color: const Color(0xFFE8E8E8),
-                              child: const Icon(Icons.person_rounded,
-                                  color: Colors.grey, size: 60),
-                            ),
-                          ),
-                        ),
-                      ),
-                      // Edit badge — bottom-right of avatar
-                      Positioned(
-                        right: -4,
-                        bottom: 0,
-                        child: GestureDetector(
-                          onTap: () =>
-                              Navigator.pushNamed(context, '/avatar'),
-                          child: Container(
-                            width: 28,
-                            height: 28,
                             decoration: const BoxDecoration(
                               color: Colors.white,
                               shape: BoxShape.circle,
                             ),
-                            child: const Icon(Icons.edit_rounded,
-                                color: AppColors.primary, size: 15),
+                            child: ClipOval(
+                              child: (avatarUrl != null && avatarUrl.isNotEmpty)
+                                  ? Image.network(
+                                      avatarUrl,
+                                      width: avatarSize,
+                                      height: avatarSize,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (_, _, _) =>
+                                          _avatarFallback(),
+                                    )
+                                  : Image.asset(
+                                      'assets/images/nmimes_front.png',
+                                      width: avatarSize,
+                                      height: avatarSize,
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (_, _, _) =>
+                                          _avatarFallback(),
+                                    ),
+                            ),
                           ),
+                          Positioned(
+                            right: -4,
+                            bottom: 0,
+                            child: GestureDetector(
+                              onTap: () =>
+                                  Navigator.pushNamed(context, '/avatar'),
+                              child: Container(
+                                width: 28,
+                                height: 28,
+                                decoration: const BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(Icons.edit_rounded,
+                                    color: AppColors.primary, size: 15),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 8),
+                      // Fixed name — pinned with the avatar, never scrolls.
+                      // Single line + ellipsis so a long name can't wrap into
+                      // the first scrolling card below.
+                      Text(
+                        name,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.font(context,
+                          fontSize: 28,
+                          fontWeight: FontWeight.w700,
+                          color: const Color(0xFF2E2E2E),
                         ),
                       ),
                     ],
@@ -354,4 +422,9 @@ class ProfileScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget _avatarFallback() => Container(
+        color: const Color(0xFFE8E8E8),
+        child: const Icon(Icons.person_rounded, color: Colors.grey, size: 60),
+      );
 }
