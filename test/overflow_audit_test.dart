@@ -26,7 +26,9 @@ import 'package:nmimes/screens/onboarding/choose_role_screen.dart';
 import 'package:nmimes/screens/onboarding/onboarding_screen.dart';
 import 'package:nmimes/screens/parents/payment_success_screen.dart';
 import 'package:nmimes/screens/auth/parent_reset_access_code_screen.dart';
+import 'package:nmimes/screens/ai_chat/ai_chat_screen.dart';
 import 'package:nmimes/screens/challenges/challenges_screen.dart';
+import 'package:nmimes/screens/profile/profile_screen.dart';
 import 'package:nmimes/screens/rewards/saved_formulas_screen.dart';
 import 'package:nmimes/screens/study_room/peer_learning_screen.dart';
 
@@ -59,6 +61,8 @@ final Map<String, Widget Function()> _screens = {
   'challenges': () => const ChallengesScreen(),
   'child_sign_in': () => const ChildSignInScreen(),
   'parent_sign_in': () => const ParentSignInScreen(),
+  'profile': () => const ProfileScreen(),
+  'ai_chat': () => const AIChatScreen(),
 };
 
 // A small phone, a normal phone at a large accessibility font scale, a

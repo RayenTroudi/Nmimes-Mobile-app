@@ -1,6 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/responsive.dart';
 import '../../theme/text_styles.dart';
 import 'ai_chat_side_menu_screen.dart';
 
@@ -148,8 +151,10 @@ class _AIChatScreenState extends State<AIChatScreen> {
           children: [
             // Header
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              padding: EdgeInsets.symmetric(
+                horizontal: context.rs(16),
+                vertical: context.rs(12),
+              ),
               child: Directionality(
                 textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
                 child: Row(
@@ -158,13 +163,14 @@ class _AIChatScreenState extends State<AIChatScreen> {
                       GestureDetector(
                         onTap: () => Navigator.pop(context),
                         child: Icon(
-                            isRtl
-                                ? Icons.arrow_forward_ios_rounded
-                                : Icons.arrow_back_ios_new_rounded,
-                            color: AppColors.textPrimary,
-                            size: 22),
+                          isRtl
+                              ? Icons.arrow_forward_ios_rounded
+                              : Icons.arrow_back_ios_new_rounded,
+                          color: AppColors.textPrimary,
+                          size: context.rs(22),
+                        ),
                       ),
-                      const SizedBox(width: 12),
+                      SizedBox(width: context.rs(12)),
                     ],
                     GestureDetector(
                       onTap: () => Navigator.push(
@@ -176,26 +182,31 @@ class _AIChatScreenState extends State<AIChatScreen> {
                               const AIChatSideMenuScreen(),
                         ),
                       ),
-                      child: const Icon(Icons.menu,
-                          color: AppColors.textPrimary, size: 26),
+                      child: Icon(
+                        Icons.menu,
+                        color: AppColors.textPrimary,
+                        size: context.rs(26),
+                      ),
                     ),
                     if (_chatStarted) ...[
-                      const SizedBox(width: 12),
+                      SizedBox(width: context.rs(12)),
                       Image.asset(
                         'assets/images/fox_sunglasses.png',
-                        width: 32,
-                        height: 32,
+                        width: context.rs(32),
+                        height: context.rs(32),
                         fit: BoxFit.contain,
-                        errorBuilder: (_, _, _) => const Icon(
-                            Icons.pets_rounded,
-                            color: AppColors.primary,
-                            size: 28),
+                        errorBuilder: (_, _, _) => Icon(
+                          Icons.pets_rounded,
+                          color: AppColors.primary,
+                          size: context.rs(28),
+                        ),
                       ),
-                      const SizedBox(width: 8),
+                      SizedBox(width: context.rs(8)),
                       Text(
                         l10n.aiChat_title,
-                        style: AppTextStyles.font(context,
-                          fontSize: 15,
+                        style: AppTextStyles.font(
+                          context,
+                          fontSize: context.rs(15),
                           fontWeight: FontWeight.w700,
                           color: AppColors.textPrimary,
                         ),
@@ -306,47 +317,52 @@ class _WelcomeView extends StatelessWidget {
     final l10n = context.l10n;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
+      padding: EdgeInsets.symmetric(horizontal: context.rs(32)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
             'assets/images/fox_sunglasses.png',
-            width: 160,
-            height: 160,
+            width: context.rs(160),
+            height: context.rs(160),
             fit: BoxFit.contain,
-            errorBuilder: (_, _, _) => const Icon(Icons.pets_rounded,
-                color: AppColors.primary, size: 120),
+            errorBuilder: (_, _, _) => Icon(
+              Icons.pets_rounded,
+              color: AppColors.primary,
+              size: context.rs(120),
+            ),
           ),
-          const SizedBox(height: 24),
+          SizedBox(height: context.rs(24)),
           Text(
             l10n.aiChat_title,
-            style: AppTextStyles.font(context,
-              fontSize: 22,
+            style: AppTextStyles.font(
+              context,
+              fontSize: context.rs(22),
               fontWeight: FontWeight.w700,
               color: AppColors.textPrimary,
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 12),
+          SizedBox(height: context.rs(12)),
           Text(
             l10n.aiChat_welcome_subtitle,
-            style: AppTextStyles.font(context,
-              fontSize: 14,
+            style: AppTextStyles.font(
+              context,
+              fontSize: context.rs(14),
               color: AppColors.textSecondary,
               height: 1.6,
             ),
             textAlign: TextAlign.center,
           ),
-          const SizedBox(height: 40),
+          SizedBox(height: context.rs(40)),
           GestureDetector(
             onTap: onStart,
             child: Container(
               width: double.infinity,
-              height: 56,
+              height: context.rs(56),
               decoration: BoxDecoration(
                 color: AppColors.primary,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(context.rs(16)),
                 boxShadow: const [
                   BoxShadow(
                     color: AppColors.primaryDark,
@@ -357,8 +373,9 @@ class _WelcomeView extends StatelessWidget {
               child: Center(
                 child: Text(
                   l10n.aiChat_button_letsChat,
-                  style: AppTextStyles.font(context,
-                    fontSize: 16,
+                  style: AppTextStyles.font(
+                    context,
+                    fontSize: context.rs(16),
                     fontWeight: FontWeight.w800,
                     color: Colors.white,
                   ),
@@ -402,8 +419,10 @@ class _ChatView extends StatelessWidget {
         Expanded(
           child: ListView.builder(
             controller: scroll,
-            padding:
-                const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(
+              horizontal: context.rs(16),
+              vertical: context.rs(12),
+            ),
             itemCount: messages.length,
             itemBuilder: (_, i) => _BubbleRow(
               msg: messages[i],
@@ -443,16 +462,17 @@ class _BubbleRow extends StatelessWidget {
   Widget build(BuildContext context) {
     // Figma: bubbles are 240px wide on a 375px screen.
     // User bubble → right-aligned, AI bubble → left-aligned (same in both LTR and RTL).
-    final bubbleWidth = (MediaQuery.of(context).size.width * 0.64).clamp(0.0, 300.0);
+    // Bubbles scale with screen width on phones but are capped on tablets so
+    // they don't stretch edge-to-edge on a wide screen.
+    final bubbleWidth = context.isTablet
+        ? min(context.wp(0.72), 560.0)
+        : context.wp(0.72);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.only(bottom: context.rs(12)),
       child: Align(
         alignment: msg.isUser ? Alignment.centerRight : Alignment.centerLeft,
-        child: SizedBox(
-          width: bubbleWidth,
-          child: _buildBubble(isRtl),
-        ),
+        child: SizedBox(width: bubbleWidth, child: _buildBubble(isRtl)),
       ),
     );
   }
@@ -494,11 +514,18 @@ class _NormalBubble extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+        padding: EdgeInsets.fromLTRB(
+          context.rs(14),
+          context.rs(12),
+          context.rs(14),
+          context.rs(10),
+        ),
         decoration: BoxDecoration(
           color: msg.isUser ? AppColors.primary : Colors.white,
           borderRadius: BorderRadius.only(
-            topLeft: msg.isUser ? const Radius.circular(18) : const Radius.circular(4),
+            topLeft: msg.isUser
+                ? const Radius.circular(18)
+                : const Radius.circular(4),
             topRight: const Radius.circular(18),
             bottomLeft: msg.isUser ? userTailLeft : aiTailLeft,
             bottomRight: msg.isUser ? userTailRight : aiTailRight,
@@ -510,9 +537,10 @@ class _NormalBubble extends StatelessWidget {
               ? null
               : [
                   BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.06),
-                      blurRadius: 6,
-                      offset: const Offset(0, 2))
+                    color: Colors.black.withValues(alpha: 0.06),
+                    blurRadius: 6,
+                    offset: const Offset(0, 2),
+                  ),
                 ],
         ),
         child: Column(
@@ -520,13 +548,14 @@ class _NormalBubble extends StatelessWidget {
           children: [
             Text(
               msg.resolveText(context),
-              style: AppTextStyles.font(context,
-                fontSize: 14,
+              style: AppTextStyles.font(
+                context,
+                fontSize: context.rs(14),
                 color: msg.isUser ? Colors.white : AppColors.textPrimary,
                 height: 1.4,
               ),
             ),
-            const SizedBox(height: 4),
+            SizedBox(height: context.rs(4)),
             // Figma: timestamp row always sits at bottom-right of bubble
             Align(
               alignment: Alignment.centerRight,
@@ -535,16 +564,19 @@ class _NormalBubble extends StatelessWidget {
                 children: [
                   Text(
                     msg.time,
-                    style: AppTextStyles.font(context,
-                      fontSize: 10,
+                    style: AppTextStyles.font(
+                      context,
+                      fontSize: context.rs(10),
                       color: timeColor,
                     ),
                   ),
                   if (msg.isUser) ...[
-                    const SizedBox(width: 4),
-                    Icon(Icons.done_all,
-                        size: 13,
-                        color: timeColor),
+                    SizedBox(width: context.rs(4)),
+                    Icon(
+                      Icons.done_all,
+                      size: context.rs(13),
+                      color: timeColor,
+                    ),
                   ],
                 ],
               ),
@@ -576,11 +608,16 @@ class _WrongBubble extends StatelessWidget {
     return Directionality(
       textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
       child: Container(
-        padding: const EdgeInsets.fromLTRB(14, 12, 14, 10),
+        padding: EdgeInsets.fromLTRB(
+          context.rs(14),
+          context.rs(12),
+          context.rs(14),
+          context.rs(10),
+        ),
         decoration: BoxDecoration(
           color: const Color(0xFFF2C4B0),
           borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(4),      // tail — AI is always left-aligned
+            topLeft: Radius.circular(4), // tail — AI is always left-aligned
             topRight: Radius.circular(18),
             bottomLeft: Radius.circular(18),
             bottomRight: Radius.circular(18),
@@ -592,13 +629,14 @@ class _WrongBubble extends StatelessWidget {
           children: [
             Text(
               msg.resolveText(context),
-              style: AppTextStyles.font(context,
-                fontSize: 14,
+              style: AppTextStyles.font(
+                context,
+                fontSize: context.rs(14),
                 color: AppColors.textPrimary,
                 height: 1.45,
               ),
             ),
-            const SizedBox(height: 8),
+            SizedBox(height: context.rs(8)),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -608,7 +646,7 @@ class _WrongBubble extends StatelessWidget {
                   onTap: onGetHint,
                 ),
                 if (msg.type == _BubbleType.wrongWithSolution) ...[
-                  const SizedBox(width: 8),
+                  SizedBox(width: context.rs(8)),
                   _InlinePill(
                     label: l10n.aiChat_button_getSolution,
                     color: AppColors.green,
@@ -617,13 +655,16 @@ class _WrongBubble extends StatelessWidget {
                 ],
               ],
             ),
-            const SizedBox(height: 6),
+            SizedBox(height: context.rs(6)),
             Align(
               alignment: Alignment.centerRight,
               child: Text(
                 msg.time,
-                style: AppTextStyles.font(context,
-                    fontSize: 10, color: AppColors.textHint),
+                style: AppTextStyles.font(
+                  context,
+                  fontSize: context.rs(10),
+                  color: AppColors.textHint,
+                ),
               ),
             ),
           ],
@@ -645,16 +686,19 @@ class _InlinePill extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding:
-            const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(
+          horizontal: context.rs(16),
+          vertical: context.rs(8),
+        ),
         decoration: BoxDecoration(
           color: color,
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(context.rs(8)),
         ),
         child: Text(
           label,
-          style: AppTextStyles.font(context,
-            fontSize: 13,
+          style: AppTextStyles.font(
+            context,
+            fontSize: context.rs(13),
             fontWeight: FontWeight.w600,
             color: Colors.white,
           ),
@@ -686,27 +730,37 @@ class _InputBar extends StatelessWidget {
     final sendButton = GestureDetector(
       onTap: onSend,
       child: Container(
-        width: 36,
-        height: 36,
+        width: context.rs(36),
+        height: context.rs(36),
         margin: isRtl
-            ? const EdgeInsets.only(left: 8)
-            : const EdgeInsets.only(right: 8),
+            ? EdgeInsets.only(left: context.rs(8))
+            : EdgeInsets.only(right: context.rs(8)),
         decoration: const BoxDecoration(
           color: AppColors.primary,
           shape: BoxShape.circle,
         ),
-        child: const Icon(Icons.send_rounded, color: Colors.white, size: 17),
+        child: Icon(
+          Icons.send_rounded,
+          color: Colors.white,
+          size: context.rs(17),
+        ),
       ),
     );
 
     final voiceIcon = GestureDetector(
       onTap: onVoice,
-      child: const Icon(Icons.mic_none_rounded,
-          color: AppColors.primary, size: 24),
+      child: Icon(
+        Icons.mic_none_rounded,
+        color: AppColors.primary,
+        size: context.rs(24),
+      ),
     );
 
-    final attachIcon = const Icon(Icons.attach_file_rounded,
-        color: AppColors.textHint, size: 20);
+    final attachIcon = Icon(
+      Icons.attach_file_rounded,
+      color: AppColors.textHint,
+      size: context.rs(20),
+    );
 
     final textField = Expanded(
       child: TextField(
@@ -714,33 +768,47 @@ class _InputBar extends StatelessWidget {
         textDirection: isRtl ? TextDirection.rtl : TextDirection.ltr,
         textAlign: isRtl ? TextAlign.right : TextAlign.left,
         keyboardType: TextInputType.text,
-        style: AppTextStyles.font(context,
-            fontSize: 14, color: AppColors.textPrimary),
+        style: AppTextStyles.font(
+          context,
+          fontSize: context.rs(14),
+          color: AppColors.textPrimary,
+        ),
         decoration: InputDecoration(
           hintText: l10n.aiChat_input_hint,
-          hintStyle: AppTextStyles.font(context,
-              fontSize: 14, color: AppColors.textHint),
+          hintStyle: AppTextStyles.font(
+            context,
+            fontSize: context.rs(14),
+            color: AppColors.textHint,
+          ),
           border: InputBorder.none,
-          contentPadding: const EdgeInsets.symmetric(
-              horizontal: 18, vertical: 14),
+          contentPadding: EdgeInsets.symmetric(
+            horizontal: context.rs(18),
+            vertical: context.rs(14),
+          ),
         ),
         onSubmitted: (_) => onSend(),
       ),
     );
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 10, 16, 16),
+      padding: EdgeInsets.fromLTRB(
+        context.rs(16),
+        context.rs(10),
+        context.rs(16),
+        context.rs(16),
+      ),
       child: Container(
-        height: 52,
+        height: context.rs(52),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(context.rs(30)),
           border: Border.all(color: AppColors.border, width: 2),
           boxShadow: [
             BoxShadow(
-                color: Colors.black.withValues(alpha: 0.04),
-                blurRadius: 6,
-                offset: const Offset(0, 2))
+              color: Colors.black.withValues(alpha: 0.04),
+              blurRadius: 6,
+              offset: const Offset(0, 2),
+            ),
           ],
         ),
         child: Directionality(
@@ -749,9 +817,9 @@ class _InputBar extends StatelessWidget {
             children: [
               textField,
               attachIcon,
-              const SizedBox(width: 2),
+              SizedBox(width: context.rs(2)),
               voiceIcon,
-              const SizedBox(width: 6),
+              SizedBox(width: context.rs(6)),
               sendButton,
             ],
           ),
