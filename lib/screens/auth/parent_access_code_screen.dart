@@ -105,7 +105,10 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                       ),
                     ),
                     padding: const EdgeInsets.fromLTRB(20, 80, 20, 32),
-                    child: Column(
+                    // Scrollable so the content never overflows when the
+                    // keyboard opens and shrinks the card's height.
+                    child: SingleChildScrollView(
+                      child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
@@ -214,7 +217,7 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                           ),
                         ),
 
-                        const Spacer(),
+                        const SizedBox(height: 32),
 
                         // Sign In button
                         SizedBox(
@@ -256,6 +259,7 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                         ),
                         InlineErrorText(message: _errorMessage),
                       ],
+                      ),
                     ),
                   ),
                 ),
