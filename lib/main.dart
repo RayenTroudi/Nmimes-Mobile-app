@@ -138,6 +138,18 @@ class _NmimesAppState extends State<NmimesApp> {
           locale: _localeNotifier.value,
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
+          builder: (context, child) {
+            // Respect the user's OS text-size setting but clamp it so no
+            // layout can be broken by an extreme accessibility scale — this
+            // is the direct cause of the fixed-height button overflow.
+            final mq = MediaQuery.of(context);
+            final clamped =
+                mq.textScaler.clamp(minScaleFactor: 0.9, maxScaleFactor: 1.3);
+            return MediaQuery(
+              data: mq.copyWith(textScaler: clamped),
+              child: child!,
+            );
+          },
           initialRoute: '/',
           routes: {
             '/':                (_) => const SplashScreen(),
