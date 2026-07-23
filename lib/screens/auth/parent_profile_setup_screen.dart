@@ -3,6 +3,7 @@ import '../../l10n/l10n_extension.dart';
 import '../../services/api_client.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/hidden_code_field.dart';
 import '../../widgets/inline_error_text.dart';
 
 class ParentProfileSetupScreen extends StatefulWidget {
@@ -285,25 +286,11 @@ class _ParentProfileSetupScreenState extends State<ParentProfileSetupScreen> {
                 const SizedBox(height: 12),
 
                 // Hidden PIN input
-                Opacity(
-                  opacity: 0,
-                  child: SizedBox(
-                    height: 0,
-                    child: OverflowBox(
-                      maxHeight: 0,
-                      child: TextField(
-                        controller: _pinCtrl,
-                        focusNode: _pinFocus,
-                        maxLength: _codeLength,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          counterText: '',
-                          border: InputBorder.none,
-                        ),
-                        onChanged: (_) => setState(() {}),
-                      ),
-                    ),
-                  ),
+                HiddenCodeField(
+                  controller: _pinCtrl,
+                  focusNode: _pinFocus,
+                  maxLength: _codeLength,
+                  onChanged: (_) => setState(() {}),
                 ),
 
                 // Code circles

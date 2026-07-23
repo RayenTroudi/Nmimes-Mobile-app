@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 import '../../l10n/l10n_extension.dart';
+import '../../widgets/hidden_code_field.dart';
 
 class JoinChallengeScreen extends StatefulWidget {
   const JoinChallengeScreen({super.key});
@@ -70,25 +71,11 @@ class _JoinChallengeScreenState extends State<JoinChallengeScreen> {
                   ],
                 ),
                 const SizedBox(height: 24),
-                Opacity(
-                  opacity: 0,
-                  child: SizedBox(
-                    height: 0,
-                    child: OverflowBox(
-                      maxHeight: 0,
-                      child: TextField(
-                        controller: _controller,
-                        focusNode: _focusNode,
-                        maxLength: 4,
-                        keyboardType: TextInputType.number,
-                        decoration: const InputDecoration(
-                          counterText: '',
-                          border: InputBorder.none,
-                        ),
-                        onChanged: (_) => setState(() {}),
-                      ),
-                    ),
-                  ),
+                HiddenCodeField(
+                  controller: _controller,
+                  focusNode: _focusNode,
+                  maxLength: 4,
+                  onChanged: (_) => setState(() {}),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,

@@ -4,6 +4,7 @@ import '../../l10n/l10n_extension.dart';
 import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/hidden_code_field.dart';
 import '../../widgets/inline_error_text.dart';
 
 class ParentAccessCodeScreen extends StatefulWidget {
@@ -127,26 +128,15 @@ class _ParentAccessCodeScreenState extends State<ParentAccessCodeScreen> {
                         ),
                         const SizedBox(height: 32),
 
-                        // Hidden input
-                        Opacity(
-                          opacity: 0,
-                          child: SizedBox(
-                            height: 0,
-                            child: OverflowBox(
-                              maxHeight: 0,
-                              child: TextField(
-                                controller: _pinCtrl,
-                                focusNode: _pinFocus,
-                                maxLength: 4,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  counterText: '',
-                                  border: InputBorder.none,
-                                ),
-                                onChanged: (_) => setState(() {}),
-                              ),
-                            ),
-                          ),
+                        // Hidden input drives the PIN circles and raises the
+                        // keyboard. HiddenCodeField keeps it invisible but never
+                        // zero-sized (a 0x0 focused field asserts once the IME
+                        // attaches).
+                        HiddenCodeField(
+                          controller: _pinCtrl,
+                          focusNode: _pinFocus,
+                          maxLength: 4,
+                          onChanged: (_) => setState(() {}),
                         ),
 
                         // PIN circles — sized to the available width so they

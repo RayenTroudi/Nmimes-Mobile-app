@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/hidden_code_field.dart';
 import '../../widgets/stagger_in.dart';
 
 /// Peer learning hub — create a room, or join one with a 4-digit code.
@@ -278,32 +279,22 @@ class _PeerLearningScreenState extends State<PeerLearningScreen>
                             ),
                             const SizedBox(height: 12),
 
-                            // Hidden text field drives the digit circles.
-                            // Sized to zero rather than merely transparent so
-                            // it cannot intercept taps meant for the circles.
-                            SizedBox(
-                              width: 0,
-                              height: 0,
-                              child: Opacity(
-                                opacity: 0,
-                                child: TextField(
-                                  controller: _codeCtrl,
-                                  focusNode: _codeFocus,
-                                  keyboardType: TextInputType.number,
-                                  maxLength: _codeLength,
-                                  // Reject anything that isn't a digit at the
-                                  // source, so the circles never render a
-                                  // stray character from a paste or an IME.
-                                  inputFormatters: [
-                                    FilteringTextInputFormatter.digitsOnly,
-                                  ],
-                                  decoration: const InputDecoration(
-                                    counterText: '',
-                                    border: InputBorder.none,
-                                  ),
-                                  onSubmitted: (_) => _submitCode(),
-                                ),
-                              ),
+                            // Hidden text field drives the digit circles. It
+                            // stays a 1px transparent, clipped box (not zero-
+                            // sized) so a focused field with a live keyboard
+                            // never asserts on 0x0 constraints, while still not
+                            // intercepting taps meant for the circles below.
+                            HiddenCodeField(
+                              controller: _codeCtrl,
+                              focusNode: _codeFocus,
+                              maxLength: _codeLength,
+                              // Reject anything that isn't a digit at the
+                              // source, so the circles never render a stray
+                              // character from a paste or an IME.
+                              inputFormatters: [
+                                FilteringTextInputFormatter.digitsOnly,
+                              ],
+                              onSubmitted: (_) => _submitCode(),
                             ),
 
                             _CodeRow(

@@ -5,6 +5,7 @@ import '../../l10n/l10n_extension.dart';
 import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/hidden_code_field.dart';
 import '../../widgets/inline_error_text.dart';
 
 class ParentForgotAccessCodeScreen extends StatefulWidget {
@@ -186,25 +187,11 @@ class _ParentForgotAccessCodeScreenState
                         const SizedBox(height: 32),
 
                         // Hidden OTP input
-                        Opacity(
-                          opacity: 0,
-                          child: SizedBox(
-                            height: 0,
-                            child: OverflowBox(
-                              maxHeight: 0,
-                              child: TextField(
-                                controller: _otpCtrl,
-                                focusNode: _otpFocus,
-                                maxLength: 4,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  counterText: '',
-                                  border: InputBorder.none,
-                                ),
-                                onChanged: (_) => setState(() {}),
-                              ),
-                            ),
-                          ),
+                        HiddenCodeField(
+                          controller: _otpCtrl,
+                          focusNode: _otpFocus,
+                          maxLength: 4,
+                          onChanged: (_) => setState(() {}),
                         ),
 
                         // OTP circles — sized to the available width so they

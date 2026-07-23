@@ -6,6 +6,7 @@ import '../../providers/auth_state.dart';
 import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/hidden_code_field.dart';
 import '../../widgets/inline_error_text.dart';
 
 class ChildAccessCodeScreen extends StatefulWidget {
@@ -150,29 +151,18 @@ class _ChildAccessCodeScreenState extends State<ChildAccessCodeScreen> {
                         ),
                         const SizedBox(height: 40),
 
-                        // Hidden text field
-                        Opacity(
-                          opacity: 0,
-                          child: SizedBox(
-                            height: 0,
-                            child: OverflowBox(
-                              maxHeight: 0,
-                              child: TextField(
-                                controller: _ctrl,
-                                focusNode: _focus,
-                                maxLength: codeLength,
-                                keyboardType: TextInputType.number,
-                                decoration: const InputDecoration(
-                                  counterText: '',
-                                  border: InputBorder.none,
-                                ),
-                                onChanged: (v) {
-                                  setState(() {});
-                                  if (v.length == codeLength) _submit();
-                                },
-                              ),
-                            ),
-                          ),
+                        // Hidden text field drives the code circles and raises
+                        // the keyboard. HiddenCodeField keeps it invisible but
+                        // never zero-sized (a 0x0 focused field asserts once the
+                        // IME attaches).
+                        HiddenCodeField(
+                          controller: _ctrl,
+                          focusNode: _focus,
+                          maxLength: codeLength,
+                          onChanged: (v) {
+                            setState(() {});
+                            if (v.length == codeLength) _submit();
+                          },
                         ),
 
                         // 6 code circles — sized to the available width so

@@ -4,6 +4,7 @@ import '../../l10n/l10n_extension.dart';
 import '../../services/supabase_service.dart';
 import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
+import '../../widgets/hidden_code_field.dart';
 import '../../widgets/inline_error_text.dart';
 
 class ParentResetAccessCodeScreen extends StatefulWidget {
@@ -280,25 +281,11 @@ class _PinRow extends StatelessWidget {
       onTap: () => focusNode.requestFocus(),
       child: Column(
         children: [
-          Opacity(
-            opacity: 0,
-            child: SizedBox(
-              height: 0,
-              child: OverflowBox(
-                maxHeight: 0,
-                child: TextField(
-                  controller: controller,
-                  focusNode: focusNode,
-                  maxLength: 4,
-                  keyboardType: TextInputType.number,
-                  decoration: const InputDecoration(
-                    counterText: '',
-                    border: InputBorder.none,
-                  ),
-                  onChanged: (_) => onChanged?.call(),
-                ),
-              ),
-            ),
+          HiddenCodeField(
+            controller: controller,
+            focusNode: focusNode,
+            maxLength: 4,
+            onChanged: (_) => onChanged?.call(),
           ),
           // PIN circles — sized to the available width so they never
           // overflow on narrow screens.
