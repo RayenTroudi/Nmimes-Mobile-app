@@ -14,6 +14,7 @@
 - Redis TTL for the profile cache is **60 seconds** (`PROFILE_CACHE_TTL_SECONDS = 60`); no invalidation on points change.
 - Cache key format: `student_profile:{student_id}`.
 - Ownership MUST be verified (`verify_student_ownership`) **before** any cache read.
+- `verify_student_ownership` returns 403 for both non-owned AND unknown student ids (it filters on `id`+`parent_id` together). The endpoint's 404 branch is a TOCTOU race guard only (row deleted mid-request), not the general "unknown id" path.
 - Current Plan stays hardcoded `'Free'` — do not read `parents.subscription_status`.
 - Flutter API base URL: `const String.fromEnvironment('API_BASE_URL', defaultValue: 'http://10.0.2.2:8000')`.
 - Auth header: `Authorization: Bearer <Supabase currentSession.accessToken>`.

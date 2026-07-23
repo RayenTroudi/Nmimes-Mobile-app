@@ -92,6 +92,13 @@ GET /students/{student_id}/profile
 Ownership check ordering: ownership is verified **before** touching the cache, so a non-owning
 parent can never read another student's cached profile.
 
+**403 vs 404 note:** the existing `verify_student_ownership` selects on `id` AND `parent_id`
+together, so it returns `None` — and the endpoint raises **403** — for *both* a non-owned student
+and a wholly unknown id (you cannot prove ownership of something that does not exist). The endpoint's
+own 404 branch is therefore reachable only in the narrow TOCTOU case where the row is deleted between
+the ownership check and the profile fetch; it is kept as a race guard. The Flutter client treats any
+error status as "keep fallback values," so this distinction does not affect the UI.
+
 ## Part 3 — Flutter Dio HTTP client
 
 New file: `lib/services/api_http_client.dart`.
@@ -173,8 +180,8 @@ Profile screen (Flutter)
 | Failure | Backend | Flutter UI |
 |---|---|---|
 | No / expired JWT | 401 | Keep fallback mock values; no crash |
-| Student not owned by parent | 403 | Keep fallback values |
-| Student id unknown | 404 | Keep fallback values |
+| Student not owned by parent OR unknown id | 403 | Keep fallback values |
+| Student row deleted mid-request (TOCTOU) | 404 | Keep fallback values |
 | Network / server down | 5xx / DioException | Keep fallback values |
 | `selectedStudentId == null` | (no call) | Render fallback values |
 
