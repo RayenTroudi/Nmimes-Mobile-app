@@ -9,9 +9,11 @@ import 'package:nmimes/providers/auth_state.dart';
 import 'package:nmimes/theme/app_theme.dart';
 
 import 'package:nmimes/screens/auth/child_access_code_screen.dart';
+import 'package:nmimes/screens/auth/child_sign_in_screen.dart';
 import 'package:nmimes/screens/auth/parent_access_code_screen.dart';
 import 'package:nmimes/screens/auth/parent_forgot_access_code_screen.dart';
 import 'package:nmimes/screens/auth/parent_otp_screen.dart';
+import 'package:nmimes/screens/auth/parent_sign_in_screen.dart';
 import 'package:nmimes/screens/auth/account_created_screen.dart';
 import 'package:nmimes/screens/challenges/algebra_completed_screen.dart';
 import 'package:nmimes/screens/challenges/algebra_start_screen.dart';
@@ -55,12 +57,17 @@ final Map<String, Widget Function()> _screens = {
   // The map body now sits inside a clipped rounded sheet, which tightens the
   // height available to the path rows and the champion's taller slot.
   'challenges': () => const ChallengesScreen(),
+  'child_sign_in': () => const ChildSignInScreen(),
+  'parent_sign_in': () => const ParentSignInScreen(),
 };
 
-// A small phone and a normal phone at a large accessibility font scale.
+// A small phone, a normal phone at a large accessibility font scale, a
+// 7" tablet, and a 10" tablet. Covers the range the app must fit.
 const _cases = <String, (Size, double)>{
   'small@1.0': (Size(320, 568), 1.0),
   'normal@1.3': (Size(390, 844), 1.3),
+  'tablet7@1.0': (Size(600, 960), 1.0),
+  'tablet10@1.2': (Size(800, 1280), 1.2),
 };
 
 Widget _wrap(Widget child, double textScale) => MediaQuery(
