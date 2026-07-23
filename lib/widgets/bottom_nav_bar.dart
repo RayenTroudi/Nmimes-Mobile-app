@@ -4,6 +4,7 @@ import '../l10n/l10n_extension.dart';
 import '../theme/colors.dart';
 import '../theme/spacing.dart';
 import '../theme/text_styles.dart';
+import '../theme/responsive.dart';
 
 class BottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -40,7 +41,7 @@ class BottomNavBar extends StatelessWidget {
     ];
 
     return Container(
-      height: 83,
+      height: context.rs(83),
       decoration: const BoxDecoration(
         color: AppColors.navBarBg,
         border: Border(
@@ -64,8 +65,8 @@ class BottomNavBar extends StatelessWidget {
                   AnimatedContainer(
                     duration: const Duration(milliseconds: 200),
                     curve: Curves.easeOut,
-                    width: 52,
-                    height: 42,
+                    width: context.rs(52),
+                    height: context.rs(42),
                     decoration: BoxDecoration(
                       color: active
                           ? color.withValues(alpha: 0.15)
@@ -78,16 +79,16 @@ class BottomNavBar extends StatelessWidget {
                     child: Center(
                       child: Icon(
                         _icons[i],
-                        size: 26,
+                        size: context.rs(26),
                         color: active ? color : AppColors.navInactive,
                       ),
                     ),
                   ),
-                  const SizedBox(height: 2),
+                  SizedBox(height: context.rs(2)),
                   Text(
                     labels[i],
                     style: AppTextStyles.font(context,
-                      fontSize: 10,
+                      fontSize: context.rs(10),
                       color: active ? color : AppColors.navInactive,
                       fontWeight: FontWeight.w800,
                     ),
