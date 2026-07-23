@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/responsive.dart';
 import '../../theme/text_styles.dart';
 
 class ParentSignInScreen extends StatefulWidget {
@@ -126,30 +127,34 @@ class _ParentSignInScreenState extends State<ParentSignInScreen> {
                           const SizedBox(height: 32),
 
                           // Continue button
-                          SizedBox(
-                            width: double.infinity,
-                            height: 60,
-                            child: ElevatedButton(
-                              onPressed: _canSubmit
-                                  ? () => Navigator.pushNamed(
-                                      context, '/parent-access-code',
-                                      arguments: _emailCtrl.text.trim())
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                disabledBackgroundColor:
-                                    AppColors.primary.withValues(alpha: 0.35),
-                                foregroundColor: AppColors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
-                              ),
-                              ),
-                              child: Text(
-                                l10n.parentSignIn_button_continue,
-                                style: AppTextStyles.font(context,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
+                          ConstrainedBox(
+                            constraints:
+                                BoxConstraints(minHeight: context.rs(60)),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _canSubmit
+                                    ? () => Navigator.pushNamed(
+                                        context, '/parent-access-code',
+                                        arguments: _emailCtrl.text.trim())
+                                    : null,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  disabledBackgroundColor: AppColors.primary
+                                      .withValues(alpha: 0.35),
+                                  foregroundColor: AppColors.white,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                                child: Text(
+                                  l10n.parentSignIn_button_continue,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.font(context,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
                               ),
                             ),

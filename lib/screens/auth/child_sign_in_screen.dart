@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../l10n/l10n_extension.dart';
 import '../../theme/colors.dart';
+import '../../theme/responsive.dart';
 import '../../theme/text_styles.dart';
 
 class ChildSignInScreen extends StatefulWidget {
@@ -155,29 +156,33 @@ class _ChildSignInScreenState extends State<ChildSignInScreen> {
                         // Continue button — pinned above keyboard
                         Padding(
                           padding: const EdgeInsets.fromLTRB(24, 0, 24, 32),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 58,
-                            child: ElevatedButton(
-                              onPressed: _ctrl.text.trim().isNotEmpty
-                                  ? _continue
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                disabledBackgroundColor:
-                                    AppColors.primary.withValues(alpha: 0.35),
-                                foregroundColor: AppColors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(16),
+                          child: ConstrainedBox(
+                            constraints:
+                                BoxConstraints(minHeight: context.rs(58)),
+                            child: SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _ctrl.text.trim().isNotEmpty
+                                    ? _continue
+                                    : null,
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  disabledBackgroundColor: AppColors.primary
+                                      .withValues(alpha: 0.35),
+                                  foregroundColor: AppColors.white,
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
                                 ),
-                              ),
-                              child: Text(
-                                context.l10n.childSignIn_button_continue,
-                                style: AppTextStyles.font(context,
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w700,
-                                  color: AppColors.white,
+                                child: Text(
+                                  context.l10n.childSignIn_button_continue,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.font(context,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.white,
+                                  ),
                                 ),
                               ),
                             ),

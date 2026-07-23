@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../theme/colors.dart';
 import '../theme/spacing.dart';
+import '../theme/responsive.dart';
 
 /// Duolingo-style chunky control: a solid fill with a darker 3D bottom
 /// edge that presses down on tap. Used by buttons and map nodes.
@@ -61,34 +62,38 @@ class _ChunkyButtonState extends State<ChunkyButton> {
       onTapUp: (_) => _setPressed(false),
       onTapCancel: () => _setPressed(false),
       onTap: widget.onTap == null ? null : _activate,
-      child: SizedBox(
-        width: widget.width,
-        height: widget.height + AppSizes.buttonEdge,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 90),
-          curve: Curves.easeOut,
-          margin: EdgeInsets.only(
-            top: _pressed ? AppSizes.buttonEdge : 0,
-            bottom: _pressed ? 0 : AppSizes.buttonEdge,
+      child: ConstrainedBox(
+        constraints: BoxConstraints(
+          minHeight: context.rs(widget.height) + AppSizes.buttonEdge,
+        ),
+        child: SizedBox(
+          width: widget.width,
+          child: AnimatedContainer(
+            duration: const Duration(milliseconds: 90),
+            curve: Curves.easeOut,
+            margin: EdgeInsets.only(
+              top: _pressed ? AppSizes.buttonEdge : 0,
+              bottom: _pressed ? 0 : AppSizes.buttonEdge,
+            ),
+            decoration: BoxDecoration(
+              color: widget.color,
+              shape: widget.shape,
+              borderRadius: radius,
+              border: widget.borderColor == null
+                  ? null
+                  : Border.all(
+                      color: widget.borderColor!, width: AppSizes.cardBorder),
+              boxShadow: _pressed
+                  ? const []
+                  : [
+                      BoxShadow(
+                        color: edge,
+                        offset: const Offset(0, AppSizes.buttonEdge),
+                      ),
+                    ],
+            ),
+            child: Center(child: widget.child),
           ),
-          decoration: BoxDecoration(
-            color: widget.color,
-            shape: widget.shape,
-            borderRadius: radius,
-            border: widget.borderColor == null
-                ? null
-                : Border.all(
-                    color: widget.borderColor!, width: AppSizes.cardBorder),
-            boxShadow: _pressed
-                ? const []
-                : [
-                    BoxShadow(
-                      color: edge,
-                      offset: const Offset(0, AppSizes.buttonEdge),
-                    ),
-                  ],
-          ),
-          child: Center(child: widget.child),
         ),
       ),
     );
