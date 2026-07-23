@@ -27,7 +27,7 @@ class ApiHttpClient implements ProfileApi {
 
   static const String baseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://10.0.2.2:8000',
+    defaultValue: 'http://0.0.0.0:8000',
   );
 
   ApiHttpClient({Dio? dio}) : _dio = dio ?? Dio(BaseOptions(baseUrl: baseUrl)) {
