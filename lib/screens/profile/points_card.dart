@@ -4,7 +4,8 @@ import '../../theme/colors.dart';
 import '../../theme/text_styles.dart';
 
 class ProfilePointsCard extends StatelessWidget {
-  const ProfilePointsCard({super.key});
+  final int? points;
+  const ProfilePointsCard({super.key, this.points});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,7 @@ class ProfilePointsCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                '150',
+                points?.toString() ?? '150',
                 style: AppTextStyles.font(context,
                   fontSize: 22,
                   fontWeight: FontWeight.w700,
