@@ -207,9 +207,10 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                             color: AppColors.border,
                             width: AppSizes.cardBorder),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
                           // Equation header
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -225,12 +226,14 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                     color: AppColors.primaryLight, size: 18),
                               ),
                               const SizedBox(width: 10),
-                              Text(
-                                context.l10n.challenge_complete_puzzle,
-                                style: AppTextStyles.font(context,
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w700,
-                                  color: const Color(0xFF4A5565),
+                              Flexible(
+                                child: Text(
+                                  context.l10n.challenge_complete_puzzle,
+                                  style: AppTextStyles.font(context,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                    color: const Color(0xFF4A5565),
+                                  ),
                                 ),
                               ),
                             ],
@@ -328,7 +331,7 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                             }).toList(),
                           ),
 
-                          const Spacer(),
+                          const SizedBox(height: 20),
 
                           // Hint text
                           if (_droppedAnswer == null)
@@ -338,12 +341,14 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                                 const Icon(Icons.touch_app_outlined,
                                     color: Color(0xFF4A5565), size: 18),
                                 const SizedBox(width: 6),
-                                Text(
-                                  context.l10n.challenge_drag_number,
-                                  style: AppTextStyles.font(context,
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.w600,
-                                    color: const Color(0xFF101828),
+                                Flexible(
+                                  child: Text(
+                                    context.l10n.challenge_drag_number,
+                                    style: AppTextStyles.font(context,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w600,
+                                      color: const Color(0xFF101828),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -359,7 +364,8 @@ class _ChallengeScreenState extends State<ChallengeScreen> {
                               ),
                               textAlign: TextAlign.center,
                             ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

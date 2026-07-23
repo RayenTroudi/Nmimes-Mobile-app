@@ -112,22 +112,55 @@ void main() {
         tester.view.devicePixelRatio = 1.0;
         addTearDown(tester.view.reset);
 
-        await tester.pumpWidget(_wrap(screen.value(), c.value.$2));
-        // Long enough for entry animations (BounceIn etc.) and their timers
-        // to finish, so they don't leak into the next test.
-        await tester.pump(const Duration(seconds: 1));
-        await tester.pump(const Duration(seconds: 1));
+        // Capture every individual FlutterError raised during the pumps
+        // below, not just the one flutter_test keeps in its single pending
+        // slot. When 2+ errors fire before anyone calls takeException()
+        // (e.g. two overflowing _RoleCards laid out in the same frame),
+        // flutter_test collapses them into a single "Multiple exceptions
+        // (N) were detected..." summary whose text does NOT contain
+        // "overflowed" — takeException() (called once, or even drained in a
+        // loop after the fact) can only ever return that summary, because
+        // the individual messages are never queued anywhere; they are only
+        // ever printed via dumpErrorToConsole. So the only reliable way to
+        // see every real message is to intercept FlutterError.onError
+        // ourselves for the duration of the pumps, record the full text of
+        // each one, and still forward to the previous handler so
+        // flutter_test's own bookkeeping (and its tolerance for unrelated
+        // errors) keeps working.
+        final capturedErrors = <String>[];
+        final previousOnError = FlutterError.onError;
+        FlutterError.onError = (FlutterErrorDetails details) {
+          capturedErrors.add(details.toString());
+          previousOnError?.call(details);
+        };
+        try {
+          await tester.pumpWidget(_wrap(screen.value(), c.value.$2));
+          // Long enough for entry animations (BounceIn etc.) and their
+          // timers to finish, so they don't leak into the next test.
+          await tester.pump(const Duration(seconds: 1));
+          await tester.pump(const Duration(seconds: 1));
+        } finally {
+          FlutterError.onError = previousOnError;
+        }
 
         // These screens can also throw unrelated "Supabase not initialized"
         // errors in a bare test environment; only layout overflow is what
-        // this test guards, so anything else is drained and ignored.
-        final ex = tester.takeException();
-        final text = ex?.toString() ?? '';
+        // this test guards, so anything else is tolerated/ignored.
+        final overflowed =
+            capturedErrors.where((e) => e.contains('overflowed')).toList();
         expect(
-          text.contains('overflowed'),
-          isFalse,
-          reason: '${screen.key} @ ${c.key}: ${text.split('\n').first}',
+          overflowed,
+          isEmpty,
+          reason: '${screen.key} @ ${c.key}: ${overflowed.join(' | ')}',
         );
+
+        // Drain whatever flutter_test itself is still holding (its own
+        // single-slot exception or "Multiple exceptions" summary) so it
+        // doesn't fail the test a second, redundant way or leak into the
+        // next test. We've already made the real assertion above using the
+        // fully-detailed capturedErrors, so this is just cleanup/tolerance
+        // for the non-overflow errors these screens are allowed to throw.
+        tester.takeException();
       });
     }
   }

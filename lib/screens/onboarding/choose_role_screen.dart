@@ -192,7 +192,7 @@ class _RoleCard extends StatelessWidget {
       haptics: true,
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
-        height: context.rs(150),
+        constraints: BoxConstraints(minHeight: context.rs(150)),
         decoration: BoxDecoration(
           color: selected
               ? AppColors.primary.withValues(alpha: 0.08)
@@ -205,6 +205,7 @@ class _RoleCard extends StatelessWidget {
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             img,
             SizedBox(height: context.rs(10)),
